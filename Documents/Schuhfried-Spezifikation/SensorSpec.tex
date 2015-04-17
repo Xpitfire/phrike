@@ -1,0 +1,166 @@
+\documentclass[a4paper,parskip=full,oneside]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{lmodern}
+\usepackage{mathpazo}
+\usepackage{microtype}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage{textcomp}
+
+\usepackage[naustrian]{babel}
+%\usepackage{listings}
+
+\subject{
+	Projektkooperation der FH-Bachelorstudiengänge \\
+	Militärische Führung, Wr. Neustadt \\
+	Software Engineering, FH OÖ, Campus Hagenberg}
+\title{Schnittstellenspezifikation Sensorik}
+\subtitle{Datenaustausch Schuhfried Biofeedback Hardware}
+\date{\vspace{-2\baselineskip}}
+%\author{Josef Frauscher, Sandra Horner, Christian Neumüller}
+
+\addtokomafont{subject}{\small}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\begin{tabular}{ll}
+Version: & 1.1 \\
+Ersteller: & Christian Neumüller \\
+Erstelldatum: & 10. April 2015 \\
+Letzte Änderung: & \today \\
+\end{tabular}
+\end{center}
+\bigskip
+\tableofcontents
+
+\pagebreak
+\section{Einleitung}
+Für die Projektkooperation zwischen dem FH-Bachelorstudiengang Software
+Engineering der Fachhochschule OÖ, Campus Hagenberg (uns) und dem
+FH-Bachelorstudiengang Militärische Führung, Wr. Neustadt auf dem Gebiet
+des Führungskräftetrainings mittels Virtual Reality und Sensorauswertung zur
+quantitativen und qualitativen Bestimmung der emotionalen Betroffenheit werden
+unterschiedliche Sensorsysteme eingesetzt.
+
+Wie wir von Oberst Dr. Slanic erfahren haben, hat der FH-Bachelorstudiengang
+Militärische Führung, Wr. Neustadt zwei Biofeedback 2000\textsuperscript{x-pert} Systeme
+angekauft und im Einsatz befindlich.
+
+Der Studiengang SE in Hagenberg verfügt über modulare g.tech Sensoren, die auch während
+der Projektentwicklung eingesetzt werden.
+
+Um die zu entwickelnde Auswertesoftware mit beiden Systemen kompatibel zu gestalten,
+benötigen wir eine Definition der Schnittstellen, über die wir die Biofeedback Sensordaten
+abrufen können.
+
+Auf Anweisung von Dr. Slanic übermitteln wir mit diesem Dokument eine Schnittstellenspezifikation
+und treten direkt an Sie heran.
+
+Wir haben für diesen Zweck ein einfaches binäres Datenformat entwickelt,
+das nachfolgend spezifiziert wird.
+
+\section{Übertragung}
+
+Für den produktiven Einsatz ist eine asynchrone Übertragung der Sensorpakete vorgesehen.
+Das derzeit angestrebte Übertragungsprotokoll wäre dabei Bluetooth oder Ethernet
+(Realisierung eventuell von der Biofeedback-Analysestation hin zum spezifizierten Host über UDP)
+Die Sensordaten werden dabei in einem festen Takt gestreamt.
+
+Für die Entwicklung wäre es derzeit hilfreich, eine Datei mit aufgezeichneten Sensordaten
+zur Verfügung gestellt zu bekommen (nur die unten spezifizierten Nutzdaten).
+
+Mit dem Recording kann einerseits die Weiterverarbeitung der Sensordaten realisiert,
+und andererseits ein Simulator für die Bluetooth-Übertragung entwickelt werden.
+
+\section{Steuerbefehl}
+
+Die Notwendigkeit eines einzigen Befehls zum Starten der Übertragung besteht.
+Konfiguration, Sensorverwaltung, etc. wird weiterhin über die Biofeedback-Applikation durchgeführt.
+
+Eine Realisierung lässt sich auf unterschiedliche Arten bewerkstelligen:
+\begin{itemize}
+\item Steuerbefehl über Netzwerkprotokoll übertragen (\texttt{start <Host-IP> <Host-Port>})
+\item Konfigurationserweiterung der Biofeedback-Applikation oder zusätzliches Control
+\end{itemize}
+
+
+\section{Dateistruktur}
+
+Eine Binärdatei muss nach folgender Struktur (in EBNF-Notation) aufgebaut sein:
+
+\begin{verbatim}
+Datei := Header {Sample}
+
+Header := Formatversion Samplerate Startzeitpunkt
+Formatversion := "phr1"
+Samplerate := uint32
+Startzeitpunkt := uint64
+
+Sample := Samplenummer Puls Hautleitwert Atemfrequenz Temperatur
+Samplenummer := uint64
+Puls := double
+Hautleitwert := double
+Atemfrequenz := double
+Temperatur := double
+\end{verbatim}
+
+Die Übertragung der UDP-Pakete erfolgt analog zum oben skizzierten Binärformat.
+Einzige Änderung: Es wird immer nur ein Nutzdatensample pro Paket übertragen.
+
+\begin{verbatim}
+Paket := Header Sample
+\end{verbatim}
+
+Die Übertragung des Headers bei jedem Paket ist als massiv redundant anzusehen,
+erlaubt jedoch die Behandlung etwaiger Fehler.
+
+\section{Wertformat}
+
+Alle Daten sind in Big Endian zu kodieren.
+
+Die Formatversion versteht sich als Präambel statischer Länge
+(ohne z.B. \textbackslash{}0 am Ende).
+
+Die Samplenummer ist eine fortlaufend vergebene Nummer die bei $0$ beginnt,
+so dass dem Sample mit der Nummer $i$ der Zeitpunkt
+$\mathit{Startzeitpunkt\ in\ Sekunden} + i \cdot \frac{1}{\mathit{Samplerate}}$
+zugeordnet werden kann.
+
+\texttt{double} ist eine nach IEC 60559:1989 (IEEE 754) kodierte Gleitkommazahl \cite{ieee745}.
+
+Der \texttt{Startzeitpunkt} ist eine Windows \texttt{FILETIME},
+also die Anzahl der 100-Nanosekunden
+Intervalle, die seit 12:00 Mitternacht am 1. Jänner 1601
+Coordinated Universal Time (UTC) vergangen sind \cite{filetime}.
+
+\subsection{Einheiten der Messgrößen}
+Die Nutzdaten entsprechen folgenden Einheiten:
+
+\begin{tabular}{llc}
+Puls & Hertz & Hz \\
+Atemfrequenz & Hertz & Hz \\
+Temperatur & Grad Celsius & °C \\
+Hautleitwert & Siemens & S \\
+\end{tabular}
+
+\begin{thebibliography}{9}
+
+\bibitem{ieee745}
+  IEEE Computer Society,
+  \emph{IEEE Standard for Binary Floating-Point Arithmetic},
+  The Institute of Electrical and Electronics Engineers, Inc 345 East 47th Street, New York, NY 10017, USA,
+  1985, \url{http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=30711}, zuletzt abgerufen am 17. April 2015.
+
+\bibitem{filetime}
+	Microsoft
+	\emph{File Times}
+	\url{https://msdn.microsoft.com/en-us/library/windows/desktop/ms724290.aspx}
+\end{thebibliography}
+
+
+\end{document}
