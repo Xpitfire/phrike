@@ -1,6 +1,20 @@
-Documents/**/*.out
+# TeX intermediate and output files:
+*.out
+*.aux
+*.synctex.gz
+
+# Files with these extensions might be commit-worthy in other contexts:
 Documents/**/*.pdf
 Documents/**/*.toc
-Documents/**/*.aux
 Documents/**/*.log
-Documents/**/*.synctex.gz
+
+*.Cache
+*.suo
+*.sdf
+*.opensdf
+*.Designer.cs
+Phrike/packages/
+Phrike/**/Release/
+Phrike/**/Debug/
+Phrike/**/bin/
+Phrike/**/obj/
