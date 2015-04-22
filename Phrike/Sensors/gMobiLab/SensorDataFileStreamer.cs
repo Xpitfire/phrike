@@ -1,0 +1,215 @@
+﻿// <summary>
+// Implements <see cref="OperationPhrike.GMobiLab.SensorDataFileStreamer"/>.
+// </summary>
+// -----------------------------------------------------------------------
+// Copyright (c) 2015 University of Applied Sciences Upper-Austria
+// Project OperationPhrike
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
+// ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
+// CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// -----------------------------------------------------------------------
+using System;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Text;
+
+namespace OperationPhrike.GMobiLab
+{
+    /// <summary>
+    /// Reads a data file as written to the SDCard by the sensor device.
+    /// </summary>
+    public sealed class SensorDataFileStreamer : ISensorDataSource
+    {
+        /// <summary>
+        /// The underlying data file.
+        /// </summary>
+        private FileStream file;
+
+        /// <summary>
+        /// Reader for the binary data in <see cref="file"/>.
+        /// </summary>
+        /// <remarks>
+        /// Is not disposed because disposing the underlying file is enough.
+        /// </remarks>
+        private BinaryReader dataReader;
+
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="SensorDataFileStreamer"/> class. 
+        /// </summary>
+        /// <param name="filename">
+        /// Path to an existing sensor binary file.
+        /// </param>
+        public SensorDataFileStreamer(string filename)
+        {
+            file = new FileStream(filename, FileMode.Open);
+            ParseHeader();
+            dataReader = new BinaryReader(file);
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this is a dynamic data source
+        /// (always false).
+        /// </summary>
+        public bool IsDynamic
+        {
+            get { return false; }
+        }
+
+        /// <inheritdoc/>
+        public SensorChannel?[] AnalogChannels { get; private set; }
+
+        /// <inheritdoc/>
+        public DigitalChannelDirection[] DigitalChannels { get; private set; }
+
+        /// <inheritdoc/>
+        public int GetAvailableDataCount()
+        {
+            return (int)(file.Length - file.Position) / sizeof(short);
+        }
+
+        /// <inheritdoc/>
+        public short[] GetData(int maxCount)
+        {
+            var result = new short[Math.Min(maxCount, this.GetAvailableDataCount())];
+            for (var i = 0; i < result.Length; ++i)
+            {
+                result[i] = dataReader.ReadInt16();
+            }
+
+            return result;
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            file.Dispose();
+        }
+
+        /// <summary>
+        /// Parses a g.tec binary file header in format version 3.0.
+        /// </summary>
+        private void ParseHeader()
+        {
+            Func<string, string> checkNoEof = (lineStr) =>
+            {
+                if (lineStr == null)
+                {
+                    throw new InvalidDataException("Unexpected EOF.");
+                }
+                return lineStr;
+            };
+
+            // Do not dispose the reader, the file should be kept open.
+            var reader = new StreamReader(file, Encoding.ASCII);
+            if (checkNoEof(reader.ReadLine()) != "gtec")
+            {
+                throw new InvalidDataException("Bad producer.");
+            }
+
+            if (checkNoEof(reader.ReadLine()) != "gMOBIlab+")
+            {
+                throw new InvalidDataException("Bad product.");
+            }
+
+            if (checkNoEof(reader.ReadLine()) != "3.0")
+            {
+                throw new InvalidDataException("Bad file version.");
+            }
+
+            checkNoEof(reader.ReadLine()); // Ignore sampling frequency.
+
+
+            #region Parse Channel coding.
+
+            AnalogChannels = new SensorChannel?[8];
+            DigitalChannels = new DigitalChannelDirection[8];
+            var channelCoding = checkNoEof(reader.ReadLine());
+            if (channelCoding.Length != 8 * 3)
+            {
+                throw new InvalidDataException("Bad channel coding length.");
+            }
+
+            Action<char> checkChanCoding = (c) =>
+            {
+                if (c != '0' && c != '1')
+                {
+                    throw new InvalidDataException(
+                        "Bad character in channel coding.");
+                }
+            };
+
+            for (var i = 0; i < 8; ++i)
+            {
+                checkChanCoding(channelCoding[i]);
+                if (channelCoding[i] == '1')
+                {
+                    // Mark channel as used (actual data is filled in later).
+                    AnalogChannels[i] = new SensorChannel();
+                }
+            }
+
+            for (var i = 8; i < 16; ++i)
+            {
+                int chanIdx = i - 8;
+                checkChanCoding(channelCoding[i]);
+                if (channelCoding[i] == '1')
+                {
+                    DigitalChannels[chanIdx] =
+                        channelCoding[i + 8] == '1' ?
+                              DigitalChannelDirection.In
+                            : DigitalChannelDirection.Out;
+                }
+                else
+                {
+                    DigitalChannels[chanIdx] = DigitalChannelDirection.Disabled;
+                }
+            }
+            #endregion
+
+            checkNoEof(reader.ReadLine()); // Ignore displayed channels.
+            checkNoEof(reader.ReadLine()); // Ignore displayed time.
+            checkNoEof(reader.ReadLine()); // Ignore hardware version.
+            checkNoEof(reader.ReadLine()); // Ignore serial number.
+
+
+            #region Parse analog channel information
+
+            for (var i = 0; i < 8; ++i)
+            {
+                if (!AnalogChannels[i].HasValue)
+                {
+                    continue;
+                }
+
+                string[] tokens = checkNoEof(reader.ReadLine()).Split('/');
+
+                AnalogChannels[i] = new SensorChannel
+                {
+                    Highpass = float.Parse(
+                        tokens[0], CultureInfo.InvariantCulture),
+                    Lowpass = float.Parse(
+                        tokens[1], CultureInfo.InvariantCulture),
+                    Sensitivity = float.Parse(
+                        tokens[2], CultureInfo.InvariantCulture),
+                    SampleRate = float.Parse(
+                        tokens[3], CultureInfo.InvariantCulture),
+                    Polarity = (AnalogChannelPolarity)(byte)tokens[4][0]
+                };
+            }
+
+            #endregion
+
+            if (checkNoEof(reader.ReadLine()) != "EOH")
+            {
+                throw new InvalidDataException("EOH expected.");
+            }
+        }
+    }
+}
