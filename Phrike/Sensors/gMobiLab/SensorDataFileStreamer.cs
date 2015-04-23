@@ -14,6 +14,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // -----------------------------------------------------------------------
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -49,8 +50,9 @@ namespace OperationPhrike.GMobiLab
         public SensorDataFileStreamer(string filename)
         {
             file = new FileStream(filename, FileMode.Open);
-            ParseHeader();
             dataReader = new BinaryReader(file);
+
+            ParseHeader();
         }
 
         /// <summary>
@@ -106,31 +108,29 @@ namespace OperationPhrike.GMobiLab
                 return lineStr;
             };
 
-            // Do not dispose the reader, the file should be kept open.
-            var reader = new StreamReader(file, Encoding.ASCII);
-            if (checkNoEof(reader.ReadLine()) != "gtec")
+            if (checkNoEof(ReadBinaryLine()) != "gtec")
             {
                 throw new InvalidDataException("Bad producer.");
             }
 
-            if (checkNoEof(reader.ReadLine()) != "gMOBIlab+")
+            if (checkNoEof(ReadBinaryLine()) != "gMOBIlab+")
             {
                 throw new InvalidDataException("Bad product.");
             }
 
-            if (checkNoEof(reader.ReadLine()) != "3.0")
+            if (checkNoEof(ReadBinaryLine()) != "3.0")
             {
                 throw new InvalidDataException("Bad file version.");
             }
 
-            checkNoEof(reader.ReadLine()); // Ignore sampling frequency.
+            checkNoEof(ReadBinaryLine()); // Ignore sampling frequency.
 
 
             #region Parse Channel coding.
 
             AnalogChannels = new SensorChannel?[8];
             DigitalChannels = new DigitalChannelDirection[8];
-            var channelCoding = checkNoEof(reader.ReadLine());
+            var channelCoding = checkNoEof(ReadBinaryLine());
             if (channelCoding.Length != 8 * 3)
             {
                 throw new InvalidDataException("Bad channel coding length.");
@@ -173,10 +173,10 @@ namespace OperationPhrike.GMobiLab
             }
             #endregion
 
-            checkNoEof(reader.ReadLine()); // Ignore displayed channels.
-            checkNoEof(reader.ReadLine()); // Ignore displayed time.
-            checkNoEof(reader.ReadLine()); // Ignore hardware version.
-            checkNoEof(reader.ReadLine()); // Ignore serial number.
+            checkNoEof(ReadBinaryLine()); // Ignore displayed channels.
+            checkNoEof(ReadBinaryLine()); // Ignore displayed time.
+            checkNoEof(ReadBinaryLine()); // Ignore hardware version.
+            checkNoEof(ReadBinaryLine()); // Ignore serial number.
 
 
             #region Parse analog channel information
@@ -188,7 +188,7 @@ namespace OperationPhrike.GMobiLab
                     continue;
                 }
 
-                string[] tokens = checkNoEof(reader.ReadLine()).Split('/');
+                string[] tokens = checkNoEof(ReadBinaryLine()).Split('/');
 
                 AnalogChannels[i] = new SensorChannel
                 {
@@ -206,10 +206,29 @@ namespace OperationPhrike.GMobiLab
 
             #endregion
 
-            if (checkNoEof(reader.ReadLine()) != "EOH")
+            if (checkNoEof(ReadBinaryLine()) != "EOH")
             {
                 throw new InvalidDataException("EOH expected.");
             }
+
         }
+
+        private string ReadBinaryLine()
+        {
+            string result;
+            List<byte> bytes = new List<byte>();
+
+            Byte readByte = dataReader.ReadByte();
+            
+            while(readByte != '\n')
+            {
+                bytes.Add(readByte);
+                readByte = dataReader.ReadByte();
+            }
+            bytes.RemoveAt(bytes.Count - 1);
+            result = Encoding.ASCII.GetString(bytes.ToArray());
+            return result;
+        }
+
     }
 }
