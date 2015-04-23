@@ -170,6 +170,8 @@ namespace OperationPhrike.GMobiLab
         {
             // TODO: Initialize ain.ScanChannel?
             var ain = new GMobiLabApi.AnalogIn();
+            ain.ScanChannel = analogChannelsEnabled;
+
             foreach (var ch in channels)
             {
                 if (ch < 0 || ch >= analogChannelsEnabled.Length)

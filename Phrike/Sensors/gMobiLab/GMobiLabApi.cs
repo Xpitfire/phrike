@@ -340,6 +340,14 @@ namespace OperationPhrike.GMobiLab
         [StructLayout(LayoutKind.Sequential)]
         public struct AnalogIn
         {
+            /// <summary>
+            /// A AnalogIn with all channels disabled and set to input.
+            /// </summary>
+            public static readonly AnalogIn Disabled = new AnalogIn
+            {
+                ScanChannel = new bool[8]
+            };
+
             /// <summary>Whether to scan analog channels 1..8.</summary>
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
             public bool[] ScanChannel;
@@ -359,7 +367,8 @@ namespace OperationPhrike.GMobiLab
                 Channel4Direction = DigitalChannelDirection.In,
                 Channel5Direction = DigitalChannelDirection.In,
                 Channel6Direction = DigitalChannelDirection.In,
-                Channel7Direction = DigitalChannelDirection.In
+                Channel7Direction = DigitalChannelDirection.In,
+                ScanChannel = new bool[8]
             };
 
             /// <summary>Whether to scan digital channels 1..8.</summary>
