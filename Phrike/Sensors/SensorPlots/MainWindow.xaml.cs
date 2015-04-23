@@ -47,6 +47,7 @@ namespace SensorPlots
 
         private void BtnOpenFile(object sender, RoutedEventArgs e)
         {
+            
             var dlg = new OpenFileDialog
             {
                 Filter = "Binary files (*.bin)|*.bin"
@@ -74,6 +75,10 @@ namespace SensorPlots
         private void UpdatePlot()
         {
             var relativeChannelIdx = ChannelSelection.SelectedIndex;
+            if (ChannelSelection.SelectedItem == null)
+            {
+                return;
+            }
             var channelIdx = (int)ChannelSelection.SelectedItem - 1;
             var channel = dataSource.AnalogChannels[channelIdx].Value;
             var nChannels = dataSource.GetSampleShortCount();
