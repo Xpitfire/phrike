@@ -213,5 +213,27 @@ namespace OperationPhrike.GMobiLab
                 throw new GMobiLabException();
             }
         }
+
+        /// <summary>
+        /// Starts recording the data from the enabled channels on the enabled SDcard
+        /// </summary>
+        public void StartRecordingData()
+        {
+            if (!GMobiLabApi.StartAcquisition(device))
+            {
+                throw new GMobiLabException();
+            }
+        }
+
+        /// <summary>
+        /// Stops recording the data from the enabled channels on the enabled SDcard
+        /// </summary>
+        public void StopRecordingData()
+        {
+            if (!GMobiLabApi.StopAcquisition(device))
+            {
+                throw new GMobiLabException();
+            }
+        }
     }
 }

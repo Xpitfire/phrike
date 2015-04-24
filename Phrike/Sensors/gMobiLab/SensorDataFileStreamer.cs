@@ -152,13 +152,13 @@ namespace OperationPhrike.GMobiLab
                 if (channelCoding[i] == '1')
                 {
                     // Mark channel as used (actual data is filled in later).
-                    AnalogChannels[i] = new SensorChannel();
+                    AnalogChannels[7 - i] = new SensorChannel();
                 }
             }
 
             for (var i = 8; i < 16; ++i)
             {
-                int chanIdx = i - 8;
+                int chanIdx = 7 - (i - 8);
                 checkChanCoding(channelCoding[i]);
                 if (channelCoding[i] == '1')
                 {
