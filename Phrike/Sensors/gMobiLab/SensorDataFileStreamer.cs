@@ -113,7 +113,8 @@ namespace OperationPhrike.GMobiLab
                 throw new InvalidDataException("Bad producer.");
             }
 
-            if (checkNoEof(ReadBinaryLine()) != "gMOBIlab+")
+            string product = checkNoEof(ReadBinaryLine());
+            if (product != "gMOBIlab+" && product != "g.MOBIlab+")
             {
                 throw new InvalidDataException("Bad product.");
             }
@@ -182,13 +183,15 @@ namespace OperationPhrike.GMobiLab
             #region Parse analog channel information
 
             for (var i = 0; i < 8; ++i)
-            {
+            { 
+                string[] tokens = checkNoEof(ReadBinaryLine()).Split('/');
+                
                 if (!AnalogChannels[i].HasValue)
                 {
                     continue;
                 }
 
-                string[] tokens = checkNoEof(ReadBinaryLine()).Split('/');
+               
 
                 AnalogChannels[i] = new SensorChannel
                 {
@@ -205,8 +208,8 @@ namespace OperationPhrike.GMobiLab
             }
 
             #endregion
-
-            if (checkNoEof(ReadBinaryLine()) != "EOH")
+            string str = checkNoEof(ReadBinaryLine());
+            if (str != "EOH")
             {
                 throw new InvalidDataException("EOH expected.");
             }
