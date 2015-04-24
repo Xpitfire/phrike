@@ -25,6 +25,9 @@ namespace OperationPhrike.GMobiLab.Tests
     [TestClass]
     public class TestSensorDataFileStreamer
     {
+        /// <summary>
+        /// Very rudimentary test whether file headers are parsed correctly.
+        /// </summary>
         [TestMethod]
         public void TestHeaderParsing()
         {
