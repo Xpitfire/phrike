@@ -32,7 +32,7 @@ namespace OperationPhrike.GMobiLab
         public GMobiLabException(GMobiLabErrorCode errorCode, Exception inner = null)
             : base(null, inner)
         {
-            ErrorCode = errorCode;
+            this.ErrorCode = errorCode;
         }
 
         /// <summary>
@@ -51,7 +51,8 @@ namespace OperationPhrike.GMobiLab
                 throw new InvalidOperationException(
                     "Failed obtaining last error code.");
             }
-            ErrorCode = code;
+
+            this.ErrorCode = code;
         }
 
         /// <summary>
@@ -67,14 +68,14 @@ namespace OperationPhrike.GMobiLab
             get
             {
                 GMobiLabApi.ErrorString errStr;
-                if (GMobiLabApi.TranslateErrorCode(out errStr, ErrorCode))
+                if (GMobiLabApi.TranslateErrorCode(out errStr, this.ErrorCode))
                 {
                     return errStr.Error;
                 }
 
                 return
                     "GMobiLab call failed with unknown error "
-                    + ErrorCode + ".";
+                    + this.ErrorCode + ".";
             }
         }
     }

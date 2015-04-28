@@ -1,6 +1,4 @@
-﻿// <summary>
-// Implements <see cref="OperationPhrike.GMobiLab.SensorDataFileStreamer"/>.
-// </summary>
+﻿// <summary>Implements SensorDataFileStreamer.</summary>
 // -----------------------------------------------------------------------
 // Copyright (c) 2015 University of Applied Sciences Upper-Austria
 // Project OperationPhrike
@@ -15,7 +13,6 @@
 // -----------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -23,26 +20,27 @@ using System.Text;
 namespace OperationPhrike.GMobiLab
 {
     /// <summary>
-    /// Reads a data file as written to the SDCard by the sensor device.
+    ///     Reads a data file as written to the SDCard by the sensor device.
     /// </summary>
     public sealed class SensorDataFileStreamer : ISensorDataSource
     {
         /// <summary>
-        /// The underlying data file.
-        /// </summary>
-        private FileStream file;
-
-        /// <summary>
-        /// Reader for the binary data in <see cref="file"/>.
+        ///     Reader for the binary data in <see cref="file" />.
         /// </summary>
         /// <remarks>
-        /// Is not disposed because disposing the underlying file is enough.
+        ///     Is not disposed because disposing the underlying file is enough.
         /// </remarks>
-        private BinaryReader dataReader;
+        private readonly BinaryReader dataReader;
 
         /// <summary>
+        ///     The underlying data file.
+        /// </summary>
+        private readonly FileStream file;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SensorDataFileStreamer"/> class. 
         /// Initializes a new instance of the
-        /// <see cref="SensorDataFileStreamer"/> class. 
+        ///     <see cref="SensorDataFileStreamer"/> class.
         /// </summary>
         /// <param name="filename">
         /// Path to an existing sensor binary file.
@@ -56,27 +54,30 @@ namespace OperationPhrike.GMobiLab
         }
 
         /// <summary>
-        /// Gets a value indicating whether this is a dynamic data source
-        /// (always false).
+        ///     Gets a value indicating whether this is a dynamic data source
+        ///     (always false).
         /// </summary>
         public bool IsDynamic
         {
-            get { return false; }
+            get
+            {
+                return false;
+            }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public SensorChannel?[] AnalogChannels { get; private set; }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public DigitalChannelDirection[] DigitalChannels { get; private set; }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public int GetAvailableDataCount()
         {
             return (int)(file.Length - file.Position) / sizeof(short);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public short[] GetData(int maxCount)
         {
             var result = new short[Math.Min(maxCount, this.GetAvailableDataCount())];
@@ -88,32 +89,33 @@ namespace OperationPhrike.GMobiLab
             return result;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public void Dispose()
         {
             file.Dispose();
         }
 
         /// <summary>
-        /// Parses a g.tec binary file header in format version 3.0.
+        ///     Parses a g.tec binary file header in format version 3.0.
         /// </summary>
         private void ParseHeader()
         {
-            Func<string, string> checkNoEof = (lineStr) =>
-            {
-                if (lineStr == null)
+            Func<string, string> checkNoEof = lineStr =>
                 {
-                    throw new InvalidDataException("Unexpected EOF.");
-                }
-                return lineStr;
-            };
+                    if (lineStr == null)
+                    {
+                        throw new InvalidDataException("Unexpected EOF.");
+                    }
+
+                    return lineStr;
+                };
 
             if (checkNoEof(ReadBinaryLine()) != "gtec")
             {
                 throw new InvalidDataException("Bad producer.");
             }
 
-            string product = checkNoEof(ReadBinaryLine());
+            var product = checkNoEof(ReadBinaryLine());
             if (product != "gMOBIlab+" && product != "g.MOBIlab+")
             {
                 throw new InvalidDataException("Bad product.");
@@ -126,7 +128,6 @@ namespace OperationPhrike.GMobiLab
 
             checkNoEof(ReadBinaryLine()); // Ignore sampling frequency.
 
-
             #region Parse Channel coding.
 
             AnalogChannels = new SensorChannel?[8];
@@ -137,14 +138,13 @@ namespace OperationPhrike.GMobiLab
                 throw new InvalidDataException("Bad channel coding length.");
             }
 
-            Action<char> checkChanCoding = (c) =>
-            {
-                if (c != '0' && c != '1')
+            Action<char> checkChanCoding = c =>
                 {
-                    throw new InvalidDataException(
-                        "Bad character in channel coding.");
-                }
-            };
+                    if (c != '0' && c != '1')
+                    {
+                        throw new InvalidDataException("Bad character in channel coding.");
+                    }
+                };
 
             for (var i = 0; i < 8; ++i)
             {
@@ -158,20 +158,20 @@ namespace OperationPhrike.GMobiLab
 
             for (var i = 8; i < 16; ++i)
             {
-                int chanIdx = 7 - (i - 8);
+                var chanIdx = 7 - (i - 8);
                 checkChanCoding(channelCoding[i]);
                 if (channelCoding[i] == '1')
                 {
-                    DigitalChannels[chanIdx] =
-                        channelCoding[i + 8] == '1' ?
-                              DigitalChannelDirection.In
-                            : DigitalChannelDirection.Out;
+                    DigitalChannels[chanIdx] = channelCoding[i + 8] == '1'
+                                                   ? DigitalChannelDirection.In
+                                                   : DigitalChannelDirection.Out;
                 }
                 else
                 {
                     DigitalChannels[chanIdx] = DigitalChannelDirection.Disabled;
                 }
             }
+
             #endregion
 
             checkNoEof(ReadBinaryLine()); // Ignore displayed channels.
@@ -179,59 +179,60 @@ namespace OperationPhrike.GMobiLab
             checkNoEof(ReadBinaryLine()); // Ignore hardware version.
             checkNoEof(ReadBinaryLine()); // Ignore serial number.
 
-
             #region Parse analog channel information
 
             for (var i = 0; i < 8; ++i)
-            { 
-                string[] tokens = checkNoEof(ReadBinaryLine()).Split('/');
-                
+            {
+                var tokens = checkNoEof(ReadBinaryLine()).Split('/');
+
                 if (!AnalogChannels[i].HasValue)
                 {
                     continue;
                 }
 
-               
-
                 AnalogChannels[i] = new SensorChannel
-                {
-                    Highpass = float.Parse(
-                        tokens[0], CultureInfo.InvariantCulture),
-                    Lowpass = float.Parse(
-                        tokens[1], CultureInfo.InvariantCulture),
-                    Sensitivity = float.Parse(
-                        tokens[2], CultureInfo.InvariantCulture),
-                    SampleRate = float.Parse(
-                        tokens[3], CultureInfo.InvariantCulture),
-                    Polarity = (AnalogChannelPolarity)(byte)tokens[4][0]
-                };
+                                        {
+                                            Highpass = float.Parse(tokens[0], CultureInfo.InvariantCulture), 
+                                            Lowpass = float.Parse(tokens[1], CultureInfo.InvariantCulture), 
+                                            Sensitivity =
+                                                float.Parse(tokens[2], CultureInfo.InvariantCulture), 
+                                            SampleRate =
+                                                float.Parse(tokens[3], CultureInfo.InvariantCulture), 
+                                            Polarity = (AnalogChannelPolarity)(byte)tokens[4][0]
+                                        };
             }
 
             #endregion
-            string str = checkNoEof(ReadBinaryLine());
+
+            var str = checkNoEof(ReadBinaryLine());
             if (str != "EOH")
             {
                 throw new InvalidDataException("EOH expected.");
             }
-
         }
 
+        /// <summary>
+        /// The read binary line.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         private string ReadBinaryLine()
         {
             string result;
-            List<byte> bytes = new List<byte>();
+            var bytes = new List<byte>();
 
-            Byte readByte = dataReader.ReadByte();
-            
-            while(readByte != '\n')
+            var readByte = dataReader.ReadByte();
+
+            while (readByte != '\n')
             {
                 bytes.Add(readByte);
                 readByte = dataReader.ReadByte();
             }
+
             bytes.RemoveAt(bytes.Count - 1);
             result = Encoding.ASCII.GetString(bytes.ToArray());
             return result;
         }
-
     }
 }

@@ -1,4 +1,18 @@
-﻿using System.Reflection;
+﻿// <summary>Provides information about this assembly.</summary>
+// -----------------------------------------------------------------------
+// Copyright (c) 2015 University of Applied Sciences Upper-Austria
+// Project OperationPhrike
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
+// ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
+// CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// -----------------------------------------------------------------------
+
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -13,7 +27,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright © 2015 University of Applied Sciences Upper-Austria 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
 [assembly: InternalsVisibleTo("gMobiLab.Tests")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -25,12 +38,10 @@ using System.Runtime.InteropServices;
 [assembly: Guid("78e346b2-4a65-4071-83b9-c677ffd1a766")]
 
 // Version information for an assembly consists of the following four values:
-//
 //      Major Version
 //      Minor Version 
 //      Build Number
 //      Revision
-//
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
