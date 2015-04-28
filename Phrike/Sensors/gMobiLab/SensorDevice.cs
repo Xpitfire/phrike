@@ -179,8 +179,10 @@ namespace OperationPhrike.GMobiLab
                     throw new ArgumentException(
                         "Channel out of range", "channels");
                 }
+
                 ain.ScanChannel[ch] = enabled;
             }
+
             if (!GMobiLabApi.InitChannels(
                 device, ain, GMobiLabApi.DigitalIo.Disabled))
             {
@@ -201,7 +203,7 @@ namespace OperationPhrike.GMobiLab
         /// </param>
         public void SetSdFilename(string filename)
         {
-            if (!GMobiLabApi.EnableSdCard(device, filename == null))
+            if (!GMobiLabApi.EnableSdCard(device, filename != null))
             {
                 throw new GMobiLabException();
             }
