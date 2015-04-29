@@ -42,6 +42,7 @@
     <Compile Include="ISample.cs" />
     <Compile Include="ISampleData.cs" />
     <Compile Include="ISensorHub.cs" />
+    <Compile Include="ISensorHubDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SensorInfo.cs" />
   </ItemGroup>
