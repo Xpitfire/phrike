@@ -18,9 +18,10 @@ using System.Collections.Generic;
 namespace OperationPhrike.Sensors
 {
     /// <summary>
-    ///     Represents a collection of physically related sensors (e.g.
+    ///     Represents a collection of physically related sensor data (e.g.
     ///     data from the same file or from sensor controller hardware
-    ///     with multiple channels.
+    ///     with multiple channels) the data of which is bundled together in
+    ///     the same samples.
     /// </summary>
     public interface ISensorHub
     {
@@ -66,6 +67,6 @@ namespace OperationPhrike.Sensors
         /// <returns>
         /// A readonly collection of at most <paramref name="maxCount"/> samples.
         /// </returns>
-        IReadOnlyList<ISample> ReadSamples(int maxCount = int.MaxValue);
+        IEnumerable<ISample> ReadSamples(int maxCount = int.MaxValue);
     }
 }
