@@ -55,6 +55,11 @@ namespace OperationPhrike.Sensors
             Id = id;
         }
 
+        public override string ToString()
+        {
+            return Name;
+        }
+
         /// <summary>
         /// Gets a descriptive name of the sensor.
         /// </summary>
