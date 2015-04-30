@@ -12,7 +12,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // -----------------------------------------------------------------------
 
-
+using System;
 using System.Collections.Generic;
 
 namespace OperationPhrike.Sensors
@@ -23,7 +23,7 @@ namespace OperationPhrike.Sensors
     ///     with multiple channels) the data of which is bundled together in
     ///     the same samples.
     /// </summary>
-    public interface ISensorHub
+    public interface ISensorHub : IDisposable
     {
         /// <summary>
         ///     Gets information about the available Sensors.
