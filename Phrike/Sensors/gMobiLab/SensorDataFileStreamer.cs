@@ -15,14 +15,17 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
+
+using OperationPhrike.Sensors;
 
 namespace OperationPhrike.GMobiLab
 {
     /// <summary>
     ///     Reads a data file as written to the SDCard by the sensor device.
     /// </summary>
-    public sealed class SensorDataFileStreamer : ISensorDataSource
+    public sealed class SensorDataFileStreamer : ISensorHub
     {
         /// <summary>
         ///     Reader for the binary data in <see cref="file" />.
@@ -38,6 +41,38 @@ namespace OperationPhrike.GMobiLab
         private readonly FileStream file;
 
         /// <summary>
+        /// Saves information about the analog channels.
+        /// </summary>
+        private readonly SensorChannel?[] analogChannels;
+
+        /// <summary>
+        /// True if the channel is available AND not explicitly disabled by
+        /// calling <see cref="SetSensorEnabled"/>.
+        /// </summary>
+        private readonly bool[] analogChannelEnabled;
+
+        /// <summary>
+        /// The approximate start time of the recording.
+        /// </summary>
+        private readonly DateTime startTime;
+
+        /// <summary>
+        /// Information about the sensors.
+        /// </summary>
+        private readonly SensorInfo[] sensorInfos;
+
+        /// <summary>
+        /// Saves the number of channels in the file (digital sensors are
+        /// bundled in one channel if enabled).
+        /// </summary>
+        private int recordedChannelCount;
+
+        /// <summary>
+        /// The samplerate in Hz.
+        /// </summary>
+        private int sampleRate;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SensorDataFileStreamer"/> class. 
         /// Initializes a new instance of the
         ///     <see cref="SensorDataFileStreamer"/> class.
@@ -47,46 +82,112 @@ namespace OperationPhrike.GMobiLab
         /// </param>
         public SensorDataFileStreamer(string filename)
         {
+            DateTime creationTime = File.GetCreationTime(filename);
+            DateTime lastWriteTime = File.GetLastWriteTime(filename);
+            startTime = creationTime < lastWriteTime ?
+                creationTime : lastWriteTime;
+
             file = new FileStream(filename, FileMode.Open);
             dataReader = new BinaryReader(file);
+            this.analogChannels = new SensorChannel?[8];
 
             ParseHeader();
+
+            analogChannelEnabled =
+                analogChannels.Select(c => c.HasValue).ToArray();
+            recordedChannelCount =
+                analogChannelEnabled.Count(enabled => enabled);
+
+            sensorInfos = new SensorInfo[this.analogChannels.Length];
+            for (int i = 0; i < sensorInfos.Length; ++i)
+            {
+                sensorInfos[i] = new SensorInfo(
+                    "Channel 0" + (i + 1).ToString(),
+                    Unit.MilliVolt,
+                    this.analogChannels[i].HasValue,
+                    i);
+            }
         }
 
-        /// <summary>
-        ///     Gets a value indicating whether this is a dynamic data source
-        ///     (always false).
-        /// </summary>
-        public bool IsDynamic
+        /// <inheritdoc/>
+        public IReadOnlyList<SensorInfo> Sensors
         {
             get
             {
-                return false;
+                return sensorInfos;
             }
         }
 
-        /// <inheritdoc />
-        public SensorChannel?[] AnalogChannels { get; private set; }
-
-        /// <inheritdoc />
-        public DigitalChannelDirection[] DigitalChannels { get; private set; }
-
-        /// <inheritdoc />
-        public int GetAvailableDataCount()
+        /// <summary>
+        /// Gets a value indicating whether new samples may become available.
+        /// Always false.
+        /// </summary>
+        public bool IsUpdating
         {
-            return (int)(file.Length - file.Position) / sizeof(short);
+            get { return false; }
         }
 
-        /// <inheritdoc />
-        public short[] GetData(int maxCount)
+        /// <inheritdoc/>
+        public void SetSensorEnabled(SensorInfo sensor, bool enabled = true)
         {
-            var result = new short[Math.Min(maxCount, this.GetAvailableDataCount())];
-            for (var i = 0; i < result.Length; ++i)
+            if (sensor.Id < 0 || sensor.Id >= analogChannels.Length)
             {
-                result[i] = dataReader.ReadInt16();
+                throw new ArgumentException("Sensor ID out of range.", "sensor");
             }
 
-            return result;
+            if (!analogChannels[sensor.Id].HasValue)
+            {
+                throw new InvalidOperationException(
+                    "Cannot enable a sensor that was not recorded.");
+            }
+
+            analogChannelEnabled[sensor.Id] = enabled;
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<ISample> ReadSamples(int maxCount = int.MaxValue)
+        {
+            // As per gMOBIlabplusDataFormatv209a.pdf, page 3
+            const double ScaleBase = 2 * 5 * 1e-6 / (65536 * 4);
+
+            short[] rawData = GetData(maxCount * recordedChannelCount);
+            int enabledChannelCount =
+                analogChannelEnabled.Count(enabled => enabled);
+            var sampleData = new BasicSampleData[enabledChannelCount];
+            int scaledIdx = 0;
+            long sampleLength = TimeSpan.TicksPerSecond / sampleRate;
+            for (int i = 0; i < rawData.Length; ++i)
+            {
+                int channelId = i % recordedChannelCount;
+                int sampleIdx = i / recordedChannelCount;
+                if (!analogChannelEnabled[channelId])
+                {
+                    continue;
+                }
+
+                // If the channel is enabled it also always recorded.
+                // ReSharper disable once PossibleInvalidOperationException
+                SensorChannel channel = analogChannels[i].Value;
+
+                double scale = channel.Sensitivity * ScaleBase;
+                sampleData[scaledIdx] = new BasicSampleData(
+                    sensorInfos[channelId], rawData[i] * scale);
+                ++scaledIdx;
+
+                if (channelId == enabledChannelCount - 1)
+                {
+                    scaledIdx = 0;
+                    yield return new BasicSample(
+                        startTime + TimeSpan.FromTicks(sampleLength * sampleIdx), sampleData);
+                }
+            }
+        }
+
+        /// <inheritdoc />
+        public int GetAvailableSampleCount()
+        {
+            return (int)(file.Length - file.Position)
+                / (sizeof(short) * recordedChannelCount);
         }
 
         /// <inheritdoc />
@@ -126,12 +227,10 @@ namespace OperationPhrike.GMobiLab
                 throw new InvalidDataException("Bad file version.");
             }
 
-            checkNoEof(ReadBinaryLine()); // Ignore sampling frequency.
+            sampleRate = int.Parse(checkNoEof(ReadBinaryLine()));
 
             #region Parse Channel coding.
 
-            AnalogChannels = new SensorChannel?[8];
-            DigitalChannels = new DigitalChannelDirection[8];
             var channelCoding = checkNoEof(ReadBinaryLine());
             if (channelCoding.Length != 8 * 3)
             {
@@ -152,23 +251,17 @@ namespace OperationPhrike.GMobiLab
                 if (channelCoding[i] == '1')
                 {
                     // Mark channel as used (actual data is filled in later).
-                    AnalogChannels[7 - i] = new SensorChannel();
+                    this.analogChannels[7 - i] = new SensorChannel();
+                    ++recordedChannelCount;
                 }
             }
 
             for (var i = 8; i < 16; ++i)
             {
-                var chanIdx = 7 - (i - 8);
-                checkChanCoding(channelCoding[i]);
                 if (channelCoding[i] == '1')
                 {
-                    DigitalChannels[chanIdx] = channelCoding[i + 8] == '1'
-                                                   ? DigitalChannelDirection.In
-                                                   : DigitalChannelDirection.Out;
-                }
-                else
-                {
-                    DigitalChannels[chanIdx] = DigitalChannelDirection.Disabled;
+                    ++recordedChannelCount;
+                    break;
                 }
             }
 
@@ -185,12 +278,12 @@ namespace OperationPhrike.GMobiLab
             {
                 var tokens = checkNoEof(ReadBinaryLine()).Split('/');
 
-                if (!AnalogChannels[i].HasValue)
+                if (!this.analogChannels[i].HasValue)
                 {
                     continue;
                 }
 
-                AnalogChannels[i] = new SensorChannel
+                this.analogChannels[i] = new SensorChannel
                                         {
                                             Highpass = float.Parse(tokens[0], CultureInfo.InvariantCulture), 
                                             Lowpass = float.Parse(tokens[1], CultureInfo.InvariantCulture), 
@@ -219,7 +312,6 @@ namespace OperationPhrike.GMobiLab
         /// </returns>
         private string ReadBinaryLine()
         {
-            string result;
             var bytes = new List<byte>();
 
             var readByte = dataReader.ReadByte();
@@ -231,7 +323,25 @@ namespace OperationPhrike.GMobiLab
             }
 
             bytes.RemoveAt(bytes.Count - 1);
-            result = Encoding.ASCII.GetString(bytes.ToArray());
+            string result = Encoding.ASCII.GetString(bytes.ToArray());
+            return result;
+        }
+
+        /// <summary>
+        /// Reads the next <paramref name="maxCount"/> raw shorts.
+        /// </summary>
+        /// <param name="maxCount">The maximum count of shorts to read.</param>
+        /// <returns>An array of the next raw data values.</returns>
+        private short[] GetData(int maxCount)
+        {
+            var result = new short[Math.Min(
+                maxCount,
+                this.GetAvailableSampleCount() * recordedChannelCount)];
+            for (var i = 0; i < result.Length; ++i)
+            {
+                result[i] = dataReader.ReadInt16();
+            }
+
             return result;
         }
     }
