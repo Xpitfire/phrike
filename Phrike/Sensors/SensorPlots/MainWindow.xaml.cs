@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using OperationPhrike.GMobiLab;
+using OperationPhrike.Sensors;
 
 using OxyPlot;
 using OxyPlot.Series;
@@ -30,9 +31,9 @@ namespace SensorPlots
     {
         private readonly PlotModel plotModel = new PlotModel();
 
-        private short[] data;
+        private ISample[] data;
 
-        private ISensorDataSource dataSource;
+        private ISensorHub dataSource;
 
         private readonly LineSeries dataSeries = new LineSeries();
 
@@ -61,39 +62,39 @@ namespace SensorPlots
                     dataSource = null;
                 }
                 dataSource = new SensorDataFileStreamer(dlg.FileName);
-                for (int i = 0; i < dataSource.AnalogChannels.Length; ++i)
+                foreach (var sensor in dataSource.Sensors)
                 {
-                    if (dataSource.AnalogChannels[i].HasValue)
+                    if (sensor.Enabled)
                     {
-                        ChannelSelection.Items.Add(i + 1);
+                        ChannelSelection.Items.Add(sensor);
                     }
                 }
-                data = dataSource.GetData(dataSource.GetAvailableDataCount());
+                data = dataSource.ReadSamples().ToArray();
             }
         }
 
         private void UpdatePlot()
         {
             var relativeChannelIdx = ChannelSelection.SelectedIndex;
-            if (ChannelSelection.SelectedItem == null)
+            if (ChannelSelection.SelectedItem == null || data.Length <= 0)
             {
                 return;
             }
-            var channelIdx = (int)ChannelSelection.SelectedItem - 1;
-            var channel = dataSource.AnalogChannels[channelIdx].Value;
-            var nChannels = dataSource.GetSampleShortCount();
+
+            var sensor = (SensorInfo)ChannelSelection.SelectedItem;
             dataSeries.Points.Clear();
-            dataSeries.Title = "Channel " + ChannelSelection.SelectedItem;
+            dataSeries.Title = sensor.Name;
 
-            // As per gMOBIlabplusDataFormatv209a.pdf page 3
-            var scale = (2 * 5 * 1e-6 / (65536 * 4)) * channel.Sensitivity;
+            int sensorIdx = dataSource.GetSensorValueIndexInSample(sensor);
 
+            var startTime = data[0].Time;
             // For each sample:
-            for (int i = 0; i < data.Length / nChannels; ++i)
+            for (int i = 0; i < data.Length; ++i)
             {
-                var y = data[(i * nChannels) + relativeChannelIdx] * scale;
-                dataSeries.Points.Add(
-                    new DataPoint(i / channel.SampleRate, y));
+                var x = (data[i].Time - startTime).TotalSeconds;
+                var y = data[i].Values[sensorIdx].Value;
+                dataSeries.Points.Add(new DataPoint(x, y));
+                //Debug.WriteLine(y);
             }
             PlotView.InvalidatePlot(true);
         }

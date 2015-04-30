@@ -111,6 +111,10 @@
       <Project>{be27c586-513d-4447-b8c0-1fca270791db}</Project>
       <Name>gMobiLab</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sensors\Sensors.csproj">
+      <Project>{90aec3ec-c0cd-43d5-8cb0-f87243890511}</Project>
+      <Name>Sensors</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
