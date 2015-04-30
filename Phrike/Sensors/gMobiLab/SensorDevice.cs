@@ -15,6 +15,9 @@
 // -----------------------------------------------------------------------
 using System;
 using System.Linq;
+using OperationPhrike.Sensors;
+using System.Collections.Generic;
+
 
 namespace OperationPhrike.GMobiLab
 {
@@ -46,7 +49,7 @@ namespace OperationPhrike.GMobiLab
     /// <summary>
     /// A gMobiLab Sensor device.
     /// </summary>
-    public sealed class SensorDevice : ISensorDataSource
+    public sealed class SensorDevice : ISensorHubDevice
     {
         /// <summary>
         /// Sensor device handle.
@@ -57,11 +60,6 @@ namespace OperationPhrike.GMobiLab
         /// Which analog channels are scanned (0..7).
         /// </summary>
         private bool[] analogChannelsEnabled;
-
-        /// <summary>
-        /// The direction or enabledness of the digital channels (0..7).
-        /// </summary>
-        private DigitalChannelDirection[] digitalChannelDirection;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SensorDevice"/> class,
@@ -89,110 +87,13 @@ namespace OperationPhrike.GMobiLab
             }
 
             analogChannelsEnabled = new bool[8];
-            digitalChannelDirection = Enumerable.Repeat(
-                DigitalChannelDirection.Disabled, 8).ToArray();
 
-            State = SensorDeviceState.Openened;
-        }
-
-        /// <summary>
-        /// Gets the state the device is currently in.
-        /// </summary>
-        public SensorDeviceState State { get; private set; }
-
-        /// <summary>
-        /// Gets a value indicating whether this is a dynamic data source
-        /// (always true).
-        /// </summary>
-        public bool IsDynamic
-        {
-            get { return true; }
-        }
-
-        /// <inheritdoc/>
-        public SensorChannel?[] AnalogChannels
-        {
-            get
-            {
-                GMobiLabApi.Config cfg;
-                if (!GMobiLabApi.GetConfig(device, out cfg))
-                {
-                    throw new GMobiLabException();
-                }
-
-                var result = new SensorChannel?[8];
-                for (int i = 0; i < result.Length; ++i)
-                {
-                    if (analogChannelsEnabled[i])
-                    {
-                        result[i] = cfg.Channels[i];
-                    }
-                }
-
-                return result;
-            }
-        }
-
-        /// <inheritdoc/>
-        public DigitalChannelDirection[] DigitalChannels
-        {
-            get { return digitalChannelDirection; }
-        }
-
-        /// <inheritdoc/>
-        public int GetAvailableDataCount()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        public short[] GetData(int maxCount)
-        {
-            throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
         public void Dispose()
         {
             device.Dispose();
-        }
-
-        /// <summary>
-        /// Enable or disable the given analog channels.
-        /// </summary>
-        /// <param name="channels">
-        /// The analog channels (0..7) to enable or disable.
-        /// </param>
-        /// <param name="enabled">
-        /// Whether to enable (true) or disable (false) the given channels.
-        /// </param>
-        public void SetAnalogChannelsEnabled(int[] channels, bool enabled)
-        {
-            // TODO: Initialize ain.ScanChannel?
-            var ain = new GMobiLabApi.AnalogIn();
-            ain.ScanChannel = analogChannelsEnabled;
-
-            foreach (var ch in channels)
-            {
-                if (ch < 0 || ch >= analogChannelsEnabled.Length)
-                {
-                    throw new ArgumentException(
-                        "Channel out of range", "channels");
-                }
-
-                ain.ScanChannel[ch] = enabled;
-            }
-
-            if (!GMobiLabApi.InitChannels(
-                device, ain, GMobiLabApi.DigitalIo.Disabled))
-            {
-                throw new GMobiLabException();
-            }
-
-            foreach (var ch in channels)
-            {
-                analogChannelsEnabled[ch] = enabled;
-            }
         }
 
         /// <summary>
@@ -219,7 +120,7 @@ namespace OperationPhrike.GMobiLab
         /// <summary>
         /// Starts recording the data from the enabled channels on the enabled SDcard
         /// </summary>
-        public void StartRecordingData()
+        public void StartRecording()
         {
             if (!GMobiLabApi.StartAcquisition(device))
             {
@@ -230,12 +131,70 @@ namespace OperationPhrike.GMobiLab
         /// <summary>
         /// Stops recording the data from the enabled channels on the enabled SDcard
         /// </summary>
-        public void StopRecordingData()
+        public void StopRecording()
         {
             if (!GMobiLabApi.StopAcquisition(device))
             {
                 throw new GMobiLabException();
             }
+        }
+
+        /// <summary>
+        /// Returns an array that includes all channel settings
+        /// </summary>
+        public IReadOnlyList<SensorInfo> Sensors
+        {
+            get
+            {
+                GMobiLabApi.Config cfg;
+                if (!GMobiLabApi.GetConfig(device, out cfg))
+                {
+                    throw new GMobiLabException();
+                }
+
+                var result = new SensorInfo[8];
+                for (int i = 0; i < result.Length; ++i)
+                {
+                    result[i] = new SensorInfo("Channel 0"+(i+1).ToString(), Unit.MicroVolt, analogChannelsEnabled[i], i);
+                }
+
+                return result;
+            }
+        }
+
+        public bool IsUpdating
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public void SetSensorEnabled(SensorInfo sensor, bool enabled = true)
+        {
+            var ain = new GMobiLabApi.AnalogIn();
+            ain.ScanChannel = (bool[])analogChannelsEnabled.Clone();
+
+            if (sensor.Id < 0 || sensor.Id >= ain.ScanChannel.Length)
+            {
+                throw new ArgumentException("This channel doesn't exist.");
+            }
+            
+            ain.ScanChannel[sensor.Id] = enabled;
+            if (!GMobiLabApi.InitChannels(device, ain, GMobiLabApi.DigitalIo.Disabled))
+            {
+                throw new GMobiLabException();
+            }
+            analogChannelsEnabled[sensor.Id] = enabled;
+        }
+
+        public int GetAvailableSampleCount()
+        {
+            // TODO: implementation is missing
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<ISample> ReadSamples(int maxCount = int.MaxValue)
+        {
+            // TODO: implementation is missing
+            throw new NotImplementedException();
         }
     }
 }
