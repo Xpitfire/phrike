@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicSample.cs" />
+    <Compile Include="BasicSampleData.cs" />
     <Compile Include="ISample.cs" />
     <Compile Include="ISampleData.cs" />
     <Compile Include="ISensorHub.cs" />
