@@ -95,8 +95,6 @@ namespace OperationPhrike.GMobiLab
 
             analogChannelEnabled =
                 analogChannels.Select(c => c.HasValue).ToArray();
-            recordedChannelCount =
-                analogChannelEnabled.Count(enabled => enabled);
 
             sensorInfos = new SensorInfo[this.analogChannels.Length];
             for (int i = 0; i < sensorInfos.Length; ++i)
