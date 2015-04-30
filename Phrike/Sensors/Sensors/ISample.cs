@@ -28,8 +28,12 @@ namespace OperationPhrike.Sensors
         DateTime Time { get; }
 
         /// <summary>
-        /// Gets the values corresponding to each channel.
+        /// Gets the values corresponding to each sensor.
         /// </summary>
+        /// <remarks>
+        /// The order of these sensor values is the same for
+        /// each sample where the same set of sensors is enabled.
+        /// </remarks>
         IReadOnlyList<ISampleData> Values { get; }
     }
 }

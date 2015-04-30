@@ -191,6 +191,12 @@ namespace OperationPhrike.GMobiLab
             throw new NotImplementedException();
         }
 
+        public int GetSensorValueIndexInSample(SensorInfo sensor)
+        {
+            // TODO: implementation is missing
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<ISample> ReadSamples(int maxCount = int.MaxValue)
         {
             // TODO: implementation is missing

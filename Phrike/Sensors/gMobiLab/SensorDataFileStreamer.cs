@@ -145,6 +145,14 @@ namespace OperationPhrike.GMobiLab
         }
 
         /// <inheritdoc/>
+        public int GetSensorValueIndexInSample(SensorInfo sensor)
+        {
+            int disabledWithLowerIdCount =
+                analogChannelEnabled.Take(sensor.Id).Count(e => !e);
+            return sensor.Id - disabledWithLowerIdCount;
+        }
+
+        /// <inheritdoc/>
         public IEnumerable<ISample> ReadSamples(int maxCount = int.MaxValue)
         {
             // As per gMOBIlabplusDataFormatv209a.pdf, page 3

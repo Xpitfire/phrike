@@ -59,6 +59,23 @@ namespace OperationPhrike.Sensors
         int GetAvailableSampleCount();
 
         /// <summary>
+        /// Returns where in the samples' values the given
+        /// sensor's value is saved.
+        /// </summary>
+        /// <remarks>
+        /// The value returned by this message for the same
+        /// <paramref name="sensor"/> will change if you enable/disable
+        /// sensors.
+        /// </remarks>
+        /// <param name="sensor">The sensor for which to retrieve the index.</param>
+        /// <returns>
+        /// An index <c>i</c> such that for each sample <c>s</c> returned by
+        /// <see cref="ReadSamples"/>, <c>s.Values[i]</c> is the value
+        /// corresponding to the <paramref name="sensor"/>.
+        /// </returns>
+        int GetSensorValueIndexInSample(SensorInfo sensor);
+
+        /// <summary>
         /// Retrieve at most <paramref name="maxCount"/> data points (oldest first).
         /// </summary>
         /// <param name="maxCount">
