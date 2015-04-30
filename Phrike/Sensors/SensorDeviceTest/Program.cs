@@ -27,7 +27,10 @@ namespace OperationPhrike.SensorDeviceTest
                     // enable channels
                     int[] channels = {0, 2, 3, 4, 5, 6 };
                     Console.WriteLine("[g.tec] enable channels");
-                    sensorDevice.SetAnalogChannelsEnabled(channels, true);
+                    foreach (var channel in channels)
+                    {
+                        sensorDevice.SetSensorEnabled(sensorDevice.Sensors[channel]);
+                    }
 
                     // set filename
                     Console.WriteLine("Bitte Filenamen eingeben (null für deaktivieren von SDCard): ");
@@ -37,13 +40,13 @@ namespace OperationPhrike.SensorDeviceTest
 
 
 
-                    sensorDevice.StartRecordingData();
+                    sensorDevice.StartRecording();
                     Console.WriteLine("[g.tec] recording started");
 
                     Console.WriteLine("\npress enter for stopping recroding process...");
                     Console.ReadLine();
 
-                    sensorDevice.StopRecordingData();
+                    sensorDevice.StopRecording();
                     Console.WriteLine("[g.tec] recording stopped");
 
                 }
