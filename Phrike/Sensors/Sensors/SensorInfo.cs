@@ -45,7 +45,7 @@ namespace OperationPhrike.Sensors
         /// <param name="id">
         /// The id inside the <see cref="ISensorHub"/>.
         /// </param>
-        internal SensorInfo(string name, Unit unit, bool enabled, int id)
+        public SensorInfo(string name, Unit unit, bool enabled, int id)
             : this()
         {
             Name = name;
