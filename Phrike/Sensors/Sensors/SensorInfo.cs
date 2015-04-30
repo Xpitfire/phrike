@@ -22,7 +22,8 @@ namespace OperationPhrike.Sensors
         /// <summary>
         /// A 1000th of a Volt (usually raw sensor data).
         /// </summary>
-        MilliVolt
+        MilliVolt,
+        MicroVolt
     }
 
     /// <summary>
