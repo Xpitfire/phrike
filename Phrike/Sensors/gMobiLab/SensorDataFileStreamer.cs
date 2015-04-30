@@ -156,36 +156,35 @@ namespace OperationPhrike.GMobiLab
             // As per gMOBIlabplusDataFormatv209a.pdf, page 3
             const double ScaleBase = 2 * 5 * 1e-6 / (65536 * 4);
 
-            short[] rawData = GetData(maxCount * recordedChannelCount);
+            int sampleCount = Math.Min(maxCount, this.GetAvailableSampleCount());
             int enabledChannelCount =
                 analogChannelEnabled.Count(enabled => enabled);
-            var sampleData = new BasicSampleData[enabledChannelCount];
-            int scaledIdx = 0;
-            long sampleLength = TimeSpan.TicksPerSecond / sampleRate;
-            for (int i = 0; i < rawData.Length; ++i)
+            var sampleLength = (double)TimeSpan.TicksPerSecond / sampleRate;
+            for (int sampleIdx = 0; sampleIdx < sampleCount; ++sampleIdx)
             {
-                int channelId = i % recordedChannelCount;
-                int sampleIdx = i / recordedChannelCount;
-                if (!analogChannelEnabled[channelId])
+                var sampleData = new BasicSampleData[enabledChannelCount];
+                for (int channelId = 0; channelId < recordedChannelCount; ++channelId)
                 {
-                    continue;
+                    var rawValue = dataReader.ReadInt16();
+
+                    if (
+                        channelId >= analogChannelEnabled.Length
+                        || !analogChannelEnabled[channelId])
+                    {
+                        continue;
+                    }
+
+                    // If the channel is enabled it also always recorded.
+                    // ReSharper disable once PossibleInvalidOperationException
+                    SensorChannel channel = analogChannels[channelId].Value;
+
+                    double scale = channel.Sensitivity * ScaleBase;
+                    sampleData[channelId] = new BasicSampleData(
+                        sensorInfos[channelId], rawValue * scale);
                 }
-
-                // If the channel is enabled it also always recorded.
-                // ReSharper disable once PossibleInvalidOperationException
-                SensorChannel channel = analogChannels[i].Value;
-
-                double scale = channel.Sensitivity * ScaleBase;
-                sampleData[scaledIdx] = new BasicSampleData(
-                    sensorInfos[channelId], rawData[i] * scale);
-                ++scaledIdx;
-
-                if (channelId == enabledChannelCount - 1)
-                {
-                    scaledIdx = 0;
-                    yield return new BasicSample(
-                        startTime + TimeSpan.FromTicks(sampleLength * sampleIdx), sampleData);
-                }
+                yield return new BasicSample(
+                    startTime + TimeSpan.FromTicks((long)(sampleLength * sampleIdx)),
+                    sampleData);
             }
         }
 
@@ -330,24 +329,6 @@ namespace OperationPhrike.GMobiLab
 
             bytes.RemoveAt(bytes.Count - 1);
             string result = Encoding.ASCII.GetString(bytes.ToArray());
-            return result;
-        }
-
-        /// <summary>
-        /// Reads the next <paramref name="maxCount"/> raw shorts.
-        /// </summary>
-        /// <param name="maxCount">The maximum count of shorts to read.</param>
-        /// <returns>An array of the next raw data values.</returns>
-        private short[] GetData(int maxCount)
-        {
-            var result = new short[Math.Min(
-                maxCount,
-                this.GetAvailableSampleCount() * recordedChannelCount)];
-            for (var i = 0; i < result.Length; ++i)
-            {
-                result[i] = dataReader.ReadInt16();
-            }
-
             return result;
         }
     }
