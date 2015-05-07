@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensorDeviceTest", "Sensors
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sensors", "Sensors\Sensors\Sensors.csproj", "{90AEC3EC-C0CD-43D5-8CB0-F87243890511}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GroundControl", "GroundControl", "{857BA303-024D-4124-8165-27528FE87CFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroundControl", "GroundControl\GroundControl.csproj", "{021834D1-8228-48AA-9789-87AA02DBFA01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +79,16 @@ Global
 		{90AEC3EC-C0CD-43D5-8CB0-F87243890511}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{90AEC3EC-C0CD-43D5-8CB0-F87243890511}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{90AEC3EC-C0CD-43D5-8CB0-F87243890511}.Release|Win32.ActiveCfg = Release|Any CPU
+		{021834D1-8228-48AA-9789-87AA02DBFA01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{021834D1-8228-48AA-9789-87AA02DBFA01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{021834D1-8228-48AA-9789-87AA02DBFA01}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{021834D1-8228-48AA-9789-87AA02DBFA01}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{021834D1-8228-48AA-9789-87AA02DBFA01}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{021834D1-8228-48AA-9789-87AA02DBFA01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{021834D1-8228-48AA-9789-87AA02DBFA01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{021834D1-8228-48AA-9789-87AA02DBFA01}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{021834D1-8228-48AA-9789-87AA02DBFA01}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{021834D1-8228-48AA-9789-87AA02DBFA01}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,5 +99,6 @@ Global
 		{D7C4659D-4D23-4295-A35D-797355E8B79B} = {12021CAC-FF1E-4B69-BBA5-F60DC3DD762A}
 		{F0CC68E7-C665-4D9F-A8BF-A6F29526307D} = {12021CAC-FF1E-4B69-BBA5-F60DC3DD762A}
 		{90AEC3EC-C0CD-43D5-8CB0-F87243890511} = {12021CAC-FF1E-4B69-BBA5-F60DC3DD762A}
+		{021834D1-8228-48AA-9789-87AA02DBFA01} = {857BA303-024D-4124-8165-27528FE87CFF}
 	EndGlobalSection
 EndGlobal
