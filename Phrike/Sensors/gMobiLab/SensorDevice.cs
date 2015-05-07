@@ -14,10 +14,9 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // -----------------------------------------------------------------------
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using OperationPhrike.Sensors;
-using System.Collections.Generic;
-
 
 namespace OperationPhrike.GMobiLab
 {
@@ -87,7 +86,34 @@ namespace OperationPhrike.GMobiLab
             }
 
             analogChannelsEnabled = new bool[8];
+        }
 
+        /// <summary>
+        /// Gets an array that includes all channel settings
+        /// </summary>
+        public IReadOnlyList<SensorInfo> Sensors
+        {
+            get
+            {
+                GMobiLabApi.Config cfg;
+                if (!GMobiLabApi.GetConfig(device, out cfg))
+                {
+                    throw new GMobiLabException();
+                }
+
+                var result = new SensorInfo[8];
+                for (int i = 0; i < result.Length; ++i)
+                {
+                    result[i] = new SensorInfo("Channel 0" + (i + 1).ToString(), Unit.MicroVolt, analogChannelsEnabled[i], i);
+                }
+
+                return result;
+            }
+        }
+
+        public bool IsUpdating
+        {
+            get { throw new NotImplementedException(); }
         }
 
         /// <inheritdoc/>
@@ -139,34 +165,7 @@ namespace OperationPhrike.GMobiLab
             }
         }
 
-        /// <summary>
-        /// Returns an array that includes all channel settings
-        /// </summary>
-        public IReadOnlyList<SensorInfo> Sensors
-        {
-            get
-            {
-                GMobiLabApi.Config cfg;
-                if (!GMobiLabApi.GetConfig(device, out cfg))
-                {
-                    throw new GMobiLabException();
-                }
-
-                var result = new SensorInfo[8];
-                for (int i = 0; i < result.Length; ++i)
-                {
-                    result[i] = new SensorInfo("Channel 0"+(i+1).ToString(), Unit.MicroVolt, analogChannelsEnabled[i], i);
-                }
-
-                return result;
-            }
-        }
-
-        public bool IsUpdating
-        {
-            get { throw new NotImplementedException(); }
-        }
-
+        /// <inheritdoc/>
         public void SetSensorEnabled(SensorInfo sensor, bool enabled = true)
         {
             var ain = new GMobiLabApi.AnalogIn();
@@ -182,6 +181,7 @@ namespace OperationPhrike.GMobiLab
             {
                 throw new GMobiLabException();
             }
+
             analogChannelsEnabled[sensor.Id] = enabled;
         }
 
