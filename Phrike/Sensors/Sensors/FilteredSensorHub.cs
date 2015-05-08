@@ -44,7 +44,7 @@ namespace OperationPhrike.Sensors
             throw new NotImplementedException();
         }
 
-        public void SetFilter(SensorInfo sensor, IFilter filter)
+        public void SetFilter(SensorInfo sensor, FilterBase filter)
         {
             throw new NotImplementedException();
         }

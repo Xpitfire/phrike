@@ -9,8 +9,14 @@ namespace OperationPhrike.Sensors
     /// <summary>
     /// Interface for sensor filters.
     /// </summary>
-    public interface IFilter
+    public abstract class FilterBase
     {
+
+        public FilterBase(int radius)
+        {
+            Radius = radius;
+        }
+
         /// <summary>
         /// Hands <paramref name="unfilteredData"/> over for filtering.
         /// </summary>
@@ -19,14 +25,26 @@ namespace OperationPhrike.Sensors
         /// Filtered data. This can contain less elements
         /// than <paramref name="unfilteredData"/>.
         /// </returns>
-        IEnumerable<double> Filter(IEnumerable<double> unfilteredData);
+        public double[] Filter(double[] unfilteredData)
+        {
+            double[] filteredData = new double[unfilteredData.Length];
+
+            for (int i = 0; i < unfilteredData.Length; i++)
+            {
+                filteredData[i] = FilterData(Math.Max(0, i - 2), Math.Min(i + 2, unfilteredData.Length - 1), unfilteredData);
+            }
+
+            return filteredData;
+        }
 
         /// <summary>
-        /// Signals the filter that the end of the is reached and filters any
-        /// remaining cached data points.
+        /// 
         /// </summary>
-        /// <returns>Any remaining cached data points, filtered.</returns>
-        IEnumerable<double> Flush();
+        /// <param name="max"></param>
+        /// <param name="end"></param>
+        /// <param name="unfilteredData"></param>
+        /// <returns></returns>
+        protected abstract double FilterData(int start, int end, double[] unfilteredData);
 
         /// <summary>
         /// Gets the radius of the filter.
@@ -35,6 +53,6 @@ namespace OperationPhrike.Sensors
         /// The filter requires one more data point than that to start
         /// returning data.
         /// </remarks>
-        int Radius { get; }
+        public int Radius { get; private set; }
     }
 }
