@@ -14,9 +14,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 using OperationPhrike.GMobiLab;
 using OperationPhrike.Sensors;
 
+using OperationPhrike.SensorFilters;
 using OxyPlot;
 using OxyPlot.Series;
 
@@ -36,6 +38,8 @@ namespace SensorPlots
         private ISensorHub dataSource;
 
         private readonly LineSeries dataSeries = new LineSeries();
+
+        public Filter filter;
 
         public MainWindow()
         {
@@ -62,6 +66,7 @@ namespace SensorPlots
                     dataSource = null;
                 }
                 dataSource = new SensorDataFileStreamer(dlg.FileName);
+                filter = new Filter(dataSource);
                 foreach (var sensor in dataSource.Sensors)
                 {
                     if (sensor.Enabled)
@@ -69,7 +74,8 @@ namespace SensorPlots
                         ChannelSelection.Items.Add(sensor);
                     }
                 }
-                data = dataSource.ReadSamples().ToArray();
+                //data = dataSource.ReadSamples().ToArray();
+                data = filter.GetFilteredSignal();
             }
         }
 
@@ -101,6 +107,14 @@ namespace SensorPlots
 
         private void CbChannelSelected(object sender, SelectionChangedEventArgs e)
         {
+            
+
+    
+            Debug.WriteLine("START");
+            //filter.ApplyFilter();
+            //filter.Show();
+            Debug.WriteLine("STOP");
+
             UpdatePlot();
         }
     }
