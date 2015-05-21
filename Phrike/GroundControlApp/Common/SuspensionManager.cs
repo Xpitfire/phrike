@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace GroundControlApp.Common
+namespace Phrike.GroundControl.Common
 {
     /// <summary>
     /// SuspensionManager erfasst den globalen Sitzungszustand, um die Verwaltung der Prozesslebensdauer
@@ -212,7 +209,7 @@ namespace GroundControlApp.Common
         /// anstatt direkt mit dem Rahmensitzungszustand zu arbeiten.</remarks>
         /// <param name="frame">Die Instanz, für die der Sitzungszustand gewünscht wird.</param>
         /// <returns>Eine Auflistung des Zustands, für den der gleiche Serialisierungsmechanismus wie für
-        /// <see cref="SessionState"/>.</returns>
+        /// <see cref="NavigationHelper"/>.</returns>
         public static Dictionary<String, Object> SessionStateForFrame(Frame frame)
         {
             var frameState = (Dictionary<String, Object>)frame.GetValue(FrameSessionStateProperty);

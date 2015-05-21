@@ -1,6 +1,4 @@
-﻿using GroundControlApp.Common;
-using GroundControlApp.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,6 +11,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Phrike.GroundControl.Common;
+using Phrike.GroundControl.DataModel;
 
 // Die Elementvorlage für die Seite "Gruppendetails" ist unter http://go.microsoft.com/fwlink/?LinkId=234229 dokumentiert.
 
@@ -66,7 +66,7 @@ namespace GroundControlApp
         private async void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
             // TODO: Ein geeignetes Datenmodell für die problematische Domäne erstellen, um die Beispieldaten auszutauschen
-            var group = await SampleDataSource.GetGroupAsync((String)e.NavigationParameter);
+            var group = await ViewDataSource.GetGroupAsync((String)e.NavigationParameter);
             this.DefaultViewModel["Group"] = group;
             this.DefaultViewModel["Items"] = group.Items;
         }
@@ -80,7 +80,7 @@ namespace GroundControlApp
         {
             // Zur entsprechenden Zielseite navigieren und die neue Seite konfigurieren,
             // indem die erforderlichen Informationen als Navigationsparameter übergeben werden
-            var itemId = ((SampleDataItem)e.ClickedItem).UniqueId;
+            var itemId = ((ViewDataItem)e.ClickedItem).UniqueId;
             this.Frame.Navigate(typeof(ItemDetailPage), itemId);
         }
 

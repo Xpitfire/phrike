@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.Foundation.Collections;
 
-namespace GroundControlApp.Common
+namespace Phrike.GroundControl.Common
 {
     /// <summary>
     /// Implementierung von IObservableMap, die ein erneutes Eintreten zur Verwendung als Standardanzeigemodell

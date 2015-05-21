@@ -1,6 +1,4 @@
-﻿using GroundControlApp.Common;
-using GroundControlApp.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,6 +11,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Phrike.GroundControl.Common;
+using Phrike.GroundControl.DataModel;
 
 // Die Elementvorlage für die Seite "Elementdetails" ist unter http://go.microsoft.com/fwlink/?LinkId=234232 dokumentiert.
 
@@ -64,7 +64,7 @@ namespace GroundControlApp
         private async void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
             // TODO: Ein geeignetes Datenmodell für die problematische Domäne erstellen, um die Beispieldaten auszutauschen
-            var item = await SampleDataSource.GetItemAsync((String)e.NavigationParameter);
+            var item = await ViewDataSource.GetItemAsync((String)e.NavigationParameter);
             this.DefaultViewModel["Item"] = item;
         }
 

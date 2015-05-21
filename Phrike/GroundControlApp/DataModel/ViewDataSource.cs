@@ -5,8 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Data.Json;
 using Windows.Storage;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 
 // Das von dieser Datei definierte Datenmodell dient als repräsentatives Beispiel für ein Modell
 // unterstützt.  Die gewählten Eigenschaftennamen stimmen mit Datenbindungen in den Standardelementvorlagen überein.
@@ -16,14 +14,14 @@ using Windows.UI.Xaml.Media.Imaging;
 // Reaktionsfähigkeit durch Initiieren der Datenladeaufgabe im hinteren Code für App.xaml, wenn die App 
 // zuerst gestartet wird.
 
-namespace GroundControlApp.Data
+namespace Phrike.GroundControl.DataModel
 {
     /// <summary>
     /// Generisches Elementdatenmodell
     /// </summary>
-    public class SampleDataItem
+    public class ViewDataItem
     {
-        public SampleDataItem(String uniqueId, String title, String subtitle, String imagePath, String description, String content)
+        public ViewDataItem(String uniqueId, String title, String subtitle, String imagePath, String description, String content)
         {
             this.UniqueId = uniqueId;
             this.Title = title;
@@ -49,16 +47,16 @@ namespace GroundControlApp.Data
     /// <summary>
     /// Generisches Gruppendatenmodell
     /// </summary>
-    public class SampleDataGroup
+    public class ViewDataGroup
     {
-        public SampleDataGroup(String uniqueId, String title, String subtitle, String imagePath, String description)
+        public ViewDataGroup(String uniqueId, String title, String subtitle, String imagePath, String description)
         {
             this.UniqueId = uniqueId;
             this.Title = title;
             this.Subtitle = subtitle;
             this.Description = description;
             this.ImagePath = imagePath;
-            this.Items = new ObservableCollection<SampleDataItem>();
+            this.Items = new ObservableCollection<ViewDataItem>();
         }
 
         public string UniqueId { get; private set; }
@@ -66,7 +64,7 @@ namespace GroundControlApp.Data
         public string Subtitle { get; private set; }
         public string Description { get; private set; }
         public string ImagePath { get; private set; }
-        public ObservableCollection<SampleDataItem> Items { get; private set; }
+        public ObservableCollection<ViewDataItem> Items { get; private set; }
 
         public override string ToString()
         {
@@ -77,40 +75,40 @@ namespace GroundControlApp.Data
     /// <summary>
     /// Erstellt eine Auflistung von Gruppen und Elementen mit Inhalten, die aus einer statischen JSON-Datei gelesen werden.
     /// 
-    /// SampleDataSource wird mit Daten initialisiert, die aus einer statischen JSON-Datei gelesen werden, die 
+    /// ViewDataSource wird mit Daten initialisiert, die aus einer statischen JSON-Datei gelesen werden, die 
     /// Projekt.  Dadurch werden Beispieldaten zur Entwurfszeit und zur Laufzeit bereitgestellt.
     /// </summary>
-    public sealed class SampleDataSource
+    public sealed class ViewDataSource
     {
-        private static SampleDataSource _sampleDataSource = new SampleDataSource();
+        private static ViewDataSource _viewDataSource = new ViewDataSource();
 
-        private ObservableCollection<SampleDataGroup> _groups = new ObservableCollection<SampleDataGroup>();
-        public ObservableCollection<SampleDataGroup> Groups
+        private ObservableCollection<ViewDataGroup> _groups = new ObservableCollection<ViewDataGroup>();
+        public ObservableCollection<ViewDataGroup> Groups
         {
             get { return this._groups; }
         }
 
-        public static async Task<IEnumerable<SampleDataGroup>> GetGroupsAsync()
+        public static async Task<IEnumerable<ViewDataGroup>> GetGroupsAsync()
         {
-            await _sampleDataSource.GetSampleDataAsync();
+            await _viewDataSource.GetSampleDataAsync();
 
-            return _sampleDataSource.Groups;
+            return _viewDataSource.Groups;
         }
 
-        public static async Task<SampleDataGroup> GetGroupAsync(string uniqueId)
+        public static async Task<ViewDataGroup> GetGroupAsync(string uniqueId)
         {
-            await _sampleDataSource.GetSampleDataAsync();
+            await _viewDataSource.GetSampleDataAsync();
             // Einfache lineare Suche ist bei kleinen DataSets akzeptabel.
-            var matches = _sampleDataSource.Groups.Where((group) => group.UniqueId.Equals(uniqueId));
+            var matches = _viewDataSource.Groups.Where((group) => group.UniqueId.Equals(uniqueId));
             if (matches.Count() == 1) return matches.First();
             return null;
         }
 
-        public static async Task<SampleDataItem> GetItemAsync(string uniqueId)
+        public static async Task<ViewDataItem> GetItemAsync(string uniqueId)
         {
-            await _sampleDataSource.GetSampleDataAsync();
+            await _viewDataSource.GetSampleDataAsync();
             // Einfache lineare Suche ist bei kleinen DataSets akzeptabel.
-            var matches = _sampleDataSource.Groups.SelectMany(group => group.Items).Where((item) => item.UniqueId.Equals(uniqueId));
+            var matches = _viewDataSource.Groups.SelectMany(group => group.Items).Where((item) => item.UniqueId.Equals(uniqueId));
             if (matches.Count() == 1) return matches.First();
             return null;
         }
@@ -120,7 +118,7 @@ namespace GroundControlApp.Data
             if (this._groups.Count != 0)
                 return;
 
-            Uri dataUri = new Uri("ms-appx:///DataModel/SampleData.json");
+            Uri dataUri = new Uri("ms-appx:///DataModel/ViewData.json");
 
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(dataUri);
             string jsonText = await FileIO.ReadTextAsync(file);
@@ -130,7 +128,7 @@ namespace GroundControlApp.Data
             foreach (JsonValue groupValue in jsonArray)
             {
                 JsonObject groupObject = groupValue.GetObject();
-                SampleDataGroup group = new SampleDataGroup(groupObject["UniqueId"].GetString(),
+                ViewDataGroup group = new ViewDataGroup(groupObject["UniqueId"].GetString(),
                                                             groupObject["Title"].GetString(),
                                                             groupObject["Subtitle"].GetString(),
                                                             groupObject["ImagePath"].GetString(),
@@ -139,7 +137,7 @@ namespace GroundControlApp.Data
                 foreach (JsonValue itemValue in groupObject["Items"].GetArray())
                 {
                     JsonObject itemObject = itemValue.GetObject();
-                    group.Items.Add(new SampleDataItem(itemObject["UniqueId"].GetString(),
+                    group.Items.Add(new ViewDataItem(itemObject["UniqueId"].GetString(),
                                                        itemObject["Title"].GetString(),
                                                        itemObject["Subtitle"].GetString(),
                                                        itemObject["ImagePath"].GetString(),

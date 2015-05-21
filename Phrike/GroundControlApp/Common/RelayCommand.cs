@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace GroundControlApp.Common
+namespace Phrike.GroundControl.Common
 {
     /// <summary>
     /// Ein Befehl mit dem einzigen Zweck, seine Funktionalität zu vermitteln 
