@@ -9,28 +9,33 @@ namespace OperationPhrike.Sensors
     class GaussFilter : FilterBase
     {
 
-        private int arrayLength;
+        private int maskLength;
         private double[] gauss;
 
 
         private GaussFilter(int radius)
             : base(radius)
         {
-            // nothing to do
+            maskLength = 2 * radius + 1;
+            gauss = this.CalculateGaussCurve();
         }
 
         private double[] CalculateGaussCurve()
         {
-            int sigma = Radius / 2;
+            double sigma = Radius / 2.0;
             double sum = 0;
-            double[] gauss = new double[Radius];
-            for (int i = 0; i < arrayLength; i++)
+            gauss = new double[2 * Radius +1];
+            for (int i = 0; i < maskLength; i++)
             {
-                gauss[i] = (double)(1 / Math.Sqrt(2 * Math.PI * sigma * sigma) * Math.Exp(-(i - Radius) * (i - Radius) / (2 * sigma * sigma)));
+                gauss[i] =
+                    (1 / Math.Sqrt(2 * Math.PI * sigma * sigma)
+                    * Math.Exp(-(i - Radius)
+                    * (i - Radius)
+                    / (2 * sigma * sigma)));
                 sum += gauss[i];
             }
 
-            for (int i = 0; i < arrayLength; i++)
+            for (int i = 0; i < maskLength; i++)
             {
                 gauss[i] = gauss[i] / sum;
             }
@@ -39,22 +44,20 @@ namespace OperationPhrike.Sensors
 
         }
 
-        public override double[] Filter(double[] unfilteredData)
-        {
-            arrayLength = unfilteredData.Length;
-            gauss = this.CalculateGaussCurve();
-            return base.Filter(unfilteredData);
-        }
-
-        protected override double FilterData(int start, int end, double[] unfilteredData)
+        protected override double FilterData(int start, int end, int mid, double[] unfilteredData)
         {
 
             double sum = 0;
+            double gaussMaskSum = 0;
 
             for (int i = start; i <= end; i++)
             {
-                sum += unfilteredData[i] * gauss[i - start];
+                int maskPos = i-start + (Radius - (mid - start));
+                sum += unfilteredData[i] * gauss[maskPos];
+                gaussMaskSum += gauss[maskPos];
             }
+
+            sum /= gaussMaskSum;
 
             return sum;
 

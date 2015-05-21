@@ -11,11 +11,11 @@ namespace OperationPhrike.Sensors
         public AverageFilter(int radius)
             : base(radius)
         {
-            
+            // nothing to do
         }
           
 
-        protected override double FilterData(int start, int end, double[] unfilteredData)
+        protected override double FilterData(int start, int end, int mid, double[] unfilteredData)
         {
             double sum = 0;
 

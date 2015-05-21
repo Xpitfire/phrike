@@ -31,7 +31,11 @@ namespace OperationPhrike.Sensors
 
             for (int i = 0; i < unfilteredData.Length; i++)
             {
-                filteredData[i] = FilterData(Math.Max(0, i - 2), Math.Min(i + 2, unfilteredData.Length - 1), unfilteredData);
+                filteredData[i] = FilterData(
+                    Math.Max(0, i - Radius),
+                    Math.Min(i + Radius, unfilteredData.Length - 1),
+                    i,
+                    unfilteredData);
             }
 
             return filteredData;
@@ -44,7 +48,7 @@ namespace OperationPhrike.Sensors
         /// <param name="end"></param>
         /// <param name="unfilteredData"></param>
         /// <returns></returns>
-        protected abstract double FilterData(int start, int end, double[] unfilteredData);
+        protected abstract double FilterData(int start, int end, int mid, double[] unfilteredData);
 
         /// <summary>
         /// Gets the radius of the filter.
