@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OperationPhrike.Sensors.Filter
 {
-    class MinMaxFilter : FilterBase
+    public class MinMaxFilter : FilterBase
     {
         public MinMaxFilter(int radius)
             : base(radius)

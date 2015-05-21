@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OperationPhrike.Sensors
 {
-    class AverageFilter : FilterBase
+    public class AverageFilter : FilterBase
     {
         public AverageFilter(int radius)
             : base(radius)
