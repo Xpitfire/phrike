@@ -26,6 +26,8 @@ namespace SensorPlots
 {
     using Microsoft.Win32;
 
+    using OperationPhrike.Sensors.Filter;
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -39,15 +41,34 @@ namespace SensorPlots
 
         private readonly LineSeries dataSeries = new LineSeries();
 
-        public Filter filter;
-
         public MainWindow()
         {
             InitializeComponent();
             plotModel.Series.Add(dataSeries);
             PlotView.Model = plotModel;
-            Debug.WriteLine(unchecked((ushort)-2));
             dataSeries.StrokeThickness = 1;
+
+            //var data = new double[]
+            //{
+            //    1, 4, 2, 3, 6, 20, 100, 15, 5, 3, -1, -5, 0, 0, 30, 150, 50, 20, 1, 5, 4, 1, 0, 1, 60
+            //    //0, 1, 2, 3, 4, 5, 6, 7, 8
+            //};
+
+            //FilterBase filter = new PeakFilter(60);
+
+            //double[] filterData = filter.Filter(data);
+            //const int SampleRate = 256;
+            //filterData = new ValueDistanceFilter().Filter(filterData)
+            //    .Select(v => v / SampleRate)
+            //    .ToArray();
+
+
+            //foreach (double d in filterData)
+            //{
+            //    Console.Write(d + " ");
+            //}
+
+
         }
 
         private void BtnOpenFile(object sender, RoutedEventArgs e)
@@ -66,7 +87,6 @@ namespace SensorPlots
                     dataSource = null;
                 }
                 dataSource = new SensorDataFileStreamer(dlg.FileName);
-                filter = new Filter(dataSource);
                 foreach (var sensor in dataSource.Sensors)
                 {
                     if (sensor.Enabled)
@@ -74,8 +94,7 @@ namespace SensorPlots
                         ChannelSelection.Items.Add(sensor);
                     }
                 }
-                //data = dataSource.ReadSamples().ToArray();
-                data = filter.GetFilteredSignal();
+                data = dataSource.ReadSamples().ToArray();
             }
         }
 
@@ -93,12 +112,18 @@ namespace SensorPlots
 
             int sensorIdx = dataSource.GetSensorValueIndexInSample(sensor);
 
+            double[] sensorData = SensorUtil.GetSampleValues(data, sensorIdx);
+            sensorData = new ValueDistanceFilter().Filter(new PeakFilter(0.0009).Filter(new GaussFilter(4).Filter(sensorData)))
+                .Select(value => 1 / value * 256 *60).ToArray(); 
+
+         
+
             var startTime = data[0].Time;
             // For each sample:
-            for (int i = 0; i < data.Length; ++i)
+            for (int i = 0; i < sensorData.Length; ++i)
             {
                 var x = (data[i].Time - startTime).TotalSeconds;
-                var y = data[i].Values[sensorIdx].Value;
+                var y = sensorData[i];
                 dataSeries.Points.Add(new DataPoint(x, y));
                 //Debug.WriteLine(y);
             }
@@ -107,14 +132,6 @@ namespace SensorPlots
 
         private void CbChannelSelected(object sender, SelectionChangedEventArgs e)
         {
-            
-
-    
-            Debug.WriteLine("START");
-            //filter.ApplyFilter();
-            //filter.Show();
-            Debug.WriteLine("STOP");
-
             UpdatePlot();
         }
     }

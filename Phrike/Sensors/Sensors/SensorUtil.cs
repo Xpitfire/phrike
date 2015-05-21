@@ -20,31 +20,20 @@ namespace OperationPhrike.Sensors
     /// Provides some utility functions for usage with the sensor API.
     /// </summary>
     public static class SensorUtil
-    { 
+    {
         /// <summary>
         /// Get the sample values as a collection where each
         /// entry contains all values of a sensor.
         /// </summary>
         /// <param name="samples">The samples from which to retrieve the values.</param>
+        /// <param name="sensorIdx">The index of the sensor to retrieve. See
+        /// <see cref="ISensorHub.GetSensorValueIndexInSample"/>.</param>
         /// <returns>
-        /// A collection <c>v</c>, such that the items can be indexed as
-        /// <c>v[sensorIndex][sampleIndex]</c>.
-        /// <para>
-        /// Note that the <c>sensorIndex</c> for a specific
-        /// <see cref="SensorInfo"/> may be retrieved from
-        /// <see cref="ISensorHub.GetSensorValueIndexInSample"/>.
-        /// </para>
+        /// The sensors' values.
         /// </returns>
-        public static IReadOnlyCollection<double[]> GetSampleValues(
-            IEnumerable<ISample> samples)
+        public static double[] GetSampleValues(IEnumerable<ISample> samples, int sensorIdx)
         {
-            return
-                samples
-                .Select(sample =>
-                    sample.Values
-                    .Select(sampleData => sampleData.Value)
-                    .ToArray())
-                .ToArray();
+            return samples.Select(sample => sample.Values[sensorIdx].Value).ToArray();
         }
     }
 }

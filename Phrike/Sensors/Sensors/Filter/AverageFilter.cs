@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace OperationPhrike.Sensors
 {
-    class AverageFilter : FilterBase
+    public class AverageFilter : FilterBase
     {
         public AverageFilter(int radius)
             : base(radius)
         {
             // nothing to do
         }
-          
 
-        protected override double FilterData(int start, int end, int mid, double[] unfilteredData)
+
+        protected override double FilterData(int start, int end, int mid, IReadOnlyList<double> unfilteredData)
         {
             double sum = 0;
 
