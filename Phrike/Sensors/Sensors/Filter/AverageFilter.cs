@@ -13,9 +13,9 @@ namespace OperationPhrike.Sensors
         {
             // nothing to do
         }
-          
 
-        protected override double FilterData(int start, int end, int mid, double[] unfilteredData)
+
+        protected override double FilterData(int start, int end, int mid, IReadOnlyList<double> unfilteredData)
         {
             double sum = 0;
 

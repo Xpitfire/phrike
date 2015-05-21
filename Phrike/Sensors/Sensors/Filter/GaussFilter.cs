@@ -11,9 +11,10 @@ namespace OperationPhrike.Sensors
 
         private int maskLength;
         private double[] gauss;
+        private int p;
 
 
-        private GaussFilter(int radius)
+        public GaussFilter(int radius)
             : base(radius)
         {
             maskLength = 2 * radius + 1;
@@ -24,7 +25,7 @@ namespace OperationPhrike.Sensors
         {
             double sigma = Radius / 2.0;
             double sum = 0;
-            gauss = new double[2 * Radius +1];
+            gauss = new double[maskLength];
             for (int i = 0; i < maskLength; i++)
             {
                 gauss[i] =
@@ -44,7 +45,7 @@ namespace OperationPhrike.Sensors
 
         }
 
-        protected override double FilterData(int start, int end, int mid, double[] unfilteredData)
+        protected override double FilterData(int start, int end, int mid, IReadOnlyList<double> unfilteredData)
         {
 
             double sum = 0;

@@ -25,15 +25,15 @@ namespace OperationPhrike.Sensors
         /// Filtered data. This can contain less elements
         /// than <paramref name="unfilteredData"/>.
         /// </returns>
-        virtual public double[] Filter(double[] unfilteredData)
+        virtual public double[] Filter(IReadOnlyList<double> unfilteredData)
         {
-            double[] filteredData = new double[unfilteredData.Length];
+            double[] filteredData = new double[unfilteredData.Count];
 
-            for (int i = 0; i < unfilteredData.Length; i++)
+            for (int i = 0; i < unfilteredData.Count; i++)
             {
                 filteredData[i] = FilterData(
                     Math.Max(0, i - Radius),
-                    Math.Min(i + Radius, unfilteredData.Length - 1),
+                    Math.Min(i + Radius, unfilteredData.Count - 1),
                     i,
                     unfilteredData);
             }
@@ -48,7 +48,9 @@ namespace OperationPhrike.Sensors
         /// <param name="end"></param>
         /// <param name="unfilteredData"></param>
         /// <returns></returns>
-        protected abstract double FilterData(int start, int end, int mid, double[] unfilteredData);
+        protected abstract double FilterData(
+            int start, int end, int mid,
+            IReadOnlyList<double> unfilteredData);
 
         /// <summary>
         /// Gets the radius of the filter.

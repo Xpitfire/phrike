@@ -15,7 +15,7 @@ namespace OperationPhrike.Sensors.Filter
         }
 
 
-        protected override double FilterData(int start, int end, int mid, double[] unfilteredData)
+        protected override double FilterData(int start, int end, int mid, IReadOnlyList<double> unfilteredData)
         {
             int midFactor = end - start;
 
