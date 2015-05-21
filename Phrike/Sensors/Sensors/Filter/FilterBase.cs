@@ -25,7 +25,7 @@ namespace OperationPhrike.Sensors
         /// Filtered data. This can contain less elements
         /// than <paramref name="unfilteredData"/>.
         /// </returns>
-        public double[] Filter(double[] unfilteredData)
+        virtual public double[] Filter(double[] unfilteredData)
         {
             double[] filteredData = new double[unfilteredData.Length];
 
