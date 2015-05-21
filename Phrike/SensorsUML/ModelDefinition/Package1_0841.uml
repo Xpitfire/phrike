@@ -1,0 +1,3386 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="21e97978-0428-4600-bcf6-090a05e292ee"
+  name="Sensors"
+  visibility="Private" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <referencesInternal>
+    <reference
+      Id="c38ef13c-bfe7-4455-b39e-b81c51d052e9"
+      handle="viewcode://./CodeSchema_Namespace?Namespace%3DOperationPhrike.Sensors"
+      tag="ViewCode" />
+  </referencesInternal>
+  <profileInstances>
+    <packageHasProfileInstances
+      Id="e0985fb3-a463-43f1-bca2-00e0d5e0821f">
+      <profileInstance
+        Id="6e58ff25-9f11-424f-ae47-b241f624c348"
+        name="CSharpProfile" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="a258760c-6427-4e6e-b75d-3e83568b1fc3"
+        name="BasicSample"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="f910b96b-d766-422c-ba77-f248dd616509"
+            handle="viewcode://./CodeSchema_Class?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DBasicSample"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="aedfc216-bfc8-4a10-a6f5-b672f792c285"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="42d72c33-1bff-4389-9796-609d98d9942c">
+                <propertyInstance
+                  Id="ff61eddc-efd2-4cce-b644-f2d7c5f62d32"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="779b6a5f-6a8a-4600-983c-cd9fee980727">
+                <propertyInstance
+                  Id="14cf0a18-16e6-407f-9234-26e430683d7e"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="9d7dda50-4eae-4e73-a3b4-5bd08b8492b7">
+                <propertyInstance
+                  Id="2c99dcca-17f4-4f53-8b54-cf11b18ac666"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="76a44ada-d18a-456d-a9ce-82c7f0c0cfb4">
+                <propertyInstance
+                  Id="3f72b689-a51c-4b34-aaef-54eb7fe7f94c"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="de42d23c-8c5d-4c4b-9ff3-17cc6afcee7a">
+                <propertyInstance
+                  Id="3589855a-d0bd-4d22-9c91-4bd31938c838"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <suppliersInternal>
+          <interfaceRealization
+            Id="54e9b7a1-5672-414c-8da9-228bafe1dbfe">
+            <interfaceMoniker
+              Id="3d485465-a0a6-49a5-9976-3120b6e2d091"
+              LastKnownName="ISample"
+              LastKnownLocation="Package1_0841.uml" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <targetEnds>
+          <association
+            Id="66030b1e-7d6f-4ea8-a530-b182ca7d85f5"
+            isDerived="false"
+            sourceEndRoleName="BasicSample"
+            targetEndRoleName="Time"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="32d484bd-d314-4d6d-bf5a-fe65ee47db6b"
+              LastKnownName="DateTime"
+              LastKnownLocation="Package2_0841.uml" />
+            <description>Property Time references type DateTime.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="77118a29-a635-4e3d-9e29-604ae07055ba"
+                  name="BasicSample"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="3f117c53-a3a1-453f-9ebf-31192bbb0df5"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="785dcb9d-cd16-4555-8398-c5f155312b56"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="6a8c8cb5-b7e0-4a38-8e23-63c18eb7e0e4"
+                  name="Time"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="2d5294b9-4e1c-40b5-8deb-c547b30fa42b"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="f1b5152a-4d7f-4710-bd4c-ff6386d9d970"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="015713cf-d0c5-4563-a798-6b7d927b8948"
+            isDerived="false"
+            sourceEndRoleName="BasicSample"
+            targetEndRoleName="Values"
+            isLeaf="false"
+            isAbstract="false">
+            <interfaceMoniker
+              Id="dc6c1cd5-acd4-4a16-8174-895bf103caa7"
+              LastKnownName="IReadOnlyList&lt;ISampleData‎&gt;"
+              LastKnownLocation="Package4_0841.uml" />
+            <description>Property Values references type IReadOnlyList&lt;ISampleData‎&gt;.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="74183109-859e-40ea-bb95-35922236c587"
+                  name="BasicSample"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="e390aa73-8ee6-4700-b8ac-3ac8e8da143e"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="9ddd9994-cf72-4d79-b458-c5709b1a66e7"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="eb264be8-7226-42d6-9087-eff5e75313ba"
+                  name="Values"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="ce3312d4-d54f-4ddf-b238-7c8cf99384ee"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="cfa413f1-07a8-43b9-8f12-0dedc3ba2e20"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="ca21a190-7e9a-423a-9d3c-7fb8316c07a1"
+            name="Time"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="3b407cf3-c83a-43cc-9450-a0bf06a101f0"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DBasicSample Member%3DTime"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="231d2e85-226d-4509-ad10-4644923e715e"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="175b0912-dcca-4f73-8e89-88a298282372">
+                    <propertyInstance
+                      Id="66a84f75-b6e6-448b-9a97-6fbb202c9e5e"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="0fb0548a-458a-412f-b249-f38fd4581f3b">
+                    <propertyInstance
+                      Id="af4d63f2-fe02-4f0b-a868-2340499f7d00"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="cb7edc73-e76e-416a-a3c6-2253b3a85dc4">
+                    <propertyInstance
+                      Id="69721105-8c59-47d7-b36c-37019be48a30"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="ea450975-20c4-4666-a620-d60f182138b3">
+                    <propertyInstance
+                      Id="4ea787e4-2eb0-4645-bd20-04feec82cbeb"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="ebc8f29b-14e2-461f-9eab-e387f1dabef4">
+                    <propertyInstance
+                      Id="5d6b93a2-69bc-4dbc-b632-3067cf13a572"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="e824d69b-f11f-48cc-a174-87575afe994e">
+                    <propertyInstance
+                      Id="fb0a5345-c948-45bb-bbee-f5a3d84ef633"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="3b1c7ae4-466d-4a32-9a4f-35542d924f46">
+                    <propertyInstance
+                      Id="fa3981d3-0d47-4f50-93b1-a159d81caa39"
+                      name="Set"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <classMoniker
+                Id="32d484bd-d314-4d6d-bf5a-fe65ee47db6b"
+                LastKnownName="DateTime"
+                LastKnownLocation="Package2_0841.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="9cf32180-5883-4511-94f3-966cb15bbae7"
+            name="Values"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="7f810cf9-45c6-47e8-918a-531a298b8153"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DBasicSample Member%3DValues"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="fe8f10d3-3dce-40b3-a3da-99bb2183ec1e"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="906f38ff-8d61-4ba2-8417-b815b02a298e">
+                    <propertyInstance
+                      Id="aeac41fa-a5ef-4cfa-8ce6-bcb499de6a54"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="17c1033d-9125-47dc-bfa8-6acf930558d1">
+                    <propertyInstance
+                      Id="6ce474fe-3147-4884-b91e-951a3b855903"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="c7f82bbf-0a86-45ca-8077-cb6894b03fb6">
+                    <propertyInstance
+                      Id="b26f2f05-bb03-47b9-a295-ad78bb01c2b9"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="6f30cf0b-5f47-4eba-958b-9e341d08536f">
+                    <propertyInstance
+                      Id="854ec5ea-7850-4083-a1f0-a450fb3a28eb"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="deb656ef-2f85-4d9a-85c7-5d8ea70204e5">
+                    <propertyInstance
+                      Id="735e9aae-a97f-40a1-a434-65abbea699c1"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="36ec1354-688e-4d70-8942-88030adc159d">
+                    <propertyInstance
+                      Id="ede6812c-d1c2-4fb9-8d27-43a48eb33b47"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="24605727-d814-4f40-8e4d-12882234e3f3">
+                    <propertyInstance
+                      Id="3f621447-1fe9-4203-948a-77a4b1ef89d2"
+                      name="Set"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <interfaceMoniker
+                Id="dc6c1cd5-acd4-4a16-8174-895bf103caa7"
+                LastKnownName="IReadOnlyList&lt;ISampleData‎&gt;"
+                LastKnownLocation="Package4_0841.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="558efc10-7b8e-4a84-a842-498467eaea80"
+            name="BasicSample"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="aa18fd5f-5e50-4987-96f0-8584d2862d64"
+                handle="viewcode://./CodeSchema_Method?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DBasicSample Member%3D(Name%3D.ctor OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DDateTime)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem.Collections.Generic Type%3D(Name%3DIReadOnlyList GenericParameterCount%3D1 GenericArguments%3D[(Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISampleData)]))])"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="3682ccef-46dd-4ac4-a517-c911cc2c298d"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="a0b93e5e-72db-4cf6-8998-b592ef97b8de">
+                    <propertyInstance
+                      Id="62028020-a385-41af-9b1d-304a150f2961"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="f2900252-3592-4696-a28a-d81032d82072">
+                    <propertyInstance
+                      Id="a7b89a5e-372e-4b4d-8787-fe6368974910"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="d20769c5-75b6-4844-9385-19ccc429106e">
+                    <propertyInstance
+                      Id="041da548-9996-4b10-8a9a-54bfd4a442e9"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="97e40110-a499-4d2d-b73b-4a48bd6b776b">
+                    <propertyInstance
+                      Id="ec403c7f-22bb-4050-acfe-8c573ffb2e9d"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="4737e781-2f13-481a-b102-da15a57c48f0">
+                    <propertyInstance
+                      Id="9d9fd7e4-1163-4945-9ac5-104b0a1c22d8"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="0937e255-a896-4270-acfb-34b9fe871293">
+                    <propertyInstance
+                      Id="c3ff3575-8128-4bcb-a8b4-9c9d68019257"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="5703855c-6a43-44a3-8110-72409b617a5d"
+                  name="time"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="ae33574b-3dac-4eef-a2e9-01c8b552785d"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DBasicSample Member%3D(Name%3D.ctor OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DDateTime)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem.Collections.Generic Type%3D(Name%3DIReadOnlyList GenericParameterCount%3D1 GenericArguments%3D[(Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISampleData)]))]) ParameterIdentifier%3Dtime"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="32d484bd-d314-4d6d-bf5a-fe65ee47db6b"
+                      LastKnownName="DateTime"
+                      LastKnownLocation="Package2_0841.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="c8016cdd-7e56-4434-80c3-a822afc78ba1"
+                  name="values"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="4856bc0b-15d5-441b-ba59-805a641f683c"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DBasicSample Member%3D(Name%3D.ctor OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DDateTime)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem.Collections.Generic Type%3D(Name%3DIReadOnlyList GenericParameterCount%3D1 GenericArguments%3D[(Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISampleData)]))]) ParameterIdentifier%3Dvalues"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <interfaceMoniker
+                      Id="dc6c1cd5-acd4-4a16-8174-895bf103caa7"
+                      LastKnownName="IReadOnlyList&lt;ISampleData‎&gt;"
+                      LastKnownLocation="Package4_0841.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="01723c11-36bb-40ca-9d65-94be95cdcf1e"
+        name="ISampleData"
+        isAbstract="false"
+        isLeaf="false">
+        <referencesInternal>
+          <reference
+            Id="3ab0dc66-fd0d-4e50-9272-c8667790ead8"
+            handle="viewcode://./CodeSchema_Interface?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISampleData"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="43fd6e5b-48b5-4f96-8fd9-af644a5f360c"
+            name="interface"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="6efc2467-3c75-43a7-b384-44fb8a3aff4c">
+                <propertyInstance
+                  Id="9dfbae4a-64e4-44ac-8a29-c00f7125abd9"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="e39900fb-4fc1-4d6e-8d1b-ab8db7bc20f2">
+                <propertyInstance
+                  Id="0dc910ca-3374-4584-afce-69bc9f4b1221"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="65458556-8bb8-4909-9c77-e8e6ed96ff55">
+                <propertyInstance
+                  Id="96ce785b-0f9a-4f4a-8a6d-d45f36383bdc"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="02b0fb3c-0b69-4178-a49b-fdcc0f49effb">
+                <propertyInstance
+                  Id="4076771d-7980-42e6-83fa-6f2bdad8344c"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <targetEnds>
+          <association
+            Id="d766cdc6-7e10-4d85-83b6-d788c4df13d4"
+            isDerived="false"
+            sourceEndRoleName="ISampleData"
+            targetEndRoleName="Source"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="b6bd9fa9-cb29-4727-8e18-8d1b2a19548c"
+              LastKnownName="SensorInfo"
+              LastKnownLocation="Package1_0841.uml" />
+            <description>Property Source references type SensorInfo.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="183cef2d-6a57-46f5-a4a6-78e267b68b5e"
+                  name="ISampleData"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="1f5c2b0f-2f43-47fb-bb82-828f6a331c36"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="1a1affc7-7232-4138-9216-d32d81d42d3f"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="22696229-3a7a-449e-a2e9-609dc6e9cb75"
+                  name="Source"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="58c5081e-c99d-4931-ba0c-f94b0c2d0d58"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="b3a6fc23-6d6a-4fd4-8636-14d53670b698"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="b0fa8832-5f10-47b2-9ebd-dfc38ccbaeb2"
+            isDerived="false"
+            sourceEndRoleName="ISampleData"
+            targetEndRoleName="Value"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="049050be-7146-44c7-be57-69923bdd9480"
+              LastKnownName="Double"
+              LastKnownLocation="Package2_0841.uml" />
+            <description>Property Value references type Double.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="99b66f9c-c447-4051-9890-f781253dc6f6"
+                  name="ISampleData"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="0539926d-4a5c-456b-892e-e6b8d5703b9e"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="55c6e1db-9a50-4bad-80b1-732532392f11"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="37ac9455-3dd9-48de-aa2d-4ec48cc5a8a5"
+                  name="Value"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="16f7b206-16bc-4231-99d2-8a3660e4a105"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="10fcb3d9-d88c-46e2-af27-712ea79d514b"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributes>
+          <property
+            Id="2defbf52-cd0b-45f6-8a3d-f6f81debb6fe"
+            name="Source"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="true"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="094bcc04-aa3d-49ff-8462-b3345a763bd7"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISampleData Member%3DSource"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="0e2d6aee-4586-4413-93b7-1219b35499d7"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="141e2113-118c-46f4-9aee-e6b1b53a46d1">
+                    <propertyInstance
+                      Id="b85cef75-9688-4c3a-9fd4-7e0897156bf6"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="113279c1-a27f-4015-9eee-1e8461caf46b">
+                    <propertyInstance
+                      Id="823e74a7-63cd-488a-8e09-828128c34e28"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="c4d6fd83-8889-4793-99cc-b587b016d7e0">
+                    <propertyInstance
+                      Id="4d1eb7da-f217-4e24-84f2-6d576fff3193"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="f33383e0-e32c-44fe-9f6f-50b94154c953">
+                    <propertyInstance
+                      Id="794deacc-0fd9-46fa-845c-2e3d623d0233"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="99c8f920-31be-427a-b7ea-e6f9d463c813">
+                    <propertyInstance
+                      Id="c1f56375-4645-43b9-be0b-d4070da84b15"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="35d8d543-1eae-4e68-9c4b-0ab593912fa6">
+                    <propertyInstance
+                      Id="0ca933be-74d3-4e35-be58-04c861c45117"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="c494f135-27fb-43f6-93eb-3206f4dc60d8">
+                    <propertyInstance
+                      Id="e9f91bdd-2604-482e-9e4d-0c7bb268d92f"
+                      name="Set"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <classMoniker
+                Id="b6bd9fa9-cb29-4727-8e18-8d1b2a19548c"
+                LastKnownName="SensorInfo"
+                LastKnownLocation="Package1_0841.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="00e50aa5-24ee-435b-8958-0e7db2175bc1"
+            name="Value"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="true"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="e638726b-4e93-40c8-9387-1d59cc16f1ce"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISampleData Member%3DValue"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="883eede9-f2c6-46bc-8347-c60aadb2e7b2"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="eff5368d-07ef-4e6d-a6e8-ab01a2a3366c">
+                    <propertyInstance
+                      Id="2ba8e9e3-7e7b-4749-b668-62f30aff13db"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="82902e77-1483-4f84-9dde-1c25013b5049">
+                    <propertyInstance
+                      Id="7ac0fbf7-c7d1-4077-8bbd-fe918311da8a"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="7b0871be-d8c9-4741-9d20-8d96bf2e9e30">
+                    <propertyInstance
+                      Id="7d28fc30-0cd1-4b40-96b7-452379fbecda"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="8dcff819-b55a-4c9a-b3d0-c8710663028a">
+                    <propertyInstance
+                      Id="1e56eec0-758a-4f7f-8ca3-c58df8fd82c3"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="c0bf6005-61cb-4105-b650-393c8457f31d">
+                    <propertyInstance
+                      Id="4b17eccc-5aff-4730-8f67-67defc2131d4"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="bffa7667-63c7-491f-89db-53d288d105d8">
+                    <propertyInstance
+                      Id="434cfaf9-366b-4317-b1a2-c2344da61574"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="07512cdc-945f-496c-9a9d-2a85b52295a4">
+                    <propertyInstance
+                      Id="b53623d3-df8d-4fd7-bf57-f54a5fb246fe"
+                      name="Set"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <classMoniker
+                Id="049050be-7146-44c7-be57-69923bdd9480"
+                LastKnownName="Double"
+                LastKnownLocation="Package2_0841.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributes>
+      </Interface>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="3d485465-a0a6-49a5-9976-3120b6e2d091"
+        name="ISample"
+        isAbstract="false"
+        isLeaf="false">
+        <referencesInternal>
+          <reference
+            Id="f259d3b8-5e6c-43e6-b8e0-ad9b5d0c9771"
+            handle="viewcode://./CodeSchema_Interface?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISample"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="40e8ac8e-4d1b-4e24-b189-89996b558729"
+            name="interface"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="b42536f2-f632-491b-b245-5aae9e460bb4">
+                <propertyInstance
+                  Id="2a272760-18a8-4686-a95e-411a82afbb1a"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="c969edc1-7238-4faa-abb4-875f50e2c27f">
+                <propertyInstance
+                  Id="c421608b-5db7-4078-bcb6-4f60c4f176bd"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="5cdf116c-8123-4e85-97c1-1109123f4db4">
+                <propertyInstance
+                  Id="91be2232-1920-4684-babc-7e78a32b43d9"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="6454a596-9531-4d1e-847e-64565f19b417">
+                <propertyInstance
+                  Id="e3ca4ce7-4e72-47d9-97a9-c4cdaa964d15"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <targetEnds>
+          <association
+            Id="90be6bb2-f1de-4398-adbd-09f93c38336d"
+            isDerived="false"
+            sourceEndRoleName="ISample"
+            targetEndRoleName="Time"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="32d484bd-d314-4d6d-bf5a-fe65ee47db6b"
+              LastKnownName="DateTime"
+              LastKnownLocation="Package2_0841.uml" />
+            <description>Property Time references type DateTime.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="529492ae-6c22-4078-a70d-2c8a27915c3b"
+                  name="ISample"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="f2b124a7-5595-475c-83d8-2a3088e14d56"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="375d1fa6-2fc6-42c5-a97e-9b0e9d4f74a9"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="1a4d8190-5de1-48cb-a4c6-97c10160cce0"
+                  name="Time"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="2b1d703b-a401-4185-9c56-594532c543f7"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="3e266dcd-9700-4146-a062-dfca0da37712"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="a9a96935-9ebd-4ad9-a576-4cf673bd2476"
+            isDerived="false"
+            sourceEndRoleName="ISample"
+            targetEndRoleName="Values"
+            isLeaf="false"
+            isAbstract="false">
+            <interfaceMoniker
+              Id="dc6c1cd5-acd4-4a16-8174-895bf103caa7"
+              LastKnownName="IReadOnlyList&lt;ISampleData‎&gt;"
+              LastKnownLocation="Package4_0841.uml" />
+            <description>Property Values references type IReadOnlyList&lt;ISampleData‎&gt;.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="c3c36c86-428e-4d0b-af46-0c4d40289006"
+                  name="ISample"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="73b15a29-35b6-4d51-8dbc-b011ac912c07"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="ca823870-233a-44f4-b95c-c6463e027c81"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="516eb2b5-8ea3-4318-bf78-ffcfbc943a88"
+                  name="Values"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="59993dc8-8031-432c-9438-e154b6dac272"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="da92f239-6c6a-4451-a1bd-a341da41d83b"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="f47b0324-dd6a-487c-a1af-437a8039e5e2"
+            isDerived="false"
+            sourceEndRoleName="ISample"
+            targetEndRoleName="ISampleData"
+            isLeaf="false"
+            isAbstract="false">
+            <interfaceMoniker
+              Id="01723c11-36bb-40ca-9d65-94be95cdcf1e"
+              LastKnownName="ISampleData"
+              LastKnownLocation="Package1_0841.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="7c274beb-83ca-4d1c-aca8-e6f6af6b0406"
+                  name="ISample"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Shared"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="1f52be8f-f0a0-420f-989d-9cc61b432ab5"
+                  name="ISampleData"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="cc3de34d-66ce-4818-9c90-1b5508d0a3a4"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="f52113b6-783d-4ca7-b39f-003d857bd802"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributes>
+          <property
+            Id="97083e1a-f0e3-4d04-877b-5aa9120bf873"
+            name="Time"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="true"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="c872ed6c-8943-4ade-addd-720dc32667a5"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISample Member%3DTime"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="8bd48988-3b0a-4571-be55-1cfc41c150d7"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="d3326d4a-22c0-4fde-b8f2-8ce718047245">
+                    <propertyInstance
+                      Id="6313451f-a8d1-4776-8578-9df3f07799e8"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="ebd823a2-31d6-419a-ae0e-082da2734a2e">
+                    <propertyInstance
+                      Id="d24c5906-11b8-4379-8443-f43b78eec4e4"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="c92b54b8-08a7-4bd3-aa91-8ab5a247853d">
+                    <propertyInstance
+                      Id="831a38a0-d7fb-4a9e-9b77-f8b4ed2f358a"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="2fd45a76-d9e7-440a-a8ee-cb289279411b">
+                    <propertyInstance
+                      Id="c89a7014-17ce-4851-ba83-43db38e19413"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="7431f8bf-598b-4301-a89f-cfc16b9b59e8">
+                    <propertyInstance
+                      Id="633f8f21-2f0d-45ec-84ef-64e0079d4eb0"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="d7dd6ae5-8646-41c5-9774-1b783bf3e6db">
+                    <propertyInstance
+                      Id="38f2dad7-d4fa-4248-a4c0-a5bf575512c3"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="273c898f-b2b3-4729-960e-33164d6f2de6">
+                    <propertyInstance
+                      Id="aaa44f6a-9cba-4f15-a8b8-52613b8af22a"
+                      name="Set"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <classMoniker
+                Id="32d484bd-d314-4d6d-bf5a-fe65ee47db6b"
+                LastKnownName="DateTime"
+                LastKnownLocation="Package2_0841.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="d55721d7-2515-4336-ab34-74c824743b82"
+            name="Values"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="true"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="2690f8e7-37ca-40ca-9a43-cf3009935cf9"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISample Member%3DValues"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="1b256d70-9fa4-4169-b595-7718b86c83e3"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="af79f409-e703-4ae3-947c-18279b98dcaa">
+                    <propertyInstance
+                      Id="e3815d90-db48-4c43-9ae8-7234b23d6638"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="401f11e5-f023-4fe8-8d05-e0962cac07a1">
+                    <propertyInstance
+                      Id="d0102bfe-c035-4f55-976d-35505136c3bf"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="7e619735-8598-4bb9-814d-b28ea9e3299a">
+                    <propertyInstance
+                      Id="5878bb1f-4a2c-44dc-8de2-2af9304d4650"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="a2de229f-5fbd-4a35-b433-79f228ff0c83">
+                    <propertyInstance
+                      Id="3988b563-57a8-42f8-a684-9c35f3cf1fe9"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="610445e5-8923-4855-b12c-ea277f118545">
+                    <propertyInstance
+                      Id="48de3f46-b9ae-4924-982e-db33a9cc289b"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="38492e27-1d10-46b6-b2c2-2b3fb5686b2a">
+                    <propertyInstance
+                      Id="ca701078-36d8-4d87-a9ba-c5c813c70b75"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="e9e0e1ba-359b-47bb-b2f7-4292c9bf96b1">
+                    <propertyInstance
+                      Id="0fd1ad63-3044-4411-a725-10d3a6b21579"
+                      name="Set"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <interfaceMoniker
+                Id="dc6c1cd5-acd4-4a16-8174-895bf103caa7"
+                LastKnownName="IReadOnlyList&lt;ISampleData‎&gt;"
+                LastKnownLocation="Package4_0841.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributes>
+      </Interface>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="4101f559-11c3-49e1-bd30-9a520b24ec61"
+        name="BasicSampleData"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="08a07b36-fddf-4098-8da4-6508b31f3dd0"
+            handle="viewcode://./CodeSchema_Class?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DBasicSampleData"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="1412b8a1-f9f4-4e15-a84b-c87f896cfb26"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="19b6eaa5-c735-4d1a-8d5a-97fb97068ee8">
+                <propertyInstance
+                  Id="a832125a-eeea-47ef-8f01-9337007f18b0"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="8793d41d-d337-4dc7-8f37-7cfdfddd127e">
+                <propertyInstance
+                  Id="f4ea1d4e-9a1d-48ef-afbe-69429e21c0c1"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="d7818a93-b27d-4d5d-8301-804ab280756c">
+                <propertyInstance
+                  Id="8b40700f-4e47-44b2-b221-96c7d4290e71"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="919815a4-83d5-4cc3-a3cd-7378e64a583d">
+                <propertyInstance
+                  Id="3fa9eb0d-3bc1-4e7f-852b-2974ed61c0f5"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="af0ee0f7-8d6e-485a-a954-3bdbb8e62c19">
+                <propertyInstance
+                  Id="8214a09a-16cc-4c63-b262-5099e4c91b62"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <suppliersInternal>
+          <interfaceRealization
+            Id="ef05517b-48ab-4a23-af19-4e8ac6dbb54d">
+            <interfaceMoniker
+              Id="01723c11-36bb-40ca-9d65-94be95cdcf1e"
+              LastKnownName="ISampleData"
+              LastKnownLocation="Package1_0841.uml" />
+          </interfaceRealization>
+        </suppliersInternal>
+        <targetEnds>
+          <association
+            Id="57182ca7-a211-45db-8979-ab07342cc1d6"
+            isDerived="false"
+            sourceEndRoleName="BasicSampleData"
+            targetEndRoleName="Value"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="049050be-7146-44c7-be57-69923bdd9480"
+              LastKnownName="Double"
+              LastKnownLocation="Package2_0841.uml" />
+            <description>Property Value references type Double.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="7ef1b58e-7b4a-43b6-9590-b5d629b3e33b"
+                  name="BasicSampleData"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="be9ff643-c601-4960-be03-4b78e6cca7dc"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="87a5e18b-1a9b-4a85-b915-45c2ba3a3a91"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="ff5d47a2-9a93-4014-bad4-68fb479dc14b"
+                  name="Value"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="ff543c17-94db-4883-a5ab-ef0140c26a65"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="82cda2ed-acae-4be6-a195-8a99659e5e6e"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="93dd4a15-f374-45d2-93b3-c9ceb964aec4"
+            name="Source"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="2bb82e98-de70-4011-92c5-1048346d17e6"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DBasicSampleData Member%3DSource"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="75239595-9a2f-404f-9ba8-75c42b559ccc"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="23de3701-45df-42a8-bc45-739e951016da">
+                    <propertyInstance
+                      Id="08bb362b-4fa7-4712-b5b8-fb56b4fb1038"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="ae601c04-4d21-4e03-838c-4b8f60aa999c">
+                    <propertyInstance
+                      Id="8e743b21-9435-4e26-91c4-7e800575d9dc"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="3ce1b095-4865-42e9-9b0d-165d5a2d5f58">
+                    <propertyInstance
+                      Id="b1c77929-6d8e-41f6-83c1-de4f54caed2f"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="6b16ac3c-f412-4624-b2c0-9ebff6281c49">
+                    <propertyInstance
+                      Id="9adfc394-a0d4-46b3-802a-bccaf6e7c911"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="610e38bc-ea6d-45e1-9478-88db95fc72ff">
+                    <propertyInstance
+                      Id="605332f4-15e9-45fa-8ed3-1de5a8d92965"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="117d45b4-660e-4a77-ad68-49e8f8d0c4c5">
+                    <propertyInstance
+                      Id="03607bda-5881-4035-842c-2527eee99e13"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b036bb98-d0b8-4bf4-b656-5fe5c864a5d4">
+                    <propertyInstance
+                      Id="dc6abd01-0425-4d8f-bd52-0d69ab01455c"
+                      name="Set"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <classMoniker
+                Id="b6bd9fa9-cb29-4727-8e18-8d1b2a19548c"
+                LastKnownName="SensorInfo"
+                LastKnownLocation="Package1_0841.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="08bc03a9-e71f-47f1-bfab-7196bee61b09"
+            name="Value"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="2ec2bdb4-a070-4ad4-94fb-0de50be9cf06"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DBasicSampleData Member%3DValue"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="67ad7f94-cc97-40ca-8f99-ad4806398a4c"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="ead33bea-2034-4099-8dba-97e04fe3f7cd">
+                    <propertyInstance
+                      Id="f59f72ee-7d3a-46f4-af04-4c56afe0349b"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="dd4c852d-78ec-44ce-a81e-fa94b810cf19">
+                    <propertyInstance
+                      Id="35d27d8e-de16-48bc-8ded-b2de62fc3c13"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="8af339f3-a73f-4cf3-a7e6-e96d6c4b326f">
+                    <propertyInstance
+                      Id="00caebb6-0383-434f-ba32-67c4b1209a9e"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="928d7fd5-2cc0-4bfd-96fa-fcc4584b3a13">
+                    <propertyInstance
+                      Id="d4539fe5-bfca-4ffa-9314-7ca2454ab333"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="12bf16fd-697a-44c9-9f94-0a6931bedf38">
+                    <propertyInstance
+                      Id="684a0d70-fe36-468d-89ae-452902cfa975"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="43de35eb-6783-4ea1-8e94-e8e4cfd19350">
+                    <propertyInstance
+                      Id="d29a13a7-2c20-41e4-ab3a-5873ce2cbb61"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="07da4ec7-7f40-4543-b672-56bc8f328fba">
+                    <propertyInstance
+                      Id="6817bd42-9e63-4f94-9f74-942f783f29a0"
+                      name="Set"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <classMoniker
+                Id="049050be-7146-44c7-be57-69923bdd9480"
+                LastKnownName="Double"
+                LastKnownLocation="Package2_0841.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="1f292f80-85ff-4262-b0af-31f97b4f9265"
+            name="BasicSampleData"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="9370ad0e-0db7-4bf1-9783-15dd528ac2ae"
+                handle="viewcode://./CodeSchema_Method?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DBasicSampleData Member%3D(Name%3D.ctor OverloadingParameters%3D[(Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DSensorInfo)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DDouble)])"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="7aedef2c-a391-45d3-8c19-8dfeee09676b"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="d4aaf1a2-d4cb-42f7-8b81-a784e1855a8f">
+                    <propertyInstance
+                      Id="1fe8efaf-09c9-458c-ba61-40ea203e5710"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="1513a6ec-4c08-4f43-9c1a-2bd20a7a9bb1">
+                    <propertyInstance
+                      Id="fab8cf3b-4b20-4d9d-820d-11f6ee1bb355"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="1f1a0896-9581-4e7a-8760-46be4a4194df">
+                    <propertyInstance
+                      Id="5b7962af-2326-42dd-879e-e911307f9df7"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="cbf7918f-1f9f-464d-a44b-b78f8db38b2e">
+                    <propertyInstance
+                      Id="6aa65b42-2316-48c1-b2ac-bb6afcdc7aa0"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="f5d94b96-9b8f-458d-9e19-6ff7d758dcd1">
+                    <propertyInstance
+                      Id="fc1de335-eb22-404e-a99f-1f3b327fdfa9"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="f128a765-c868-4ee9-8695-e52087e7cc3c">
+                    <propertyInstance
+                      Id="4c94182d-be16-4da3-be7a-cb4f57535018"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="7ffcfebe-a9e3-41a8-a991-0e8e135f394a"
+                  name="source"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="ee3df813-b938-4af1-b875-47a3232673cb"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DBasicSampleData Member%3D(Name%3D.ctor OverloadingParameters%3D[(Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DSensorInfo)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DDouble)]) ParameterIdentifier%3Dsource"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="b6bd9fa9-cb29-4727-8e18-8d1b2a19548c"
+                      LastKnownName="SensorInfo"
+                      LastKnownLocation="Package1_0841.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="50737d7d-2a15-4ed5-a4da-1519be635237"
+                  name="value"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="55279b8c-e1d2-4b8e-b9c0-60f5ab4a86a3"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DBasicSampleData Member%3D(Name%3D.ctor OverloadingParameters%3D[(Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DSensorInfo)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DDouble)]) ParameterIdentifier%3Dvalue"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="049050be-7146-44c7-be57-69923bdd9480"
+                      LastKnownName="Double"
+                      LastKnownLocation="Package2_0841.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="b6bd9fa9-cb29-4727-8e18-8d1b2a19548c"
+        name="SensorInfo"
+        visibility="Private"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="51257751-79c3-4ea5-bd68-39b9e054718b"
+            handle="viewcode://./CodeSchema_Class?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3D(Name%3DSensorInfo ArrayRank%3D1 ParentType%3DSensorInfo)"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="31b90327-d95e-46ee-91e3-f5e7b759458d"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="b02a5c14-d0f6-4ad4-a580-5c7351cd00b7">
+                <propertyInstance
+                  Id="97838aef-7542-4698-b211-c654cf0f6b05"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="14b6f283-3787-42eb-b95c-2e5866d65627">
+                <propertyInstance
+                  Id="847bd39a-a339-45db-95f7-f3a08eec3bfc"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="adc85be8-e34e-41e2-bf9f-c23d67f61ba5">
+                <propertyInstance
+                  Id="442276ff-1646-43bd-bb5d-4c79817ec28c"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="03d6610c-eb5f-46ae-82e1-056d5327f285">
+                <propertyInstance
+                  Id="c38719f5-af41-4db8-b35f-67289c8869e2"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="da1ba094-90ac-4a60-8caa-cd81eaa20460">
+                <propertyInstance
+                  Id="9dda22aa-e4ab-4988-bd36-509a1b32eb1f"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <targetEnds>
+          <association
+            Id="6f953c19-7155-41cf-8933-83425925e7bd"
+            isDerived="false"
+            sourceEndRoleName="SensorInfo"
+            targetEndRoleName="Unit"
+            isLeaf="false"
+            isAbstract="false">
+            <enumerationMoniker
+              Id="56d24f22-3bdc-4db0-9f27-faec3990f407"
+              LastKnownName="Unit"
+              LastKnownLocation="Package1_0841.uml" />
+            <description>Property Unit references type Unit.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="33d36b10-93f5-4616-b875-9fa94ba37c61"
+                  name="SensorInfo"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="53f02311-31a2-4f51-b508-aa2b73ca546c"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="3bc3a16a-8487-4bd5-8b18-a112db85bfe9"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="8e10fce1-ad7a-4119-95be-a96e6c9b19ee"
+                  name="Unit"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="ba6d9a10-e820-444f-8730-c80de2ba47ae"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="813a30c1-f355-450e-bce7-cbebe10444f0"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="f2702b7f-7481-40b3-8316-0b7e0ef390c3"
+            name="Name"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="b6ade98c-9786-4c21-bb0e-d59d55a52745"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DSensorInfo Member%3DName"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="d2a5971e-c33b-4975-bc4c-bc1a8aa23802"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="f532db14-88c8-4ff6-ae6b-2bd565e10735">
+                    <propertyInstance
+                      Id="b42d1839-1975-4fd0-ba5a-89cfd6d4a9fb"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="d45f98c0-f2dd-4d8f-b71a-7d0fafba2005">
+                    <propertyInstance
+                      Id="168c5019-f8ee-436d-9c6a-aa4ba7fa630e"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="17819bc6-4a6a-4706-9ba3-c31301f95259">
+                    <propertyInstance
+                      Id="f6445003-d4cb-4708-99b0-7769483c47f4"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="2567396a-4bd6-400d-996d-88430db5bb14">
+                    <propertyInstance
+                      Id="9dc744a4-90f9-49d4-bfa3-b3a4ca9ff8a1"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="f8e38d1a-e382-4a5f-812f-20dde47608f3">
+                    <propertyInstance
+                      Id="7c64a35d-163a-44fe-8de4-b35195c32ad4"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="0afc55ad-9cc1-4eb5-b4a6-97974a2f8e02">
+                    <propertyInstance
+                      Id="5ddf495f-8bdd-4ebe-992c-2a72dceb5c1e"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="8a25160f-06ce-4b7d-9545-5c4e4d58bd56">
+                    <propertyInstance
+                      Id="f95264c1-678f-4c24-a830-bf3b0d3ca8ac"
+                      name="Set"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <primitiveTypeMoniker
+                Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                LastKnownName="String"
+                LastKnownLocation="SensorsUML.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="5bac805e-c78c-4aa8-a85d-aa4c4ea7245d"
+            name="Unit"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="76fa6aba-9c5d-4b64-a67a-b3c8bb5a93cf"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DSensorInfo Member%3DUnit"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="c8f81b1c-ba05-450b-94c6-c10777920e68"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b8774969-c58f-414c-923b-26770fff5435">
+                    <propertyInstance
+                      Id="db2290fa-ab76-4e2b-8679-b2d2a6d8121a"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="8ba55c1b-e67c-49a4-aacb-283a34a5b77a">
+                    <propertyInstance
+                      Id="742eb803-9d98-4388-bf4d-996292ee8222"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="3ceea40d-acbd-4cb5-89a6-090b7c85cc72">
+                    <propertyInstance
+                      Id="1f130961-d446-4232-80f1-c6a344b56706"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="966aedca-1bb0-4fa6-871f-6d44e9fc8871">
+                    <propertyInstance
+                      Id="671334b5-43e1-4041-8bef-2d559c57f79c"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="a25ed1bd-03a2-466a-a8f3-d1379aeed342">
+                    <propertyInstance
+                      Id="044c0e25-5d13-4ba4-b108-f84a01a00e27"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="e89ca091-b7ec-40fb-9766-6f2e713f07ee">
+                    <propertyInstance
+                      Id="cd5c5700-17ed-44c2-b51a-df4c2d4fce98"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b52cab03-d663-47d7-9ba2-b4566779065b">
+                    <propertyInstance
+                      Id="49d9e83e-e36f-4976-9cb6-3f54151bb8ce"
+                      name="Set"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <enumerationMoniker
+                Id="56d24f22-3bdc-4db0-9f27-faec3990f407"
+                LastKnownName="Unit"
+                LastKnownLocation="Package1_0841.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="d5bf0e31-8bcc-452d-8a07-7063764b229c"
+            name="Enabled"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="95ec891e-01d3-47c0-9a6d-c680d3fa12e7"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DSensorInfo Member%3DEnabled"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="dc4b673e-6ca2-433f-8db2-8a29b5a1304d"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="0526faf9-ef5d-44c6-b003-065f1c0e0bfe">
+                    <propertyInstance
+                      Id="26ea0a2e-c006-404d-84ab-87e4b7ff2f5e"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="2de91a42-af11-4ce6-b44d-7732294d90b0">
+                    <propertyInstance
+                      Id="e61d4ce1-b8d1-4914-a44d-351b50074939"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="c9856002-a313-496b-ba72-c5551fb8c78a">
+                    <propertyInstance
+                      Id="998a8813-118a-4b44-aa2e-55e468c88336"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="0076508d-bde4-4f34-b1b2-d21ab1b22dca">
+                    <propertyInstance
+                      Id="844b5477-651b-415b-972f-f4f2bc2db831"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b2b8969e-801a-4423-b87e-468309055b2d">
+                    <propertyInstance
+                      Id="10907b1c-a198-49c2-b86d-6519514664f6"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="9489b11c-a129-41f6-bfc5-98a95de61590">
+                    <propertyInstance
+                      Id="753c1e37-10e5-4f27-889f-bc0731809c0f"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="5996ec0a-8569-48e4-b61c-b5cce7cd5365">
+                    <propertyInstance
+                      Id="840b67ad-f20b-4421-a69b-fc09f9539815"
+                      name="Set"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <primitiveTypeMoniker
+                Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+                LastKnownName="Boolean"
+                LastKnownLocation="SensorsUML.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="67fd0f79-36a6-4bf7-aa33-1936ff433020"
+            name="Id"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="87894a65-7f84-437f-8d11-3c398031cfc2"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DSensorInfo Member%3DId"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="9884e251-d82e-4be6-9c5e-2e589c0ef81f"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="a9847e31-0cc2-42e5-a60a-318cc4fdaea7">
+                    <propertyInstance
+                      Id="364b3b52-9751-44b9-ad3c-7f7acce0e1aa"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="510728dc-be56-4dc9-b8ae-223d589c6d1b">
+                    <propertyInstance
+                      Id="6ee30765-90fb-45e9-9465-2654540be64c"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="68edc308-6d99-4fda-bafd-eedb87b0bb18">
+                    <propertyInstance
+                      Id="f97ccdec-2661-49fa-961f-44e6c90292fd"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="5adaf238-4d06-42c5-947c-5eb165d6a980">
+                    <propertyInstance
+                      Id="908131f1-9bef-459d-84a8-3cdbddf300c6"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="1a072549-c2c7-4681-bf7b-8eed80885d1b">
+                    <propertyInstance
+                      Id="380cc894-01a8-48e1-ade8-493fc679fed6"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b7f8c31d-3942-40a2-a7d1-7e266fc3cb00">
+                    <propertyInstance
+                      Id="3f4f11f1-96c7-44fd-8b0e-e74606548729"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="e5f6aab1-bf2b-49d0-98bf-b71e0e2476b8">
+                    <propertyInstance
+                      Id="0ccea79f-796f-4074-8368-e25fd30021ab"
+                      name="Set"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <primitiveTypeMoniker
+                Id="220a3521-e091-4221-bae9-3ef9018e845c"
+                LastKnownName="Integer"
+                LastKnownLocation="SensorsUML.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="081a2a21-23a7-47f5-9536-8bc6bc543e3d"
+            name="SensorInfo"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="0fa75133-4956-45f4-8bb1-6cfef80f300d"
+                handle="viewcode://./CodeSchema_Method?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DSensorInfo Member%3D(Name%3D.ctor OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DUnit)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DInt32)])"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="a45020b5-f91d-4635-a44a-42cb33a509fe"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="cb3d4f7c-2dac-43bf-9e4f-f617bf01fc00">
+                    <propertyInstance
+                      Id="fb073cf8-676e-4f2e-b9e6-a8d53923bbdc"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="39ffabea-e7aa-4a63-9c00-1e6ae1c8e5fc">
+                    <propertyInstance
+                      Id="c6844ce9-c91d-46f7-9536-6689cefd6050"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="a924c87d-209f-4b65-8395-1a2102c3bb45">
+                    <propertyInstance
+                      Id="453a58a5-e081-41fe-9815-62651ecb1fdc"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="0688947f-3520-4623-96fe-72afb0221e8f">
+                    <propertyInstance
+                      Id="70931278-756c-4a62-8b11-c2d83cc1dd85"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="fba80edb-fc18-43b6-80e2-44145258a028">
+                    <propertyInstance
+                      Id="de5c1395-51e4-4818-8def-7931657bab62"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="1001b376-700c-4a5e-ba08-feaa610ddb08">
+                    <propertyInstance
+                      Id="ea12c205-0a14-465f-8736-04642f97c91b"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="c45860c2-6739-4451-a150-f008acca661f"
+                  name="name"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="9a2f7e86-0f70-46f8-ada9-d1f4e7f60198"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DSensorInfo Member%3D(Name%3D.ctor OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DUnit)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DInt32)]) ParameterIdentifier%3Dname"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                      LastKnownName="String"
+                      LastKnownLocation="SensorsUML.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="6309ff42-e65d-4cdc-8af3-27692612efa6"
+                  name="unit"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="e91f2d08-f0b9-47e0-8e96-3750d6795b7e"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DSensorInfo Member%3D(Name%3D.ctor OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DUnit)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DInt32)]) ParameterIdentifier%3Dunit"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <enumerationMoniker
+                      Id="56d24f22-3bdc-4db0-9f27-faec3990f407"
+                      LastKnownName="Unit"
+                      LastKnownLocation="Package1_0841.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="a7230edc-77bc-4324-98a8-4396e03ef3c2"
+                  name="enabled"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="1e944461-ddb7-4985-b1ba-e45df9be9194"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DSensorInfo Member%3D(Name%3D.ctor OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DUnit)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DInt32)]) ParameterIdentifier%3Denabled"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+                      LastKnownName="Boolean"
+                      LastKnownLocation="SensorsUML.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="e7435d67-74a9-4427-bbc5-7bdd0a9cfa7e"
+                  name="id"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="74d7c6df-806a-42e4-8990-48dad7af4626"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DSensorInfo Member%3D(Name%3D.ctor OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DString)%2C(Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DUnit)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DInt32)]) ParameterIdentifier%3Did"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="220a3521-e091-4221-bae9-3ef9018e845c"
+                      LastKnownName="Integer"
+                      LastKnownLocation="SensorsUML.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="e6c24b13-5beb-4222-9261-9c2998ad6675"
+            name="ToString"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="512ba082-3865-4788-a3a3-62df59f13d30"
+                handle="viewcode://./CodeSchema_Method?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DSensorInfo Member%3DToString"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="d81b1d6f-4bf5-462d-8e0a-9c6336ad2890"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b1aba16c-9f65-40d4-8c48-b8d133d41e34">
+                    <propertyInstance
+                      Id="6b24a069-a71f-434e-95c1-ae301acb7ab8"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b6c9243b-bbe6-4879-a91b-f54c68256fe0">
+                    <propertyInstance
+                      Id="c55043bf-398b-408e-be90-f9c15900f921"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="16a6a145-3b15-4a01-aa6d-461a558361b4">
+                    <propertyInstance
+                      Id="092aaeb8-ec94-4227-9d82-3e3377554f56"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="003c014f-c754-4d26-a628-c07f64b9944e">
+                    <propertyInstance
+                      Id="a775c068-d08e-4174-856a-6872500f180d"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="b58472c4-08b2-4a71-96b5-70ff5538e03c">
+                    <propertyInstance
+                      Id="29f49f9d-1989-497f-932b-843c8567cc80"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="d064f05f-a0c1-4f89-9834-83d27ff42418">
+                    <propertyInstance
+                      Id="f9212770-386f-4f8f-8a7c-e83eb74be1b1"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="f56774a0-737a-4fe2-98fa-8a16a4c86913"
+                  direction="Return">
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+                      LastKnownName="String"
+                      LastKnownLocation="SensorsUML.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="e220b859-bdc3-4204-a6e6-5681f906b31c"
+            name="SensorInfo"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="adcd5098-9903-4021-b1f2-3fa62be90e8e"
+                handle="viewcode://./CodeSchema_Method?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DSensorInfo Member%3D.ctor"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="9c78d21e-4287-463c-9d60-00a361346dcc"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="f2437c20-6451-49e1-86a5-5def499f14da">
+                    <propertyInstance
+                      Id="03b18fcb-512a-4bb0-842e-b4f96ceec5e9"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="9cb60da5-d63b-4bcd-8124-f430590b9f4e">
+                    <propertyInstance
+                      Id="326385c5-16bb-476e-8fa9-5c4ee295642e"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="6255b579-6991-470b-9636-e4e27f85599d">
+                    <propertyInstance
+                      Id="1e2e5b10-e292-4edf-a37d-93cf0ad0883c"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="f8a4ceb6-2cf5-438b-8d2c-3c6fa9a0adfb">
+                    <propertyInstance
+                      Id="ddd0934d-5073-43a4-80b7-bc5ef1507df4"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="e797cb40-43dc-484c-99fb-6abfd53f52d0">
+                    <propertyInstance
+                      Id="5beb2f1e-7ec3-441a-a3b9-430512fe9613"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="cb9fe51b-fa26-49bd-a75f-3b2db2b1c82b">
+                    <propertyInstance
+                      Id="946c7e4f-8916-49c6-ac9a-6a7b5b828fd2"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="77d935e1-1748-468f-ac4f-b577e510a190"
+        name="ISensorHub"
+        isAbstract="false"
+        isLeaf="false">
+        <referencesInternal>
+          <reference
+            Id="cf6b202e-5ad2-480c-be0f-983bfc46df8b"
+            handle="viewcode://./CodeSchema_Interface?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISensorHub"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="1e0c5c1d-eead-45b8-8977-3bf8c845a1b2"
+            name="interface"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="db48614d-e349-4c16-a573-ee38912cedb6">
+                <propertyInstance
+                  Id="aa7b0aee-83c8-4ad1-8ece-344f3d29e438"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="5c38a835-6b6c-4ea6-9143-e29a322cd1ae">
+                <propertyInstance
+                  Id="77f8aaf7-5569-41f0-92b1-d17ce85193ec"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="dc43a252-c61e-46ba-aff1-8f9198f226b0">
+                <propertyInstance
+                  Id="883c1fc3-67b3-44e1-912b-9367a21d9780"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="4a8e702e-c70c-4eec-bb47-47a601094c4f">
+                <propertyInstance
+                  Id="f6db19ac-8a6f-4c79-b05c-eab2a6dc1b6b"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <generalsInternal>
+          <generalization
+            Id="831bbb45-6dce-4b4d-9471-78114835890e"
+            isSubstitutable="false">
+            <interfaceMoniker
+              Id="0c364477-0a93-46bf-8e95-0ee965543a7c"
+              LastKnownName="IDisposable"
+              LastKnownLocation="Package2_0841.uml" />
+          </generalization>
+        </generalsInternal>
+        <targetEnds>
+          <association
+            Id="61bd86ea-6633-406c-9dba-4cb59dd544c6"
+            isDerived="false"
+            sourceEndRoleName="ISensorHub"
+            targetEndRoleName="Sensors"
+            isLeaf="false"
+            isAbstract="false">
+            <interfaceMoniker
+              Id="e8c8e2c3-eeb1-4f7c-90d3-7022afa401f7"
+              LastKnownName="IReadOnlyList&lt;SensorInfo‎&gt;"
+              LastKnownLocation="Package4_0841.uml" />
+            <description>Property Sensors references type IReadOnlyList&lt;SensorInfo‎&gt;.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="441354e5-1be0-4922-bec4-fd6f85987784"
+                  name="ISensorHub"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="67219bea-ab73-4416-bbcd-7bc057101fa0"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="29f7d2da-b0b7-42ab-b95e-9526218b8147"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="afcfdebd-f7b4-419b-96d0-065984e747dc"
+                  name="Sensors"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="ed1234d8-0180-446c-8b75-6998ee20e497"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="70a2f5b5-8215-463f-8c03-f7c213b110a1"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="b74facc8-daa5-406a-a00a-2799fd962068"
+            isDerived="false"
+            sourceEndRoleName="ISensorHub"
+            targetEndRoleName="ISample"
+            isLeaf="false"
+            isAbstract="false">
+            <interfaceMoniker
+              Id="3d485465-a0a6-49a5-9976-3120b6e2d091"
+              LastKnownName="ISample"
+              LastKnownLocation="Package1_0841.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="46b5aba3-91f7-4936-9671-a6235e34d341"
+                  name="ISensorHub"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="19c824e9-9a41-4d92-8e98-9e9ed6ad7b9e"
+                  name="ISample"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="1586d1d5-fd1e-4cb4-8f0f-d6c73d9928c6"
+            isDerived="false"
+            sourceEndRoleName="ISensorHub"
+            targetEndRoleName="SensorInfo"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="b6bd9fa9-cb29-4727-8e18-8d1b2a19548c"
+              LastKnownName="SensorInfo"
+              LastKnownLocation="Package1_0841.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="3e760312-019e-46fa-bde2-234a5dbd020d"
+                  name="ISensorHub"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Shared"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="c5c09e5a-4a62-4e16-aeb9-94d6a82e8ce2"
+                  name="SensorInfo"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributes>
+          <property
+            Id="04ad234d-5421-42af-a454-b98eb7dcf827"
+            name="Sensors"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="true"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="b37dc117-a1d6-49a2-9893-d31291d2765b"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISensorHub Member%3DSensors"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="c446fb0a-d20c-47ae-8570-72bf199ea984"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="db6e4c7b-acbb-48ce-8357-52107e4562ac">
+                    <propertyInstance
+                      Id="5e20a7bd-ca82-4a0b-a6e6-361020eb6aae"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="eb50e7de-e0bc-4817-afa1-55e77d0a9bda">
+                    <propertyInstance
+                      Id="05791657-880a-4044-8632-49a6ca9dc2a8"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="295b0102-adb3-4e59-afff-3f5f4ab364bd">
+                    <propertyInstance
+                      Id="d5e1739e-71d8-4c37-875e-9e3946a6ca01"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="a81d1537-33f2-4c5a-a2f5-4212b583e333">
+                    <propertyInstance
+                      Id="e97ec72f-5c76-4ba8-a372-8a23330f1039"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="209c1fb4-5f69-4fa7-9c8f-1aaabda21c29">
+                    <propertyInstance
+                      Id="8d75fc26-3817-4676-90aa-efaa3a156d6c"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="03b20836-40d3-4119-8062-cacbf1a01c84">
+                    <propertyInstance
+                      Id="620b2957-2dcf-410e-92d5-fc1e44145b92"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="a9d136ff-5af1-4518-9880-f6fa0ded4f95">
+                    <propertyInstance
+                      Id="2ba7c158-72e3-4e07-b587-2761072c09ea"
+                      name="Set"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <interfaceMoniker
+                Id="e8c8e2c3-eeb1-4f7c-90d3-7022afa401f7"
+                LastKnownName="IReadOnlyList&lt;SensorInfo‎&gt;"
+                LastKnownLocation="Package4_0841.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="effc1b55-2f89-443c-b91e-ec0729176f0e"
+            name="IsUpdating"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="true"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="1b132a6d-604a-4e9f-99b7-e278f729841f"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISensorHub Member%3DIsUpdating"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="0cd72886-3cb6-4f60-8cef-adea293dc531"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="3015c2b3-9f60-496f-a157-c65a56e965ea">
+                    <propertyInstance
+                      Id="4ed9425d-2c58-49b0-b68e-fa4e77da18ba"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="3acb60cf-44c8-424f-a082-6345a7317187">
+                    <propertyInstance
+                      Id="3b183efc-e969-494c-8b55-bfe8fd209591"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="eb11bf83-4cbc-4f8d-804d-0e4b77a23e0d">
+                    <propertyInstance
+                      Id="04ca3ea9-7d46-48eb-98e4-e39dbf12fc27"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="54dea6c1-0401-4592-a25d-a132949a63c0">
+                    <propertyInstance
+                      Id="807eb60d-38b1-468b-9482-b1f15267798c"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="3b8053a1-564b-4a92-87bf-1236593fb582">
+                    <propertyInstance
+                      Id="be5fa7a3-b87a-4a78-accd-1d4762931f50"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="821da4f4-7ef6-41c5-a085-ec84afe24bf5">
+                    <propertyInstance
+                      Id="92e2b906-45f0-4bd3-8f8d-e5d8a52c4840"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="359b2141-9542-44e5-a0b1-6529983dc3ab">
+                    <propertyInstance
+                      Id="32cb0ebd-a2da-4c5a-b48d-eaac910adf1a"
+                      name="Set"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <primitiveTypeMoniker
+                Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+                LastKnownName="Boolean"
+                LastKnownLocation="SensorsUML.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributes>
+        <ownedOperations>
+          <operation
+            Id="bff2f177-1919-462f-b350-347827c22bc2"
+            name="SetSensorEnabled"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="9a8cbfae-2ac3-4976-9240-aba7339b0e06"
+                handle="viewcode://./CodeSchema_Method?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISensorHub Member%3D(Name%3DSetSensorEnabled OverloadingParameters%3D[(Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DSensorInfo)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)])"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="0bdd1ee8-3415-46cd-a564-a2853c425ffa"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="06db87a7-ec2b-4784-a2ef-fa59bbdab768">
+                    <propertyInstance
+                      Id="58eed449-2a23-4567-961f-6ed66c1d3b7c"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="cda1be15-f1c8-45b3-80a3-8920c2cdd472">
+                    <propertyInstance
+                      Id="66e348a1-1a16-40b3-8498-cd5146f1cc80"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="fa68b4d1-5305-4ca0-ad04-7ce8a7725a71">
+                    <propertyInstance
+                      Id="b2f57d2f-9e3b-493c-a0bb-e0520cf61162"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="5966b4cc-a6f6-4b0a-a108-989aa0c693bb">
+                    <propertyInstance
+                      Id="42755699-8ad3-4b09-9c57-ac205a3f3a05"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="1f384275-f870-4fde-be12-0d7483e12d6e">
+                    <propertyInstance
+                      Id="09095ac3-fd50-4885-a27a-9d8d2a9aed27"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="c232442c-603e-4ac5-b16f-f536483b1d94">
+                    <propertyInstance
+                      Id="43644720-f8df-488d-91e6-36c8431213da"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="d137199c-0e11-4b5d-84f4-7d1a1616be70"
+                  name="sensor"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="43729f43-f8b3-47cd-98e1-be8f72691d59"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISensorHub Member%3D(Name%3DSetSensorEnabled OverloadingParameters%3D[(Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DSensorInfo)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)]) ParameterIdentifier%3Dsensor"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="b6bd9fa9-cb29-4727-8e18-8d1b2a19548c"
+                      LastKnownName="SensorInfo"
+                      LastKnownLocation="Package1_0841.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="291ba818-63c3-4ecd-8388-814efd3c1690"
+                  name="enabled"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="3ee445e3-8474-4e77-83fe-5668a285dbe6"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISensorHub Member%3D(Name%3DSetSensorEnabled OverloadingParameters%3D[(Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DSensorInfo)%2C(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DBoolean)]) ParameterIdentifier%3Denabled"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+                      LastKnownName="Boolean"
+                      LastKnownLocation="SensorsUML.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="d309f25d-eb08-4a33-88eb-4b582d70c70b"
+            name="GetAvailableSampleCount"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="0393d01d-89b6-49b9-b4e1-ba1d544d172c"
+                handle="viewcode://./CodeSchema_Method?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISensorHub Member%3DGetAvailableSampleCount"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="5cafb76d-9cda-4803-895a-2a6c5d9bd129"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="e15c032b-0b94-4c4a-8802-42015a012466">
+                    <propertyInstance
+                      Id="e3a8ffe7-20a1-4da8-9e6a-cf03bd187833"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="e14593f5-ae0f-48a4-8ad9-7cf367812963">
+                    <propertyInstance
+                      Id="6e3a8dae-ecd1-4b40-bfb6-473f78b0cb18"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="afbb885a-828f-4864-8efe-a79373052a6b">
+                    <propertyInstance
+                      Id="cb584961-bec2-4eae-a469-2038b70523b7"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="31700bc9-3a9d-4038-be10-7ec5d741d7c8">
+                    <propertyInstance
+                      Id="7730d7ec-691f-4263-b6de-65bcf2de72ac"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="5ad17b00-2765-4e1c-b5ae-f1be9a526921">
+                    <propertyInstance
+                      Id="8d76f582-5905-4c76-961f-6f5d43e5405e"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="0c06e574-99b3-446e-b46c-8de16382e075">
+                    <propertyInstance
+                      Id="88155076-1a98-4d64-a841-1bbe1f6d8e87"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="7c24cf81-7767-45da-ae78-c6cdae51976c"
+                  direction="Return">
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="220a3521-e091-4221-bae9-3ef9018e845c"
+                      LastKnownName="Integer"
+                      LastKnownLocation="SensorsUML.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="39fd9e23-fb02-489b-9651-d87dbcd1b21f"
+            name="GetSensorValueIndexInSample"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="92def0bf-828a-4c08-b381-604208e66d81"
+                handle="viewcode://./CodeSchema_Method?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISensorHub Member%3D(Name%3DGetSensorValueIndexInSample OverloadingParameters%3D[(Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DSensorInfo)])"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="60cf90a0-228a-4db8-bc70-602a56c157a0"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="f1282356-b1fb-4a0a-9f2f-89f2755d4cc0">
+                    <propertyInstance
+                      Id="094a7ff0-09ff-4ed8-a752-ea5c858b662a"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="36e2a4f1-63c3-4d43-aa5d-bc99a8255214">
+                    <propertyInstance
+                      Id="c22e5f8e-a9f0-41cc-b2ba-a42664487cf0"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="fc441d81-9abd-4928-89cf-1b9203bd5538">
+                    <propertyInstance
+                      Id="be6dd5b5-d63c-4037-bf39-71502d4673f1"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="a3af8c0a-5c33-431f-837a-19ee684faa7d">
+                    <propertyInstance
+                      Id="b18edfdd-3eec-4955-8b1f-4a8114efe8d4"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="55469e0b-9219-495f-834a-25677c1ed015">
+                    <propertyInstance
+                      Id="3effe920-292b-49fd-bdf1-8c823280bede"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="863f9396-3012-48cd-b9f3-131d4d029802">
+                    <propertyInstance
+                      Id="891a2a10-f4f2-4a59-8725-cb0ade5ccbcd"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="dd318f59-e646-4538-9900-05d011a2d6b9"
+                  direction="Return">
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="220a3521-e091-4221-bae9-3ef9018e845c"
+                      LastKnownName="Integer"
+                      LastKnownLocation="SensorsUML.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="7c87762b-cd35-4731-a796-c74e903577df"
+                  name="sensor"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="9857dd0c-04e0-4068-91d9-258a68fcfd7e"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISensorHub Member%3D(Name%3DGetSensorValueIndexInSample OverloadingParameters%3D[(Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DSensorInfo)]) ParameterIdentifier%3Dsensor"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="b6bd9fa9-cb29-4727-8e18-8d1b2a19548c"
+                      LastKnownName="SensorInfo"
+                      LastKnownLocation="Package1_0841.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="a0a1bca5-8888-4f0c-b2e4-8854d1b7334b"
+            name="ReadSamples"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="0501459e-59a9-4f77-ad88-f85ed7b37233"
+                handle="viewcode://./CodeSchema_Method?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISensorHub Member%3D(Name%3DReadSamples OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DInt32)])"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="50d215b9-bd80-4338-8053-e1d6c0293f84"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="fab43799-84e4-4758-a31e-b1a89ff03335">
+                    <propertyInstance
+                      Id="c6d3dc84-4f28-4833-8be7-99d12b41595f"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="e0b6ccfa-f5d7-409d-8f2d-468606662e19">
+                    <propertyInstance
+                      Id="ac4e7f48-05d9-4eaa-bb53-15ac5f0be6cf"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="af2a44cb-8c66-45b7-b476-19c65901cf1b">
+                    <propertyInstance
+                      Id="755d1bf4-4db4-4f59-93f9-a5a0f2dc4935"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="d079fbaf-0eb4-42b0-9e2e-595ddef1bf52">
+                    <propertyInstance
+                      Id="7aaf1374-be50-45cc-ae87-f0af063561ba"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="7a9e1297-21dc-463d-a970-1868ba64db2a">
+                    <propertyInstance
+                      Id="9b0fcdd1-4126-4845-a4c1-faa57037cd3f"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="81c65df7-f1f9-41a4-a756-72eedc8d997f">
+                    <propertyInstance
+                      Id="cf3d0bb9-5f6b-4e62-9f37-320bd7772581"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="875e2d92-5ffe-4812-98ce-808bd06fe52d"
+                  direction="Return">
+                  <type_NamedElement>
+                    <interfaceMoniker
+                      Id="27431829-36ed-4786-8f1d-bec4a8ecad21"
+                      LastKnownName="IEnumerable&lt;ISample‎&gt;"
+                      LastKnownLocation="Package4_0841.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="fe3d1fdb-825f-43fd-b946-6ac8624750d6"
+                  name="maxCount"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="1e425078-602c-4fbe-9eec-25daad760d83"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISensorHub Member%3D(Name%3DReadSamples OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DInt32)]) ParameterIdentifier%3DmaxCount"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <primitiveTypeMoniker
+                      Id="220a3521-e091-4221-bae9-3ef9018e845c"
+                      LastKnownName="Integer"
+                      LastKnownLocation="SensorsUML.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperations>
+      </Interface>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="5e07bcd8-2321-4354-a172-52da32b26d64"
+        name="ISensorHubDevice"
+        isAbstract="false"
+        isLeaf="false">
+        <referencesInternal>
+          <reference
+            Id="e9cf3b21-f458-40b5-b104-e66469cdcfcc"
+            handle="viewcode://./CodeSchema_Interface?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISensorHubDevice"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="b92463f6-c3a2-48d2-8804-d976c0635471"
+            name="interface"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="5cfa63e3-0a55-4f74-8a7f-d0887ba82313">
+                <propertyInstance
+                  Id="7d5a31d6-a18f-4a14-b58d-b217d658b9d5"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="72c767a9-43bf-43d2-ba8b-2cf98480ea9e">
+                <propertyInstance
+                  Id="0aa8cc5b-4d37-45d0-ae89-6f7e03c40786"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="097c7883-0306-4e6c-9447-13f145c418e0">
+                <propertyInstance
+                  Id="209a28be-861f-4563-8533-9df94b69a52d"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="ba0b5d29-f421-4582-bdd0-39de1001b036">
+                <propertyInstance
+                  Id="b29f3ca3-b5ec-4bd7-985f-e2e971ce68c4"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <generalsInternal>
+          <generalization
+            Id="ce3faefd-7766-4ae3-9651-3418ff45f96b"
+            isSubstitutable="false">
+            <interfaceMoniker
+              Id="77d935e1-1748-468f-ac4f-b577e510a190"
+              LastKnownName="ISensorHub"
+              LastKnownLocation="Package1_0841.uml" />
+          </generalization>
+        </generalsInternal>
+        <ownedOperations>
+          <operation
+            Id="622fe30a-fa90-4a38-8951-95eec3139c8d"
+            name="StartRecording"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="e0a2c30c-78f3-4f95-8c5d-14147e927b65"
+                handle="viewcode://./CodeSchema_Method?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISensorHubDevice Member%3DStartRecording"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="fbb2a75a-7217-4915-8244-2a783edad944"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="5e935af6-9279-4595-a333-464fbdc91e46">
+                    <propertyInstance
+                      Id="8f08c5e3-5266-48d3-bee0-c0bdfd47e569"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="3010ca62-56c4-495a-88c5-3a35fccca97d">
+                    <propertyInstance
+                      Id="fa51c463-fff5-4451-8fc1-428996358e3f"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="25aca4d6-1a96-492f-a9a5-54fcf5c452d8">
+                    <propertyInstance
+                      Id="f554828e-904b-44d1-b19d-f3a8c01654f8"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="0d9f7ccc-80b4-4de0-9c22-fadfd5f02064">
+                    <propertyInstance
+                      Id="48455513-d9b6-41d3-adab-4b23d4b5192e"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="d4eb8728-d2aa-4457-9603-bbb2dcae51cc">
+                    <propertyInstance
+                      Id="42d1af91-e39f-4ce0-8e05-c95fd220764c"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="86034679-b619-48b0-9661-ed2fbbc3fb6b">
+                    <propertyInstance
+                      Id="42a3111e-6570-4b45-aa22-70e8e9618328"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+          </operation>
+          <operation
+            Id="ecd31fe3-2928-48ed-afe8-941b7306c504"
+            name="StopRecording"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="afdd6490-b959-4c00-906d-064178d34fb1"
+                handle="viewcode://./CodeSchema_Method?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DISensorHubDevice Member%3DStopRecording"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="da08721e-d177-435a-9ee7-0f0b8168a2d5"
+                name="method"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="286f81f0-be2f-4afb-9351-62633cf616c3">
+                    <propertyInstance
+                      Id="d30b617d-780f-4225-adaa-2412d86a7274"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="5d838572-f31e-4efd-a8a6-b7e8755811a6">
+                    <propertyInstance
+                      Id="00e06f73-019d-4407-b606-013011d7fea4"
+                      name="IsPartial"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="093880eb-38e4-4662-add2-831007ace67d">
+                    <propertyInstance
+                      Id="0258148c-5673-4425-8c3b-4d0f3d83b044"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="8f119120-8006-44f8-b77a-ffc970be73f3">
+                    <propertyInstance
+                      Id="990539e4-fd09-4797-abaf-0d399e25aedd"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="df015aa3-196d-4b82-983c-cead50c88a93">
+                    <propertyInstance
+                      Id="3ae2caed-ca91-4205-bcdf-442f47212a24"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="9a79b5be-4218-4609-9e12-444818413dfe">
+                    <propertyInstance
+                      Id="1ede2717-9cab-4f0c-adf3-8bebee9f02e3"
+                      name="params"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+          </operation>
+        </ownedOperations>
+      </Interface>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <enumeration
+        Id="56d24f22-3bdc-4db0-9f27-faec3990f407"
+        name="Unit"
+        isAbstract="false"
+        isLeaf="false">
+        <referencesInternal>
+          <reference
+            Id="4dbabb43-3c99-4352-8af4-92c6781aa3c8"
+            handle="viewcode://./CodeSchema_Enum?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DUnit"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="a022a8ca-3bd2-4923-a14a-6876879d4a6e"
+            name="enum"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="b159b550-1a2d-4f68-8b38-17ba54bb14bf">
+                <propertyInstance
+                  Id="319eda87-6e72-4eba-93e5-ad8170b61851"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="1a1c442e-7ec8-4ee7-95fa-e5e5e3bdcfad">
+                <propertyInstance
+                  Id="081c24c3-cf25-4cfd-8741-cefc5ba6da15"
+                  name="BaseType"
+                  value="int" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="1ef1f553-6a9a-48fa-af1e-827b3e88a259">
+                <propertyInstance
+                  Id="60ba187a-3412-4ab6-9d53-fc14b4647e5b"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <ownedLiterals>
+          <enumerationLiteral
+            Id="b8d1a242-e1ad-48e2-b7b9-d486744ae67f"
+            name="MilliVolt">
+            <referencesInternal>
+              <reference
+                Id="7a1bd5fc-6381-46ac-8f52-33a5bc8bff04"
+                handle="viewcode://./CodeSchema_Field?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DUnit Member%3DMilliVolt"
+                tag="ViewCode" />
+            </referencesInternal>
+          </enumerationLiteral>
+          <enumerationLiteral
+            Id="7613df88-201d-4217-bb03-d0f07906d96c"
+            name="MicroVolt">
+            <referencesInternal>
+              <reference
+                Id="d3c0a1a5-a62e-48e6-ac47-dfca9e2618ac"
+                handle="viewcode://./CodeSchema_Field?Assembly%3Dfile:%2F%2F%2FT:%2FUsers%2FChristian%2FmyProgs%2Fphrike-op%2Fphrike%2FPhrike%2FSensors%2FSensors%2Fbin%2FDebug%2FSensors.dll Namespace%3DOperationPhrike.Sensors Type%3DUnit Member%3DMicroVolt"
+                tag="ViewCode" />
+            </referencesInternal>
+          </enumerationLiteral>
+        </ownedLiterals>
+      </enumeration>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

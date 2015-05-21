@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="4feb9f6e-bf13-4df1-828a-fd7207b96dff"
+  name="OperationPhrike"
+  visibility="Private" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <referencesInternal>
+    <reference
+      Id="5cda397b-ec3f-4988-8c8a-0268ff62da13"
+      handle="viewcode://./CodeSchema_Namespace?Namespace%3DOperationPhrike"
+      tag="ViewCode" />
+  </referencesInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="21e97978-0428-4600-bcf6-090a05e292ee"
+        LastKnownName="Sensors"
+        LastKnownLocation="Package1_0841.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="f4930110-ff15-4b8c-b9ed-0db5829c0150"
+        LastKnownName="GMobiLab"
+        LastKnownLocation="Package_0845.uml" />
+    </packageHasNamedElement>
+  </packagedElements>
+</package>
