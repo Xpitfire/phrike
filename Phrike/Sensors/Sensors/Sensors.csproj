@@ -45,6 +45,7 @@
     <Compile Include="Filter\FilteredSensorHub.cs" />
     <Compile Include="Filter\FilterBase.cs" />
     <Compile Include="Filter\GaussFilter.cs" />
+    <Compile Include="Filter\MedianFilter.cs" />
     <Compile Include="Filter\MinMaxFilter.cs" />
     <Compile Include="ISample.cs" />
     <Compile Include="ISampleData.cs" />
