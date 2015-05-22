@@ -9,7 +9,7 @@ namespace OperationPhrike.Sensors.Filters
     /// <summary>
     /// Interface for sensor filters.
     /// </summary>
-    public abstract class FilterBase
+    public abstract class FilterBase : IFilter
     {
 
         public FilterBase(int radius)
@@ -25,7 +25,7 @@ namespace OperationPhrike.Sensors.Filters
         /// Filtered data. This can contain less elements
         /// than <paramref name="unfilteredData"/>.
         /// </returns>
-        virtual public double[] Filter(IReadOnlyList<double> unfilteredData)
+        virtual public IReadOnlyList<double> Filter(IReadOnlyList<double> unfilteredData)
         {
             double[] filteredData = new double[unfilteredData.Count];
 

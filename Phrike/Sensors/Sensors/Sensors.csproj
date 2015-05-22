@@ -42,9 +42,11 @@
     <Compile Include="Filters\AverageFilter.cs" />
     <Compile Include="BasicSample.cs" />
     <Compile Include="BasicSampleData.cs" />
+    <Compile Include="Filters\ExtremeChangeFilter.cs" />
     <Compile Include="Filters\FilteredSensorHub.cs" />
     <Compile Include="Filters\FilterBase.cs" />
     <Compile Include="Filters\GaussFilter.cs" />
+    <Compile Include="Filters\IFilter.cs" />
     <Compile Include="Filters\MedianFilter.cs" />
     <Compile Include="Filters\MinMaxFilter.cs" />
     <Compile Include="Filters\PeakFilter.cs" />

@@ -9,9 +9,18 @@ namespace OperationPhrike.Sensors.Filters
     public class PeakFilter : FilterBase
     {
 
-        public PeakFilter(double threshold) : base (1)
+        private int lastPeak;
+
+        public PeakFilter(double threshold, int minDistance) : base (1)
         {
             Threshold = threshold;
+            MinDistance = minDistance;
+        }
+
+        public override IReadOnlyList<double> Filter(IReadOnlyList<double> unfilteredData)
+        {
+            lastPeak = -MinDistance;
+            return base.Filter(unfilteredData);
         }
 
         protected override double FilterData(
@@ -21,8 +30,9 @@ namespace OperationPhrike.Sensors.Filters
             double midVal = unfilteredData[mid];
             double leftVal = start == mid ? double.MinValue : unfilteredData[start];
             double rightVal = end == mid ? double.MinValue : unfilteredData[end];
-            if (midVal > Math.Max(leftVal, rightVal) && midVal >= Threshold)
+            if (midVal > Math.Max(leftVal, rightVal) && midVal >= Threshold && mid - lastPeak >= MinDistance)
             {
+                lastPeak = mid;
                 return 1;
             }
             return 0;
@@ -30,5 +40,6 @@ namespace OperationPhrike.Sensors.Filters
 
         public double Threshold { get; private set; }
 
+        public int MinDistance { get; private set; }
     }
 }

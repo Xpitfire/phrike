@@ -8,10 +8,10 @@ namespace OperationPhrike.Sensors.Filters
 {
     using System.Diagnostics.CodeAnalysis;
 
-    public class ValueDistanceFilter
+    public class ValueDistanceFilter : IFilter
     {
         [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
-        virtual public IList<double> Filter(IReadOnlyList<double> unfilteredData)
+        virtual public IReadOnlyList<double> Filter(IReadOnlyList<double> unfilteredData)
         {
             int cnt = 0;
             bool peakFound = false;
@@ -34,5 +34,6 @@ namespace OperationPhrike.Sensors.Filters
             }
             return result;
         }
+
     }
 }
