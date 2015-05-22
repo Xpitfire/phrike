@@ -1,15 +1,43 @@
 ﻿<Controls:MetroWindow x:Class="Phrike.GroundControl.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
-        Title="MainWindow" Height="800" Width="1200">
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+                      xmlns:GroundControl="clr-namespace:Phrike.GroundControl"
+                      xmlns:gcViews="clr-namespace:Phrike.GroundControl.Views"
+                      Title="Ground Control" Height="800" Width="1200"
+                      ShowIconOnTitleBar="True"
+                      Icon="Resources/img/op_icon.ico">
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button ToolTip="MahApps.Metro on GitHub"
+                    Content="settings"
+                    Click="ButtonClick_Settings">
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+    
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="112*"/>
-            <ColumnDefinition Width="61*"/>
-        </Grid.ColumnDefinitions>
-        <Button Content="Hello World" HorizontalAlignment="Left" Margin="200,112,0,0" VerticalAlignment="Top" Width="146" Height="50"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Controls:MetroAnimatedSingleRowTabControl Grid.Row="1" x:Name="MainTabControl">
+            <TabItem Header="Start" Name="TabItemStart" Padding="30">
+                <gcViews:Start DataContext="{Binding}"></gcViews:Start>
+            </TabItem>
+            <TabItem Header="New Stress Test" Name="TabItemStresstest" Padding="30">
+                <gcViews:StressTest DataContext="{Binding}"></gcViews:StressTest>
+            </TabItem>
+            <TabItem Header="Analysis" Name="TabItemAnalysis" Padding="30">
+                <gcViews:Analysis DataContext="{Binding}"></gcViews:Analysis>
+            </TabItem>
+            <TabItem Header="Settings" Name="TabItemSettings" Padding="30">
+                <gcViews:Settings DataContext="{Binding}"></gcViews:Settings>
+            </TabItem>
+        </Controls:MetroAnimatedSingleRowTabControl>
 
     </Grid>
 </Controls:MetroWindow>

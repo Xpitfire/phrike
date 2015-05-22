@@ -1,4 +1,5 @@
-﻿using MahApps.Metro.Controls;
+﻿using System.Windows;
+using MahApps.Metro.Controls;
 
 namespace Phrike.GroundControl
 {
@@ -10,6 +11,11 @@ namespace Phrike.GroundControl
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void ButtonClick_Settings(object sender, RoutedEventArgs e)
+        {
+            MainTabControl.SelectedItem = TabItemSettings;
         }
     }
 }

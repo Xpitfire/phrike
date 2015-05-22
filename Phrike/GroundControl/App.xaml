@@ -9,9 +9,8 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/styles/fonts.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/styles/colors.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/styles/accents/blue.xaml"></ResourceDictionary>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/styles/accents/basedark.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/styles/accents/baselight.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-         
     </Application.Resources>
 </Application>
