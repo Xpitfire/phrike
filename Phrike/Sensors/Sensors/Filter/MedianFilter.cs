@@ -14,10 +14,9 @@ namespace OperationPhrike.Sensors
             //nothing to do
         }
 
-        protected override double FilterData(int start, int end, int mid, double[] unfilteredData)
+        protected override double FilterData(int start, int end, int mid, IReadOnlyList<double> unfilteredData)
         {
-            double[] sort = new double[end - start + 1];
-            Array.Copy(unfilteredData, start, sort, 0, end - start + 1);
+            double[] sort = unfilteredData.ToArray();
             Array.Sort(sort);
 
             return sort[(end - start + 1) / 2];
