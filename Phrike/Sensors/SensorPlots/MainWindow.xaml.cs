@@ -39,34 +39,32 @@ namespace SensorPlots
 
         private ISensorHub dataSource;
 
-        private readonly LineSeries dataSeries = new LineSeries();
+        private readonly ScatterSeries dataSeries = new ScatterSeries();
 
         public MainWindow()
         {
             InitializeComponent();
             plotModel.Series.Add(dataSeries);
             PlotView.Model = plotModel;
-            dataSeries.StrokeThickness = 1;
+            //dataSeries.StrokeThickness = 1;
 
-            //var data = new double[]
-            //{
-            //    1, 4, 2, 3, 6, 20, 100, 15, 5, 3, -1, -5, 0, 0, 30, 150, 50, 20, 1, 5, 4, 1, 0, 1, 60
-            //    //0, 1, 2, 3, 4, 5, 6, 7, 8
-            //};
+            var data = new double[]
+            {
+                200, 4, 2, 3, 6, 20, 100, 15, 5, 3, -1, -5, 0, 0, 30, 150, 50, 20, 1, 5, 4, 1, 0, 1, 60
+                //0, 1, 2, 3, 4, 5, 6, 7, 8
+            };
 
-            //FilterBase filter = new PeakFilter(60);
+            FilterBase filter = new ExtremeChangeFilter(200, 50);
 
-            //double[] filterData = filter.Filter(data);
-            //const int SampleRate = 256;
-            //filterData = new ValueDistanceFilter().Filter(filterData)
-            //    .Select(v => v / SampleRate)
-            //    .ToArray();
+            IReadOnlyList<double> filterData = filter.Filter(data);
+            const int SampleRate = 256;
+            filterData = filter.Filter(data);
 
 
-            //foreach (double d in filterData)
-            //{
-            //    Console.Write(d + " ");
-            //}
+            foreach (double d in filterData)
+            {
+                Console.Write(d + " ");
+            }
 
 
         }
@@ -78,7 +76,7 @@ namespace SensorPlots
             {
                 Filter = "Binary files (*.bin)|*.bin"
             };
-            if (dlg.ShowDialog(this) == true)
+            if (true)
             {
                 if (dataSource != null)
                 {
@@ -86,7 +84,7 @@ namespace SensorPlots
                     ChannelSelection.Items.Clear();
                     dataSource = null;
                 }
-                dataSource = new SensorDataFileStreamer(dlg.FileName);
+                dataSource = new SensorDataFileStreamer(@"\\FSHOME\homes\se\s1310307058\Profile\Desktop\Studium\EKG-Signal_zur_Verarbeitung_23_04_15.bin");
                 foreach (var sensor in dataSource.Sensors)
                 {
                     if (sensor.Enabled)
@@ -111,11 +109,23 @@ namespace SensorPlots
             dataSeries.Title = sensor.Name;
 
             int sensorIdx = dataSource.GetSensorValueIndexInSample(sensor);
-
+            
             double[] sensorData = SensorUtil.GetSampleValues(data, sensorIdx);
-            sensorData = new ValueDistanceFilter().Filter(new PeakFilter(0.0009).Filter(new GaussFilter(4).Filter(sensorData)))
-                .Select(value => 1 / value * 256 *60).ToArray(); 
-
+            sensorData =
+                new ExtremeChangeFilter(200, 10).Filter(
+                //new GaussFilter(3).Filter(
+                    //new MedianFilter(8).Filter(
+                        new ValueDistanceFilter().Filter(
+                            new PeakFilter(0.0009, 100).Filter(sensorData)
+                                //new GaussFilter(4).Filter(sensorData)
+                            //)
+                        //)
+                    //)
+                )
+                )
+                .Select(v => 1 / v * 256 * 60)
+                .ToArray(); 
+            
          
 
             var startTime = data[0].Time;
@@ -124,7 +134,7 @@ namespace SensorPlots
             {
                 var x = (data[i].Time - startTime).TotalSeconds;
                 var y = sensorData[i];
-                dataSeries.Points.Add(new DataPoint(x, y));
+                dataSeries.Points.Add(new ScatterPoint(x, y));
                 //Debug.WriteLine(y);
             }
             PlotView.InvalidatePlot(true);
