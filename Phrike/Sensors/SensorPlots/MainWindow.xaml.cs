@@ -26,7 +26,7 @@ namespace SensorPlots
 {
     using Microsoft.Win32;
 
-    using OperationPhrike.Sensors.Filter;
+    using OperationPhrike.Sensors.Filters;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml

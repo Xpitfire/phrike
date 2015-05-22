@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OperationPhrike.Sensors
+namespace OperationPhrike.Sensors.Filters
 {
     class MedianFilter : FilterBase
     {

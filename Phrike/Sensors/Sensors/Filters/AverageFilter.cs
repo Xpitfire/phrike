@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OperationPhrike.Sensors.Filter
+namespace OperationPhrike.Sensors.Filters
 {
-    public class MinMaxFilter : FilterBase
+    public class AverageFilter : FilterBase
     {
-        public MinMaxFilter(int radius)
+        public AverageFilter(int radius)
             : base(radius)
         {
             // nothing to do
@@ -17,24 +17,14 @@ namespace OperationPhrike.Sensors.Filter
 
         protected override double FilterData(int start, int end, int mid, IReadOnlyList<double> unfilteredData)
         {
-            int midFactor = end - start;
-
             double sum = 0;
-            
+
             for (int i = start; i <= end; i++)
             {
-                if (i == mid)
-                {
-                    sum += unfilteredData[i] * midFactor;
-                }
-                else
-                {
-                    sum -= unfilteredData[i];
-                }
+                sum += unfilteredData[i];
             }
 
-            return sum;
-
+            return sum / (end - start + 1);
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OperationPhrike.Sensors.Filter
+namespace OperationPhrike.Sensors.Filters
 {
     public class PeakFilter : FilterBase
     {
