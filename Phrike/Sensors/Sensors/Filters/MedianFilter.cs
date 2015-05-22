@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OperationPhrike.Sensors.Filters
 {
-    class MedianFilter : FilterBase
+    public class MedianFilter : FilterBase
     {
         public MedianFilter(int radius)
             : base(radius)
@@ -16,7 +16,10 @@ namespace OperationPhrike.Sensors.Filters
 
         protected override double FilterData(int start, int end, int mid, IReadOnlyList<double> unfilteredData)
         {
-            double[] sort = unfilteredData.ToArray();
+            double[] sort = unfilteredData
+                .Skip(start)
+                .Take(end - start + 1)
+                .ToArray();
             Array.Sort(sort);
 
             return sort[(end - start + 1) / 2];
