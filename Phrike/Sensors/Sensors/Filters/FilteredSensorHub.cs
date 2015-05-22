@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace OperationPhrike.Sensors
 {
+    using OperationPhrike.Sensors.Filters;
+
     class FilteredSensorHub : ISensorHub
     {
 
