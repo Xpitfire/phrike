@@ -7,7 +7,7 @@
                       xmlns:gcViews="clr-namespace:Phrike.GroundControl.Views"
                       Title="Ground Control" Height="800" Width="1200"
                       ShowIconOnTitleBar="True"
-                      Icon="Resources/img/op_icon.ico">
+                      Icon="/Resources/img/op_icon.ico">
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button ToolTip="MahApps.Metro on GitHub"
