@@ -3,7 +3,7 @@
 
 namespace OperationPhrike.Sensors.Filters
 {
-    interface IFilter
+    public interface IFilter
     {
         IReadOnlyList<double> Filter(IReadOnlyList<double> unfilteredData);
     }

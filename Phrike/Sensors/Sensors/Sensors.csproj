@@ -43,6 +43,7 @@
     <Compile Include="BasicSample.cs" />
     <Compile Include="BasicSampleData.cs" />
     <Compile Include="Filters\ExtremeChangeFilter.cs" />
+    <Compile Include="Filters\FilterChain.cs" />
     <Compile Include="Filters\FilteredSensorHub.cs" />
     <Compile Include="Filters\FilterBase.cs" />
     <Compile Include="Filters\GaussFilter.cs" />
