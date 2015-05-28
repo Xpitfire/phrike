@@ -1,33 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
+using Microsoft.Win32;
 
 using OperationPhrike.GMobiLab;
 using OperationPhrike.Sensors;
+using OperationPhrike.Sensors.Filters;
 
-using OperationPhrike.SensorFilters;
 using OxyPlot;
 using OxyPlot.Series;
 
-namespace SensorPlots
+namespace OperationPhrike.SensorPlots
 {
-    using Microsoft.Win32;
-
-    using OperationPhrike.Sensors.Filters;
-
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -35,114 +20,90 @@ namespace SensorPlots
     {
         private readonly PlotModel plotModel = new PlotModel();
 
+        private readonly ScatterSeries dataSeries = new ScatterSeries();
+
         private ISample[] data;
 
         private ISensorHub dataSource;
 
-        private readonly ScatterSeries dataSeries = new ScatterSeries();
-
         public MainWindow()
         {
-            InitializeComponent();
-            plotModel.Series.Add(dataSeries);
-            PlotView.Model = plotModel;
-            //dataSeries.StrokeThickness = 1;
-
-            var data = new double[]
-            {
-                200, 4, 2, 3, 6, 20, 100, 15, 5, 3, -1, -5, 0, 0, 30, 150, 50, 20, 1, 5, 4, 1, 0, 1, 60
-                //0, 1, 2, 3, 4, 5, 6, 7, 8
-            };
-
-            FilterBase filter = new ExtremeChangeFilter(200, 50);
-
-            IReadOnlyList<double> filterData = filter.Filter(data);
-            const int SampleRate = 256;
-            filterData = filter.Filter(data);
-
-
-            foreach (double d in filterData)
-            {
-                Console.Write(d + " ");
-            }
-
-
+            this.InitializeComponent();
+            this.plotModel.Series.Add(this.dataSeries);
+            this.PlotView.Model = this.plotModel;
+            ////dataSeries.StrokeThickness = 1;
         }
 
         private void BtnOpenFile(object sender, RoutedEventArgs e)
         {
-            
             var dlg = new OpenFileDialog
             {
                 Filter = "Binary files (*.bin)|*.bin"
             };
-            if (true)
+
+            // ShowDialog returns bool?, hence ==.
+            if (dlg.ShowDialog() == true) 
             {
-                if (dataSource != null)
+                if (this.dataSource != null)
                 {
-                    dataSource.Dispose();
-                    ChannelSelection.Items.Clear();
-                    dataSource = null;
+                    this.dataSource.Dispose();
+                    this.ChannelSelection.Items.Clear();
+                    this.dataSource = null;
                 }
-                dataSource = new SensorDataFileStreamer(@"\\FSHOME\homes\se\s1310307058\Profile\Desktop\Studium\EKG-Signal_zur_Verarbeitung_23_04_15.bin");
-                foreach (var sensor in dataSource.Sensors)
+
+                this.dataSource = new SensorDataFileStreamer(dlg.FileName);
+                foreach (var sensor in this.dataSource.Sensors)
                 {
                     if (sensor.Enabled)
                     {
-                        ChannelSelection.Items.Add(sensor);
+                        this.ChannelSelection.Items.Add(sensor);
                     }
                 }
-                data = dataSource.ReadSamples().ToArray();
+
+                this.data = this.dataSource.ReadSamples().ToArray();
             }
         }
 
         private void UpdatePlot()
         {
-            var relativeChannelIdx = ChannelSelection.SelectedIndex;
-            if (ChannelSelection.SelectedItem == null || data.Length <= 0)
+            if (this.ChannelSelection.SelectedItem == null || this.data.Length <= 0)
             {
                 return;
             }
 
-            var sensor = (SensorInfo)ChannelSelection.SelectedItem;
-            dataSeries.Points.Clear();
-            dataSeries.Title = sensor.Name;
+            var sensor = (SensorInfo)this.ChannelSelection.SelectedItem;
+            this.dataSeries.Points.Clear();
+            this.dataSeries.Title = sensor.Name;
 
-            int sensorIdx = dataSource.GetSensorValueIndexInSample(sensor);
+            int sensorIdx = this.dataSource.GetSensorValueIndexInSample(sensor);
             
-            double[] sensorData = SensorUtil.GetSampleValues(data, sensorIdx);
-            sensorData =
-                new ExtremeChangeFilter(200, 10).Filter(
-                //new GaussFilter(3).Filter(
-                    //new MedianFilter(8).Filter(
-                        new ValueDistanceFilter().Filter(
-                            new PeakFilter(0.0009, 100).Filter(sensorData)
-                                //new GaussFilter(4).Filter(sensorData)
-                            //)
-                        //)
-                    //)
-                )
-                )
+            double[] sensorData = SensorUtil.GetSampleValues(this.data, sensorIdx);
+
+            var filterChain = new FilterChain();
+
+            filterChain.Add(new GaussFilter(4));
+            filterChain.Add(new PeakFilter(0.0009, 100));
+            filterChain.Add(new ValueDistanceFilter());
+            filterChain.Add(new GaussFilter(3));
+
+            sensorData = filterChain.Filter(sensorData)
                 .Select(v => 1 / v * 256 * 60)
-                .ToArray(); 
-            
-         
+                .ToArray();
 
-            var startTime = data[0].Time;
-            // For each sample:
+            var startTime = this.data[0].Time;
             for (int i = 0; i < sensorData.Length; ++i)
             {
-                var x = (data[i].Time - startTime).TotalSeconds;
+                var x = (this.data[i].Time - startTime).TotalSeconds;
                 var y = sensorData[i];
-                dataSeries.Points.Add(new ScatterPoint(x, y));
-                //Debug.WriteLine(y);
+                this.dataSeries.Points.Add(new ScatterPoint(x, y));
             }
-            PlotView.InvalidatePlot(true);
+
+            this.PlotView.InvalidatePlot(true);
         }
 
         private void CbChannelSelected(object sender, SelectionChangedEventArgs e)
         {
-            UpdatePlot();
+            this.UpdatePlot();
         }
     }
 }
