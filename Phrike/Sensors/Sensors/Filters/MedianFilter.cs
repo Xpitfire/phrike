@@ -6,14 +6,22 @@ using System.Threading.Tasks;
 
 namespace OperationPhrike.Sensors.Filters
 {
-    public class MedianFilter : FilterBase
+    /// <summary>
+    /// Filter that returns the median of all values in the mask.
+    /// </summary>
+    public class MedianFilter : RadiusFilterBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MedianFilter" /> class.
+        /// </summary>
+        /// <param name="radius">Is passed to base constructor.</param>
         public MedianFilter(int radius)
             : base(radius)
         {
             //nothing to do
         }
 
+        /// <inheritdoc/>
         protected override double FilterData(int start, int end, int mid, IReadOnlyList<double> unfilteredData)
         {
             double[] sort = unfilteredData

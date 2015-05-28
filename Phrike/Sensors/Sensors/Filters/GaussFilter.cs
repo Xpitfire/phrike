@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OperationPhrike.Sensors.Filters
 {
-    public class GaussFilter : FilterBase
+    public class GaussFilter : RadiusFilterBase
     {
 
         private int maskLength;

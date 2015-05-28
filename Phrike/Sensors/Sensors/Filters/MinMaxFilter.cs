@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 namespace OperationPhrike.Sensors.Filters
 {
-    public class MinMaxFilter : FilterBase
+    public class MinMaxFilter : RadiusFilterBase
     {
         public MinMaxFilter(int radius)
             : base(radius)
         {
             // nothing to do
         }
-
 
         protected override double FilterData(int start, int end, int mid, IReadOnlyList<double> unfilteredData)
         {

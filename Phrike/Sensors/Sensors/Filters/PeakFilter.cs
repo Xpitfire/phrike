@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OperationPhrike.Sensors.Filters
 {
-    public class PeakFilter : FilterBase
+    public class PeakFilter : RadiusFilterBase
     {
 
         private int lastPeak;

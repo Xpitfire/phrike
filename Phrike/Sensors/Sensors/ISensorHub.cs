@@ -26,12 +26,12 @@ namespace OperationPhrike.Sensors
     public interface ISensorHub : IDisposable
     {
         /// <summary>
-        ///     Gets information about the available Sensors.
+        /// Gets information about the available Sensors.
         /// </summary>
         IReadOnlyList<SensorInfo> Sensors { get; }
 
         /// <summary>
-        ///     Gets a value indicating whether new samples may become available.
+        /// Gets a value indicating whether new samples may become available.
         /// </summary>
         bool IsUpdating { get; }
 
