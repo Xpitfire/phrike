@@ -1,4 +1,17 @@
-﻿using System.Linq;
+﻿// <summary>Implementation of the main window logic.</summary>
+// -----------------------------------------------------------------------
+// Copyright (c) 2015 University of Applied Sciences Upper-Austria
+// Project OperationPhrike
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
+// ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
+// CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// -----------------------------------------------------------------------
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -18,14 +31,29 @@ namespace OperationPhrike.SensorPlots
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// The OxyPlot plotmodel that is displayed in the window.
+        /// </summary>
         private readonly PlotModel plotModel = new PlotModel();
 
+        /// <summary>
+        /// The data series that is displayed in the PlotModel.
+        /// </summary>
         private readonly ScatterSeries dataSeries = new ScatterSeries();
 
+        /// <summary>
+        /// Buffer that contains the samples read from <see cref="dataSource"/>.
+        /// </summary>
         private ISample[] data;
 
+        /// <summary>
+        /// The sensor hub corresponding to <see cref="data"/>.
+        /// </summary>
         private ISensorHub dataSource;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindow"/> class.
+        /// </summary>
         public MainWindow()
         {
             this.InitializeComponent();
@@ -34,7 +62,12 @@ namespace OperationPhrike.SensorPlots
             ////dataSeries.StrokeThickness = 1;
         }
 
-        private void BtnOpenFile(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Invoked when the "Open file" button is clicked.
+        /// </summary>
+        /// <param name="sender">The event source.</param>
+        /// <param name="e">Additional event arguments.</param>
+        private void BtnOpenFileClicked(object sender, RoutedEventArgs e)
         {
             var dlg = new OpenFileDialog
             {
@@ -64,6 +97,9 @@ namespace OperationPhrike.SensorPlots
             }
         }
 
+        /// <summary>
+        /// Update the plot from <see cref="data"/> and the selected Dropdown item.
+        /// </summary>
         private void UpdatePlot()
         {
             if (this.ChannelSelection.SelectedItem == null || this.data.Length <= 0)
@@ -101,6 +137,11 @@ namespace OperationPhrike.SensorPlots
             this.PlotView.InvalidatePlot(true);
         }
 
+        /// <summary>
+        /// Invoked when the selection in the channel selection Dropdown changes.
+        /// </summary>
+        /// <param name="sender">The event source.</param>
+        /// <param name="e">Additional event arguments.</param>
         private void CbChannelSelected(object sender, SelectionChangedEventArgs e)
         {
             this.UpdatePlot();
