@@ -2,15 +2,45 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              mc:Ignorable="d" Height="426" Width="835">
+    
     <Grid HorizontalAlignment="Left" Width="835">
         <WrapPanel>
-            <Button x:Name="ButtonNewStresstest" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0" Click="ButtonNewStresstest_Click">
+            <Button x:Name="ButtonNewStresstest" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0">
                 <StackPanel Height="190" Width="190">
                     <Label Content="New Stresstest" HorizontalAlignment="Left" Width="190" Height="38" FontSize="20"/>
                     <Image Height="152" Source="/Resources/img/new-stresstest-tile.PNG"></Image>
                 </StackPanel>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="SelectTabNewStresstest"></ei:CallMethodAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+            <Button x:Name="ButtonAnalyse" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0">
+                <StackPanel Height="190" Width="190">
+                    <Label Content="Analyse" HorizontalAlignment="Left" Width="190" Height="38" FontSize="20"/>
+                    <Image Height="152" Source="/Resources/img/analysis-tile.PNG"></Image>
+                </StackPanel>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="SelectTabAnalysis"></ei:CallMethodAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+            <Button x:Name="ButtonSetings" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0">
+                <StackPanel Height="190" Width="190">
+                    <Label Content="Settings" HorizontalAlignment="Left" Width="190" Height="38" FontSize="20"/>
+                    <Image Height="152" Source="/Resources/img/settings-tile.PNG"></Image>
+                </StackPanel>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="SelectTabSettings"></ei:CallMethodAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </Button>
         </WrapPanel>
     </Grid>

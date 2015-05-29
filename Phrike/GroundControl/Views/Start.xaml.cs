@@ -24,14 +24,5 @@ namespace Phrike.GroundControl.Views
         {
             InitializeComponent();
         }
-
-        private void ButtonNewStresstest_Click(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine("New Stress-Test!");
-            foreach (var resource in Resources)
-            {
-                Console.WriteLine(resource);
-            }
-        }
     }
 }
