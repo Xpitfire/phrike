@@ -111,10 +111,6 @@
       <Project>{be27c586-513d-4447-b8c0-1fca270791db}</Project>
       <Name>gMobiLab</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SensorFilters\SensorFilters.csproj">
-      <Project>{52bb1870-5a8c-44f0-ae6d-0fed028594bd}</Project>
-      <Name>SensorFilters</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sensors\Sensors.csproj">
       <Project>{90aec3ec-c0cd-43d5-8cb0-f87243890511}</Project>
       <Name>Sensors</Name>
