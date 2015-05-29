@@ -1,0 +1,119 @@
+scriptId = 'com.spr.PTC'
+scriptTitle = 'Phrike Test Control Omega'
+scriptDetailsUrl = "" -- to be filled when published
+-- Version:0.0.1
+
+centrePitch = 0
+centreYaw = 0
+xNeutral = 0.1
+yNeutral = 0.1
+
+mForward = "w"
+mBackward = "s"
+mTurnLeft = "left_arrow"
+mTurnRight = "right_arrow"
+
+gPose = ""
+
+function conditionallySwapWave(pose)
+	if myo.getArm() == "left" then
+		if pose == "waveIn" then
+			pose = "waveOut"
+		elseif pose == "waveOut" then
+			pose = "waveIn"
+		end
+	end
+	return pose
+end
+
+function onPoseEdge(pose, edge)
+	
+	if edge == "on" then
+    gPose = pose
+		if pose == "doubleTap" then
+			if myo.isUnlocked() == true then
+				myo.lock()
+			end
+		elseif pose == "fist" then
+			myo.keyboard(mForward, "up")
+			myo.keyboard(mBackward, "up")
+			myo.keyboard(mTurnRight, "up")
+			myo.keyboard(mTurnLeft, "up")
+      myo.controlMouse(true)
+    elseif pose == "fingersSpread" then 
+      myo.keyboard(mForward, "up")
+      myo.keyboard(mBackward, "up")
+		end
+	end
+  if edge == "off" then 
+    gPose = ""
+    if pose == "fist" then 
+      myo.controlMouse(false)
+    end
+  end  
+end
+
+function onPeriodic()
+	if myo.isUnlocked() == true and gPose ~= "fist" then
+    if gPose ~= "fingersSpread" then
+      currentPitch = calculateDeltaRadians(myo.getPitch(),centrePitch)
+      if currentPitch > yNeutral then
+        myo.keyboard(mForward, "down")
+        myo.keyboard(mBackward, "up")
+      elseif currentPitch < -yNeutral then
+        myo.keyboard(mBackward, "down")
+        myo.keyboard(mForward, "up")
+      else
+        myo.keyboard(mForward, "up")
+        myo.keyboard(mBackward, "up")
+      end
+    end
+    currentYaw = calculateDeltaRadians(myo.getYaw(),centreYaw)
+    if  currentYaw > xNeutral then
+      myo.keyboard(mTurnLeft, "up")
+      myo.keyboard(mTurnRight, "down")
+    elseif currentYaw < -xNeutral then
+      myo.keyboard(mTurnRight, "up")
+      myo.keyboard(mTurnLeft, "down")
+    else      
+      myo.keyboard(mTurnLeft, "up")
+      myo.keyboard(mTurnRight, "up")
+    end
+  end
+end
+
+function calculateDeltaRadians(current,centre)  
+    local deltaYaw = current - centre
+
+    if (deltaYaw > math.pi) then
+        deltaYaw = deltaYaw - 2 * math.pi
+    elseif(deltaYaw < -math.pi) then
+        deltaYaw = deltaYaw + 2 * math.pi
+    end
+    return deltaYaw
+end
+
+function onForegroundWindowChange(app, title)
+    return true
+end
+
+function activeAppName()
+    return "Output Everything"
+end
+
+function onActiveChange(isActive)
+    -- myo.debug("onActiveChange")
+end
+
+function onLock()
+	myo.keyboard(mForward, "up")
+	myo.keyboard(mBackward, "up")
+	myo.keyboard(mTurnRight, "up")
+	myo.keyboard(mTurnLeft, "up")
+end
+
+function onUnlock()	
+	myo.unlock("hold")
+	centreYaw = myo.getYaw()
+  centrePitch = myo.getPitch()
+end
