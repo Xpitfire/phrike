@@ -46,7 +46,7 @@ public:
 	void stopGameRecording();
 
 	/**
-	* Starts the recording of the webcam
+	* Starts the recording of the webcam.
 	* @param directory: specifies the directory in which the file will be stored
 	* @param gameFilename: specifies the filename of the webcam video (inlcuding extension)
 	*/
@@ -57,10 +57,41 @@ public:
 	*/
 	void stopCameraRecording();
 
+	/**
+	 * Load config from config file.
+	 * @param filename: specifies the filename where the config is located
+	 */
+	void loadConfig(const std::string filename = "C:\\tmp\\config.txt");
+
+	/**
+	 * Set the videoConfig property
+	 * @param config: a string with the configuration for the video capturing
+	 */
+	void setVideoConfig(std::string config);
+
+	/**
+	* Set the cameraConfig property
+	* @param config: a string with the configuration for the camera capturing
+	*/
+	void setCameraConfig(std::string config);
+
+	/**
+	* Get the videoConfig property
+	*/
+	std::string getVideoConfig();
+
+	/**
+	* Get the cameraConfig property
+	*/
+	std::string getCameraConfig();
+
 private:
 	ScreenRecorder();
 	SHELLEXECUTEINFO game;
 	SHELLEXECUTEINFO camera;
+	std::string cameraConfig;
+	std::string videoConfig;
+
 	static ScreenRecorder *recorder;
 
 	bool checkIfFileExists(const std::string filename);
