@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace OperationPhrike.Sensors.Filters
 {
-    public class MinMaxFilter : RadiusFilterBase
+    public class EdgeDetectionFilter : RadiusFilterBase
     {
-        public MinMaxFilter(int radius)
+        public EdgeDetectionFilter(int radius)
             : base(radius)
         {
             // nothing to do
         }
+
 
         protected override double FilterData(int start, int end, int mid, IReadOnlyList<double> unfilteredData)
         {
@@ -33,7 +34,6 @@ namespace OperationPhrike.Sensors.Filters
             }
 
             return sum;
-
         }
     }
 }

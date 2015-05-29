@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -49,7 +50,7 @@
     <Compile Include="Filters\GaussFilter.cs" />
     <Compile Include="Filters\IFilter.cs" />
     <Compile Include="Filters\MedianFilter.cs" />
-    <Compile Include="Filters\MinMaxFilter.cs" />
+    <Compile Include="Filters\EdgeDetectionFilter.cs" />
     <Compile Include="Filters\PeakFilter.cs" />
     <Compile Include="Filters\ValueDistanceFilter.cs" />
     <Compile Include="ISample.cs" />
