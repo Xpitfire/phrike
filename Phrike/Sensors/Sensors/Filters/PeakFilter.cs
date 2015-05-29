@@ -8,19 +8,9 @@ namespace OperationPhrike.Sensors.Filters
 {
     public class PeakFilter : RadiusFilterBase
     {
-
-        private int lastPeak;
-
-        public PeakFilter(double threshold, int minDistance) : base (1)
+        public PeakFilter(int radius, bool detectMaxima = true) : base (radius)
         {
-            Threshold = threshold;
-            MinDistance = minDistance;
-        }
-
-        public override IReadOnlyList<double> Filter(IReadOnlyList<double> unfilteredData)
-        {
-            lastPeak = -MinDistance;
-            return base.Filter(unfilteredData);
+            DetectMaxima = detectMaxima;
         }
 
         protected override double FilterData(
@@ -28,18 +18,20 @@ namespace OperationPhrike.Sensors.Filters
             IReadOnlyList<double> unfilteredData)
         {
             double midVal = unfilteredData[mid];
-            double leftVal = start == mid ? double.MinValue : unfilteredData[start];
-            double rightVal = end == mid ? double.MinValue : unfilteredData[end];
-            if (midVal > Math.Max(leftVal, rightVal) && midVal >= Threshold && mid - lastPeak >= MinDistance)
+            bool isExtreme = true;
+            for (int i = start; i <= end && isExtreme; i++)
             {
-                lastPeak = mid;
-                return 1;
+               double actVal = unfilteredData[i];
+                if ((actVal > midVal && DetectMaxima)
+                    || (actVal < midVal && !DetectMaxima))
+                {
+                    isExtreme = false;
+                }
+
             }
-            return 0;
+            return isExtreme ? midVal : 0;
         }
 
-        public double Threshold { get; private set; }
-
-        public int MinDistance { get; private set; }
+        public bool DetectMaxima { get; private set; }
     }
 }
