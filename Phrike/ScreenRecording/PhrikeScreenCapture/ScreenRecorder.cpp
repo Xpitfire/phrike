@@ -3,6 +3,7 @@
 #include "PhrikeScreenCapture.h"
 #include "ScreenRecorder.h"
 #include <iostream>
+#include <fstream>
 #include <sys/stat.h>
 
 ScreenRecorder* ScreenRecorder::recorder = NULL;
@@ -10,6 +11,7 @@ ScreenRecorder* ScreenRecorder::recorder = NULL;
 ScreenRecorder::ScreenRecorder()
 {
 	// Private singleton constructor
+	loadConfig("C:\\tmp\\config.txt");
 }
 
 ScreenRecorder::~ScreenRecorder()
@@ -42,7 +44,11 @@ void ScreenRecorder::startGameRecording(std::wstring directory, std::wstring fil
 	filename = checkFilename(directory, filename);
 
 	// Set recording parameters: capture audio and video
-	std::wstring params = L"-f dshow -i video=\"screen-capture-recorder\":audio=\"virtual-audio-capturer\" " + directory + filename;
+	std::string config = "-f dshow -i " + videoConfig + " ";
+	std::wstring params(config.begin(), config.end());
+	params = params + directory + filename;
+
+	std::cout << "Video Params: " << params.c_str() << std::endl;
 
 	// Set ShellExecute parameter
 	game.cbSize = sizeof(SHELLEXECUTEINFO);
@@ -66,8 +72,10 @@ void ScreenRecorder::startCameraRecording(std::wstring directory, std::wstring f
 	filename = checkFilename(directory, filename);
 
 	// Set recording parameters: capture webcam video
-	std::wstring params = L"-f dshow -i video=\"Integrated Camera\" " + directory + filename;
-
+	std::string config = "-f dshow -i " + cameraConfig + " ";
+	std::wstring params(config.begin(), config.end());
+	params = params + directory + filename;
+	
 	// Set ShellExecute parameter
 	camera.cbSize = sizeof(SHELLEXECUTEINFO);
 	camera.fMask = SEE_MASK_NOCLOSEPROCESS;
@@ -127,4 +135,47 @@ bool ScreenRecorder::checkIfFileExists(const std::string filename)
 {
 	struct stat buffer;
 	return (stat(filename.c_str(), &buffer) == 0);
+}
+
+// Load config from config file
+void ScreenRecorder::loadConfig(const std::string filename)
+{
+	// Open config file
+	std::ifstream infile(filename);
+	if(infile.good())
+	{
+		std::string line;
+
+		// Read video config
+		std::getline(infile, line);
+		setVideoConfig(line);
+
+		// Read camera config
+		std::getline(infile, line);
+		setCameraConfig(line);
+	}
+}
+
+// Set video config
+void ScreenRecorder::setVideoConfig(std::string config)
+{
+	videoConfig = config;
+}
+
+// Set camera config
+void ScreenRecorder::setCameraConfig(std::string config)
+{
+	cameraConfig = config;
+}
+
+// Get video config
+std::string ScreenRecorder::getVideoConfig()
+{
+	return videoConfig;
+}
+
+// Get camera config
+std::string ScreenRecorder::getCameraConfig()
+{
+	return cameraConfig;
 }
