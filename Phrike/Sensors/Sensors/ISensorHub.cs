@@ -15,7 +15,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OperationPhrike.Sensors
+namespace Phrike.Sensors
 {
     /// <summary>
     ///     Represents a collection of physically related sensor data (e.g.

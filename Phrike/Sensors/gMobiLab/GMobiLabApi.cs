@@ -16,7 +16,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 
-namespace OperationPhrike.GMobiLab
+namespace Phrike.GMobiLab
 {
     /// <summary>
     /// Specifies a polarity for analog channels.

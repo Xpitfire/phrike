@@ -14,7 +14,7 @@
 
 using System.Collections.Generic;
 
-namespace OperationPhrike.Sensors.Filters
+namespace Phrike.Sensors.Filters
 {
     /// <summary>
     /// Represents a filter that can be applied to unfiltered data.

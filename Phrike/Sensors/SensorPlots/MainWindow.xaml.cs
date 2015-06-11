@@ -20,14 +20,14 @@ using System.Windows.Controls;
 
 using Microsoft.Win32;
 
-using OperationPhrike.GMobiLab;
-using OperationPhrike.Sensors;
-using OperationPhrike.Sensors.Filters;
-
 using OxyPlot;
 using OxyPlot.Series;
 
-namespace OperationPhrike.SensorPlots
+using Phrike.GMobiLab;
+using Phrike.Sensors;
+using Phrike.Sensors.Filters;
+
+namespace Phrike.SensorPlots
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

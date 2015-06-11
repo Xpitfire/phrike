@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OperationPhrike.Sensors.Filters
+namespace Phrike.Sensors.Filters
 {
     /// <summary>
     /// Maintains a chain of filters that can be applied to given (unfiltered)data.

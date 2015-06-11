@@ -7,7 +7,7 @@
     <ProjectGuid>{90AEC3EC-C0CD-43D5-8CB0-F87243890511}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OperationPhrike.Sensors</RootNamespace>
+    <RootNamespace>Phrike.Sensors</RootNamespace>
     <AssemblyName>Sensors</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -44,9 +44,7 @@
     <Compile Include="BasicSample.cs" />
     <Compile Include="BasicSampleData.cs" />
     <Compile Include="Filters\BinaryThresholdFilter.cs" />
-    <Compile Include="Filters\ExtremeChangeFilter.cs" />
     <Compile Include="Filters\FilterChain.cs" />
-    <Compile Include="Filters\FilteredSensorHub.cs" />
     <Compile Include="Filters\HeartPeakFilter.cs" />
     <Compile Include="Filters\PulseCalculator.cs" />
     <Compile Include="Filters\RadiusFilterBase.cs" />
@@ -55,7 +53,6 @@
     <Compile Include="Filters\MedianFilter.cs" />
     <Compile Include="Filters\EdgeDetectionFilter.cs" />
     <Compile Include="Filters\PeakFilter.cs" />
-    <Compile Include="Filters\ValueDistanceFilter.cs" />
     <Compile Include="ISample.cs" />
     <Compile Include="ISampleData.cs" />
     <Compile Include="ISensorHub.cs" />

@@ -12,7 +12,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // -----------------------------------------------------------------------
 
-namespace OperationPhrike.Sensors
+namespace Phrike.Sensors
 {
     /// <summary>
     /// The unit of a Sensor's values.

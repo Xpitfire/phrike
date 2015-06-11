@@ -11,7 +11,7 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // -----------------------------------------------------------------------
-namespace OperationPhrike.Sensors
+namespace Phrike.Sensors
 {
     /// <summary>
     ///     A data value of a single sensor in a single sample.

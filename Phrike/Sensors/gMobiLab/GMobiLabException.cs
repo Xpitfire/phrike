@@ -13,7 +13,7 @@
 // -----------------------------------------------------------------------
 using System;
 
-namespace OperationPhrike.GMobiLab
+namespace Phrike.GMobiLab
 {
     /// <summary>
     /// A call to the GMobiLab C API failed.

@@ -14,7 +14,7 @@
 
 using System.Collections.Generic;
 
-namespace OperationPhrike.Sensors.Filters
+namespace Phrike.Sensors.Filters
 {
     /// <summary>
     /// Filter that returns the average of all values in the mask.

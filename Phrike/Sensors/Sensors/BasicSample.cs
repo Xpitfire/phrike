@@ -14,7 +14,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OperationPhrike.Sensors
+namespace Phrike.Sensors
 {
     /// <summary>
     /// A simple <see cref="ISample"/> implementation that just saves the

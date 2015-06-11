@@ -15,7 +15,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OperationPhrike.Sensors.Filters
+namespace Phrike.Sensors.Filters
 {
     /// <summary>
     /// Abstract base class for filters that consider values in a given radius

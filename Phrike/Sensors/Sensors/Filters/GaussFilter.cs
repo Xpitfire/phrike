@@ -15,7 +15,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OperationPhrike.Sensors.Filters
+namespace Phrike.Sensors.Filters
 {
     /// <summary>
     /// Filter that applies the bell curve over the mask.

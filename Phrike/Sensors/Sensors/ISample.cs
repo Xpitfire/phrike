@@ -14,7 +14,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OperationPhrike.Sensors
+namespace Phrike.Sensors
 {
     /// <summary>
     /// Represents the data for each recorded sensor of a <see cref="ISensorHub"/>

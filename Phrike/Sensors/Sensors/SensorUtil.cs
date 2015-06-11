@@ -14,7 +14,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OperationPhrike.Sensors
+namespace Phrike.Sensors
 {
     /// <summary>
     /// Provides some utility functions for usage with the sensor API.

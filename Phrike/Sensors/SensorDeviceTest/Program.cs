@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using OperationPhrike.GMobiLab;
+using Phrike.GMobiLab;
 
-namespace OperationPhrike.SensorDeviceTest
+namespace Phrike.SensorDeviceTest
 {
     class Program
     {

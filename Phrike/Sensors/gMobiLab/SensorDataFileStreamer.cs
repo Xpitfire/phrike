@@ -18,9 +18,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-using OperationPhrike.Sensors;
+using Phrike.Sensors;
 
-namespace OperationPhrike.GMobiLab
+namespace Phrike.GMobiLab
 {
     /// <summary>
     ///     Reads a data file as written to the SDCard by the sensor device.

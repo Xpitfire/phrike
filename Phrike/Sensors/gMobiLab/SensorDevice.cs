@@ -15,11 +15,11 @@
 // -----------------------------------------------------------------------
 using System;
 using System.Linq;
-using OperationPhrike.Sensors;
 using System.Collections.Generic;
 
+using Phrike.Sensors;
 
-namespace OperationPhrike.GMobiLab
+namespace Phrike.GMobiLab
 {
     /// <summary>
     /// The state a <see cref="SensorDevice"/> is currently in.

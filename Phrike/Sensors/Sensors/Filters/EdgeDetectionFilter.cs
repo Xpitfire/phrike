@@ -14,7 +14,7 @@
 
 using System.Collections.Generic;
 
-namespace OperationPhrike.Sensors.Filters
+namespace Phrike.Sensors.Filters
 {
     /// <summary>
     /// Filter that intensivies peaks from the unfiltered data. 

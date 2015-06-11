@@ -14,7 +14,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace OperationPhrike.GMobiLab
+namespace Phrike.GMobiLab
 {
     /// <summary>
     ///     Low level wrapper for the gMobiLabXferHelpers DLL.

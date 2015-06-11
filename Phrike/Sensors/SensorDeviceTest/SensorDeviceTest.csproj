@@ -7,7 +7,7 @@
     <ProjectGuid>{F0CC68E7-C665-4D9F-A8BF-A6F29526307D}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OperationPhrike.SensorDeviceTest</RootNamespace>
+    <RootNamespace>Phrike.SensorDeviceTest</RootNamespace>
     <AssemblyName>SensorDeviceTest</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

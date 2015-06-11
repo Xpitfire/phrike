@@ -13,7 +13,7 @@
 // -----------------------------------------------------------------------
 using System.Windows;
 
-namespace OperationPhrike.SensorPlots
+namespace Phrike.SensorPlots
 {
     /// <summary>
     /// Interaction logic for App.xaml

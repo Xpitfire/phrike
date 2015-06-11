@@ -14,7 +14,7 @@
 
 using System;
 
-namespace OperationPhrike.GMobiLab
+namespace Phrike.GMobiLab
 {
     /// <summary>
     ///     A call to the GMobiLab Xfer Helpers C API failed.

@@ -14,7 +14,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OperationPhrike.Sensors.Filters
+namespace Phrike.Sensors.Filters
 {
     /// <summary>
     /// Filter that sets all values that fall below (DetectMaxima == true)
