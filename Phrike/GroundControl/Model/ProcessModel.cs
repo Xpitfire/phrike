@@ -14,8 +14,21 @@ namespace Phrike.GroundControl.Model
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public static void StartProcess(string cmdPath)
+        private static readonly Dictionary<string, Process> ProcesseDictionary = new Dictionary<string, Process>(); 
+
+        public static void StartProcess(string cmdPath, bool useRelativePath = true)
         {
+            if (cmdPath == null)
+            {
+                Logger.Warn("Could not start invalid process!");
+                return;
+            }
+            if (ProcesseDictionary.ContainsKey(cmdPath) && !ProcesseDictionary[cmdPath].HasExited)
+            {
+                Logger.Warn("Could not start process! Process already exists.");
+                return;
+            }
+
             try
             {
                 var process = new Process
@@ -23,10 +36,12 @@ namespace Phrike.GroundControl.Model
                     StartInfo =
                     {
                         WindowStyle = ProcessWindowStyle.Hidden,
-                        FileName = Environment.CurrentDirectory + cmdPath
+                        FileName = (useRelativePath) ? Environment.CurrentDirectory + cmdPath : cmdPath
                     }
                 };
-                process.Start();   
+                process.Start();
+                ProcesseDictionary[cmdPath] = process;
+                Logger.Info("New process started: {0}", cmdPath);
             }
             catch (Win32Exception e)
             {
@@ -35,6 +50,31 @@ namespace Phrike.GroundControl.Model
                 Logger.Error("StackTrace: " + e.StackTrace);
                 Logger.Error("Source: " + e.Source);
                 Logger.Error("GetBaseException Message: " + e.GetBaseException().Message);
+            }
+        }
+
+        public static void StopProcess(string cmdPath)
+        {
+            if (cmdPath == null)
+            {
+                Logger.Warn("Could not stop invalid process!");
+                return;
+            }
+            Process process = null;
+            if (ProcesseDictionary.ContainsKey(cmdPath))
+                process = ProcesseDictionary[cmdPath];
+            if (process != null)
+            {
+                if (!process.HasExited)
+                {
+                    process.Kill();
+                }
+                ProcesseDictionary.Remove(cmdPath);
+                Logger.Info("Stopped process: {0}", cmdPath);
+            }
+            else
+            {
+                Logger.Warn("No process found to dispose!");
             }
         }
     }

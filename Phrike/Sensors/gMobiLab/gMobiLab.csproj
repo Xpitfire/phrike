@@ -50,6 +50,7 @@
     <Compile Include="SensorDataFileStreamer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SensorDevice.cs" />
+    <Compile Include="SensorDeviceUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sensors\Sensors.csproj">

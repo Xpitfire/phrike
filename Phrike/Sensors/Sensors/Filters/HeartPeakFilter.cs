@@ -114,7 +114,7 @@ namespace Phrike.Sensors.Filters
             ////const int MaxSearchDistance = 11;
             IReadOnlyList<double> maxPeaks = MaxPeakFilter.Filter(unfilteredData);
             IReadOnlyList<double> minPeaks = MinPeakFilter.Filter(unfilteredData);
-            return MergePeaks(minPeaks, maxPeaks, MaxPeakDistance);
+            return MergePeaks(maxPeaks, minPeaks, MaxPeakDistance);
         }
     }
 }

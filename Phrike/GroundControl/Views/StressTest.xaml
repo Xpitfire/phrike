@@ -14,7 +14,7 @@
         <ViewModels:StressTestViewModel x:Key="StressTestViewModel" />
     </UserControl.Resources>
 
-    <Grid DataContext="{StaticResource StressTestViewModel}" Margin="0,0,-485,-324">
+    <Grid DataContext="{StaticResource StressTestViewModel}" Margin="0,0,-1005,-324">
         <Button Content="Start Unreal Engine" HorizontalAlignment="Left" Margin="176,133,0,0" VerticalAlignment="Top" Width="187" Height="55">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
@@ -37,6 +37,20 @@
             </i:Interaction.Triggers>
         </Button>
         <Label Content="Single Step Tests&#xD;&#xA;" HorizontalAlignment="Left" Margin="83,49,0,0" VerticalAlignment="Top" FontSize="20"/>
-        <Label Content="Automated Test&#xA;" Margin="468,49,166,512" FontSize="20"/>
+        <Label Content="Automated Test&#xA;" Margin="694,49,166,512" FontSize="20"/>
+        <Button Content="Stop Sensors" HorizontalAlignment="Left" Margin="400,220,0,0" VerticalAlignment="Top" Width="187" Height="55">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="StopSensors"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <Button Content="Stop Unreal Engine" HorizontalAlignment="Left" Margin="400,133,0,0" VerticalAlignment="Top" Width="187" Height="55">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="StopUnrealEngine"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
     </Grid>
 </UserControl>

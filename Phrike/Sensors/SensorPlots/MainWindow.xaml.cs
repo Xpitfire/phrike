@@ -141,6 +141,9 @@ namespace Phrike.SensorPlots
 
             var filterChain = new FilterChain();
 
+            //var pulseFilter = PulseCalculator.MakePulseFilterChain();
+            //pulseFilter.Filter(sensorData);
+
             filterChain.Add(new GaussFilter(4));
             filterChain.Add(new EdgeDetectionFilter(2));
             IReadOnlyList<double> prefilteredData = filterChain.Filter(sensorData);

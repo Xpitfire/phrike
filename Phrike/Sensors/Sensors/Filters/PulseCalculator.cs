@@ -33,9 +33,8 @@ namespace Phrike.Sensors.Filters
         /// <summary>
         /// Create a filter chain to calculate the pulse from completely unfiltered sensor data.
         /// </summary>
-        /// <param name="unfilteredData">The raw sensor data.</param>
         /// <returns>The pulse rate at each sample.</returns>
-        public static FilterChain MakePulseFilterChain(IReadOnlyList<double> unfilteredData)
+        public static FilterChain MakePulseFilterChain()
         {
             return new FilterChain(
                 new GaussFilter(4),
@@ -66,7 +65,7 @@ namespace Phrike.Sensors.Filters
             Action<double, int> addPulse = (pulse, pos) =>
                 {
                     pulseRates.Add(pulse);
-                    for (int i = lastInsertPos + 1; i < pos; ++i)
+                    for (int i = lastInsertPos + 1; i <= pos; ++i)
                     {
                         result[i] = pulse;
                     }
@@ -123,7 +122,7 @@ namespace Phrike.Sensors.Filters
                 lastPeakPos = i;
             }
 
-            if (pulseRates.Count >= 0)
+            if (pulseRates.Count > 0)
             {
                 for (int i = lastInsertPos; i < result.Length; ++i)
                 {
