@@ -1,22 +1,33 @@
-﻿using System;
+﻿using Phrike.GroundControl.Model;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Phrike.GroundControl.ViewModels
 {
-    public class StressTestViewModel
+
+    class StressTestViewModel
     {
 
         public void StartUnrealEngine()
         {
-            System.Diagnostics.Process.Start(@"/ext/hello-world.bat");
+            ProcessModel.StartProcess("/ext/unreal-engine.bat");
         }
 
-        public void StartMyo()
+        public void StartSensors()
         {
-            System.Diagnostics.Process.Start(@"/ext/hello-world.bat");
+
+        }
+
+        public void StartScreenCapture()
+        {
+
         }
 
     }

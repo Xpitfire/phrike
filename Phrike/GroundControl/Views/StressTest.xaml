@@ -9,26 +9,34 @@
              xmlns:ViewModels="clr-namespace:Phrike.GroundControl.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    
+
     <UserControl.Resources>
         <ViewModels:StressTestViewModel x:Key="StressTestViewModel" />
     </UserControl.Resources>
-    
-    <Grid DataContext="{StaticResource StressTestViewModel}">
-        <Button Content="Start Unreal Engine" HorizontalAlignment="Left" Margin="61,48,0,0" VerticalAlignment="Top" Width="187" Height="55">
+
+    <Grid DataContext="{StaticResource StressTestViewModel}" Margin="0,0,-485,-324">
+        <Button Content="Start Unreal Engine" HorizontalAlignment="Left" Margin="176,133,0,0" VerticalAlignment="Top" Width="187" Height="55">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
                     <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="StartUnrealEngine"></ei:CallMethodAction>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Button>
-        <Button Content="Start Myo" HorizontalAlignment="Left" Margin="61,131,0,0" VerticalAlignment="Top" Width="187" Height="55">
+        <Button Content="Start Sensors" HorizontalAlignment="Left" Margin="176,220,0,0" VerticalAlignment="Top" Width="187" Height="55">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
-                    <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="StartMyo"></ei:CallMethodAction>
+                    <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="StartSensors"></ei:CallMethodAction>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Button>
-
+        <Button Content="Start Screen-Capture" HorizontalAlignment="Left" Margin="176,307,0,0" VerticalAlignment="Top" Width="187" Height="55">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="StartScreenCapture"></ei:CallMethodAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+        <Label Content="Single Step Tests&#xD;&#xA;" HorizontalAlignment="Left" Margin="83,49,0,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label Content="Automated Test&#xA;" Margin="468,49,166,512" FontSize="20"/>
     </Grid>
 </UserControl>

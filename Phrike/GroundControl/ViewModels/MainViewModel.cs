@@ -12,9 +12,9 @@ using Phrike.GroundControl.Annotations;
 namespace Phrike.GroundControl.ViewModels
 {
 
-    public class MainViewModel : INotifyPropertyChanged
+    class MainViewModel : INotifyPropertyChanged
     {
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private int selectedTab;
 

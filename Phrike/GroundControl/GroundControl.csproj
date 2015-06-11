@@ -80,6 +80,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\ProcessModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
@@ -147,7 +148,7 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="ext\hello-world.bat">
+    <None Include="ext\unreal-engine.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="NLog.xsd">
@@ -171,6 +172,10 @@
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PhrikeSocket\PhrikeSocket.csproj">
+      <Project>{68452b15-7d84-491e-9047-e5eb0c58a621}</Project>
+      <Name>PhrikeSocket</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sensors\gMobiLab\gMobiLab.csproj">
       <Project>{be27c586-513d-4447-b8c0-1fca270791db}</Project>
       <Name>gMobiLab</Name>
