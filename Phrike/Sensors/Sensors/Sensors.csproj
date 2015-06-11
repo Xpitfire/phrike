@@ -43,6 +43,7 @@
     <Compile Include="Filters\AverageFilter.cs" />
     <Compile Include="BasicSample.cs" />
     <Compile Include="BasicSampleData.cs" />
+    <Compile Include="Filters\BinaryThresholdFilter.cs" />
     <Compile Include="Filters\ExtremeChangeFilter.cs" />
     <Compile Include="Filters\FilterChain.cs" />
     <Compile Include="Filters\FilteredSensorHub.cs" />

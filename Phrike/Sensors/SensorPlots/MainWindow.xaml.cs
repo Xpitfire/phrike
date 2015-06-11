@@ -145,30 +145,6 @@ namespace OperationPhrike.SensorPlots
             return result;
         }
 
-        private IReadOnlyList<double> BinaryThreshold(IReadOnlyList<double> peaks, bool detectMaxima, double thresholdRatio)
-        {
-            // median of top n / 500
-            // Calculate reference height
-            int targetNumber = peaks.Count / 500;
-            double referenceValue = peaks
-                .OrderByDescending(v => detectMaxima ? v : -v)
-                .Skip(targetNumber / 2)
-                .First();
-            double cutoffMin = referenceValue * thresholdRatio;
-            double[] result = new double[peaks.Count];
-
-            for (int i = 0; i < peaks.Count; ++i)
-            {
-                if ((peaks[i] > cutoffMin && detectMaxima)
-                    || (peaks[i] < cutoffMin && !detectMaxima))
-                {
-                    result[i] = peaks[i];
-                }
-            }
-
-            return result;
-        }
-
         private IReadOnlyList<double> CalculatePulse(IReadOnlyList<double> peaks)
         {
             const int MinPulse = 30;
@@ -257,11 +233,12 @@ namespace OperationPhrike.SensorPlots
             filterChain.Add(new EdgeDetectionFilter(2));
             IReadOnlyList<double> prefilteredData = filterChain.Filter(sensorData);
             IReadOnlyList<double> maxPeaks = new PeakFilter(15).Filter(prefilteredData);
-            maxPeaks = BinaryThreshold(maxPeaks, true, 0.5);
+            var maxFilter = new BinaryThresholdFilter(0.5);
+            maxPeaks = maxFilter.Filter(maxPeaks);
             IReadOnlyList<double> minPeaks = new PeakFilter(15, false).Filter(prefilteredData);
-            minPeaks = BinaryThreshold(minPeaks, false, 0.5);
+            minPeaks = new BinaryThresholdFilter(0.5, false).Filter(minPeaks);
             IReadOnlyList<double> mergedPeaks = MergePeaks(maxPeaks, minPeaks);
-            mergedPeaks = BinaryThreshold(mergedPeaks, true, 0.5);
+            mergedPeaks = maxFilter.Filter(mergedPeaks);
 
             foreach (var pulse in CalculatePulse(mergedPeaks))
             {
