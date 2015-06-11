@@ -1,9 +1,5 @@
-﻿using Phrike.GMobiLab;
-using Phrike.GroundControl.Model;
+﻿using Phrike.GroundControl.Model;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 using NLog;
 
@@ -16,7 +12,8 @@ namespace Phrike.GroundControl.ViewModels
 
         public const string UnrealEnginePath = @"C:\public\OperationPhrike\Phrike\GroundControl\UnrealData\Balance.exe";
 
-        private SensorDevice sensors;
+        private SensorsModel sensorsModel;
+        private UnrealEngineModel unrealEngineModel;
 
         public async void StartUnrealEngine()
         {
@@ -24,6 +21,8 @@ namespace Phrike.GroundControl.ViewModels
             {
                 ProcessModel.StartProcess(UnrealEnginePath, false);
                 Logger.Info("Unreal Engine process started!");
+                unrealEngineModel = new UnrealEngineModel();
+                Logger.Info("Unreal Engine is ready to use!");
             });
         }
 
@@ -31,6 +30,14 @@ namespace Phrike.GroundControl.ViewModels
         {
             await Task.Run(() =>
             {
+                if (unrealEngineModel == null)
+                {
+                    Logger.Warn("Could not stop the Unreal Engine! No Unreal Engine instance active!");
+                    return;
+                }
+
+                unrealEngineModel.Close();
+                unrealEngineModel = null;
                 ProcessModel.StopProcess(UnrealEnginePath);
                 Logger.Info("Unreal Engine process stoped!");
             });
@@ -40,23 +47,12 @@ namespace Phrike.GroundControl.ViewModels
         {
             await Task.Run(() =>
             {
-                if (sensors != null)
-                {
-                    Logger.Info("Sensors already started!");
-                    return;
-                }
+                if (sensorsModel != null)
+                    sensorsModel.Close();
 
-                try
-                {
-                    sensors = new SensorDevice("COM7:");
-                    sensors.SetSdFilename("gc-test");
-                    sensors.StartRecording();
-                    Logger.Info("Sensors recording started!");
-                }
-                catch (Exception e)
-                {
-                    Logger.Error("Could not connect to sensor device!", e.Message);
-                }
+                sensorsModel = new SensorsModel();
+                Logger.Info("Sensors instance created!");
+                sensorsModel.StartRecording();
             });
         }
 
@@ -64,16 +60,14 @@ namespace Phrike.GroundControl.ViewModels
         {
             await Task.Run(() =>
             {
-                if (sensors != null)
+                if (sensorsModel == null)
                 {
-                    sensors.StopRecording();
-                    sensors = null;
-                    Logger.Info("Sensors recording stopped!");
+                    Logger.Warn("Could not stop sensors recording! No sensors recording instance enabled!");
+                    return;
                 }
-                else
-                {
-                    Logger.Info("Sensors recording is not running!");
-                }
+                sensorsModel.Close();
+                sensorsModel = null;
+                Logger.Info("Sensors recording successfully stopped!");
             });
         }
 

@@ -67,7 +67,7 @@ namespace Phrike.GroundControl.Model
             {
                 if (!process.HasExited)
                 {
-                    process.Kill();
+                    process.Close();
                 }
                 ProcesseDictionary.Remove(cmdPath);
                 Logger.Info("Stopped process: {0}", cmdPath);
