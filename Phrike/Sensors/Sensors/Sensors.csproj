@@ -47,6 +47,7 @@
     <Compile Include="Filters\ExtremeChangeFilter.cs" />
     <Compile Include="Filters\FilterChain.cs" />
     <Compile Include="Filters\FilteredSensorHub.cs" />
+    <Compile Include="Filters\HeartPeakFilter.cs" />
     <Compile Include="Filters\PulseCalculator.cs" />
     <Compile Include="Filters\RadiusFilterBase.cs" />
     <Compile Include="Filters\GaussFilter.cs" />

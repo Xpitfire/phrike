@@ -12,7 +12,6 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // -----------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -122,29 +121,6 @@ namespace OperationPhrike.SensorPlots
             }
         }
 
-        private IReadOnlyList<double> MergePeaks(IReadOnlyList<double> maxPeaks, IReadOnlyList<double> minPeaks)
-        {
-            const int MaxSearchDistance = 11;
-            double[] result = new double[maxPeaks.Count];
-            for (int i = 0; i < maxPeaks.Count; ++i)
-            {
-                if (maxPeaks[i] != 0)
-                {
-                    bool found = false;
-                    for (int j = i; j < i + MaxSearchDistance && j < maxPeaks.Count && !found; ++j)
-                    {
-                        if (minPeaks[j] != 0)
-                        {
-                            result[i] = maxPeaks[i] - minPeaks[j];
-                            found = true;
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
-
         /// <summary>
         /// Update the plot from <see cref="data"/> and the selected Dropdown item.
         /// </summary>
@@ -173,7 +149,8 @@ namespace OperationPhrike.SensorPlots
             maxPeaks = maxFilter.Filter(maxPeaks);
             IReadOnlyList<double> minPeaks = new PeakFilter(15, false).Filter(prefilteredData);
             minPeaks = new BinaryThresholdFilter(0.5, false).Filter(minPeaks);
-            IReadOnlyList<double> mergedPeaks = MergePeaks(maxPeaks, minPeaks);
+            IReadOnlyList<double> mergedPeaks = HeartPeakFilter.MergePeaks(
+                maxPeaks, minPeaks, 11);
             mergedPeaks = maxFilter.Filter(mergedPeaks);
 
             foreach (var pulse in new PulseCalculator().Filter(mergedPeaks))
