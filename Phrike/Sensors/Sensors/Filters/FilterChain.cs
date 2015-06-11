@@ -10,7 +10,19 @@ namespace OperationPhrike.Sensors.Filters
         /// <summary>
         /// The list of filters to apply.
         /// </summary>
-        private readonly List<IFilter> filters = new List<IFilter>(); 
+        private readonly List<IFilter> filters;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FilterChain"/> class.
+        /// </summary>
+        /// <param name="filters">
+        /// The filters to add initially.
+        /// </param>
+        public FilterChain(params IFilter[] filters)
+        {
+            this.filters = new List<IFilter>();
+            this.filters.AddRange(filters);
+        }
 
         /// <summary>
         /// Adds the given filter to this filter chain.
