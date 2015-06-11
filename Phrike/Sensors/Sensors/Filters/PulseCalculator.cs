@@ -22,8 +22,35 @@ namespace OperationPhrike.Sensors.Filters
     /// This is not a general filter, it should only be used with the output of
     /// a Heart.
     /// </summary>
+    /// <remarks>
+    /// The pulse is calculated at peaks. The samples before are then filled
+    /// with this pulse rate. The samples after the last known pulse are filled
+    /// with the last pulse rate. If no pulse at all can be detected, the result
+    /// is filled with zeros.
+    /// </remarks>
     public class PulseCalculator : IFilter
     {
+        /// <summary>
+        /// Create a filter chain to calculate the pulse from completely unfiltered sensor data.
+        /// </summary>
+        /// <param name="unfilteredData">The raw sensor data.</param>
+        /// <returns>The pulse rate at each sample.</returns>
+        public static FilterChain MakePulseFilterChain(IReadOnlyList<double> unfilteredData)
+        {
+            return new FilterChain(
+                new GaussFilter(4),
+                new EdgeDetectionFilter(2),
+                new HeartPeakFilter(
+                    new FilterChain( // maxPeakFilter
+                        new PeakFilter(15),
+                        new BinaryThresholdFilter(0.5)),
+                    new FilterChain( // minPeakFilter
+                        new PeakFilter(15, false),
+                        new BinaryThresholdFilter(0.5, false)),
+                    11), // maxPeakDistance
+                new PulseCalculator());
+        }
+
         /// <inheritdoc/>
         public IReadOnlyList<double> Filter(IReadOnlyList<double> peaks)
         {
