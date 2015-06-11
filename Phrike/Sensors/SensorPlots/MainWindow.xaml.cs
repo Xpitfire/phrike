@@ -145,70 +145,6 @@ namespace OperationPhrike.SensorPlots
             return result;
         }
 
-        private IReadOnlyList<double> CalculatePulse(IReadOnlyList<double> peaks)
-        {
-            const int MinPulse = 30;
-            const int MaxPulse = 250;
-
-            int lastPeakPos = -1;
-            double sampleDistanceInMs = 1000 / 256.0;
-            var result = new List<double>();
-            for (int i = 0; i < peaks.Count; i++)
-            {
-                if (peaks[i] > 0)
-                {
-                    if (lastPeakPos >= 0)
-                    {
-                        int distance = i - lastPeakPos;
-                        double timeMs = distance * sampleDistanceInMs;
-                        double pulse = (60 * 1000) / timeMs;
-                        if (pulse >= MinPulse && pulse <= MaxPulse)
-                        {
-                            if (result.Count > 0)
-                            {
-                                double averagePulse = result.Skip(result.Count - 3).Average();
-                                if (pulse > averagePulse * 1.2)
-                                {
-                                    Debug.WriteLine("Error: Discarded {0}, avg={1}", pulse, averagePulse);
-                                }
-                                else if (pulse < averagePulse * 0.8)
-                                {
-                                    double oneMissingPulse = pulse * 2;
-                                    double twoMissingPulse = pulse * 3;
-                                    double oneMissingToAvg = Math.Abs(averagePulse - oneMissingPulse);
-                                    double twoMissingToAvg = Math.Abs(averagePulse - twoMissingPulse);
-                                    double correctedPulse = oneMissingPulse;
-                                    if (twoMissingToAvg < oneMissingToAvg)
-                                    {
-                                        correctedPulse = twoMissingPulse;
-                                    }
-
-                                    result.Add(correctedPulse);
-                                    Debug.WriteLine(
-                                        "Corrected {0} to {1}, avg={2}",
-                                        pulse,
-                                        correctedPulse,
-                                        averagePulse);
-                                }
-                                else
-                                {
-                                    result.Add(pulse);
-                                }
-                            }
-                            else
-                            {
-                                result.Add(pulse);
-                            }
-                        }
-                    }
-
-                    lastPeakPos = i;
-                }
-            }
-
-            return result;
-        }
-
         /// <summary>
         /// Update the plot from <see cref="data"/> and the selected Dropdown item.
         /// </summary>
@@ -240,7 +176,7 @@ namespace OperationPhrike.SensorPlots
             IReadOnlyList<double> mergedPeaks = MergePeaks(maxPeaks, minPeaks);
             mergedPeaks = maxFilter.Filter(mergedPeaks);
 
-            foreach (var pulse in CalculatePulse(mergedPeaks))
+            foreach (var pulse in new PulseCalculator().Filter(mergedPeaks))
             {
                 Debug.WriteLine(pulse);
             }
