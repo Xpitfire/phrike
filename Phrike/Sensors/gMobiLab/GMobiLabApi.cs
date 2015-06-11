@@ -423,13 +423,13 @@ namespace OperationPhrike.GMobiLab
             /// <summary>
             /// Device serial number.
             /// </summary>
-            [MarshalAsAttribute(UnmanagedType.ByValTStr, SizeConst = 14)]
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 14)]
             public string Serial;
 
             /// <summary>
             /// Channel information.
             /// </summary>
-            [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 8)]
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
             public SensorChannel[] Channels;
         }
 

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{90AEC3EC-C0CD-43D5-8CB0-F87243890511}</ProjectGuid>
+    <ProjectGuid>{52BB1870-5A8C-44F0-AE6D-0FED028594BD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OperationPhrike.Sensors</RootNamespace>
-    <AssemblyName>Sensors</AssemblyName>
+    <RootNamespace>OperationPhrike.SensorFilters</RootNamespace>
+    <AssemblyName>SensorFilters</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -20,7 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -40,29 +39,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Filters\AverageFilter.cs" />
-    <Compile Include="BasicSample.cs" />
-    <Compile Include="BasicSampleData.cs" />
-    <Compile Include="Filters\BinaryThresholdFilter.cs" />
-    <Compile Include="Filters\ExtremeChangeFilter.cs" />
-    <Compile Include="Filters\FilterChain.cs" />
-    <Compile Include="Filters\FilteredSensorHub.cs" />
-    <Compile Include="Filters\HeartPeakFilter.cs" />
-    <Compile Include="Filters\PulseCalculator.cs" />
-    <Compile Include="Filters\RadiusFilterBase.cs" />
-    <Compile Include="Filters\GaussFilter.cs" />
-    <Compile Include="Filters\IFilter.cs" />
-    <Compile Include="Filters\MedianFilter.cs" />
-    <Compile Include="Filters\EdgeDetectionFilter.cs" />
-    <Compile Include="Filters\PeakFilter.cs" />
-    <Compile Include="Filters\ValueDistanceFilter.cs" />
-    <Compile Include="ISample.cs" />
-    <Compile Include="ISampleData.cs" />
-    <Compile Include="ISensorHub.cs" />
-    <Compile Include="ISensorHubDevice.cs" />
+    <Compile Include="Filter.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SensorInfo.cs" />
-    <Compile Include="SensorUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\gMobiLab\gMobiLab.csproj">
+      <Project>{be27c586-513d-4447-b8c0-1fca270791db}</Project>
+      <Name>gMobiLab</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sensors\Sensors.csproj">
+      <Project>{90aec3ec-c0cd-43d5-8cb0-f87243890511}</Project>
+      <Name>Sensors</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

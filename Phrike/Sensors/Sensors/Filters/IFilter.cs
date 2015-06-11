@@ -1,4 +1,4 @@
-﻿// <summary>Implementation of the WPF app.</summary>
+﻿// <summary>Specifies interface for a filter.</summary>
 // -----------------------------------------------------------------------
 // Copyright (c) 2015 University of Applied Sciences Upper-Austria
 // Project OperationPhrike
@@ -11,14 +11,21 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // -----------------------------------------------------------------------
-using System.Windows;
 
-namespace OperationPhrike.SensorPlots
+using System.Collections.Generic;
+
+namespace OperationPhrike.Sensors.Filters
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    /// Represents a filter that can be applied to unfiltered data.
     /// </summary>
-    public partial class App : Application
+    public interface IFilter
     {
+        /// <summary>
+        /// Filters the given unfiltered data.
+        /// </summary>
+        /// <param name="unfilteredData">The unfiltered data.</param>
+        /// <returns>New collection of filtered data.</returns>
+        IReadOnlyList<double> Filter(IReadOnlyList<double> unfilteredData);
     }
 }

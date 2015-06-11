@@ -1,107 +1,184 @@
-﻿using System;
+﻿// <summary>Implementation of the main window logic.</summary>
+// -----------------------------------------------------------------------
+// Copyright (c) 2015 University of Applied Sciences Upper-Austria
+// Project OperationPhrike
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
+// ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
+// CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// -----------------------------------------------------------------------
+
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
+using Microsoft.Win32;
 
 using OperationPhrike.GMobiLab;
 using OperationPhrike.Sensors;
+using OperationPhrike.Sensors.Filters;
 
 using OxyPlot;
 using OxyPlot.Series;
 
-namespace SensorPlots
+namespace OperationPhrike.SensorPlots
 {
-    using Microsoft.Win32;
-
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// The OxyPlot plotmodel that is displayed in the window.
+        /// </summary>
         private readonly PlotModel plotModel = new PlotModel();
 
-        private ISample[] data;
-
-        private ISensorHub dataSource;
-
+        /// <summary>
+        /// The prefiltered data series that is displayed in the PlotModel.
+        /// </summary>
         private readonly LineSeries dataSeries = new LineSeries();
 
+        /// <summary>
+        /// Series of minimum peaks.
+        /// </summary>
+        private readonly LineSeries minSeries = new LineSeries();
+
+        /// <summary>
+        /// Series of maximum peaks.
+        /// </summary>
+        private readonly LineSeries maxSeries = new LineSeries();
+
+        /// <summary>
+        /// Series of merged (minimum + maximum) peaks.
+        /// </summary>
+        private readonly LineSeries mergedPeaksSeries = new LineSeries();
+
+        /// <summary>
+        /// Buffer that contains the samples read from <see cref="dataSource"/>.
+        /// </summary>
+        private ISample[] data;
+
+        /// <summary>
+        /// The sensor hub corresponding to <see cref="data"/>.
+        /// </summary>
+        private ISensorHub dataSource;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindow"/> class.
+        /// </summary>
         public MainWindow()
         {
-            InitializeComponent();
-            plotModel.Series.Add(dataSeries);
-            PlotView.Model = plotModel;
-            Debug.WriteLine(unchecked((ushort)-2));
-            dataSeries.StrokeThickness = 1;
+            this.InitializeComponent();
+            this.plotModel.Series.Add(this.dataSeries);
+            this.plotModel.Series.Add(this.minSeries);
+            this.plotModel.Series.Add(this.maxSeries);
+            this.plotModel.Series.Add(this.mergedPeaksSeries);
+            this.PlotView.Model = this.plotModel;
+            this.dataSeries.StrokeThickness = 1;
+            this.minSeries.StrokeThickness = 1;
+            this.maxSeries.StrokeThickness = 1;
+            this.mergedPeaksSeries.StrokeThickness = 1;
         }
 
-        private void BtnOpenFile(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Invoked when the "Open file" button is clicked.
+        /// </summary>
+        /// <param name="sender">The event source.</param>
+        /// <param name="e">Additional event arguments.</param>
+        private void BtnOpenFileClicked(object sender, RoutedEventArgs e)
         {
-            
             var dlg = new OpenFileDialog
             {
                 Filter = "Binary files (*.bin)|*.bin"
             };
-            if (dlg.ShowDialog(this) == true)
+
+            // ShowDialog returns bool?, hence ==.
+            if (dlg.ShowDialog() == true) 
             {
-                if (dataSource != null)
+                if (this.dataSource != null)
                 {
-                    dataSource.Dispose();
-                    ChannelSelection.Items.Clear();
-                    dataSource = null;
+                    this.dataSource.Dispose();
+                    this.ChannelSelection.Items.Clear();
+                    this.dataSource = null;
                 }
-                dataSource = new SensorDataFileStreamer(dlg.FileName);
-                foreach (var sensor in dataSource.Sensors)
+
+                this.dataSource = new SensorDataFileStreamer(dlg.FileName);
+                foreach (var sensor in this.dataSource.Sensors)
                 {
                     if (sensor.Enabled)
                     {
-                        ChannelSelection.Items.Add(sensor);
+                        this.ChannelSelection.Items.Add(sensor);
                     }
                 }
-                data = dataSource.ReadSamples().ToArray();
+
+                this.data = this.dataSource.ReadSamples().ToArray();
             }
         }
 
+        /// <summary>
+        /// Update the plot from <see cref="data"/> and the selected Dropdown item.
+        /// </summary>
         private void UpdatePlot()
         {
-            var relativeChannelIdx = ChannelSelection.SelectedIndex;
-            if (ChannelSelection.SelectedItem == null || data.Length <= 0)
+            if (this.ChannelSelection.SelectedItem == null || this.data.Length <= 0)
             {
                 return;
             }
 
-            var sensor = (SensorInfo)ChannelSelection.SelectedItem;
-            dataSeries.Points.Clear();
-            dataSeries.Title = sensor.Name;
+            var sensor = (SensorInfo)this.ChannelSelection.SelectedItem;
+            this.dataSeries.Points.Clear();
+            this.dataSeries.Title = sensor.Name;
 
-            int sensorIdx = dataSource.GetSensorValueIndexInSample(sensor);
+            int sensorIdx = this.dataSource.GetSensorValueIndexInSample(sensor);
+            
+            double[] sensorData = SensorUtil.GetSampleValues(this.data, sensorIdx).ToArray();
 
-            var startTime = data[0].Time;
-            // For each sample:
-            for (int i = 0; i < data.Length; ++i)
+            var filterChain = new FilterChain();
+
+            filterChain.Add(new GaussFilter(4));
+            filterChain.Add(new EdgeDetectionFilter(2));
+            IReadOnlyList<double> prefilteredData = filterChain.Filter(sensorData);
+            IReadOnlyList<double> maxPeaks = new PeakFilter(15).Filter(prefilteredData);
+            var maxFilter = new BinaryThresholdFilter(0.5);
+            maxPeaks = maxFilter.Filter(maxPeaks);
+            IReadOnlyList<double> minPeaks = new PeakFilter(15, false).Filter(prefilteredData);
+            minPeaks = new BinaryThresholdFilter(0.5, false).Filter(minPeaks);
+            IReadOnlyList<double> mergedPeaks = HeartPeakFilter.MergePeaks(
+                maxPeaks, minPeaks, 11);
+            mergedPeaks = maxFilter.Filter(mergedPeaks);
+
+            foreach (var pulse in new PulseCalculator().Filter(mergedPeaks))
             {
-                var x = (data[i].Time - startTime).TotalSeconds;
-                var y = data[i].Values[sensorIdx].Value;
-                dataSeries.Points.Add(new DataPoint(x, y));
-                //Debug.WriteLine(y);
+                Debug.WriteLine(pulse);
             }
-            PlotView.InvalidatePlot(true);
+           
+            var startTime = this.data[0].Time;
+            for (int i = 0; i < sensorData.Length; ++i)
+            {
+                var x = (this.data[i].Time - startTime).TotalSeconds;
+                this.dataSeries.Points.Add(new DataPoint(x, prefilteredData[i]));
+                this.minSeries.Points.Add(new DataPoint(x, minPeaks[i]));
+                this.maxSeries.Points.Add(new DataPoint(x, maxPeaks[i]));
+                this.mergedPeaksSeries.Points.Add(new DataPoint(x, mergedPeaks[i]));
+            }
+
+            this.PlotView.InvalidatePlot(true);
         }
 
+        /// <summary>
+        /// Invoked when the selection in the channel selection Dropdown changes.
+        /// </summary>
+        /// <param name="sender">The event source.</param>
+        /// <param name="e">Additional event arguments.</param>
         private void CbChannelSelected(object sender, SelectionChangedEventArgs e)
         {
-            UpdatePlot();
+            this.UpdatePlot();
         }
     }
 }
