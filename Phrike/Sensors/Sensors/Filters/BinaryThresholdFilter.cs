@@ -67,7 +67,7 @@ namespace Phrike.Sensors.Filters
             double referenceValue = unfilteredData
                 .OrderByDescending(v => DetectMaxima ? v : -v)
                 .Skip(targetNumber / 2)
-                .First();
+                .FirstOrDefault();
             double cutoffMin = referenceValue * ThresholdRatio;
             var result = new double[unfilteredData.Count];
 

@@ -47,7 +47,8 @@ namespace Phrike.Sensors.Filters
                         new PeakFilter(15, false),
                         new BinaryThresholdFilter(0.5, false)),
                     11), // maxPeakDistance
-                new PulseCalculator());
+                new PulseCalculator(),
+                new BinaryThresholdFilter(0.5));
         }
 
         /// <inheritdoc/>
@@ -87,6 +88,7 @@ namespace Phrike.Sensors.Filters
                     double pulse = (60 * 1000) / timeMs;
                     if (pulse < MinPulse || pulse > MaxPulse)
                     {
+                        lastPeakPos = i;
                         continue;
                     }
 
@@ -124,7 +126,7 @@ namespace Phrike.Sensors.Filters
 
             if (pulseRates.Count > 0)
             {
-                for (int i = lastInsertPos; i < result.Length; ++i)
+                for (int i = lastInsertPos + 1; i < result.Length; ++i)
                 {
                     result[i] = pulseRates[pulseRates.Count - 1];
                 }    
