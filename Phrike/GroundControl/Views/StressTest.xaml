@@ -15,14 +15,18 @@
     </UserControl.Resources>
 
     <Grid Margin="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="77*"/>
+            <RowDefinition Height="223*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="97*"/>
+            <ColumnDefinition Width="203*"/>
         </Grid.ColumnDefinitions>
-        
-        <StackPanel Grid.Column="0">
-            <Label Content="Automated Test&#xA;" FontSize="20" HorizontalAlignment="Left" Width="173"/>
-            <Button Content="Start New Stress Test" HorizontalAlignment="Left" VerticalAlignment="Top" Width="187" Height="99" Margin="50,0,0,0">
+
+        <StackPanel Grid.Column="0" Grid.RowSpan="2" Margin="150,50,0,0">
+            <Label Content="Automated Test&#xA;" FontSize="20" HorizontalAlignment="Left" Width="254" Margin="0,50,0,50"/>
+            <Button Content="Start New Stress Test" HorizontalAlignment="Left" VerticalAlignment="Top" Width="187" Height="99" Margin="0,0,0,0">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="AutoStressTest"/>
@@ -30,9 +34,9 @@
                 </i:Interaction.Triggers>
             </Button>
         </StackPanel>
-        <StackPanel Grid.Column="1">
-            <Label Content="Single Step Tests&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20"/>
-            <Grid DataContext="{StaticResource StressTestViewModel}" Margin="50,0,0,0" >
+        <StackPanel Grid.Column="1" Grid.RowSpan="2" Margin="100,50,0,0">
+            <Label Content="Single Step Tests&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" Height="63" Margin="0,50,0,50"/>
+            <Grid DataContext="{StaticResource StressTestViewModel}" Margin="50,0,0,0" HorizontalAlignment="Left" Width="413" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
@@ -46,7 +50,7 @@
                 <Button Content="Start Unreal Engine" HorizontalAlignment="Left" VerticalAlignment="Top" Width="187" Height="55" Grid.Row="0" Grid.Column="0">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="StartUnrealEngine"></ei:CallMethodAction>
+                            <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="StartUnrealEngine"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -62,7 +66,7 @@
                 <Button Content="Start Sensors" HorizontalAlignment="Left" VerticalAlignment="Top" Width="187" Height="55" Grid.Row="1" Grid.Column="0">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="StartSensors"></ei:CallMethodAction>
+                            <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="StartSensors"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
@@ -77,14 +81,14 @@
                 <Button Content="Start Screen-Capture" HorizontalAlignment="Left" VerticalAlignment="Top" Width="187" Height="55" Grid.Row="2" Grid.Column="0">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="StartScreenCapture"></ei:CallMethodAction>
+                            <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="StartScreenCapture"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
                 <Button Content="Stop Screen-Capture" HorizontalAlignment="Left" VerticalAlignment="Top" Width="187" Height="55" Grid.Row="2" Grid.Column="1">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="StopScreenCapture"></ei:CallMethodAction>
+                            <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="StopScreenCapture"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
