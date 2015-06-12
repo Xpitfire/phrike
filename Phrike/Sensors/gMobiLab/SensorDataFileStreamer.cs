@@ -46,12 +46,6 @@ namespace Phrike.GMobiLab
         private readonly SensorChannel?[] analogChannels;
 
         /// <summary>
-        /// True if the channel is available AND not explicitly disabled by
-        /// calling <see cref="SetSensorEnabled"/>.
-        /// </summary>
-        private readonly bool[] analogChannelEnabled;
-
-        /// <summary>
         /// The approximate start time of the recording.
         /// </summary>
         private readonly DateTime startTime;
@@ -91,9 +85,6 @@ namespace Phrike.GMobiLab
             this.analogChannels = new SensorChannel?[8];
 
             ParseHeader();
-
-            analogChannelEnabled =
-                analogChannels.Select(c => c.HasValue).ToArray();
 
             sensorInfos = new SensorInfo[this.analogChannels.Length];
             for (int i = 0; i < sensorInfos.Length; ++i)
@@ -141,14 +132,16 @@ namespace Phrike.GMobiLab
                     "Cannot enable a sensor that was not recorded.");
             }
 
-            analogChannelEnabled[sensor.Id] = enabled;
+            SensorInfo oldInfo = sensorInfos[sensor.Id];
+            sensorInfos[sensor.Id] = new SensorInfo(
+                oldInfo.Name, oldInfo.Unit, enabled, oldInfo.Id);
         }
 
         /// <inheritdoc/>
         public int GetSensorValueIndexInSample(SensorInfo sensor)
         {
             int disabledWithLowerIdCount =
-                analogChannelEnabled.Take(sensor.Id).Count(e => !e);
+                sensorInfos.Take(sensor.Id).Count(si => !si.Enabled);
             return sensor.Id - disabledWithLowerIdCount;
         }
 
@@ -160,7 +153,7 @@ namespace Phrike.GMobiLab
 
             int sampleCount = Math.Min(maxCount, this.GetAvailableSampleCount());
             int enabledChannelCount =
-                analogChannelEnabled.Count(enabled => enabled);
+                sensorInfos.Count(si => si.Enabled);
             var sampleLength = (double)TimeSpan.TicksPerSecond / sampleRate;
             for (int sampleIdx = 0; sampleIdx < sampleCount; ++sampleIdx)
             {
@@ -176,10 +169,9 @@ namespace Phrike.GMobiLab
 
                     var rawValue = dataReader.ReadInt16();
 
-                    if ( // If the channel was recorded but is not enabled,
-                         // discard the read value.
-                        channelId >= analogChannelEnabled.Length
-                        || !analogChannelEnabled[channelId])
+                    // If the channel was recored but was disabled, discard
+                    // the read value.
+                    if (!sensorInfos[channelId].Enabled)
                     {
                         continue;
                     }
