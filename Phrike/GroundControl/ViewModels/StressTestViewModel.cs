@@ -11,9 +11,20 @@ namespace Phrike.GroundControl.ViewModels
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public const string UnrealEnginePath = @"C:\public\OperationPhrike\Phrike\GroundControl\UnrealData\Balance.exe";
+        private static StressTestViewModel instance;
 
         private SensorsModel sensorsModel;
         private UnrealEngineModel unrealEngineModel;
+
+        public StressTestViewModel()
+        {
+            instance = this;
+        }
+
+        public static StressTestViewModel GetInstance()
+        {
+            return instance;
+        }
 
         public void StartUnrealEngine()
         {
@@ -40,11 +51,23 @@ namespace Phrike.GroundControl.ViewModels
             StopScreenCaptureTask();
         }
 
+        public async void ApplicationClose()
+        {
+            await ApplicationCloseTask();
+        }
+
+        public async void AutoStressTest()
+        {
+            await StartUnrealEngineTask();
+            await StartScreenCaptureTask();
+            await StartSensorsTask();
+        }
+
         public async Task StartUnrealEngineTask()
         {
             await Task.Run(() =>
             {
-                //ProcessModel.StartProcess(UnrealEnginePath, false);
+                ProcessModel.StartProcess(UnrealEnginePath, false);
                 Logger.Info("Unreal Engine process started!");
                 unrealEngineModel = new UnrealEngineModel();
                 Logger.Info("Unreal Engine is ready to use!");
@@ -103,27 +126,27 @@ namespace Phrike.GroundControl.ViewModels
                 await Task.Run(() =>
                 {
                     unrealEngineModel.StartCapture();
-                    Logger.Warn("Screen Capture currently not supported!");
+                    Logger.Info("Screen Capture successfully started!");
                 });
             }
         }
-        public async void StopScreenCaptureTask()
+        public async Task StopScreenCaptureTask()
         {
             if (unrealEngineModel != null)
             {
                 await Task.Run(() =>
                 {
                     unrealEngineModel.StopCapture();
-                    Logger.Warn("Screen Capture currently not supported!");
+                    Logger.Info("Screen Capture successfully stopped!");
                 });
             }
         }
 
-        public async void AutoStressTest()
+        public async Task ApplicationCloseTask()
         {
-            await StartUnrealEngineTask();
-            await StartScreenCaptureTask();
-            await StartSensorsTask();
+            await StopSensorsTask();
+            await StopScreenCaptureTask();
+            await StopUnrealEngineTask();
         }
 
     }

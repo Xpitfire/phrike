@@ -10,7 +10,8 @@
                       xmlns:ViewModels="clr-namespace:Phrike.GroundControl.ViewModels"
                       Title="Ground Control" Height="800" Width="1200"
                       ShowIconOnTitleBar="True"
-                      Icon="/Resources/img/op_icon.ico">
+                      Icon="/Resources/img/op_icon.ico"
+                      Closing="ApplicationClose">
     
     <Controls:MetroWindow.Resources>
         <ViewModels:MainViewModel x:Key="MainViewModel" />

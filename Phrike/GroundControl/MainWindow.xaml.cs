@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using MahApps.Metro.Controls;
+using NLog;
+using Phrike.GroundControl.ViewModels;
 
 namespace Phrike.GroundControl
 {
@@ -8,6 +11,8 @@ namespace Phrike.GroundControl
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -16,6 +21,12 @@ namespace Phrike.GroundControl
         private void ButtonClick_Settings(object sender, RoutedEventArgs e)
         {
             MainTabControl.SelectedItem = TabItemSettings;
+        }
+
+        public void ApplicationClose(object sender, CancelEventArgs e)
+        {
+            StressTestViewModel.GetInstance().ApplicationClose();
+            Logger.Info("Successfully closed application!");
         }
     }
 }

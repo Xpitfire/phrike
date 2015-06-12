@@ -85,8 +85,12 @@ namespace Phrike.GroundControl.Model
 
         public void Close()
         {
-            sensors.StopRecording();
-            sensors.Dispose();
+            if (sensors != null)
+            {
+                sensors.StopRecording();
+                sensors.Dispose();
+                Logger.Info("Sensors recording stopped!");
+            }
         }
 
     }

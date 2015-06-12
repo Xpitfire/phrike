@@ -4,7 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media.Media3D;
 using NLog;
 using Phrike.PhrikeSocket;
 
@@ -21,6 +23,15 @@ namespace Phrike.GroundControl.Model
         private SocketWriter unrealSocketWriter;
         private SocketReader unrealSocketReader;
 
+        private UnrealEngineModel unrealEngineModel;
+        private bool isAlive = true;
+
+        public bool IsAlive
+        {
+            get { return isAlive; }
+            private set { isAlive = value; }
+        }
+
         public UnrealEngineModel()
         {
             TcpListener socketListener = new TcpListener(IPAddress.Any, UnrealEngineSocketPort);
@@ -29,12 +40,17 @@ namespace Phrike.GroundControl.Model
             socket = socketListener.AcceptSocket();
             unrealSocketWriter = new SocketWriter(socket);
             unrealSocketReader = new SocketReader(socket);
+            // run command listener thread
+            Thread trackingThread = new Thread(new ThreadStart(Run));
+            trackingThread.Start();
+            Logger.Info("Listener socket thread initialized.");
         }
 
         public void Close()
         {
             try
             {
+                StopCapture();
                 unrealSocketWriter.WriteString("exit");
                 unrealSocketWriter.Send();
             }
@@ -73,5 +89,59 @@ namespace Phrike.GroundControl.Model
             }
         }
 
+        private void InitPositionTracking()
+        {
+            try
+            {
+                unrealSocketWriter.WriteString("pos");
+                unrealSocketWriter.WriteFloat(0.5f);
+                unrealSocketWriter.WriteString("agl");
+                unrealSocketWriter.WriteFloat(0.5f);
+                unrealSocketWriter.Send();
+                Logger.Info("Unreal Engine successfully initialized position tracking!");
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Could not send Unreal Engine position tracking initalization command!");
+            }
+        }
+
+        public void Run()
+        {
+            InitPositionTracking();
+            Logger.Info("Unreal Engine listener socket thread active!");
+            while (IsAlive)
+            {
+                unrealSocketReader.Receive();
+
+                String cmd = unrealSocketReader.ReadString();
+                Logger.Info("Received command with Length: {0} - {1}", cmd.Length, cmd);
+
+                Vector3D pos = default(Vector3D);
+
+                switch (cmd.ToLower())
+                {
+                    case "pos":
+                    case "agl":
+                        float x = unrealSocketReader.ReadFloat();
+                        float y = unrealSocketReader.ReadFloat();
+                        float z = unrealSocketReader.ReadFloat();
+
+                        pos = new Vector3D() { X = x, Y = y, Z = z };
+                        Logger.Debug("Received position: {0}", pos);
+                        break;
+
+                    case "end":
+                        isAlive = false;
+                        break;
+
+                    default:
+                        Logger.Error("Unkown Command: {0}", cmd);
+                        break;
+                }
+
+                Logger.Debug("Received command: {0}", cmd);
+            }
+        }
     }
 }
