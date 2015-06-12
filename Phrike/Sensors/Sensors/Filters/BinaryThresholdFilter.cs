@@ -48,7 +48,6 @@ namespace Phrike.Sensors.Filters
         /// </summary>
         public bool DetectMaxima { get; private set; }
 
-
         /// <summary>
         /// Gets the factor with which the median is multiplied to obtain the
         /// cutoff value.

@@ -14,7 +14,6 @@ namespace OperationPhrike.GMobiLab
     /// </summary>
     public class SensorDeviceUtil
     {
-
         /// <summary>
         /// Returns the entire data-stream from a file.
         /// </summary>
@@ -45,6 +44,5 @@ namespace OperationPhrike.GMobiLab
         {
             return PulseCalculator.MakePulseFilterChain().Filter(rawData).ToArray();
         }
-
     }
 }

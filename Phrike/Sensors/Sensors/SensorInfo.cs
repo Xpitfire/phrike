@@ -55,11 +55,6 @@ namespace Phrike.Sensors
             Id = id;
         }
 
-        public override string ToString()
-        {
-            return Name;
-        }
-
         /// <summary>
         /// Gets a descriptive name of the sensor.
         /// </summary>
@@ -79,5 +74,10 @@ namespace Phrike.Sensors
         /// Gets the ID of the sensor inside the containing <see cref="ISensorHub"/>.
         /// </summary>
         public int Id { get; private set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

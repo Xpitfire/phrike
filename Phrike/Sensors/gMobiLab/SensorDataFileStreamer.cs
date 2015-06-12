@@ -182,6 +182,7 @@ namespace Phrike.GMobiLab
                     sampleData[channelId] = new BasicSampleData(
                         sensorInfos[channelId], rawValue * scale);
                 }
+
                 yield return new BasicSample(
                     startTime + TimeSpan.FromTicks((long)(sampleLength * sampleIdx)),
                     sampleData);
