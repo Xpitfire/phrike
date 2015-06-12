@@ -101,7 +101,7 @@ namespace Phrike.GMobiLab
             {
                 sensorInfos[i] = new SensorInfo(
                     "Channel 0" + (i + 1).ToString(),
-                    Unit.MilliVolt,
+                    Unit.MicroVolt,
                     this.analogChannels[i].HasValue,
                     i);
             }

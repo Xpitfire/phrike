@@ -20,9 +20,8 @@ namespace Phrike.Sensors
     public enum Unit
     {
         /// <summary>
-        /// A 1000th of a Volt (usually raw sensor data).
+        /// A millionsth of a Volt (usually raw sensor data).
         /// </summary>
-        MilliVolt,
         MicroVolt
     }
 
