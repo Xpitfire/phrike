@@ -45,6 +45,7 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="GMobiLabException.cs" />
+    <Compile Include="GMobiLabSensors.cs" />
     <Compile Include="GMobiLabXferException.cs" />
     <Compile Include="GMobiLabXferHelpersApi.cs" />
     <Compile Include="SensorDataFileStreamer.cs" />
