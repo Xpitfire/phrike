@@ -107,7 +107,10 @@ namespace Phrike.GMobiLab
             }
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Gets information about the available sensors/channels. 
+        /// It may be indexed: Sensors[i] always corresponds to Channel i + 1.
+        /// </summary>
         public IReadOnlyList<SensorInfo> Sensors
         {
             get

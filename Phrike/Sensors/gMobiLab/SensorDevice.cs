@@ -89,7 +89,8 @@ namespace Phrike.GMobiLab
         }
 
         /// <summary>
-        /// Returns an array that includes all channel settings
+        /// Gets an array that includes all channel settings.
+        /// It may be indexed: Sensors[i] always corresponds to Channel i + 1.
         /// </summary>
         public IReadOnlyList<SensorInfo> Sensors
         {
@@ -169,6 +170,14 @@ namespace Phrike.GMobiLab
             }
         }
 
+        /// <summary>
+        /// Enables or disables the given <paramref name="sensor"/>.
+        /// </summary>
+        /// <param name="sensor">
+        /// The sensor to enable or disable. Use <see cref="Sensors"/> to
+        /// obtain this.
+        /// </param>
+        /// <param name="enabled">Whether to enable or disable the sensor.</param>
         public void SetSensorEnabled(SensorInfo sensor, bool enabled = true)
         {
             var ain = new GMobiLabApi.AnalogIn();
