@@ -36,6 +36,13 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Button>
+        <Button Content="Stop Screen-Capture" HorizontalAlignment="Left" Margin="400,307,0,0" VerticalAlignment="Top" Width="187" Height="55">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="StopScreenCapture"></ei:CallMethodAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
         <Label Content="Single Step Tests&#xD;&#xA;" HorizontalAlignment="Left" Margin="83,49,0,0" VerticalAlignment="Top" FontSize="20"/>
         <Label Content="Automated Test&#xA;" Margin="694,49,166,512" FontSize="20"/>
         <Button Content="Stop Sensors" HorizontalAlignment="Left" Margin="400,220,0,0" VerticalAlignment="Top" Width="187" Height="55">

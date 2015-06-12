@@ -19,7 +19,7 @@ namespace Phrike.GroundControl.ViewModels
         {
             await Task.Run(() =>
             {
-                ProcessModel.StartProcess(UnrealEnginePath, false);
+                //ProcessModel.StartProcess(UnrealEnginePath, false);
                 Logger.Info("Unreal Engine process started!");
                 unrealEngineModel = new UnrealEngineModel();
                 Logger.Info("Unreal Engine is ready to use!");
@@ -73,11 +73,25 @@ namespace Phrike.GroundControl.ViewModels
 
         public async void StartScreenCapture()
         {
-            await Task.Run(() =>
+            if (unrealEngineModel != null)
             {
-                // TODO implementation
-                Logger.Warn("Screen Capture currently not supported!");
-            });
+                await Task.Run(() =>
+                {
+                    unrealEngineModel.StartCapture();
+                    Logger.Warn("Screen Capture currently not supported!");
+                });
+            }
+        }
+        public async void StopScreenCapture()
+        {
+            if (unrealEngineModel != null)
+            {
+                await Task.Run(() =>
+                {
+                    unrealEngineModel.StopCapture();
+                    Logger.Warn("Screen Capture currently not supported!");
+                });
+            }
         }
 
     }

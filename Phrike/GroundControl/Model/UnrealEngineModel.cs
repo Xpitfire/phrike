@@ -35,7 +35,7 @@ namespace Phrike.GroundControl.Model
         {
             try
             {
-                unrealSocketWriter.WriteString("end");
+                unrealSocketWriter.WriteString("exit");
                 unrealSocketWriter.Send();
             }
             catch (Exception e)
@@ -46,6 +46,30 @@ namespace Phrike.GroundControl.Model
             {
                 socket.Close();
                 Logger.Info("Successfully closed socket connection!");
+            }
+        }
+        public void StartCapture()
+        {
+            try
+            {
+                unrealSocketWriter.WriteString("start_capture");
+                unrealSocketWriter.Send();
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Could not send Unreal Engine exit command!");
+            }
+        }
+        public void StopCapture()
+        {
+            try
+            {
+                unrealSocketWriter.WriteString("stop_capture");
+                unrealSocketWriter.Send();
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Could not send Unreal Engine exit command!");
             }
         }
 
