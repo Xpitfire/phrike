@@ -13,9 +13,12 @@ namespace Phrike.GroundControl
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        public static MainWindow Instance { get; private set; }
+
         public MainWindow()
         {
             InitializeComponent();
+            Instance = this;
         }
 
         private void ButtonClick_Settings(object sender, RoutedEventArgs e)
@@ -25,7 +28,7 @@ namespace Phrike.GroundControl
 
         public void ApplicationClose(object sender, CancelEventArgs e)
         {
-            StressTestViewModel.GetInstance().ApplicationClose();
+            StressTestViewModel.Instance.ApplicationClose();
             Logger.Info("Successfully closed application!");
         }
     }

@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NLog;
 
 using OxyPlot;
 using OxyPlot.Series;
 using Phrike.GMobiLab;
+using Phrike.GroundControl.ViewModels;
 
 namespace Phrike.GroundControl.Model
 {
@@ -21,7 +18,7 @@ namespace Phrike.GroundControl.Model
 
         private static LineSeries SensorDataToLineSeries(double[] data)
         {
-            LineSeries lineSeries = new LineSeries();
+            var lineSeries = new LineSeries();
             for (int i = 0; i < data.Length; ++i)
             {
                 lineSeries.Points.Add(new DataPoint(i / SampleRate, data[i]));
@@ -31,7 +28,7 @@ namespace Phrike.GroundControl.Model
 
         public static Series GetPulseSeries(string fileName, bool useRelativePath = true)
         {
-            return SensorsModel.SensorDataToLineSeries(
+            return SensorDataToLineSeries(
                 SensorDeviceUtil.GetPulseFilteredData(
                 SensorDeviceUtil.GetPulseRawData(
                 SensorDeviceUtil.GetSamples((useRelativePath) ? Environment.CurrentDirectory + fileName : fileName))));
@@ -52,7 +49,8 @@ namespace Phrike.GroundControl.Model
             }
             catch (Exception e)
             {
-                Logger.Error("Could not connect to sensor device!", e.Message);
+                const string message = "Could not connect to sensor device!";
+                Logger.Error(message, e.Message);
             }
         }
 
@@ -65,7 +63,9 @@ namespace Phrike.GroundControl.Model
             }
             catch (Exception e)
             {
-                Logger.Error("Sensors recording failed!", e.Message);
+                const string message = "Sensors recording failed!";
+                Logger.Error(message, e);
+                ShowSensorError(message);
             }
         }
 
@@ -79,7 +79,9 @@ namespace Phrike.GroundControl.Model
             }
             else
             {
-                Logger.Info("Sensors recording is not running!");
+                const string message = "Sensors recording is not running!";
+                Logger.Warn(message);
+                ShowSensorError(message);
             }
         }
 
@@ -91,6 +93,11 @@ namespace Phrike.GroundControl.Model
                 sensors.Dispose();
                 Logger.Info("Sensors recording stopped!");
             }
+        }
+
+        private void ShowSensorError(string message)
+        {
+            MainViewModel.Instance.ShowDialogMessage("Sensor Device Error", message);
         }
 
     }

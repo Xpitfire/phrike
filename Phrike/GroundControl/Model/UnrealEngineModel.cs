@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 using NLog;
+using Phrike.GroundControl.ViewModels;
 using Phrike.PhrikeSocket;
 
 namespace Phrike.GroundControl.Model
@@ -34,16 +31,26 @@ namespace Phrike.GroundControl.Model
 
         public UnrealEngineModel()
         {
-            TcpListener socketListener = new TcpListener(IPAddress.Any, UnrealEngineSocketPort);
-            socketListener.Start();
-            Logger.Info("Unreal Engine socket connection established on port {0} and waiting for connections...", UnrealEngineSocketPort);
-            socket = socketListener.AcceptSocket();
-            unrealSocketWriter = new SocketWriter(socket);
-            unrealSocketReader = new SocketReader(socket);
-            // run command listener thread
-            Thread trackingThread = new Thread(new ThreadStart(Run));
-            trackingThread.Start();
-            Logger.Info("Listener socket thread initialized.");
+            try
+            {
+                TcpListener socketListener = new TcpListener(IPAddress.Any, UnrealEngineSocketPort);
+                socketListener.Start();
+                Logger.Info("Unreal Engine socket connection established on port {0} and waiting for connections...",
+                    UnrealEngineSocketPort);
+                socket = socketListener.AcceptSocket();
+                unrealSocketWriter = new SocketWriter(socket);
+                unrealSocketReader = new SocketReader(socket);
+                // run command listener thread
+                Thread trackingThread = new Thread(new ThreadStart(Run));
+                trackingThread.Start();
+                Logger.Info("Listener socket thread initialized.");
+            }
+            catch (Exception e)
+            {
+                const string message = "Could not initialize Unreal Engine socket instance.";
+                Logger.Error(message, e);
+                ShowUnrealEngineError(message);
+            }
         }
 
         public void Close()
@@ -56,14 +63,17 @@ namespace Phrike.GroundControl.Model
             }
             catch (Exception e)
             {
-                Logger.Error("Could not send Unreal Engine exit command!");
+                const string message = "Could not send Unreal Engine exit command!";
+                Logger.Error(message, e);
             }
             finally
             {
-                socket.Close();
+                if (socket != null)
+                    socket.Close();
                 Logger.Info("Successfully closed socket connection!");
             }
         }
+
         public void StartCapture()
         {
             try
@@ -73,7 +83,9 @@ namespace Phrike.GroundControl.Model
             }
             catch (Exception e)
             {
-                Logger.Error("Could not send Unreal Engine exit command!");
+                const string message = "Could not send Unreal Engine start capture command!";
+                Logger.Error(message, e);
+                ShowUnrealEngineError(message);
             }
         }
         public void StopCapture()
@@ -85,7 +97,9 @@ namespace Phrike.GroundControl.Model
             }
             catch (Exception e)
             {
-                Logger.Error("Could not send Unreal Engine exit command!");
+                const string message = "Could not send Unreal Engine stop capture command!";
+                Logger.Error(message, e);
+                ShowUnrealEngineError(message);
             }
         }
 
@@ -102,7 +116,9 @@ namespace Phrike.GroundControl.Model
             }
             catch (Exception e)
             {
-                Logger.Error("Could not send Unreal Engine position tracking initalization command!");
+                const string message = "Could not send Unreal Engine position tracking initalization command!";
+                Logger.Error(message, e);
+                ShowUnrealEngineError(message);
             }
         }
 
@@ -142,6 +158,11 @@ namespace Phrike.GroundControl.Model
 
                 Logger.Debug("Received command: {0}", cmd);
             }
+        }
+
+        private void ShowUnrealEngineError(string message)
+        {
+            MainViewModel.Instance.ShowDialogMessage("Unreal Engine Error", message);
         }
     }
 }

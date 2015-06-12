@@ -1,5 +1,5 @@
 ﻿using Phrike.GroundControl.Model;
-using System;
+using System.Threading;
 using System.Threading.Tasks;
 using NLog;
 
@@ -11,20 +11,18 @@ namespace Phrike.GroundControl.ViewModels
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public const string UnrealEnginePath = @"C:\public\OperationPhrike\Phrike\GroundControl\UnrealData\Balance.exe";
-        private static StressTestViewModel instance;
 
         private SensorsModel sensorsModel;
         private UnrealEngineModel unrealEngineModel;
 
         public StressTestViewModel()
         {
-            instance = this;
+            Instance = this;
         }
 
-        public static StressTestViewModel GetInstance()
-        {
-            return instance;
-        }
+        public static StressTestViewModel Instance { get; private set; }
+
+        #region Binding Methods
 
         public void StartUnrealEngine()
         {
@@ -56,12 +54,34 @@ namespace Phrike.GroundControl.ViewModels
             await ApplicationCloseTask();
         }
 
+        public delegate void UpdateProgressFunc(double value);
+
+        public static void thirdPartyApplicationInstallWorkflow(App app, UpdateProgressFunc UpdateProgress)
+        {
+            UpdateProgress(100);
+        }
+
+
         public async void AutoStressTest()
         {
-            await StartUnrealEngineTask();
-            await StartScreenCaptureTask();
-            await StartSensorsTask();
+            MainViewModel.Instance.ShowProgressMessage("Preparing a new stress test", "All engines are initializing and staring up! Please wait...");
+            var stressTestThread = new Thread(new ThreadStart(async () =>
+            {
+                await StartUnrealEngineTask();
+                await StartScreenCaptureTask();
+                await StartSensorsTask();
+            }));
+            await Task.Run(() =>
+            {
+                Thread.Sleep(5000);
+                stressTestThread.Start();
+            });
+            MainViewModel.Instance.CloseProgressMessage();
         }
+
+        #endregion
+
+        #region Async Tasks
 
         public async Task StartUnrealEngineTask()
         {
@@ -80,7 +100,9 @@ namespace Phrike.GroundControl.ViewModels
             {
                 if (unrealEngineModel == null)
                 {
-                    Logger.Warn("Could not stop the Unreal Engine! No Unreal Engine instance active!");
+                    const string message = "Could not stop the Unreal Engine! No Unreal Engine instance active.";
+                    Logger.Warn(message);
+                    ShowStressTestError(message);
                     return;
                 }
 
@@ -95,8 +117,13 @@ namespace Phrike.GroundControl.ViewModels
         {
             await Task.Run(() =>
             {
-                if (sensorsModel != null)
-                    sensorsModel.Close();
+                if (sensorsModel == null)
+                {
+                    const string message = "Could not start sensors recording! Recording task is already running.";
+                    Logger.Warn(message);
+                    ShowStressTestError(message);
+                    return;
+                }
 
                 sensorsModel = new SensorsModel();
                 Logger.Info("Sensors instance created!");
@@ -110,7 +137,9 @@ namespace Phrike.GroundControl.ViewModels
             {
                 if (sensorsModel == null)
                 {
-                    Logger.Warn("Could not stop sensors recording! No sensors recording instance enabled!");
+                    const string message = "Could not stop sensors recording! No sensors recording instance enabled.";
+                    Logger.Warn(message);
+                    ShowStressTestError(message);
                     return;
                 }
                 sensorsModel.Close();
@@ -121,25 +150,35 @@ namespace Phrike.GroundControl.ViewModels
 
         public async Task StartScreenCaptureTask()
         {
-            if (unrealEngineModel != null)
+            await Task.Run(() =>
             {
-                await Task.Run(() =>
+                if (unrealEngineModel == null)
                 {
-                    unrealEngineModel.StartCapture();
-                    Logger.Info("Screen Capture successfully started!");
-                });
-            }
+                    const string message = "Could not start screen recording! Recording task is already running.";
+                    Logger.Warn(message);
+                    ShowStressTestError(message);
+                    return;
+                }
+
+                unrealEngineModel.StartCapture();
+                Logger.Info("Screen Capture successfully started!");
+            });
         }
         public async Task StopScreenCaptureTask()
         {
-            if (unrealEngineModel != null)
+            await Task.Run(() =>
             {
-                await Task.Run(() =>
+                if (unrealEngineModel == null)
                 {
-                    unrealEngineModel.StopCapture();
-                    Logger.Info("Screen Capture successfully stopped!");
-                });
-            }
+                    const string message = "Could not stop screen recording! No recording running.";
+                    Logger.Warn(message);
+                    ShowStressTestError(message);
+                    return;
+                }
+
+                unrealEngineModel.StopCapture();
+                Logger.Info("Screen Capture successfully stopped!");
+            });
         }
 
         public async Task ApplicationCloseTask()
@@ -149,5 +188,12 @@ namespace Phrike.GroundControl.ViewModels
             await StopUnrealEngineTask();
         }
 
+        #endregion
+
+
+        private void ShowStressTestError(string message)
+        {
+            MainViewModel.Instance.ShowDialogMessage("Stress Test Error", message);
+        }
     }
 }
