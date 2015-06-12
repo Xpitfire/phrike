@@ -1,0 +1,75 @@
+\documentclass[pdftex, a4paper, oneside, 12pt, naustrian]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[naustrian]{babel}
+\usepackage{lmodern} 
+\usepackage[a4paper, total={6in, 8.5in}]{geometry}
+
+\newcommand{\Space}{ }
+\newcommand{\ProjectName}{Operation Phrike}
+\newcommand{\GroupName}{Projektgruppe 5}
+\newcommand{\GroupCodeShort}{SPR4PTG5}
+\newcommand{\GroupCodeLong}{se45g5SS15}
+\newcommand{\UniversityName}{Fachhochschule Oberösterreich, Campus Hagenberg}
+\newcommand{\DocumentTitle}{Projektdokumentation}
+\newcommand{\AuthorFull}{\GroupName}
+\newcommand{\DocumentTitleFull}{\DocumentTitle \Space \ProjectName}
+\newcommand{\DocumentDate}{Hagenberg, am \today}
+
+\usepackage[pdftex,
+            pdfauthor={\GroupCodeLong},
+            pdftitle={\DocumentTitleFull},
+            pdfsubject={\DocumentTitle},
+            pdfkeywords={\ProjectName, \GroupName, \GroupCodeShort, \GroupCodeLong, \UniversityName},
+            pdfproducer={Latex with hyperref, or other system},
+            pdfcreator={pdflatex, or other tool}
+            hidelinks,
+            linktoc=all]{hyperref}
+
+
+% Use graphics output format
+\usepackage[pdftex]{graphicx}
+% Use macros for adjusting boxed content
+\usepackage{adjustbox}
+% Use caption text format for images
+\usepackage{caption}
+% Use sub-caption text format for images
+\usepackage{subcaption}
+% Use listings for text enumerations
+\usepackage{listings}
+% Use colorful text for highlighting
+\usepackage[usenames,dvipsnames]{color}
+% Use hyphenate spacing, underlining, etc.
+\usepackage{soul}
+% Use header and footer
+\usepackage[automark,headsepline]{scrpage2}
+% Use URL formatting
+\usepackage{url}
+% Use mathematical formulas
+\usepackage{amsmath,amssymb,amstext}
+% Use placement options
+\usepackage{placeins}
+\usepackage{booktabs}
+\usepackage[table,xcdraw]{xcolor}
+% Use pdf include package
+\usepackage{pdfpages}
+% Use color for formatting
+\usepackage{color}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\let\stdsection\section
+\renewcommand\section{\newpage\stdsection}
+
+\pagestyle{scrheadings}
+\clearscrheadfoot
+\ihead[]{\DocumentTitle}
+\ohead{\leftmark}
+\cfoot[]{\pagemark}
+
+\begin{document}
+	\input{./inc/titlepage.tex}
+	\tableofcontents
+	\newpage
+	\input{./inc/content.tex}
+\end{document}
