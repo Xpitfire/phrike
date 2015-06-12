@@ -165,11 +165,19 @@ namespace Phrike.GMobiLab
             for (int sampleIdx = 0; sampleIdx < sampleCount; ++sampleIdx)
             {
                 var sampleData = new BasicSampleData[enabledChannelCount];
-                for (int channelId = 0; channelId < recordedChannelCount; ++channelId)
+                int outputIdx = 0;
+                for (int channelId = 0; channelId < sensorInfos.Length; ++channelId)
                 {
+                    // If the channel was not even recorded, dont read a value.
+                    if (!analogChannels[channelId].HasValue)
+                    {
+                        continue;
+                    }
+
                     var rawValue = dataReader.ReadInt16();
 
-                    if (
+                    if ( // If the channel was recorded but is not enabled,
+                         // discard the read value.
                         channelId >= analogChannelEnabled.Length
                         || !analogChannelEnabled[channelId])
                     {
@@ -181,8 +189,9 @@ namespace Phrike.GMobiLab
                     SensorChannel channel = analogChannels[channelId].Value;
 
                     double scale = channel.Sensitivity * ScaleBase;
-                    sampleData[channelId] = new BasicSampleData(
+                    sampleData[outputIdx] = new BasicSampleData(
                         sensorInfos[channelId], rawValue * scale);
+                    ++outputIdx;
                 }
 
                 yield return new BasicSample(
@@ -253,6 +262,7 @@ namespace Phrike.GMobiLab
                     }
                 };
 
+            // Check which analog channels are enabled.
             for (var i = 0; i < 8; ++i)
             {
                 checkChanCoding(channelCoding[i]);
@@ -264,6 +274,7 @@ namespace Phrike.GMobiLab
                 }
             }
 
+            // Check how many digital channels are enabled.
             for (var i = 8; i < 16; ++i)
             {
                 if (channelCoding[i] == '1')
