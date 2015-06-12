@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using MahApps.Metro.Controls.Dialogs;
 using NLog;
@@ -57,7 +58,14 @@ namespace Phrike.GroundControl.ViewModels
 
         public void ShowDialogMessage(string tile, string message)
         {
-            MainWindow.Instance.Dispatcher.Invoke(() => MainWindow.Instance.ShowMessageAsync(tile, message));
+            try
+            {
+                MainWindow.Instance.Dispatcher.Invoke(() => MainWindow.Instance.ShowMessageAsync(tile, message));
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Task on execution interrupted!", e);
+            }
         }
 
         private ProgressDialogController progressDialogController;

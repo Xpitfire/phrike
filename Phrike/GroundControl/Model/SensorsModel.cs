@@ -1,6 +1,5 @@
 ﻿using System;
 using NLog;
-
 using OxyPlot;
 using OxyPlot.Series;
 using Phrike.GMobiLab;
@@ -26,7 +25,7 @@ namespace Phrike.GroundControl.Model
             return lineSeries;
         }
 
-        public static Series GetPulseSeries(string fileName, bool useRelativePath = true)
+        public static LineSeries GetPulseSeries(string fileName, bool useRelativePath = true)
         {
             return SensorDataToLineSeries(
                 SensorDeviceUtil.GetPulseFilteredData(
