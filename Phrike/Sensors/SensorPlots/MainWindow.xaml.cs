@@ -152,8 +152,7 @@ namespace Phrike.SensorPlots
 
             int sensorIdx = this.dataSource.GetSensorValueIndexInSample(sensor);
             
-            double[] sensorData = SensorUtil.GetSampleValues(this.data, sensorIdx)
-                .Skip(256 * 65).ToArray();
+            double[] sensorData = SensorUtil.GetSampleValues(this.data, sensorIdx).ToArray();
 
             var filterChain = new FilterChain();
 
