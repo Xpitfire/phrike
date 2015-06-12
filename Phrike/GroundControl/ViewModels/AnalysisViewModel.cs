@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NLog;
-using OperationPhrike.GMobiLab;
+using Phrike.GMobiLab;
 using OxyPlot;
 using OxyPlot.Series;
 using Phrike.GroundControl.Model;
