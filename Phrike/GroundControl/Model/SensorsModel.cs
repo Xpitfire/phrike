@@ -29,12 +29,12 @@ namespace Phrike.GroundControl.Model
             return lineSeries;
         }
 
-        public static Series GetPulseSeries()
+        public static Series GetPulseSeries(string fileName, bool useRelativePath = true)
         {
             return SensorsModel.SensorDataToLineSeries(
                 SensorDeviceUtil.GetPulseFilteredData(
                 SensorDeviceUtil.GetPulseRawData(
-                SensorDeviceUtil.GetSamples(Environment.CurrentDirectory + "/Samples/EKG-Signal_zur_Verarbeitung_23_04_15.bin"))));
+                SensorDeviceUtil.GetSamples((useRelativePath) ? Environment.CurrentDirectory + fileName : fileName))));
         }
 
         public SensorsModel()
@@ -85,8 +85,12 @@ namespace Phrike.GroundControl.Model
 
         public void Close()
         {
-            sensors.StopRecording();
-            sensors.Dispose();
+            if (sensors != null)
+            {
+                sensors.StopRecording();
+                sensors.Dispose();
+                Logger.Info("Sensors recording stopped!");
+            }
         }
 
     }

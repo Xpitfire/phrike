@@ -96,7 +96,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\PositionTrackingTask.cs" />
     <Compile Include="Model\ProcessModel.cs" />
     <Compile Include="Model\SensorsModel.cs" />
     <Compile Include="Model\UnrealEngineModel.cs" />

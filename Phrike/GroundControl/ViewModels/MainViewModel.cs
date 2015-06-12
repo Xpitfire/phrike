@@ -53,5 +53,6 @@ namespace Phrike.GroundControl.ViewModels
             if (handler != null) 
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
+
     }
 }
