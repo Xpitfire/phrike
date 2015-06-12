@@ -21,6 +21,7 @@ using System.Windows.Controls;
 using Microsoft.Win32;
 
 using OxyPlot;
+using OxyPlot.Axes;
 using OxyPlot.Series;
 
 using Phrike.GMobiLab;
@@ -47,17 +48,22 @@ namespace Phrike.SensorPlots
         /// <summary>
         /// Series of minimum peaks.
         /// </summary>
-        private readonly LineSeries minSeries = new LineSeries();
+        private readonly LineSeries minSeries = new LineSeries { Title = "Minimum Peaks" };
 
         /// <summary>
         /// Series of maximum peaks.
         /// </summary>
-        private readonly LineSeries maxSeries = new LineSeries();
+        private readonly LineSeries maxSeries = new LineSeries { Title = "Maximum Peaks" };
 
         /// <summary>
         /// Series of merged (minimum + maximum) peaks.
         /// </summary>
-        private readonly LineSeries mergedPeaksSeries = new LineSeries();
+        private readonly LineSeries mergedPeaksSeries = new LineSeries { Title = "Merged Peaks" };
+
+        /// <summary>
+        /// Series of pulse.
+        /// </summary>
+        private readonly LineSeries pulseSeries = new LineSeries { Title = "Pulse" };
 
         /// <summary>
         /// Buffer that contains the samples read from <see cref="dataSource"/>.
@@ -75,15 +81,20 @@ namespace Phrike.SensorPlots
         public MainWindow()
         {
             this.InitializeComponent();
+            this.plotModel.Axes.Add(new LinearAxis());
             this.plotModel.Series.Add(this.dataSeries);
             this.plotModel.Series.Add(this.minSeries);
             this.plotModel.Series.Add(this.maxSeries);
             this.plotModel.Series.Add(this.mergedPeaksSeries);
+            this.plotModel.Series.Add(this.pulseSeries);
             this.PlotView.Model = this.plotModel;
             this.dataSeries.StrokeThickness = 1;
             this.minSeries.StrokeThickness = 1;
             this.maxSeries.StrokeThickness = 1;
             this.mergedPeaksSeries.StrokeThickness = 1;
+            this.pulseSeries.StrokeThickness = 1.3;
+            this.pulseSeries.YAxisKey = "pulseAxis";
+            this.plotModel.Axes.Add(new LinearAxis { Key = "pulseAxis", Minimum = 0, Maximum = 120, AxisDistance = 40});
         }
 
         /// <summary>
@@ -133,11 +144,16 @@ namespace Phrike.SensorPlots
 
             var sensor = (SensorInfo)this.ChannelSelection.SelectedItem;
             this.dataSeries.Points.Clear();
+            this.mergedPeaksSeries.Points.Clear();
+            this.minSeries.Points.Clear();
+            this.maxSeries.Points.Clear();
+            this.pulseSeries.Points.Clear();
             this.dataSeries.Title = sensor.Name;
 
             int sensorIdx = this.dataSource.GetSensorValueIndexInSample(sensor);
             
-            double[] sensorData = SensorUtil.GetSampleValues(this.data, sensorIdx).ToArray();
+            double[] sensorData = SensorUtil.GetSampleValues(this.data, sensorIdx)
+                .Skip(256 * 65).ToArray();
 
             var filterChain = new FilterChain();
 
@@ -153,10 +169,7 @@ namespace Phrike.SensorPlots
                 maxPeaks, minPeaks, 11);
             mergedPeaks = maxFilter.Filter(mergedPeaks);
 
-            foreach (var pulse in new PulseCalculator().Filter(mergedPeaks))
-            {
-                Debug.WriteLine(pulse);
-            }
+            IReadOnlyList<double> pulse = new PulseCalculator().Filter(mergedPeaks);
            
             var startTime = this.data[0].Time;
             for (int i = 0; i < sensorData.Length; ++i)
@@ -166,6 +179,7 @@ namespace Phrike.SensorPlots
                 this.minSeries.Points.Add(new DataPoint(x, minPeaks[i]));
                 this.maxSeries.Points.Add(new DataPoint(x, maxPeaks[i]));
                 this.mergedPeaksSeries.Points.Add(new DataPoint(x, mergedPeaks[i]));
+                this.pulseSeries.Points.Add(new DataPoint(x, pulse[i]));
             }
 
             this.PlotView.InvalidatePlot(true);
