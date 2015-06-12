@@ -20,9 +20,8 @@ namespace Phrike.Sensors
     public enum Unit
     {
         /// <summary>
-        /// A 1000th of a Volt (usually raw sensor data).
+        /// A millionsth of a Volt (usually raw sensor data).
         /// </summary>
-        MilliVolt,
         MicroVolt
     }
 
@@ -41,7 +40,7 @@ namespace Phrike.Sensors
         /// The unit of the sensor's values.
         /// </param>
         /// <param name="enabled">
-        /// Whehter the sensor is enabled.
+        /// Whether the sensor is enabled.
         /// </param>
         /// <param name="id">
         /// The id inside the <see cref="ISensorHub"/>.
@@ -53,11 +52,6 @@ namespace Phrike.Sensors
             Unit = unit;
             Enabled = enabled;
             Id = id;
-        }
-
-        public override string ToString()
-        {
-            return Name;
         }
 
         /// <summary>
@@ -79,5 +73,17 @@ namespace Phrike.Sensors
         /// Gets the ID of the sensor inside the containing <see cref="ISensorHub"/>.
         /// </summary>
         public int Id { get; private set; }
+
+        /// <summary>
+        /// Converts the object to a human readable string containing only
+        /// its name.
+        /// </summary>
+        /// <returns>
+        /// The object converted to a human readable string.
+        /// </returns>
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

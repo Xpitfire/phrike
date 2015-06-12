@@ -73,9 +73,8 @@ namespace Phrike.GMobiLab
         private int sampleRate;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SensorDataFileStreamer"/> class. 
         /// Initializes a new instance of the
-        ///     <see cref="SensorDataFileStreamer"/> class.
+        /// <see cref="SensorDataFileStreamer"/> class.
         /// </summary>
         /// <param name="filename">
         /// Path to an existing sensor binary file.
@@ -101,13 +100,16 @@ namespace Phrike.GMobiLab
             {
                 sensorInfos[i] = new SensorInfo(
                     "Channel 0" + (i + 1).ToString(),
-                    Unit.MilliVolt,
+                    Unit.MicroVolt,
                     this.analogChannels[i].HasValue,
                     i);
             }
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Gets information about the available sensors/channels. 
+        /// It may be indexed: Sensors[i] always corresponds to Channel i + 1.
+        /// </summary>
         public IReadOnlyList<SensorInfo> Sensors
         {
             get
@@ -182,6 +184,7 @@ namespace Phrike.GMobiLab
                     sampleData[channelId] = new BasicSampleData(
                         sensorInfos[channelId], rawValue * scale);
                 }
+
                 yield return new BasicSample(
                     startTime + TimeSpan.FromTicks((long)(sampleLength * sampleIdx)),
                     sampleData);

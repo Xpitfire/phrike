@@ -8,24 +8,23 @@ using Phrike.GMobiLab;
 
 namespace Phrike.SensorDeviceTest
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             try
             {
                 // connect to g.MOBIlab+
-                //string comPort = "COM";
+                ////string comPort = "COM";
                 Console.WriteLine("Bitte Port zum Verbinden eingeben: ");
-                //comPort += Console.ReadLine();
+                ////comPort += Console.ReadLine();
 
                 Console.WriteLine("[g.tec] try to connect to g.MOBIlab+");
-                // comPort += ":"
+                /////comPort += ":"
                 using (var sensorDevice = new SensorDevice("COM6:"))
                 {
-
                     // enable channels
-                    int[] channels = {0, 2, 3, 4, 5, 6 };
+                    int[] channels = { 0, 2, 3, 4, 5, 6 };
                     Console.WriteLine("[g.tec] enable channels");
                     foreach (var channel in channels)
                     {
@@ -34,11 +33,9 @@ namespace Phrike.SensorDeviceTest
 
                     // set filename
                     Console.WriteLine("Bitte Filenamen eingeben (null für deaktivieren von SDCard): ");
-                    //string fileName = Console.ReadLine();
-                    sensorDevice.SetSdFilename("test_24_04_15"); //fileName
+                    ////string fileName = Console.ReadLine();
+                    sensorDevice.SetSdFilename("test_24_04_15"); // fileName
                     Console.WriteLine("[g.tec] filename set");
-
-
 
                     sensorDevice.StartRecording();
                     Console.WriteLine("[g.tec] recording started");
@@ -48,19 +45,15 @@ namespace Phrike.SensorDeviceTest
 
                     sensorDevice.StopRecording();
                     Console.WriteLine("[g.tec] recording stopped");
-
                 }
 
                 Console.ReadLine();
-
-            } 
+            }
             catch (GMobiLabException ex)
             {
                 Console.WriteLine("[ERROR] " + ex.Message);
                 Console.ReadLine();
             }
-            
-           
         }
     }
 }

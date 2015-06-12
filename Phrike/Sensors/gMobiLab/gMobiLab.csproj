@@ -7,7 +7,7 @@
     <ProjectGuid>{BE27C586-513D-4447-B8C0-1FCA270791DB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OperationPhrike.GMobiLab</RootNamespace>
+    <RootNamespace>Phrike.GMobiLab</RootNamespace>
     <AssemblyName>gMobiLab</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -45,6 +45,7 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="GMobiLabException.cs" />
+    <Compile Include="GMobiLabSensors.cs" />
     <Compile Include="GMobiLabXferException.cs" />
     <Compile Include="GMobiLabXferHelpersApi.cs" />
     <Compile Include="SensorDataFileStreamer.cs" />
