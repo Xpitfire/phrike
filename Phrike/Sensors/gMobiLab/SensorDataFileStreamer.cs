@@ -189,6 +189,11 @@ namespace Phrike.GMobiLab
                 yield return new BasicSample(
                     startTime + TimeSpan.FromTicks((long)(sampleLength * sampleIdx)),
                     sampleData);
+
+                if (recordedChannelCount > outputIdx)
+                {
+                    dataReader.ReadInt16(); // Discard digital channel value.
+                }
             }
         }
 
