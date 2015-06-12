@@ -73,9 +73,8 @@ namespace Phrike.GMobiLab
         private int sampleRate;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SensorDataFileStreamer"/> class. 
         /// Initializes a new instance of the
-        ///     <see cref="SensorDataFileStreamer"/> class.
+        /// <see cref="SensorDataFileStreamer"/> class.
         /// </summary>
         /// <param name="filename">
         /// Path to an existing sensor binary file.
