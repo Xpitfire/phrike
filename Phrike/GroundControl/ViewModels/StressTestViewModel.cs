@@ -15,7 +15,7 @@ namespace Phrike.GroundControl.ViewModels
         private SensorsModel sensorsModel;
         private UnrealEngineModel unrealEngineModel;
 
-        public async void StartUnrealEngine()
+        public async Task StartUnrealEngine()
         {
             await Task.Run(() =>
             {
@@ -26,7 +26,7 @@ namespace Phrike.GroundControl.ViewModels
             });
         }
 
-        public async void StopUnrealEngine()
+        public async Task StopUnrealEngine()
         {
             await Task.Run(() =>
             {
@@ -43,7 +43,7 @@ namespace Phrike.GroundControl.ViewModels
             });
         }
 
-        public async void StartSensors()
+        public async Task StartSensors()
         {
             await Task.Run(() =>
             {
@@ -56,7 +56,7 @@ namespace Phrike.GroundControl.ViewModels
             });
         }
 
-        public async void StopSensors()
+        public async Task StopSensors()
         {
             await Task.Run(() =>
             {
@@ -71,13 +71,20 @@ namespace Phrike.GroundControl.ViewModels
             });
         }
 
-        public async void StartScreenCapture()
+        public async Task StartScreenCapture()
         {
             await Task.Run(() =>
             {
                 // TODO implementation
                 Logger.Warn("Screen Capture currently not supported!");
             });
+        }
+
+        public async void AutoStressTest()
+        {
+            await StartUnrealEngine();
+            await StartScreenCapture();
+            await StartSensors();
         }
 
     }
