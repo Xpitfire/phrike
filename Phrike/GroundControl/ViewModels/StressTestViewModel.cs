@@ -110,6 +110,10 @@ namespace Phrike.GroundControl.ViewModels
             });
         }
 
+        /// <summary>
+        /// Close the Unreal Engine instance.
+        /// </summary>
+        /// <returns></returns>
         public async Task StopUnrealEngineTask()
         {
             await Task.Run(() =>
