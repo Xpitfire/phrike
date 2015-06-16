@@ -5,11 +5,17 @@ using NLog;
 
 namespace Phrike.GroundControl.ViewModels
 {
-
+    /// <summary>
+    /// The StressTest.xaml ViewModel to control the hardware components and
+    /// run multiple sub-process calls and Tasks.
+    /// </summary>
     class StressTestViewModel
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// Execution path of the Unreal Engine.
+        /// </summary>
         public const string UnrealEnginePath = @"C:\public\OperationPhrike\Phrike\GroundControl\UnrealData\Balance.exe";
 
         private SensorsModel sensorsModel;
@@ -22,73 +28,83 @@ namespace Phrike.GroundControl.ViewModels
 
         public static StressTestViewModel Instance { get; private set; }
 
+        // Methods for UI button click bindings.
         #region Binding Methods
 
-        public void StartUnrealEngine()
+        public async void StartUnrealEngine()
         {
-            StartUnrealEngineTask();
+            await StartUnrealEngineTask();
         }
-        public void StopUnrealEngine()
+        public async void StopUnrealEngine()
         {
-            StopUnrealEngineTask();
+            await StopUnrealEngineTask();
         }
-        public void StartSensors()
+        public async void StartSensors()
         {
-            StartSensorsTask();
+            await StartSensorsTask();
         }
-        public void StopSensors()
+        public async void StopSensors()
         {
-            StopSensorsTask();
+            await StopSensorsTask();
         }
-        public void StartScreenCapture()
+        public async void StartScreenCapture()
         {
-            StartScreenCaptureTask();
+            await StartScreenCaptureTask();
         }
-        public void StopScreenCapture()
+        public async void StopScreenCapture()
         {
-            StopScreenCaptureTask();
+            await StopScreenCaptureTask();
         }
 
+        /// <summary>
+        /// Save close of running Tasks.
+        /// </summary>
         public async void ApplicationClose()
         {
             await ApplicationCloseTask();
         }
 
-        public delegate void UpdateProgressFunc(double value);
-
-        public static void thirdPartyApplicationInstallWorkflow(App app, UpdateProgressFunc UpdateProgress)
-        {
-            UpdateProgress(100);
-        }
-
-
+        /// <summary>
+        /// Start a new stress test sequence.
+        /// </summary>
         public async void AutoStressTest()
         {
+            // show progress animation in UI
             MainViewModel.Instance.ShowProgressMessage("Preparing a new stress test", "All engines are initializing and staring up! Please wait...");
-            var stressTestThread = new Thread(new ThreadStart(async () =>
+            // start sequencial tasks in a new Thread
+            var stressTestThread = new Thread(async () =>
             {
                 await StartUnrealEngineTask();
                 await StartScreenCaptureTask();
                 await StartSensorsTask();
-            }));
+            });
+            // start the Thread and stop the animation with a delay
             await Task.Run(() =>
             {
-                Thread.Sleep(5000);
                 stressTestThread.Start();
+                Thread.Sleep(5000);
             });
+            // stop progress animation
             MainViewModel.Instance.CloseProgressMessage();
         }
 
         #endregion
 
+        // Async Task methods for user interaction.
         #region Async Tasks
 
+        /// <summary>
+        /// Create an instance of the Unreal Engine.
+        /// </summary>
+        /// <returns></returns>
         public async Task StartUnrealEngineTask()
         {
             await Task.Run(() =>
             {
+                // start the external application sub-process
                 ProcessModel.StartProcess(UnrealEnginePath, false);
                 Logger.Info("Unreal Engine process started!");
+                // create the Unreal Engine communication object
                 unrealEngineModel = new UnrealEngineModel();
                 Logger.Info("Unreal Engine is ready to use!");
             });
@@ -190,7 +206,10 @@ namespace Phrike.GroundControl.ViewModels
 
         #endregion
 
-
+        /// <summary>
+        /// Show error message to user.
+        /// </summary>
+        /// <param name="message"></param>
         private void ShowStressTestError(string message)
         {
             MainViewModel.Instance.ShowDialogMessage("Stress Test Error", message);

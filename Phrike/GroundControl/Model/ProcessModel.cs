@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Phrike.GroundControl.Model
 {
+    /// <summary>
+    /// This is used to start and stop sub-processes.
+    /// </summary>
     static class ProcessModel
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
