@@ -62,7 +62,8 @@ namespace Phrike.GMobiLab
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SensorDevice"/> class,
-        /// referring to the given COM-Port.
+        /// referring to the given COM-Port, by default recording no sensors (see
+        /// <see cref="SetSensorEnabled"/>).
         /// </summary>
         /// <param name="comPort">
         /// The COM port on which the hardware is connected,
