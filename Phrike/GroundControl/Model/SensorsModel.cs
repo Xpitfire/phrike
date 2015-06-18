@@ -58,6 +58,7 @@ namespace Phrike.GroundControl.Model
             try
             {
                 sensors.StartRecording();
+                sensors.SetSensorEnabled(sensors.Sensors[4]); // Channel 5 (ECG).
                 Logger.Info("Sensors recording started!");
             }
             catch (Exception e)
@@ -73,6 +74,7 @@ namespace Phrike.GroundControl.Model
             if (sensors != null)
             {
                 sensors.StopRecording();
+                sensors.Dispose();
                 sensors = null;
                 Logger.Info("Sensors recording stopped!");
             }
