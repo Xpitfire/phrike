@@ -75,20 +75,27 @@ namespace Phrike.GroundControl.Model
             finally
             {
                 // fix for too fast socket close 
-                Thread.Sleep(1000);
-                unrealSocketReader.Receive(1000);
-                string readString;
-                if ((readString = unrealSocketReader.ReadString()) == "end")
+                Thread.Sleep(2000);
+                try
                 {
-                    if (socket != null)
-                        socket.Close();
-                    Logger.Info("Successfully closed socket connection!");
+                    unrealSocketReader.Receive(1000);
+                    string readString;
+                    if ((readString = unrealSocketReader.ReadString()) == "end")
+                    {
+                        if (socket != null)
+                            socket.Close();
+                        Logger.Info("Successfully closed socket connection!");
+                    }
+                    else
+                    {
+                        Logger.Error("Expected 'end' from Unreal Engine received '" + readString + "'. Killing connection!");
+                        if (socket != null)
+                            socket.Close();
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    Logger.Error("Expected 'end' from Unreal Engine received '" + readString + "'. Killing connection!");
-                    if (socket != null)
-                        socket.Close();
+                    Logger.Warn("unrealSocketReader connection lost.");
                 }
             }
         }
