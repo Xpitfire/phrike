@@ -17,7 +17,6 @@ namespace Phrike.GroundControl.Model
 
         // The socket for the Unreal Engine command communication
         private Socket socket;
-
         private SocketWriter unrealSocketWriter;
         private SocketReader unrealSocketReader;
 
@@ -28,6 +27,9 @@ namespace Phrike.GroundControl.Model
         /// </summary>
         public bool IsAlive { get; private set; }
 
+        /// <summary>
+        /// Create a new Unreal Engine instance and connect to the socket.
+        /// </summary>
         public UnrealEngineModel()
         {
             try
@@ -52,11 +54,16 @@ namespace Phrike.GroundControl.Model
             }
         }
 
+        /// <summary>
+        /// Close Unreal Engine communication instance.
+        /// </summary>
         public void Close()
         {
             try
             {
+                // stop running screen capturing task
                 StopCapture();
+                // send close command
                 unrealSocketWriter.WriteString("end");
                 unrealSocketWriter.Send();
             }
@@ -67,10 +74,11 @@ namespace Phrike.GroundControl.Model
             }
             finally
             {
+                // fix for too fast socket close 
                 Thread.Sleep(1000);
                 unrealSocketReader.Receive(1000);
-                string hugo;
-                if ((hugo = unrealSocketReader.ReadString()) == "end")
+                string readString;
+                if ((readString = unrealSocketReader.ReadString()) == "end")
                 {
                     if (socket != null)
                         socket.Close();
@@ -78,13 +86,16 @@ namespace Phrike.GroundControl.Model
                 }
                 else
                 {
-                    Logger.Error("Expected 'end' from UE received '" + hugo + "'. Killing connection!");
+                    Logger.Error("Expected 'end' from Unreal Engine received '" + readString + "'. Killing connection!");
                     if (socket != null)
                         socket.Close();
                 }
             }
         }
 
+        /// <summary>
+        /// Start a screen capturing instance.
+        /// </summary>
         public void StartCapture()
         {
             try
@@ -99,6 +110,9 @@ namespace Phrike.GroundControl.Model
                 ShowUnrealEngineError(message);
             }
         }
+        /// <summary>
+        /// Stop a screen capturing instance.
+        /// </summary>
         public void StopCapture()
         {
             try
@@ -114,6 +128,10 @@ namespace Phrike.GroundControl.Model
             }
         }
 
+        /// <summary>
+        /// Initialize position tracking interval / refresh rate and
+        /// start position and angle transmition.
+        /// </summary>
         private void InitPositionTracking()
         {
             try
@@ -133,6 +151,9 @@ namespace Phrike.GroundControl.Model
             }
         }
 
+        /// <summary>
+        /// Unreal Engine Socket command receive thread.
+        /// </summary>
         public void Run()
         {
             InitPositionTracking();

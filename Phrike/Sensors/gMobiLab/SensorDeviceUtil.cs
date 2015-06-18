@@ -79,7 +79,8 @@ namespace Phrike.GMobiLab
         /// <returns>An array of filtered pulse data values.</returns>
         public static double[] GetPulseFilteredData(double[] rawData)
         {
-            return PulseCalculator.MakePulseFilterChain().Filter(rawData).ToArray();
+            var pulseSteps = PulseCalculator.MakePulseFilterChain().Filter(rawData);
+            return new GaussFilter(128).Filter(pulseSteps).ToArray();
         }
     }
 }

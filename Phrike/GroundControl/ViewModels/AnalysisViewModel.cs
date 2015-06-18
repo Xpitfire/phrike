@@ -9,6 +9,7 @@ using Microsoft.Win32;
 using NLog;
 using OxyPlot;
 using OxyPlot.Axes;
+using OxyPlot.Series;
 using Phrike.GroundControl.Model;
 
 namespace Phrike.GroundControl.ViewModels
@@ -24,16 +25,23 @@ namespace Phrike.GroundControl.ViewModels
             private set { sensorPulsePlotModel = value; }
         }
 
+        /// <summary>
+        /// Create a new analysis viemodel instance and add the default plot template.
+        /// </summary>
         public AnalysisViewModel()
         {
             SensorPulsePlotModel = new PlotModel { Title = "Pulse Result", PlotAreaBackground = OxyColors.Transparent };
             SensorPulsePlotModel.LegendBorder = OxyColors.Transparent;
             
-            var yAxis = new LinearAxis(AxisPosition.Left, 60, 180, "Pulse (bpm)");
+            var yAxis = new LinearAxis(AxisPosition.Left, 0, 200, "Pulse (bpm)");
             yAxis.MinorStep = 5;
             yAxis.MajorStep = 20;
+            yAxis.MajorGridlineStyle = LineStyle.Solid;
+            yAxis.MajorGridlineColor = OxyColors.LightGray;
+            yAxis.MinorGridlineStyle = LineStyle.Solid;
+            yAxis.MinorGridlineColor = OxyColor.FromRgb(240, 240, 240);
 
-            var xAxis = new LinearAxis(AxisPosition.Bottom, 0, Double.NaN, "Time (min)");
+            var xAxis = new LinearAxis(AxisPosition.Bottom, 0, Double.NaN, "Time (sec)");
             xAxis.MinorStep = 5;
             xAxis.MajorStep = 10;
 
@@ -41,10 +49,14 @@ namespace Phrike.GroundControl.ViewModels
             this.SensorPulsePlotModel.Axes.Add(xAxis);
         }
 
+        /// <summary>
+        /// Load pulse data from a selected file and add to the plot view.
+        /// </summary>
         public async void LoadPulseData()
         {
             try
             {
+                // start a file dialog and select a sensor file
                 var dlg = new OpenFileDialog
                 {
                     Filter = "Binary files (*.bin)|*.bin",
@@ -55,12 +67,12 @@ namespace Phrike.GroundControl.ViewModels
                 {
                     await Task.Run(() =>
                     {
+                        // create a line series plot instance
                         var lineSeries = SensorsModel.GetPulseSeries(dlg.FileName, false);
                         lineSeries.Color = OxyColors.Blue;
                         lineSeries.StrokeThickness = 2;
                         lineSeries.Smooth = true;
-                        lineSeries.MarkerFill = OxyColors.SteelBlue;
-
+                        
                         SensorPulsePlotModel.Series.Add(lineSeries);
                         SensorPulsePlotModel.InvalidatePlot(true);
                         Logger.Info("Pluse Data successfully loaded!");
