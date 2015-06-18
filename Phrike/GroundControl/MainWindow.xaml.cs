@@ -13,19 +13,33 @@ namespace Phrike.GroundControl
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        public static MainWindow Instance { get; private set; }
+
         public MainWindow()
         {
             InitializeComponent();
+            Instance = this;
         }
 
+        /// <summary>
+        /// Switch viewed tab to the Settings category.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonClick_Settings(object sender, RoutedEventArgs e)
         {
             MainTabControl.SelectedItem = TabItemSettings;
         }
 
+        /// <summary>
+        /// Save close of all application instances operating on hardware, sockets or
+        /// multiple threads.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void ApplicationClose(object sender, CancelEventArgs e)
         {
-            StressTestViewModel.GetInstance().ApplicationClose();
+            StressTestViewModel.Instance.ApplicationClose();
             Logger.Info("Successfully closed application!");
         }
     }

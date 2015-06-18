@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using MahApps.Metro.Controls.Dialogs;
 using NLog;
 using Phrike.GroundControl.Annotations;
 
@@ -16,7 +12,14 @@ namespace Phrike.GroundControl.ViewModels
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        public static MainViewModel Instance { get; private set; }
+
         private int selectedTab;
+
+        public MainViewModel()
+        {
+            Instance = this;
+        }
 
         public int SelectedTab
         {
@@ -24,10 +27,9 @@ namespace Phrike.GroundControl.ViewModels
             set
             {
                 selectedTab = value;
-                OnPropertyChanged("SelectedTab");
+                OnPropertyChanged();
             }
         }
-
 
         public void SelectTabSettings()
         {
@@ -52,6 +54,40 @@ namespace Phrike.GroundControl.ViewModels
             var handler = PropertyChanged;
             if (handler != null) 
                 handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void ShowDialogMessage(string tile, string message)
+        {
+            try
+            {
+                MainWindow.Instance.Dispatcher.Invoke(() => MainWindow.Instance.ShowMessageAsync(tile, message));
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Task on execution interrupted!", e);
+            }
+        }
+
+        private ProgressDialogController progressDialogController;
+
+        public void ShowProgressMessage(string title, string message)
+        {
+            MainWindow.Instance.Dispatcher.Invoke(async () =>
+            {
+                progressDialogController = await MainWindow.Instance.ShowProgressAsync(title, message);
+            });
+        }
+
+        public void CloseProgressMessage()
+        {
+            if (progressDialogController != null)
+            {
+                MainWindow.Instance.Dispatcher.Invoke(async () =>
+                {
+                    await progressDialogController.CloseAsync();
+                });
+                progressDialogController = null;
+            }
         }
 
     }

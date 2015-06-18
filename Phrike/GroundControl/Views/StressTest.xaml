@@ -14,7 +14,7 @@
         <ViewModels:StressTestViewModel x:Key="StressTestViewModel" />
     </UserControl.Resources>
 
-    <Grid Margin="0">
+    <Grid Margin="0" DataContext="{StaticResource StressTestViewModel}">
         <Grid.RowDefinitions>
             <RowDefinition Height="77*"/>
             <RowDefinition Height="223*"/>
