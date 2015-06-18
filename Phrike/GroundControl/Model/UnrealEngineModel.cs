@@ -67,9 +67,21 @@ namespace Phrike.GroundControl.Model
             }
             finally
             {
-                if (socket != null)
-                    socket.Close();
-                Logger.Info("Successfully closed socket connection!");
+                Thread.Sleep(1000);
+                unrealSocketReader.Receive(1000);
+                string hugo;
+                if ((hugo = unrealSocketReader.ReadString()) == "end")
+                {
+                    if (socket != null)
+                        socket.Close();
+                    Logger.Info("Successfully closed socket connection!");
+                }
+                else
+                {
+                    Logger.Error("Expected 'end' from UE received '" + hugo + "'. Killing connection!");
+                    if (socket != null)
+                        socket.Close();
+                }
             }
         }
 

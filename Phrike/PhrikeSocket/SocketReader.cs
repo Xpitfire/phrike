@@ -116,9 +116,10 @@ namespace Phrike.PhrikeSocket
         }
 
         /// <summary>
-        /// Receives a new byte-sausage from the Socket and readies the Reader for reading.
+        /// Receives a new byte-sausage from the Socket and readies the Reader for reading. Waits for &lt;timeout&gt; ms.
+        /// If timeout == -1 than it blocks until it reads something
         /// </summary>
-        public void Receive()
+        public void Receive(int timeout)
         {
             try
             {
@@ -126,6 +127,7 @@ namespace Phrike.PhrikeSocket
                 {
                     throw new Exception("Reader not ready to receive!");
                 }
+                this.socket.ReceiveTimeout = timeout;
 
                 this.buffer = new byte[100];
                 this.length = this.socket.Receive(this.buffer);
@@ -136,6 +138,14 @@ namespace Phrike.PhrikeSocket
             {
                 Logger.Warn("Lost client connection!", sex);
             }
+        }
+
+        /// <summary>
+        /// Receives a new byte-sausage from the Socket and readies the Reader for reading.
+        /// </summary>
+        public void Receive()
+        {
+            Receive(-1);
         }
     }
 }

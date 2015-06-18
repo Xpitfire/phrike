@@ -27,6 +27,7 @@ namespace Phrike.PhrikeSocket
 
         private bool writeAble;
         private bool sendAble;
+        private const int BUFFER_SIZE = 1024;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SocketWriter"/> class. 
@@ -137,7 +138,7 @@ namespace Phrike.PhrikeSocket
         /// </summary>
         private void Init()
         {
-            this.buffer = new byte[100];
+            this.buffer = new byte[BUFFER_SIZE];
             this.ms = new MemoryStream(this.buffer);
             this.writeAble = true;
         }
