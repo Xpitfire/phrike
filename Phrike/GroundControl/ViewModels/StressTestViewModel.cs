@@ -109,7 +109,6 @@ namespace Phrike.GroundControl.ViewModels
                 Logger.Info("Unreal Engine is ready to use!");
             });
         }
-
         /// <summary>
         /// Close the Unreal Engine instance.
         /// </summary>
@@ -133,11 +132,15 @@ namespace Phrike.GroundControl.ViewModels
             });
         }
 
+        /// <summary>
+        /// Starting sensors recording instance.
+        /// </summary>
+        /// <returns></returns>
         public async Task StartSensorsTask()
         {
             await Task.Run(() =>
             {
-                if (sensorsModel == null)
+                if (sensorsModel != null)
                 {
                     const string message = "Could not start sensors recording! Recording task is already running.";
                     Logger.Warn(message);
@@ -150,7 +153,10 @@ namespace Phrike.GroundControl.ViewModels
                 sensorsModel.StartRecording();
             });
         }
-
+        /// <summary>
+        /// Stopping sensors recording instance.
+        /// </summary>
+        /// <returns></returns>
         public async Task StopSensorsTask()
         {
             await Task.Run(() =>
@@ -168,6 +174,10 @@ namespace Phrike.GroundControl.ViewModels
             });
         }
 
+        /// <summary>
+        /// Starting full screen capturing instance.
+        /// </summary>
+        /// <returns></returns>
         public async Task StartScreenCaptureTask()
         {
             await Task.Run(() =>
@@ -184,6 +194,10 @@ namespace Phrike.GroundControl.ViewModels
                 Logger.Info("Screen Capture successfully started!");
             });
         }
+        /// <summary>
+        /// Stopping full screen capturing instance.
+        /// </summary>
+        /// <returns></returns>
         public async Task StopScreenCaptureTask()
         {
             await Task.Run(() =>
@@ -201,6 +215,10 @@ namespace Phrike.GroundControl.ViewModels
             });
         }
 
+        /// <summary>
+        /// Closing all running application tasks.
+        /// </summary>
+        /// <returns></returns>
         public async Task ApplicationCloseTask()
         {
             await StopSensorsTask();

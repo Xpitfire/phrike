@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using NLog;
 using OxyPlot;
 using OxyPlot.Series;
@@ -11,10 +12,17 @@ namespace Phrike.GroundControl.Model
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        public const string ComPort = "COM7:";
+        public const string DefaultSampleFileName = "gc-test";
         public const double SampleRate = 256;
 
         private SensorDevice sensors;
 
+        /// <summary>
+        /// Transform simple data points (double value) to a Oxyplot chart LineSeries object.
+        /// </summary>
+        /// <param name="data">Data to be displayed.</param>
+        /// <returns>Oxyplot LieneSeries object to be displayed.</returns>
         private static LineSeries SensorDataToLineSeries(double[] data)
         {
             var lineSeries = new LineSeries();
@@ -25,6 +33,12 @@ namespace Phrike.GroundControl.Model
             return lineSeries;
         }
 
+        /// <summary>
+        /// Get Oxyplot LineSeries object form a sensor data file.
+        /// </summary>
+        /// <param name="fileName">Name of the data file from where the samples should be loaded.</param>
+        /// <param name="useRelativePath">Use either relative or absolute path reference.</param>
+        /// <returns></returns>
         public static LineSeries GetPulseSeries(string fileName, bool useRelativePath = true)
         {
             return SensorDataToLineSeries(
@@ -33,6 +47,9 @@ namespace Phrike.GroundControl.Model
                 SensorDeviceUtil.GetSamples((useRelativePath) ? Environment.CurrentDirectory + fileName : fileName))));
         }
 
+        /// <summary>
+        /// Create a new SensorModel instance and automatically connect to the hardware device.
+        /// </summary>
         public SensorsModel()
         {
             if (sensors != null)
@@ -43,8 +60,10 @@ namespace Phrike.GroundControl.Model
 
             try
             {
-                sensors = new SensorDevice("COM7:");
-                sensors.SetSdFilename("gc-test");
+                // connect to hardware
+                sensors = new SensorDevice(ComPort);
+                // set default sensor export file name
+                sensors.SetSdFilename(DefaultSampleFileName);
             }
             catch (Exception e)
             {
@@ -53,22 +72,38 @@ namespace Phrike.GroundControl.Model
             }
         }
 
+        /// <summary>
+        /// Start the sensor data recording.
+        /// </summary>
         public void StartRecording()
         {
-            try
+          
+            if (sensors != null)
             {
-                sensors.StartRecording();
-                sensors.SetSensorEnabled(sensors.Sensors[4]); // Channel 5 (ECG).
-                Logger.Info("Sensors recording started!");
+                try
+                {
+                    sensors.SetSensorEnabled(sensors.Sensors[4]); // Channel 5 (ECG).
+                    sensors.StartRecording();
+                    Logger.Info("Sensors recording started!");
+                }
+                catch (Exception e)
+                {
+                    const string message = "Sensors recording failed!";
+                    Logger.Error(message, e);
+                    ShowSensorError(message);
+                }
             }
-            catch (Exception e)
+            else
             {
-                const string message = "Sensors recording failed!";
-                Logger.Error(message, e);
+                const string message = "Sensors recording could not be started!";
+                Logger.Warn(message);
                 ShowSensorError(message);
             }
         }
 
+        /// <summary>
+        /// Stop a current recording instance.
+        /// </summary>
         public void StopRecording()
         {
             if (sensors != null)
@@ -86,6 +121,10 @@ namespace Phrike.GroundControl.Model
             }
         }
 
+        /// <summary>
+        /// Close sensor recording and communication instance.
+        /// Disconnect from device.
+        /// </summary>
         public void Close()
         {
             if (sensors != null)
@@ -96,6 +135,10 @@ namespace Phrike.GroundControl.Model
             }
         }
 
+        /// <summary>
+        /// Show a default sensor error message to the UI.
+        /// </summary>
+        /// <param name="message">The message to be displayed.</param>
         private void ShowSensorError(string message)
         {
             MainViewModel.Instance.ShowDialogMessage("Sensor Device Error", message);

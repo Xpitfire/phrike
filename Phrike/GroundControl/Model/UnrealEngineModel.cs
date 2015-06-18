@@ -15,19 +15,18 @@ namespace Phrike.GroundControl.Model
 
         public const int UnrealEngineSocketPort = 5678;
 
+        // The socket for the Unreal Engine command communication
         private Socket socket;
 
         private SocketWriter unrealSocketWriter;
         private SocketReader unrealSocketReader;
 
         private UnrealEngineModel unrealEngineModel;
-        private bool isAlive = true;
 
-        public bool IsAlive
-        {
-            get { return isAlive; }
-            private set { isAlive = value; }
-        }
+        /// <summary>
+        /// Is alive flag for the socket communication thread.
+        /// </summary>
+        public bool IsAlive { get; private set; }
 
         public UnrealEngineModel()
         {
@@ -58,7 +57,7 @@ namespace Phrike.GroundControl.Model
             try
             {
                 StopCapture();
-                unrealSocketWriter.WriteString("exit");
+                unrealSocketWriter.WriteString("end");
                 unrealSocketWriter.Send();
             }
             catch (Exception e)
@@ -148,7 +147,7 @@ namespace Phrike.GroundControl.Model
                         break;
 
                     case "end":
-                        isAlive = false;
+                        IsAlive = false;
                         break;
 
                     default:
@@ -160,6 +159,10 @@ namespace Phrike.GroundControl.Model
             }
         }
 
+        /// <summary>
+        /// Show a default Unreal Engine error message to the UI.
+        /// </summary>
+        /// <param name="message">The message to be displayed.</param>
         private void ShowUnrealEngineError(string message)
         {
             MainViewModel.Instance.ShowDialogMessage("Unreal Engine Error", message);

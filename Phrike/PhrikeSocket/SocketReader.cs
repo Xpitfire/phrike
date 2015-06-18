@@ -9,6 +9,7 @@
 
 using System;
 using System.Text;
+using NLog;
 
 namespace Phrike.PhrikeSocket
 {
@@ -21,6 +22,8 @@ namespace Phrike.PhrikeSocket
     /// </summary>
     public class SocketReader
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private byte[] buffer;
         private Socket socket;
         private MemoryStream ms;
@@ -71,18 +74,26 @@ namespace Phrike.PhrikeSocket
         /// <returns>The next String that can be read from the buffer</returns>
         public string ReadString()
         {
-            if (!this.CanRead)
+            try
             {
-                throw new Exception("Reader not ready to read!");
+                if (!this.CanRead)
+                {
+                    throw new Exception("Reader not ready to read!");
+                }
+
+                int strlen = this.ms.ReadByte();
+
+                byte[] buf2 = new byte[strlen];
+                this.ms.Read(buf2, 0, strlen);
+
+                string ret = Encoding.UTF8.GetString(buf2, 0, strlen);
+                return ret;
             }
-
-            int strlen = this.ms.ReadByte();
-
-            byte[] buf2 = new byte[strlen];
-            this.ms.Read(buf2, 0, strlen);
-
-            string ret = Encoding.UTF8.GetString(buf2, 0, strlen);
-            return ret;
+            catch (Exception e)
+            {
+                Logger.Warn("Could not read command!", e);
+                return "end";
+            }
         }
 
         /// <summary>
@@ -109,15 +120,22 @@ namespace Phrike.PhrikeSocket
         /// </summary>
         public void Receive()
         {
-            if (!this.CanReceive)
+            try
             {
-                throw new Exception("Reader not ready to receive!");
-            }
+                if (!this.CanReceive)
+                {
+                    throw new Exception("Reader not ready to receive!");
+                }
 
-            this.buffer = new byte[100];
-            this.length = this.socket.Receive(this.buffer);
-            this.ms = new MemoryStream(this.buffer, 0, this.length);
-            this.readAble = true;
+                this.buffer = new byte[100];
+                this.length = this.socket.Receive(this.buffer);
+                this.ms = new MemoryStream(this.buffer, 0, this.length);
+                this.readAble = true;
+            }
+            catch (SocketException sex)
+            {
+                Logger.Warn("Lost client connection!", sex);
+            }
         }
     }
 }
