@@ -164,7 +164,7 @@ namespace Phrike.GroundControl.ViewModels
             await Task.Run(() =>
             {
                 // start the external application sub-process
-                ProcessModel.StartProcess(UnrealEngineModel.UnrealEnginePath, false);
+                ProcessModel.StartProcess(UnrealEngineModel.UnrealEnginePath);
                 Logger.Info("Unreal Engine process started!");
                 // create the Unreal Engine communication object
                 unrealEngineModel = new UnrealEngineModel();
