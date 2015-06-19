@@ -12,6 +12,8 @@ ScreenRecorder::ScreenRecorder()
 {
 	// Private singleton constructor
 	loadConfig("C:\\tmp\\config.txt");
+	isRunningGame = false;
+	isRunningCamera = false;
 }
 
 ScreenRecorder::~ScreenRecorder()
@@ -31,64 +33,62 @@ ScreenRecorder* ScreenRecorder::getInstance()
 }
 
 // Start recording of game and camera
-void ScreenRecorder::startRecording(std::wstring directory, std::wstring gameFilename, std::wstring cameraFilename)
+void ScreenRecorder::startRecording(std::string directory, std::string gameFilename, std::string cameraFilename)
 {
 	startGameRecording(directory, gameFilename);
 	startCameraRecording(directory, cameraFilename);
 }
 
 // Start recording of game
-void ScreenRecorder::startGameRecording(std::wstring directory, std::wstring filename)
+void ScreenRecorder::startGameRecording(std::string directory, std::string filename)
 {
+	if (isRunningGame)
+	{
+		return;
+	}
+
 	// Check if the filename is available
 	filename = checkFilename(directory, filename);
 
 	// Set recording parameters: capture audio and video
-	std::string config = "-f dshow -i " + videoConfig + " ";
-	std::wstring params(config.begin(), config.end());
-	params = params + directory + filename;
+	std::string command = "ffmpeg.exe -framerate " + framesPerSecond + " -f dshow -i " + videoConfig + " \"" + directory + filename + "\"";	
 
-	std::cout << "Video Params: " << params.c_str() << std::endl;
+	STARTUPINFO gameStartupInfo = {};
+	gameStartupInfo.cb = sizeof gameStartupInfo;
+	gameProcessInfo = {};
+	std::wstring commandLine(command.begin(), command.end());
+	LPTSTR szCmdline = _tcsdup(commandLine.c_str());
 
-	// Set ShellExecute parameter
-	game.cbSize = sizeof(SHELLEXECUTEINFO);
-	game.fMask = SEE_MASK_NOCLOSEPROCESS;
-	game.hwnd = NULL;
-	game.lpVerb = L"open";
-	game.lpFile = L"ffmpeg.exe";
-	game.lpParameters = params.c_str();
-	game.lpDirectory = NULL;
-	game.nShow = SW_HIDE;
-	game.hInstApp = NULL;
-
-	// Start game recording via commandline
-	ShellExecuteEx(&game);
+	if (CreateProcess(NULL, szCmdline, 0, false, 0, CREATE_NO_WINDOW, 0, 0, &gameStartupInfo, &gameProcessInfo))
+	{
+		isRunningGame = true;
+	}
 }
 
 // Start recording of camera
-void ScreenRecorder::startCameraRecording(std::wstring directory, std::wstring filename)
+void ScreenRecorder::startCameraRecording(std::string directory, std::string filename)
 {
+	if (isRunningCamera)
+	{
+		return;
+	}
+
 	// Check if the filename is available
 	filename = checkFilename(directory, filename);
 
-	// Set recording parameters: capture webcam video
-	std::string config = "-f dshow -i " + cameraConfig + " ";
-	std::wstring params(config.begin(), config.end());
-	params = params + directory + filename;
+	// Set recording parameters: capture audio and video
+	std::string command = "ffmpeg.exe -framerate " + framesPerSecond + " -f dshow -i " + cameraConfig + " \"" + directory + filename + "\"";
 	
-	// Set ShellExecute parameter
-	camera.cbSize = sizeof(SHELLEXECUTEINFO);
-	camera.fMask = SEE_MASK_NOCLOSEPROCESS;
-	camera.hwnd = NULL;
-	camera.lpVerb = L"open";
-	camera.lpFile = L"ffmpeg.exe";
-	camera.lpParameters = params.c_str();
-	camera.lpDirectory = NULL;
-	camera.nShow = SW_HIDE;
-	camera.hInstApp = NULL;
+	STARTUPINFO cameraStartupInfo = {};
+	cameraStartupInfo.cb = sizeof cameraStartupInfo;
+	cameraProcessInfo = {};
+	std::wstring commandLine(command.begin(), command.end());
+	LPTSTR szCmdline = _tcsdup(commandLine.c_str());
 
-	// Start camera recording via commandline
-	ShellExecuteEx(&camera);
+	if (CreateProcess(NULL, szCmdline, 0, false, 0, CREATE_NO_WINDOW, 0, 0, &cameraStartupInfo, &cameraProcessInfo))
+	{
+		isRunningCamera = true;
+	}
 }
 
 // Stop recording of game and camera
@@ -101,26 +101,33 @@ void ScreenRecorder::stopRecording()
 // Stop recording of game
 void ScreenRecorder::stopGameRecording()
 {
-	TerminateProcess(game.hProcess, 1);
+	if (isRunningGame && gameProcessInfo.dwProcessId != NULL)
+	{
+		stopProcess(gameProcessInfo);
+		isRunningGame = false;
+	}
 }
 
 // Stop recording of camera
 void ScreenRecorder::stopCameraRecording()
 {
-	TerminateProcess(camera.hProcess, 1);
+	if (isRunningCamera && cameraProcessInfo.dwProcessId != NULL)
+	{
+		stopProcess(cameraProcessInfo);
+		isRunningCamera = false;
+	}
 }
 
 // Check if the filename is still available or a new one is needed. Returns a filename that is available
-std::wstring ScreenRecorder::checkFilename(std::wstring directory, std::wstring filename)
+std::string ScreenRecorder::checkFilename(std::string directory, std::string filename)
 {
 	bool exists = true;
 	while(exists)
 	{
-		std::wstring path = directory + filename;
-		std::string file(path.begin(), path.end());
-		if (checkIfFileExists(file))
+		std::string path = directory + filename;
+		if (checkIfFileExists(path))
 		{
-			filename = L"test" + filename;
+			filename = "test" + filename;
 		}
 		else
 		{
@@ -148,12 +155,22 @@ void ScreenRecorder::loadConfig(const std::string filename)
 
 		// Read video config
 		std::getline(infile, line);
+		setFPS(line);
+
+		// Read video config
+		std::getline(infile, line);
 		setVideoConfig(line);
 
 		// Read camera config
 		std::getline(infile, line);
 		setCameraConfig(line);
 	}
+}
+
+// Set framesPerSecond config
+void ScreenRecorder::setFPS(std::string framesPerSecond)
+{
+	this->framesPerSecond = framesPerSecond;
 }
 
 // Set video config
@@ -168,6 +185,12 @@ void ScreenRecorder::setCameraConfig(std::string config)
 	cameraConfig = config;
 }
 
+// Get framesPerSecond config
+std::string ScreenRecorder::getFPS()
+{
+	return framesPerSecond;
+}
+
 // Get video config
 std::string ScreenRecorder::getVideoConfig()
 {
@@ -178,4 +201,25 @@ std::string ScreenRecorder::getVideoConfig()
 std::string ScreenRecorder::getCameraConfig()
 {
 	return cameraConfig;
+}
+
+// Stop the process using Ctrl+C signal
+void ScreenRecorder::stopProcess(PROCESS_INFORMATION pi)
+{
+	std::wstring param = std::to_wstring(pi.dwProcessId);
+	SHELLEXECUTEINFO process;
+
+	// Set ShellExecute parameter
+	process.cbSize = sizeof(SHELLEXECUTEINFO);
+	process.fMask = SEE_MASK_NOCLOSEPROCESS;
+	process.hwnd = NULL;
+	process.lpVerb = L"open";
+	process.lpFile = L"SendSignalCtrlC.exe";
+	process.lpParameters = param.c_str();
+	process.lpDirectory = NULL;
+	process.nShow = SW_HIDE;
+	process.hInstApp = NULL;
+
+	// Stop recording via commandline
+	ShellExecuteEx(&process);
 }
