@@ -12,7 +12,6 @@ namespace Phrike.GroundControl.Model
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public const string ComPort = "COM7:";
         public const string DefaultSampleFileName = "gc-test";
         public const double SampleRate = 256;
 
@@ -60,15 +59,17 @@ namespace Phrike.GroundControl.Model
 
             try
             {
+                // get selected com port
+                Logger.Info("Selected sensors COM Port: " + SettingsViewModel.Instance.SensorComPort);
                 // connect to hardware
-                sensors = new SensorDevice(ComPort);
+                sensors = new SensorDevice(SettingsViewModel.Instance.SensorComPort);
                 // set default sensor export file name
                 sensors.SetSdFilename(DefaultSampleFileName);
             }
             catch (Exception e)
             {
                 const string message = "Could not connect to sensor device!";
-                Logger.Error(message, e.Message);
+                Logger.Error(message, e);
             }
         }
 

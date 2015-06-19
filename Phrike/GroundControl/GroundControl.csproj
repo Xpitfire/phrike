@@ -109,6 +109,7 @@
     </Compile>
     <Compile Include="ViewModels\AnalysisViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\StressTestViewModel.cs" />
     <Compile Include="Views\Analysis.xaml.cs">
       <DependentUpon>Analysis.xaml</DependentUpon>
