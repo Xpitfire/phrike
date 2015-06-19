@@ -2,8 +2,10 @@
 
 #pragma once
 #include "AllowWindowsPlatformTypes.h"
-#include "shellapi.h"
+#include <Windows.h>
+#include <tchar.h>
 #include <string>
+#include <shellapi.h>
 #include "HideWindowsPlatformTypes.h"
 
 class PHRIKESCREENCAPTURE_API ScreenRecorder
@@ -26,7 +28,7 @@ public:
 	 * @param gameFilename: specifies the filename of the game video (inlcuding extension)
 	 * @param cameraFilename: specifies the filename of the webcam video (including extension)
      */
-	void startRecording(std::wstring directory = L"C:\\tmp\\", std::wstring gameFilename = L"game.mkv", std::wstring cameraFilename = L"camera.mkv");
+	void startRecording(std::string directory = "C:\\tmp\\", std::string gameFilename = "game.mkv", std::string cameraFilename = "camera.mkv");
 
 	/**
 	 * Stops the recording of the game window and of the webcam.
@@ -38,7 +40,7 @@ public:
 	 * @param directory: specifies the directory in which the file will be stored
 	 * @param gameFilename: specifies the filename of the game video (inlcuding extension)
 	 */
-	void startGameRecording(std::wstring directory = L"C:\\tmp\\", std::wstring filename = L"game.mkv");
+	void startGameRecording(std::string directory = "C:\\tmp\\", std::string filename = "game.mkv");
 
 	/**
 	 * Stops the recording of the game window.
@@ -50,7 +52,7 @@ public:
 	* @param directory: specifies the directory in which the file will be stored
 	* @param gameFilename: specifies the filename of the webcam video (inlcuding extension)
 	*/
-	void startCameraRecording(std::wstring directory = L"C:\\tmp\\", std::wstring filename = L"camera.mkv");
+	void startCameraRecording(std::string directory = "C:\\tmp\\", std::string filename = "camera.mkv");
 
 	/**
 	* Stops the recording of the webcam.
@@ -62,6 +64,12 @@ public:
 	 * @param filename: specifies the filename where the config is located
 	 */
 	void loadConfig(const std::string filename = "C:\\tmp\\config.txt");
+
+	/**
+	* Set the framesPerSecond property
+	* @param config: a string with the framesPerSecond for the capturing
+	*/
+	void setFPS(std::string framesPerSecond);
 
 	/**
 	 * Set the videoConfig property
@@ -76,6 +84,11 @@ public:
 	void setCameraConfig(std::string config);
 
 	/**
+	* Get the framesPerSecond property
+	*/
+	std::string getFPS();
+
+	/**
 	* Get the videoConfig property
 	*/
 	std::string getVideoConfig();
@@ -85,16 +98,22 @@ public:
 	*/
 	std::string getCameraConfig();
 
+
+
 private:
 	ScreenRecorder();
-	SHELLEXECUTEINFO game;
-	SHELLEXECUTEINFO camera;
+	PROCESS_INFORMATION gameProcessInfo;
+	PROCESS_INFORMATION cameraProcessInfo;
 	std::string cameraConfig;
 	std::string videoConfig;
+	std::string framesPerSecond;
+	bool isRunningGame;
+	bool isRunningCamera;
 
 	static ScreenRecorder *recorder;
 
 	bool checkIfFileExists(const std::string filename);
-	std::wstring checkFilename(std::wstring directory, std::wstring filename);
+	std::string checkFilename(std::string directory, std::string filename);
+	void stopProcess(PROCESS_INFORMATION pi);
 
 };
