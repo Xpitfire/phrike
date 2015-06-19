@@ -16,8 +16,9 @@
 
     <Grid Margin="0" DataContext="{StaticResource StressTestViewModel}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="77*"/>
-            <RowDefinition Height="223*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="97*"/>
@@ -94,5 +95,24 @@
                 </Button>
             </Grid>
         </StackPanel>
+        <Border Grid.Column="0" Grid.Row="2">
+            <Grid Margin="70,-40,0,0" VerticalAlignment="Top" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="1" Grid.Row="0">Unreal Engine</Label>
+                <Label Grid.Column="1" Grid.Row="1">Sensor</Label>
+                <Label Grid.Column="1" Grid.Row="2">Screen Capturing</Label>
+                <Ellipse Fill="{Binding Mode=TwoWay, Path=UnrealStatusColor}" Width="10" Height="10" Grid.Column="0" Grid.Row="0"/>
+                <Ellipse Fill="{Binding Mode=TwoWay, Path=SensorStatusColor}" Width="10" Height="10" Grid.Column="0" Grid.Row="1"/>
+                <Ellipse Fill="{Binding Mode=TwoWay, Path=ScreenCapturingStatusColor}" Width="10" Height="10" Grid.Column="0" Grid.Row="2"/>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

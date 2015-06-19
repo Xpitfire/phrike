@@ -1,7 +1,11 @@
-﻿using Phrike.GroundControl.Model;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Phrike.GroundControl.Model;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using NLog;
+using Phrike.GroundControl.Annotations;
 
 namespace Phrike.GroundControl.ViewModels
 {
@@ -9,21 +13,79 @@ namespace Phrike.GroundControl.ViewModels
     /// The StressTest.xaml ViewModel to control the hardware components and
     /// run multiple sub-process calls and Tasks.
     /// </summary>
-    class StressTestViewModel
+    class StressTestViewModel : INotifyPropertyChanged
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
-        /// <summary>
-        /// Execution path of the Unreal Engine.
-        /// </summary>
-        public const string UnrealEnginePath = @"C:\public\OperationPhrike\Phrike\GroundControl\UnrealData\Balance.exe";
 
         private SensorsModel sensorsModel;
         private UnrealEngineModel unrealEngineModel;
 
+        #region Status Info Properties
+        private Brush unrealStatusColor;
+        private Brush sensorStatusColor;
+        private Brush screenCapturingStatusColor;
+
+        public Brush UnrealStatusColor
+        {
+            get { return unrealStatusColor; }
+            set
+            {
+                unrealStatusColor = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("UnrealStatusColor"));
+                } 
+            }
+        }
+
+        public Brush SensorStatusColor
+        {
+            get
+            {
+                return sensorStatusColor;
+            }
+            set
+            {
+                sensorStatusColor = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("SensorStatusColor"));
+                } 
+            }
+        }
+
+        public Brush ScreenCapturingStatusColor
+        {
+            get
+            {
+                return screenCapturingStatusColor;
+            }
+            set
+            {
+                screenCapturingStatusColor = value;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("ScreenCapturingStatusColor"));
+                } 
+            }
+        }
+
+        public Brush Activate = Brushes.GreenYellow;
+        public Brush Disable = Brushes.OrangeRed;
+
+        private void InitStatusColors()
+        {
+            UnrealStatusColor = Disable;
+            SensorStatusColor = Disable;
+            ScreenCapturingStatusColor = Disable;
+        }
+
+        #endregion
+
         public StressTestViewModel()
         {
             Instance = this;
+            InitStatusColors();
         }
 
         public static StressTestViewModel Instance { get; private set; }
@@ -102,11 +164,12 @@ namespace Phrike.GroundControl.ViewModels
             await Task.Run(() =>
             {
                 // start the external application sub-process
-                ProcessModel.StartProcess(UnrealEnginePath, false);
+                ProcessModel.StartProcess(UnrealEngineModel.UnrealEnginePath, false);
                 Logger.Info("Unreal Engine process started!");
                 // create the Unreal Engine communication object
                 unrealEngineModel = new UnrealEngineModel();
                 Logger.Info("Unreal Engine is ready to use!");
+                UnrealStatusColor = Activate;
             });
         }
         /// <summary>
@@ -127,8 +190,10 @@ namespace Phrike.GroundControl.ViewModels
 
                 unrealEngineModel.Close();
                 unrealEngineModel = null;
-                ProcessModel.StopProcess(UnrealEnginePath);
+                ProcessModel.StopProcess(UnrealEngineModel.UnrealEnginePath);
                 Logger.Info("Unreal Engine process stoped!");
+                ScreenCapturingStatusColor = Disable;
+                UnrealStatusColor = Disable;
             });
         }
 
@@ -150,9 +215,16 @@ namespace Phrike.GroundControl.ViewModels
 
                 sensorsModel = new SensorsModel();
                 Logger.Info("Sensors instance created!");
+
                 var active = sensorsModel.StartRecording();
                 if (!active)
+                {
                     sensorsModel = null;
+                }
+                else
+                {
+                    SensorStatusColor = Activate;
+                }
             });
         }
         /// <summary>
@@ -173,6 +245,7 @@ namespace Phrike.GroundControl.ViewModels
                 sensorsModel.Close();
                 sensorsModel = null;
                 Logger.Info("Sensors recording successfully stopped!");
+                SensorStatusColor = Disable;
             });
         }
 
@@ -194,6 +267,7 @@ namespace Phrike.GroundControl.ViewModels
 
                 unrealEngineModel.StartCapture();
                 Logger.Info("Screen Capture successfully started!");
+                ScreenCapturingStatusColor = Activate;
             });
         }
         /// <summary>
@@ -214,6 +288,7 @@ namespace Phrike.GroundControl.ViewModels
 
                 unrealEngineModel.StopCapture();
                 Logger.Info("Screen Capture successfully stopped!");
+                ScreenCapturingStatusColor = Disable;
             });
         }
 
@@ -238,5 +313,24 @@ namespace Phrike.GroundControl.ViewModels
         {
             MainViewModel.Instance.ShowDialogMessage("Stress Test Error", message);
         }
+
+
+        #region PropertyChanged Handling
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Handle the Property change Binding updates.
+        /// </summary>
+        /// <param name="propertyName"></param>
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+                handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
     }
 }

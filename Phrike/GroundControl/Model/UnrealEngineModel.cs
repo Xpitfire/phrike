@@ -13,6 +13,11 @@ namespace Phrike.GroundControl.Model
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// Execution path of the Unreal Engine.
+        /// </summary>
+        public const string UnrealEnginePath = @"C:\public\OperationPhrike\Phrike\GroundControl\UnrealData\Balance.exe";
+
         public const int UnrealEngineSocketPort = 5678;
 
         // The socket for the Unreal Engine command communication
