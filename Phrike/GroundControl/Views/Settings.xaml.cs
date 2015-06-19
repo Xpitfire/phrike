@@ -23,6 +23,32 @@ namespace Phrike.GroundControl.Views
         public Settings()
         {
             InitializeComponent();
+
+            for (var i = 1; i <= 12; ++i)
+            {
+                var comPort = "COM" + i;
+                ComboBoxItem cboxItem = new ComPortComboBoxItem
+                {
+                    Content = comPort,
+                    ComPort = comPort + ":" // the colon is required for the sensor interface
+                };
+                SensorComPortComboBox.Items.Add(cboxItem);
+            }
+            SensorComPortComboBox.SelectedIndex = 6;
+        }
+
+        /// <summary>
+        /// Sensor COM Port combo box item with overridden ToString method
+        /// for correct Binding representation.
+        /// </summary>
+        public class ComPortComboBoxItem : ComboBoxItem
+        {
+            public string ComPort { get; set; }
+
+            public override string ToString()
+            {
+                return ComPort;
+            }
         }
     }
 }
