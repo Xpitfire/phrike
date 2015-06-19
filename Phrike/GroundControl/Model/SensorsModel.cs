@@ -76,7 +76,7 @@ namespace Phrike.GroundControl.Model
         /// <summary>
         /// Start the sensor data recording.
         /// </summary>
-        public void StartRecording()
+        public bool StartRecording()
         {
           
             if (sensors != null)
@@ -92,13 +92,16 @@ namespace Phrike.GroundControl.Model
                     const string message = "Sensors recording failed!";
                     Logger.Error(message, e);
                     ShowSensorError(message);
+                    return false;
                 }
+                return true;
             }
             else
             {
                 const string message = "Sensors recording could not be started!";
                 Logger.Warn(message);
                 ShowSensorError(message);
+                return false;
             }
         }
 

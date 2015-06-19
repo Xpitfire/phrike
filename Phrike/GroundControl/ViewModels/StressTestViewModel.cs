@@ -150,7 +150,9 @@ namespace Phrike.GroundControl.ViewModels
 
                 sensorsModel = new SensorsModel();
                 Logger.Info("Sensors instance created!");
-                sensorsModel.StartRecording();
+                var active = sensorsModel.StartRecording();
+                if (!active)
+                    sensorsModel = null;
             });
         }
         /// <summary>
