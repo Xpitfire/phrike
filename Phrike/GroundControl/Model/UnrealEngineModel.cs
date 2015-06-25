@@ -39,6 +39,7 @@ namespace Phrike.GroundControl.Model
         {
             try
             {
+                IsAlive = true;
                 TcpListener socketListener = new TcpListener(IPAddress.Any, UnrealEngineSocketPort);
                 socketListener.Start();
                 Logger.Info("Unreal Engine socket connection established on port {0} and waiting for connections...",
@@ -53,6 +54,7 @@ namespace Phrike.GroundControl.Model
             }
             catch (Exception e)
             {
+                IsAlive = false;
                 const string message = "Could not initialize Unreal Engine socket instance.";
                 Logger.Error(message, e);
                 ShowUnrealEngineError(message);
@@ -199,8 +201,18 @@ namespace Phrike.GroundControl.Model
                         Logger.Error("Unkown Command: {0}", cmd);
                         break;
                 }
-
                 Logger.Debug("Received command: {0}", cmd);
+            }
+            StressTestViewModel.Instance.UnrealStatusColor = StressTestViewModel.Instance.Disable;
+            try
+            {
+                if (socket != null)
+                    socket.Close();
+                Logger.Info("Socket successfully closed!");
+            }
+            catch (Exception e)
+            {
+                Logger.Warn("Socket stop failed!", e);
             }
         }
 

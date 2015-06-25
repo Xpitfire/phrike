@@ -37,7 +37,7 @@
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.RowSpan="2" Margin="100,50,0,0">
             <Label Content="Single Step Tests&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" Height="63" Margin="0,50,0,50"/>
-            <Grid DataContext="{StaticResource StressTestViewModel}" Margin="50,0,0,0" HorizontalAlignment="Left" Width="413" >
+            <Grid DataContext="{StaticResource StressTestViewModel}" Margin="0,0,0,0" HorizontalAlignment="Left" Width="413" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
@@ -109,9 +109,9 @@
                 <Label Grid.Column="1" Grid.Row="0">Unreal Engine</Label>
                 <Label Grid.Column="1" Grid.Row="1">Sensor</Label>
                 <Label Grid.Column="1" Grid.Row="2">Screen Capturing</Label>
-                <Ellipse Fill="{Binding Mode=TwoWay, Path=UnrealStatusColor}" Width="10" Height="10" Grid.Column="0" Grid.Row="0"/>
-                <Ellipse Fill="{Binding Mode=TwoWay, Path=SensorStatusColor}" Width="10" Height="10" Grid.Column="0" Grid.Row="1"/>
-                <Ellipse Fill="{Binding Mode=TwoWay, Path=ScreenCapturingStatusColor}" Width="10" Height="10" Grid.Column="0" Grid.Row="2"/>
+                <Ellipse Fill="{Binding Mode=OneWay, Path=UnrealStatusColor}" Width="10" Height="10" Grid.Column="0" Grid.Row="0"/>
+                <Ellipse Fill="{Binding Mode=OneWay, Path=SensorStatusColor}" Width="10" Height="10" Grid.Column="0" Grid.Row="1"/>
+                <Ellipse Fill="{Binding Mode=OneWay, Path=ScreenCapturingStatusColor}" Width="10" Height="10" Grid.Column="0" Grid.Row="2"/>
             </Grid>
         </Border>
     </Grid>

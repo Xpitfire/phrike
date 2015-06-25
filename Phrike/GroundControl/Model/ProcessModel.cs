@@ -19,7 +19,7 @@ namespace Phrike.GroundControl.Model
 
         private static readonly Dictionary<string, Process> ProcesseDictionary = new Dictionary<string, Process>(); 
 
-        public static void StartProcess(string cmdPath, bool useRelativePath = true)
+        public static void StartProcess(string cmdPath, bool useRelativePath = true, string[] cmdParams = null)
         {
             if (cmdPath == null)
             {
@@ -39,7 +39,8 @@ namespace Phrike.GroundControl.Model
                     StartInfo =
                     {
                         WindowStyle = ProcessWindowStyle.Hidden,
-                        FileName = (useRelativePath) ? Environment.CurrentDirectory + cmdPath : cmdPath
+                        FileName = (useRelativePath) ? Environment.CurrentDirectory + cmdPath : cmdPath,
+                        Arguments = (cmdParams != null) ? String.Join(" ", cmdParams) : ""
                     }
                 };
                 process.Start();
