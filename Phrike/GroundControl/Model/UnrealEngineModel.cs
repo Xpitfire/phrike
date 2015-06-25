@@ -204,6 +204,7 @@ namespace Phrike.GroundControl.Model
                 Logger.Debug("Received command: {0}", cmd);
             }
             StressTestViewModel.Instance.UnrealStatusColor = StressTestViewModel.Instance.Disable;
+            StressTestViewModel.Instance.ScreenCapturingStatusColor = StressTestViewModel.Instance.Disable;
             try
             {
                 if (socket != null)
