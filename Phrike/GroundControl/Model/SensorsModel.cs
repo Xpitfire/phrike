@@ -83,7 +83,11 @@ namespace Phrike.GroundControl.Model
             {
                 try
                 {
-                    sensors.SetSensorEnabled(sensors.Sensors[4]); // Channel 5 (ECG).
+                    foreach (var s in sensors.Sensors)
+                    {
+                        sensors.SetSensorEnabled(s);
+                    }
+                    
                     sensors.StartRecording();
                     Logger.Info("Sensors recording started!");
                 }
