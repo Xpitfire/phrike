@@ -67,6 +67,7 @@ namespace Phrike.GroundControl.ViewModels
                 {
                     await Task.Run(() =>
                     {
+                        SensorPulsePlotModel.Series.Clear();
                         // create a line series plot instance
                         var lineSeries = SensorsModel.GetPulseSeries(dlg.FileName, false);
                         lineSeries.Color = OxyColors.Blue;
