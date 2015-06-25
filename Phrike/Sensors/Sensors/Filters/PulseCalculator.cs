@@ -47,8 +47,7 @@ namespace Phrike.Sensors.Filters
                         new PeakFilter(15, false),
                         new BinaryThresholdFilter(0.5, false)),
                     11), // maxPeakDistance
-                new PulseCalculator(),
-                new BinaryThresholdFilter(0.5));
+                new PulseCalculator());
         }
 
         /// <inheritdoc/>
