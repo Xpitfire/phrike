@@ -68,7 +68,7 @@ namespace Phrike.SensorPlots
         /// <summary>
         /// Buffer that contains the samples read from <see cref="dataSource"/>.
         /// </summary>
-        private ISample[] data;
+        private Sample[] data;
 
         /// <summary>
         /// The sensor hub corresponding to <see cref="data"/>.
@@ -170,10 +170,9 @@ namespace Phrike.SensorPlots
 
             IReadOnlyList<double> pulse = new PulseCalculator().Filter(mergedPeaks);
            
-            var startTime = this.data[0].Time;
             for (int i = 0; i < sensorData.Length; ++i)
             {
-                var x = (this.data[i].Time - startTime).TotalSeconds;
+                var x = i / (double)this.dataSource.SampleRate;
                 this.dataSeries.Points.Add(new DataPoint(x, prefilteredData[i]));
                 this.minSeries.Points.Add(new DataPoint(x, minPeaks[i]));
                 this.maxSeries.Points.Add(new DataPoint(x, maxPeaks[i]));

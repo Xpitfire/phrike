@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
+
 using NLog;
 using OxyPlot;
 using OxyPlot.Series;
@@ -40,10 +42,10 @@ namespace Phrike.GroundControl.Model
         /// <returns></returns>
         public static LineSeries GetPulseSeries(string fileName, bool useRelativePath = true)
         {
+            var dataSource = new SensorDataFileStreamer((useRelativePath) ? Environment.CurrentDirectory + fileName : fileName);
             return SensorDataToLineSeries(
                 SensorDeviceUtil.GetPulseFilteredData(
-                SensorDeviceUtil.GetPulseRawData(
-                SensorDeviceUtil.GetSamples((useRelativePath) ? Environment.CurrentDirectory + fileName : fileName))));
+                SensorDeviceUtil.GetPulseRawData(dataSource.ReadSamples().ToArray(), dataSource)));
         }
 
         /// <summary>
@@ -149,6 +151,7 @@ namespace Phrike.GroundControl.Model
         /// <param name="message">The message to be displayed.</param>
         private void ShowSensorError(string message)
         {
+            // TODO: Global UI Error event
             MainViewModel.Instance.ShowDialogMessage("Sensor Device Error", message);
         }
 

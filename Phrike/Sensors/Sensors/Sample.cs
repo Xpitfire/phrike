@@ -1,4 +1,4 @@
-﻿// <summary>Specifies the ISample interface.</summary>
+﻿// <summary>Implements the Sample class.</summary>
 // -----------------------------------------------------------------------
 // Copyright (c) 2015 University of Applied Sciences Upper-Austria
 // Project OperationPhrike
@@ -11,29 +11,25 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // -----------------------------------------------------------------------
-using System;
+
 using System.Collections.Generic;
 
 namespace Phrike.Sensors
 {
-    /// <summary>
-    /// Represents the data for each recorded sensor of a <see cref="ISensorHub"/>
-    /// at a specific point in time.
-    /// </summary>
-    public interface ISample
+    public class Sample
     {
-        /// <summary>
-        /// Gets the time at which the sample values were recorded.
-        /// </summary>
-        DateTime Time { get; }
+        public Sample(IReadOnlyList<double> sensorValues)
+        {
+            SensorValues = sensorValues;
+        }
 
         /// <summary>
-        /// Gets the values corresponding to each sensor.
+        ///     Gets the values corresponding to each sensor.
         /// </summary>
         /// <remarks>
-        /// The order of these sensor values is the same for
-        /// each sample where the same set of sensors is enabled.
+        ///     The order of these sensor values is the same for
+        ///     each sample where the same set of sensors is enabled.
         /// </remarks>
-        IReadOnlyList<ISampleData> Values { get; }
+        public IReadOnlyList<double> SensorValues { get; }
     }
 }

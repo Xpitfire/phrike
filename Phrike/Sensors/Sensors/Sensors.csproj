@@ -41,8 +41,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Filters\AverageFilter.cs" />
-    <Compile Include="BasicSample.cs" />
-    <Compile Include="BasicSampleData.cs" />
     <Compile Include="Filters\BinaryThresholdFilter.cs" />
     <Compile Include="Filters\FilterChain.cs" />
     <Compile Include="Filters\HeartPeakFilter.cs" />
@@ -53,11 +51,10 @@
     <Compile Include="Filters\MedianFilter.cs" />
     <Compile Include="Filters\EdgeDetectionFilter.cs" />
     <Compile Include="Filters\PeakFilter.cs" />
-    <Compile Include="ISample.cs" />
-    <Compile Include="ISampleData.cs" />
     <Compile Include="ISensorHub.cs" />
     <Compile Include="ISensorHubDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sample.cs" />
     <Compile Include="SensorInfo.cs" />
     <Compile Include="SensorUtil.cs" />
   </ItemGroup>

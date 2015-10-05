@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Phrike.Sensors
 {
@@ -34,6 +35,11 @@ namespace Phrike.Sensors
         /// Gets a value indicating whether new samples may become available.
         /// </summary>
         bool IsUpdating { get; }
+
+        /// <summary>
+        /// Gets the samplerate of this <see cref="ISensorHub"/> in Hz = 1/s.
+        /// </summary>
+        int SampleRate { get; }
 
         /// <summary>
         /// Sets which sensors should be recorded/retrieved.
@@ -84,6 +90,6 @@ namespace Phrike.Sensors
         /// <returns>
         /// A readonly collection of at most <paramref name="maxCount"/> samples.
         /// </returns>
-        IEnumerable<ISample> ReadSamples(int maxCount = int.MaxValue);
+        IEnumerable<Sample> ReadSamples(int maxCount = int.MaxValue);
     }
 }

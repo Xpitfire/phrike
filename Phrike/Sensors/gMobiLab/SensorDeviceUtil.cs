@@ -27,40 +27,21 @@ namespace Phrike.GMobiLab
     public static class SensorDeviceUtil
     {
         /// <summary>
-        /// Returns the entire data-stream from a file.
-        /// </summary>
-        /// <param name="fileName">Name of the binary data sample file.</param>
-        /// <returns>ISample[] with all sensor channels.</returns>
-        public static ISample[] GetSamples(string fileName)
-        {
-            using (var dataSource = new SensorDataFileStreamer(fileName))
-            {
-                return dataSource.ReadSamples().ToArray();
-            }
-        }
-
-        /// <summary>
         /// Extracts the puls channel data  information from the entire sample collection.
         /// </summary>
         /// <param name="dataSamples">Samples with the entire channel data information.</param>
+        /// <param name="source">The sensor hub from which <paramref name="dataSamples"/> originate.</param>
         /// <returns>An array of raw / unfiltered pulse data values.</returns>
-        public static double[] GetPulseRawData(ISample[] dataSamples)
+        public static double[] GetPulseRawData(Sample[] dataSamples, ISensorHub source)
         {
             if (dataSamples.Length <= 0)
             {
                 return new double[0];
             }
 
-            IReadOnlyList<ISampleData> data = dataSamples[0].Values;
-            int chanIdxInSamples = -1;
-            for (int i = 0; i < data.Count; ++i)
-            {
-                if (data[i].Source.Id == GMobiLabSensors.Channel5Id)
-                {
-                    chanIdxInSamples = i;
-                    break;
-                }
-            }
+            int chanIdxInSamples =
+                source.GetSensorValueIndexInSample(source.Sensors[GMobiLabSensors.Channel5Id]);
+    
 
             if (chanIdxInSamples < 0)
             {
