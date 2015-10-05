@@ -25,8 +25,6 @@ namespace Phrike.GroundControl.Model
         private SocketWriter unrealSocketWriter;
         private SocketReader unrealSocketReader;
 
-        private UnrealEngineModel unrealEngineModel;
-
         /// <summary>
         /// Is alive flag for the socket communication thread.
         /// </summary>
@@ -203,6 +201,7 @@ namespace Phrike.GroundControl.Model
                 }
                 Logger.Debug("Received command: {0}", cmd);
             }
+            // TODO: Callback to ViewModel to change color state
             StressTestViewModel.Instance.UnrealStatusColor = StressTestViewModel.Instance.Disable;
             StressTestViewModel.Instance.ScreenCapturingStatusColor = StressTestViewModel.Instance.Disable;
             try
@@ -223,6 +222,7 @@ namespace Phrike.GroundControl.Model
         /// <param name="message">The message to be displayed.</param>
         private void ShowUnrealEngineError(string message)
         {
+            // TODO: Global UI Error event
             MainViewModel.Instance.ShowDialogMessage("Unreal Engine Error", message);
         }
     }

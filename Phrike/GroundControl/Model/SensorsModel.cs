@@ -149,6 +149,7 @@ namespace Phrike.GroundControl.Model
         /// <param name="message">The message to be displayed.</param>
         private void ShowSensorError(string message)
         {
+            // TODO: Global UI Error event
             MainViewModel.Instance.ShowDialogMessage("Sensor Device Error", message);
         }
 
