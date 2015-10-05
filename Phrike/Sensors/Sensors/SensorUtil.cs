@@ -31,9 +31,9 @@ namespace Phrike.Sensors
         /// <returns>
         /// The sensors' values.
         /// </returns>
-        public static double[] GetSampleValues(IEnumerable<ISample> samples, int sensorIdx)
+        public static double[] GetSampleValues(IEnumerable<Sample> samples, int sensorIdx)
         {
-            return samples.Select(sample => sample.Values[sensorIdx].Value).ToArray();
+            return samples.Select(sample => sample.SensorValues[sensorIdx]).ToArray();
         }
     }
 }
