@@ -122,6 +122,9 @@ namespace Phrike.GMobiLab
             get { throw new NotImplementedException(); }
         }
 
+        /// <inheritdoc />
+        public int SampleRate { get { return 256; } }
+
         /// <inheritdoc/>
         public void Dispose()
         {
@@ -210,7 +213,7 @@ namespace Phrike.GMobiLab
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ISample> ReadSamples(int maxCount = int.MaxValue)
+        public IEnumerable<Sample> ReadSamples(int maxCount = int.MaxValue)
         {
             // TODO: implementation is missing
             throw new NotImplementedException();

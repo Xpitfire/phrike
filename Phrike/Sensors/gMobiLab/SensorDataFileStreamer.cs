@@ -11,6 +11,7 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // -----------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -28,6 +29,11 @@ namespace Phrike.GMobiLab
     public sealed class SensorDataFileStreamer : ISensorHub
     {
         /// <summary>
+        ///     Saves information about the analog channels.
+        /// </summary>
+        private readonly SensorChannel?[] analogChannels;
+
+        /// <summary>
         ///     Reader for the binary data in <see cref="file" />.
         /// </summary>
         /// <remarks>
@@ -41,44 +47,38 @@ namespace Phrike.GMobiLab
         private readonly FileStream file;
 
         /// <summary>
-        /// Saves information about the analog channels.
-        /// </summary>
-        private readonly SensorChannel?[] analogChannels;
-
-        /// <summary>
-        /// The approximate start time of the recording.
-        /// </summary>
-        private readonly DateTime startTime;
-
-        /// <summary>
-        /// Information about the sensors.
+        ///     Information about the sensors.
         /// </summary>
         private readonly SensorInfo[] sensorInfos;
 
         /// <summary>
-        /// Saves the number of channels in the file (digital sensors are
-        /// bundled in one channel if enabled).
+        ///     The approximate start time of the recording.
+        /// </summary>
+        private readonly DateTime startTime;
+
+        /// <summary>
+        ///     Saves the number of channels in the file (digital sensors are
+        ///     bundled in one channel if enabled).
         /// </summary>
         private int recordedChannelCount;
 
         /// <summary>
-        /// The samplerate in Hz.
+        ///     The samplerate in Hz.
         /// </summary>
         private int sampleRate;
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="SensorDataFileStreamer"/> class.
+        ///     Initializes a new instance of the
+        ///     <see cref="SensorDataFileStreamer" /> class.
         /// </summary>
         /// <param name="filename">
-        /// Path to an existing sensor binary file.
+        ///     Path to an existing sensor binary file.
         /// </param>
         public SensorDataFileStreamer(string filename)
         {
-            DateTime creationTime = File.GetCreationTime(filename);
-            DateTime lastWriteTime = File.GetLastWriteTime(filename);
-            startTime = creationTime < lastWriteTime ?
-                creationTime : lastWriteTime;
+            var creationTime = File.GetCreationTime(filename);
+            var lastWriteTime = File.GetLastWriteTime(filename);
+            startTime = creationTime < lastWriteTime ? creationTime : lastWriteTime;
 
             file = new FileStream(filename, FileMode.Open);
             dataReader = new BinaryReader(file);
@@ -87,10 +87,10 @@ namespace Phrike.GMobiLab
             ParseHeader();
 
             sensorInfos = new SensorInfo[this.analogChannels.Length];
-            for (int i = 0; i < sensorInfos.Length; ++i)
+            for (var i = 0; i < sensorInfos.Length; ++i)
             {
                 sensorInfos[i] = new SensorInfo(
-                    "Channel 0" + (i + 1).ToString(),
+                    "Channel 0" + (i + 1),
                     Unit.MicroVolt,
                     this.analogChannels[i].HasValue,
                     i);
@@ -98,27 +98,30 @@ namespace Phrike.GMobiLab
         }
 
         /// <summary>
-        /// Gets information about the available sensors/channels. 
-        /// It may be indexed: Sensors[i] always corresponds to Channel i + 1.
+        ///     Gets information about the available sensors/channels.
+        ///     It may be indexed: Sensors[i] always corresponds to Channel i + 1.
         /// </summary>
         public IReadOnlyList<SensorInfo> Sensors
         {
-            get
-            {
-                return sensorInfos;
-            }
+            get { return sensorInfos; }
         }
 
         /// <summary>
-        /// Gets a value indicating whether new samples may become available.
-        /// Always false.
+        ///     Gets a value indicating whether new samples may become available.
+        ///     Always false.
         /// </summary>
         public bool IsUpdating
         {
             get { return false; }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
+        public int SampleRate
+        {
+            get { return sampleRate; }
+        }
+
+        /// <inheritdoc />
         public void SetSensorEnabled(SensorInfo sensor, bool enabled = true)
         {
             if (sensor.Id < 0 || sensor.Id >= analogChannels.Length)
@@ -132,34 +135,36 @@ namespace Phrike.GMobiLab
                     "Cannot enable a sensor that was not recorded.");
             }
 
-            SensorInfo oldInfo = sensorInfos[sensor.Id];
+            var oldInfo = sensorInfos[sensor.Id];
             sensorInfos[sensor.Id] = new SensorInfo(
-                oldInfo.Name, oldInfo.Unit, enabled, oldInfo.Id);
+                oldInfo.Name,
+                oldInfo.Unit,
+                enabled,
+                oldInfo.Id);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public int GetSensorValueIndexInSample(SensorInfo sensor)
         {
-            int disabledWithLowerIdCount =
+            var disabledWithLowerIdCount =
                 sensorInfos.Take(sensor.Id).Count(si => !si.Enabled);
             return sensor.Id - disabledWithLowerIdCount;
         }
 
-        /// <inheritdoc/>
-        public IEnumerable<ISample> ReadSamples(int maxCount = int.MaxValue)
+        /// <inheritdoc />
+        public IEnumerable<Sample> ReadSamples(int maxCount = int.MaxValue)
         {
             // As per gMOBIlabplusDataFormatv209a.pdf, page 3
             const double ScaleBase = 2 * 5 * 1e-6 / (65536 * 4);
 
-            int sampleCount = Math.Min(maxCount, this.GetAvailableSampleCount());
-            int enabledChannelCount =
-                sensorInfos.Count(si => si.Enabled);
+            var sampleCount = Math.Min(maxCount, this.GetAvailableSampleCount());
+            var enabledChannelCount = sensorInfos.Count(si => si.Enabled);
             var sampleLength = (double)TimeSpan.TicksPerSecond / sampleRate;
-            for (int sampleIdx = 0; sampleIdx < sampleCount; ++sampleIdx)
+            for (var sampleIdx = 0; sampleIdx < sampleCount; ++sampleIdx)
             {
-                var sampleData = new BasicSampleData[enabledChannelCount];
-                int outputIdx = 0;
-                for (int channelId = 0; channelId < sensorInfos.Length; ++channelId)
+                var sampleData = new double[enabledChannelCount];
+                var outputIdx = 0;
+                for (var channelId = 0; channelId < sensorInfos.Length; ++channelId)
                 {
                     // If the channel was not even recorded, dont read a value.
                     if (!analogChannels[channelId].HasValue)
@@ -178,17 +183,14 @@ namespace Phrike.GMobiLab
 
                     // If the channel is enabled it also always recorded.
                     // ReSharper disable once PossibleInvalidOperationException
-                    SensorChannel channel = analogChannels[channelId].Value;
+                    var channel = analogChannels[channelId].Value;
 
-                    double scale = channel.Sensitivity * ScaleBase;
-                    sampleData[outputIdx] = new BasicSampleData(
-                        sensorInfos[channelId], rawValue * scale);
+                    var scale = channel.Sensitivity * ScaleBase;
+                    sampleData[outputIdx] = rawValue * scale;
                     ++outputIdx;
                 }
 
-                yield return new BasicSample(
-                    startTime + TimeSpan.FromTicks((long)(sampleLength * sampleIdx)),
-                    sampleData);
+                yield return new Sample(sampleData);
 
                 if (recordedChannelCount > outputIdx)
                 {
@@ -201,7 +203,7 @@ namespace Phrike.GMobiLab
         public int GetAvailableSampleCount()
         {
             return (int)(file.Length - file.Position)
-                / (sizeof(short) * recordedChannelCount);
+                   / (sizeof(short) * recordedChannelCount);
         }
 
         /// <inheritdoc />
@@ -216,14 +218,14 @@ namespace Phrike.GMobiLab
         private void ParseHeader()
         {
             Func<string, string> checkNoEof = lineStr =>
+            {
+                if (lineStr == null)
                 {
-                    if (lineStr == null)
-                    {
-                        throw new InvalidDataException("Unexpected EOF.");
-                    }
+                    throw new InvalidDataException("Unexpected EOF.");
+                }
 
-                    return lineStr;
-                };
+                return lineStr;
+            };
 
             if (checkNoEof(ReadBinaryLine()) != "gtec")
             {
@@ -252,12 +254,12 @@ namespace Phrike.GMobiLab
             }
 
             Action<char> checkChanCoding = c =>
+            {
+                if (c != '0' && c != '1')
                 {
-                    if (c != '0' && c != '1')
-                    {
-                        throw new InvalidDataException("Bad character in channel coding.");
-                    }
-                };
+                    throw new InvalidDataException("Bad character in channel coding.");
+                }
+            };
 
             // Check which analog channels are enabled.
             for (var i = 0; i < 8; ++i)
@@ -300,15 +302,13 @@ namespace Phrike.GMobiLab
                 }
 
                 this.analogChannels[i] = new SensorChannel
-                                        {
-                                            Highpass = float.Parse(tokens[0], CultureInfo.InvariantCulture), 
-                                            Lowpass = float.Parse(tokens[1], CultureInfo.InvariantCulture), 
-                                            Sensitivity =
-                                                float.Parse(tokens[2], CultureInfo.InvariantCulture), 
-                                            SampleRate =
-                                                float.Parse(tokens[3], CultureInfo.InvariantCulture), 
-                                            Polarity = (AnalogChannelPolarity)(byte)tokens[4][0]
-                                        };
+                {
+                    Highpass = float.Parse(tokens[0], CultureInfo.InvariantCulture),
+                    Lowpass = float.Parse(tokens[1], CultureInfo.InvariantCulture),
+                    Sensitivity = float.Parse(tokens[2], CultureInfo.InvariantCulture),
+                    SampleRate = float.Parse(tokens[3], CultureInfo.InvariantCulture),
+                    Polarity = (AnalogChannelPolarity)(byte)tokens[4][0]
+                };
             }
 
             #endregion
@@ -321,10 +321,10 @@ namespace Phrike.GMobiLab
         }
 
         /// <summary>
-        /// The read binary line.
+        ///     The read binary line.
         /// </summary>
         /// <returns>
-        /// The <see cref="string"/>.
+        ///     The <see cref="string" />.
         /// </returns>
         private string ReadBinaryLine()
         {
@@ -339,7 +339,7 @@ namespace Phrike.GMobiLab
             }
 
             bytes.RemoveAt(bytes.Count - 1);
-            string result = Encoding.ASCII.GetString(bytes.ToArray());
+            var result = Encoding.ASCII.GetString(bytes.ToArray());
             return result;
         }
     }
