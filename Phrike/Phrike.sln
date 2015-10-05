@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gMobiLab", "Sensors\gMobiLab\gMobiLab.csproj", "{BE27C586-513D-4447-B8C0-1FCA270791DB}"
 EndProject
@@ -65,7 +65,6 @@ Global
 		{A82F3186-47D2-4D69-8614-6D1313E66E77}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{A82F3186-47D2-4D69-8614-6D1313E66E77}.Debug|ARM.ActiveCfg = Debug|Win32
 		{A82F3186-47D2-4D69-8614-6D1313E66E77}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{A82F3186-47D2-4D69-8614-6D1313E66E77}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{A82F3186-47D2-4D69-8614-6D1313E66E77}.Debug|Win32.ActiveCfg = Debug|Win32
 		{A82F3186-47D2-4D69-8614-6D1313E66E77}.Debug|Win32.Build.0 = Debug|Win32
 		{A82F3186-47D2-4D69-8614-6D1313E66E77}.Debug|x64.ActiveCfg = Debug|Win32
