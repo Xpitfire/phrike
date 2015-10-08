@@ -167,7 +167,7 @@ namespace Phrike.GroundControl.ViewModels
                 ProcessModel.StartProcess(UnrealEngineModel.UnrealEnginePath, true, new string[] { "-fullscreen" });
                 Logger.Info("Unreal Engine process started!");
                 // create the Unreal Engine communication object
-                unrealEngineModel = new UnrealEngineModel();
+                unrealEngineModel = new UnrealEngineModel(ShowStressTestError, DisableUnrealEngineColor);
                 Logger.Info("Unreal Engine is ready to use!");
                 UnrealStatusColor = Activate;
             });
@@ -213,7 +213,7 @@ namespace Phrike.GroundControl.ViewModels
                     return;
                 }
 
-                sensorsModel = new SensorsModel();
+                sensorsModel = new SensorsModel(ShowStressTestError);
                 Logger.Info("Sensors instance created!");
 
                 var active = sensorsModel.StartRecording();
@@ -329,6 +329,16 @@ namespace Phrike.GroundControl.ViewModels
             var handler = PropertyChanged;
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+
+        #region Callbacks
+        
+        internal void DisableUnrealEngineColor()
+        {
+            UnrealStatusColor = Disable;
+            ScreenCapturingStatusColor = Disable;
         }
 
         #endregion
