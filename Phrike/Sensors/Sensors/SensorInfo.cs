@@ -85,5 +85,20 @@ namespace Phrike.Sensors
         {
             return Name;
         }
+
+        /// <summary>
+        /// Returns a clone of this, with <see cref="Enabled"/> set to
+        /// <paramref name="enabled"/>.
+        /// </summary>
+        /// <param name="enabled">Whether the clone should be enabled or not.</param>
+        /// <returns>A clone of this with modified <see cref="Enabled"/>.</returns>
+        public SensorInfo ToEnabled(bool enabled)
+        {
+            return new SensorInfo(
+                this.Name,
+                this.Unit,
+                enabled,
+                this.Id);
+        }
     }
 }

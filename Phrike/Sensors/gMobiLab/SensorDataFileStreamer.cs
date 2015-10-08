@@ -52,11 +52,6 @@ namespace Phrike.GMobiLab
         private readonly SensorInfo[] sensorInfos;
 
         /// <summary>
-        ///     The approximate start time of the recording.
-        /// </summary>
-        private readonly DateTime startTime;
-
-        /// <summary>
         ///     Saves the number of channels in the file (digital sensors are
         ///     bundled in one channel if enabled).
         /// </summary>
@@ -76,10 +71,6 @@ namespace Phrike.GMobiLab
         /// </param>
         public SensorDataFileStreamer(string filename)
         {
-            var creationTime = File.GetCreationTime(filename);
-            var lastWriteTime = File.GetLastWriteTime(filename);
-            startTime = creationTime < lastWriteTime ? creationTime : lastWriteTime;
-
             file = new FileStream(filename, FileMode.Open);
             dataReader = new BinaryReader(file);
             this.analogChannels = new SensorChannel?[8];
@@ -136,11 +127,7 @@ namespace Phrike.GMobiLab
             }
 
             var oldInfo = sensorInfos[sensor.Id];
-            sensorInfos[sensor.Id] = new SensorInfo(
-                oldInfo.Name,
-                oldInfo.Unit,
-                enabled,
-                oldInfo.Id);
+            sensorInfos[sensor.Id] = oldInfo.ToEnabled(enabled);
         }
 
         /// <inheritdoc />
