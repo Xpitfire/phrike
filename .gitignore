@@ -13,6 +13,7 @@ Documents/**/*.log
 *.sdf
 *.opensdf
 *.Designer.cs
+*.user
 Phrike/packages/
 Phrike/**/Release/
 Phrike/**/Debug/
