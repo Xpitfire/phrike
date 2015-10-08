@@ -22,7 +22,27 @@ namespace Phrike.Sensors
         /// <summary>
         /// A millionsth of a Volt (usually raw sensor data).
         /// </summary>
-        MicroVolt
+        MicroVolt,
+
+        /// <summary>
+        /// The unit is unknown.
+        /// </summary>
+        Unknown,
+
+        /// <summary>
+        /// µS, typically used for skin-conductance level (SCL).
+        /// </summary>
+        MicroSiemens,
+
+        /// <summary>
+        /// Temperature in C°.
+        /// </summary>
+        DegreeCelsius,
+
+        /// <summary>
+        /// Beats per minute (1 Hz = 60 BPM).
+        /// </summary>
+        Bpm
     }
 
     /// <summary>
