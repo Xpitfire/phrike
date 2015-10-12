@@ -1,19 +1,15 @@
-﻿using NLog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NLog;
 
-namespace Phrike.GroundControl.Model
+namespace Phrike.GroundControl.Controller
 {
     /// <summary>
     /// This is used to start and stop sub-processes.
     /// </summary>
-    static class ProcessModel
+    static class ProcessController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 

@@ -57,6 +57,7 @@
     <Compile Include="Sample.cs" />
     <Compile Include="SensorInfo.cs" />
     <Compile Include="SensorUtil.cs" />
+    <Compile Include="StatisticUtil.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

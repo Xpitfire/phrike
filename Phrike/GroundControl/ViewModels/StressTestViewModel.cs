@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Phrike.GroundControl.Model;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using NLog;
 using Phrike.GroundControl.Annotations;
+using Phrike.GroundControl.Controller;
 
 namespace Phrike.GroundControl.ViewModels
 {
@@ -17,8 +17,8 @@ namespace Phrike.GroundControl.ViewModels
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        private SensorsModel sensorsModel;
-        private UnrealEngineModel unrealEngineModel;
+        private SensorsController sensorsModel;
+        private UnrealEngineController unrealEngineModel;
 
         #region Status Info Properties
         private Brush unrealStatusColor;
@@ -164,10 +164,10 @@ namespace Phrike.GroundControl.ViewModels
             await Task.Run(() =>
             {
                 // start the external application sub-process
-                ProcessModel.StartProcess(UnrealEngineModel.UnrealEnginePath, true, new string[] { "-fullscreen" });
+                ProcessController.StartProcess(UnrealEngineController.UnrealEnginePath, true, new string[] { "-fullscreen" });
                 Logger.Info("Unreal Engine process started!");
                 // create the Unreal Engine communication object
-                unrealEngineModel = new UnrealEngineModel();
+                unrealEngineModel = new UnrealEngineController(ShowStressTestError, DisableUnrealEngineColor);
                 Logger.Info("Unreal Engine is ready to use!");
                 UnrealStatusColor = Activate;
             });
@@ -190,7 +190,7 @@ namespace Phrike.GroundControl.ViewModels
 
                 unrealEngineModel.Close();
                 unrealEngineModel = null;
-                ProcessModel.StopProcess(UnrealEngineModel.UnrealEnginePath);
+                ProcessController.StopProcess(UnrealEngineController.UnrealEnginePath);
                 Logger.Info("Unreal Engine process stoped!");
                 ScreenCapturingStatusColor = Disable;
                 UnrealStatusColor = Disable;
@@ -213,7 +213,7 @@ namespace Phrike.GroundControl.ViewModels
                     return;
                 }
 
-                sensorsModel = new SensorsModel();
+                sensorsModel = new SensorsController(ShowStressTestError);
                 Logger.Info("Sensors instance created!");
 
                 var active = sensorsModel.StartRecording();
@@ -329,6 +329,16 @@ namespace Phrike.GroundControl.ViewModels
             var handler = PropertyChanged;
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+
+        #region Callbacks
+        
+        internal void DisableUnrealEngineColor()
+        {
+            UnrealStatusColor = Disable;
+            ScreenCapturingStatusColor = Disable;
         }
 
         #endregion
