@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
-
 using NLog;
 using OxyPlot;
 using OxyPlot.Series;
 using Phrike.GMobiLab;
 using Phrike.GroundControl.ViewModels;
 
-namespace Phrike.GroundControl.Model
+namespace Phrike.GroundControl.Controller
 {
-    class SensorsModel
+    class SensorsController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -19,7 +17,7 @@ namespace Phrike.GroundControl.Model
 
         private SensorDevice sensors;
 
-        private Utils.ErrorMessageCallbackMethod errorMessageCallback;
+        private ControlDelegates.ErrorMessageCallbackMethod errorMessageCallback;
 
         /// <summary>
         /// Transform simple data points (double value) to a Oxyplot chart LineSeries object.
@@ -53,7 +51,7 @@ namespace Phrike.GroundControl.Model
         /// <summary>
         /// Create a new SensorModel instance and automatically connect to the hardware device.
         /// </summary>
-        public SensorsModel(Utils.ErrorMessageCallbackMethod errorMessageCallback)
+        public SensorsController(ControlDelegates.ErrorMessageCallbackMethod errorMessageCallback)
         {
             this.errorMessageCallback = errorMessageCallback;
 

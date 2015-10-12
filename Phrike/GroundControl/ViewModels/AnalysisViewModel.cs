@@ -10,7 +10,7 @@ using NLog;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
-using Phrike.GroundControl.Model;
+using Phrike.GroundControl.Controller;
 
 namespace Phrike.GroundControl.ViewModels
 {
@@ -30,6 +30,7 @@ namespace Phrike.GroundControl.ViewModels
         /// </summary>
         public AnalysisViewModel()
         {
+            // TODO: Refactor source code -> place into separate model class
             SensorPulsePlotModel = new PlotModel { Title = "Pulse Result", PlotAreaBackground = OxyColors.Transparent };
             SensorPulsePlotModel.LegendBorder = OxyColors.Transparent;
             
@@ -69,7 +70,7 @@ namespace Phrike.GroundControl.ViewModels
                     {
                         SensorPulsePlotModel.Series.Clear();
                         // create a line series plot instance
-                        var lineSeries = SensorsModel.GetPulseSeries(dlg.FileName, false);
+                        var lineSeries = SensorsController.GetPulseSeries(dlg.FileName, false);
                         lineSeries.Color = OxyColors.Blue;
                         lineSeries.StrokeThickness = 2;
                         lineSeries.Smooth = true;
