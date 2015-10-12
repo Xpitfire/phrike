@@ -13,5 +13,12 @@ namespace DataModel
         public virtual ICollection<Video> Video { get; set; }
         public virtual ICollection<SurveyResult> SurveyResult { get; set; }
         public string Scenario { get; set; }
+
+        public Test()
+        {
+            this.PositionData = new List<PositionData>();
+            this.Video = new List<Video>();
+            this.SurveyResult = new List<SurveyResult>();
+        }
     }
 }
