@@ -25,7 +25,8 @@ namespace Phrike.GroundControl.Model
         private SocketWriter unrealSocketWriter;
         private SocketReader unrealSocketReader;
 
-        private UnrealEngineModel unrealEngineModel;
+        private Utils.ViewModelCallbackMethod disableUnrealEngineWindowCallback;
+        private Utils.ErrorMessageCallbackMethod errorMessageCallback;
 
         /// <summary>
         /// Is alive flag for the socket communication thread.
@@ -35,8 +36,11 @@ namespace Phrike.GroundControl.Model
         /// <summary>
         /// Create a new Unreal Engine instance and connect to the socket.
         /// </summary>
-        public UnrealEngineModel()
+        public UnrealEngineModel(Utils.ErrorMessageCallbackMethod errorMessageCallback, Utils.ViewModelCallbackMethod disableUnrealEngineWindowCallback)
         {
+            this.errorMessageCallback = errorMessageCallback;
+            this.disableUnrealEngineWindowCallback = disableUnrealEngineWindowCallback;
+
             try
             {
                 IsAlive = true;
@@ -48,7 +52,7 @@ namespace Phrike.GroundControl.Model
                 unrealSocketWriter = new SocketWriter(socket);
                 unrealSocketReader = new SocketReader(socket);
                 // run command listener thread
-                Thread trackingThread = new Thread(new ThreadStart(Run));
+                Thread trackingThread = new Thread(Run);
                 trackingThread.Start();
                 Logger.Info("Listener socket thread initialized.");
             }
@@ -57,7 +61,7 @@ namespace Phrike.GroundControl.Model
                 IsAlive = false;
                 const string message = "Could not initialize Unreal Engine socket instance.";
                 Logger.Error(message, e);
-                ShowUnrealEngineError(message);
+                errorMessageCallback(message);
             }
         }
 
@@ -121,7 +125,7 @@ namespace Phrike.GroundControl.Model
             {
                 const string message = "Could not send Unreal Engine start capture command!";
                 Logger.Error(message, e);
-                ShowUnrealEngineError(message);
+                errorMessageCallback(message);
             }
         }
         /// <summary>
@@ -138,7 +142,7 @@ namespace Phrike.GroundControl.Model
             {
                 const string message = "Could not send Unreal Engine stop capture command!";
                 Logger.Error(message, e);
-                ShowUnrealEngineError(message);
+                errorMessageCallback(message);
             }
         }
 
@@ -161,7 +165,7 @@ namespace Phrike.GroundControl.Model
             {
                 const string message = "Could not send Unreal Engine position tracking initalization command!";
                 Logger.Error(message, e);
-                ShowUnrealEngineError(message);
+                errorMessageCallback(message);
             }
         }
 
@@ -203,8 +207,7 @@ namespace Phrike.GroundControl.Model
                 }
                 Logger.Debug("Received command: {0}", cmd);
             }
-            StressTestViewModel.Instance.UnrealStatusColor = StressTestViewModel.Instance.Disable;
-            StressTestViewModel.Instance.ScreenCapturingStatusColor = StressTestViewModel.Instance.Disable;
+            disableUnrealEngineWindowCallback();
             try
             {
                 if (socket != null)
@@ -215,15 +218,6 @@ namespace Phrike.GroundControl.Model
             {
                 Logger.Warn("Socket stop failed!", e);
             }
-        }
-
-        /// <summary>
-        /// Show a default Unreal Engine error message to the UI.
-        /// </summary>
-        /// <param name="message">The message to be displayed.</param>
-        private void ShowUnrealEngineError(string message)
-        {
-            MainViewModel.Instance.ShowDialogMessage("Unreal Engine Error", message);
         }
     }
 }

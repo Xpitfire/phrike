@@ -19,6 +19,8 @@ namespace Phrike.GroundControl.Model
 
         private SensorDevice sensors;
 
+        private Utils.ErrorMessageCallbackMethod errorMessageCallback;
+
         /// <summary>
         /// Transform simple data points (double value) to a Oxyplot chart LineSeries object.
         /// </summary>
@@ -51,8 +53,10 @@ namespace Phrike.GroundControl.Model
         /// <summary>
         /// Create a new SensorModel instance and automatically connect to the hardware device.
         /// </summary>
-        public SensorsModel()
+        public SensorsModel(Utils.ErrorMessageCallbackMethod errorMessageCallback)
         {
+            this.errorMessageCallback = errorMessageCallback;
+
             if (sensors != null)
             {
                 Logger.Info("Sensors already started!");
@@ -97,7 +101,7 @@ namespace Phrike.GroundControl.Model
                 {
                     const string message = "Sensors recording failed!";
                     Logger.Error(message, e);
-                    ShowSensorError(message);
+                    errorMessageCallback(message);
                     return false;
                 }
                 return true;
@@ -106,7 +110,7 @@ namespace Phrike.GroundControl.Model
             {
                 const string message = "Sensors recording could not be started!";
                 Logger.Warn(message);
-                ShowSensorError(message);
+                errorMessageCallback(message);
                 return false;
             }
         }
@@ -127,7 +131,7 @@ namespace Phrike.GroundControl.Model
             {
                 const string message = "Sensors recording is not running!";
                 Logger.Warn(message);
-                ShowSensorError(message);
+                errorMessageCallback(message);
             }
         }
 
@@ -144,15 +148,6 @@ namespace Phrike.GroundControl.Model
                 Logger.Info("Sensors recording stopped!");
             }
         }
-
-        /// <summary>
-        /// Show a default sensor error message to the UI.
-        /// </summary>
-        /// <param name="message">The message to be displayed.</param>
-        private void ShowSensorError(string message)
-        {
-            MainViewModel.Instance.ShowDialogMessage("Sensor Device Error", message);
-        }
-
+        
     }
 }

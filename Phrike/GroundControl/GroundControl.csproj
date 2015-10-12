@@ -103,6 +103,7 @@
     <Compile Include="Model\ProcessModel.cs" />
     <Compile Include="Model\SensorsModel.cs" />
     <Compile Include="Model\UnrealEngineModel.cs" />
+    <Compile Include="Model\Utils.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
