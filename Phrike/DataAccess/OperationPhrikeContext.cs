@@ -10,15 +10,15 @@ namespace DataAccess
 {
     public class OperationPhrikeContext : DbContext
     {
-        DbSet<PositionData> PositionData;
-        DbSet<Survey> Surveys;
-        DbSet<SurveyQuestion> SurveyQuestions;
-        DbSet<SurveyResult> SurveyResults;
-        DbSet<Test> Tests;
-        DbSet<Propositus> Propositi;
-        DbSet<Video> Videos;
-        
-        
+        public DbSet<PositionData> PositionData { get; set; }
+        public DbSet<Survey> Surveys { get; set; }
+        public DbSet<SurveyQuestion> SurveyQuestions { get; set; }
+        public DbSet<SurveyResult> SurveyResults { get; set; }
+        public DbSet<Test> Tests { get; set; }
+        public DbSet<Propositus> Propositi { get; set; }
+        public DbSet<Video> Videos { get; set; }
+
+
         public Propositus GetDeineMudda ()
         {
             return (from m in this.Propositi
