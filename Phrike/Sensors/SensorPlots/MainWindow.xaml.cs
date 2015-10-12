@@ -75,6 +75,9 @@ namespace Phrike.SensorPlots
         /// </summary>
         private ISensorHub dataSource;
 
+        private LineSeries trendSeries = new LineSeries { Title = "Trendline" };
+        //private FunctionSeries trendSeries = new FunctionSeries();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
         /// </summary>
@@ -87,6 +90,7 @@ namespace Phrike.SensorPlots
             this.plotModel.Series.Add(this.maxSeries);
             this.plotModel.Series.Add(this.mergedPeaksSeries);
             this.plotModel.Series.Add(this.pulseSeries);
+            this.plotModel.Series.Add(this.trendSeries);
             this.PlotView.Model = this.plotModel;
             this.dataSeries.StrokeThickness = 1;
             this.minSeries.StrokeThickness = 1;
@@ -94,7 +98,8 @@ namespace Phrike.SensorPlots
             this.mergedPeaksSeries.StrokeThickness = 1;
             this.pulseSeries.StrokeThickness = 1.3;
             this.pulseSeries.YAxisKey = "pulseAxis";
-            this.plotModel.Axes.Add(new LinearAxis { Key = "pulseAxis", Minimum = 0, Maximum = 120, AxisDistance = 40});
+            this.trendSeries.YAxisKey = "pulseAxis";
+            this.plotModel.Axes.Add(new LinearAxis { Key = "pulseAxis", Minimum = 40, Maximum = 210, AxisDistance = 40});            
         }
 
         /// <summary>
@@ -169,7 +174,10 @@ namespace Phrike.SensorPlots
             mergedPeaks = maxFilter.Filter(mergedPeaks);
 
             IReadOnlyList<double> pulse = new PulseCalculator().Filter(mergedPeaks);
-           
+
+            double slope = pulse.Slope();
+            double intercept = pulse.Intercept();
+
             for (int i = 0; i < sensorData.Length; ++i)
             {
                 var x = i / (double)this.dataSource.SampleRate;
@@ -178,6 +186,7 @@ namespace Phrike.SensorPlots
                 this.maxSeries.Points.Add(new DataPoint(x, maxPeaks[i]));
                 this.mergedPeaksSeries.Points.Add(new DataPoint(x, mergedPeaks[i]));
                 this.pulseSeries.Points.Add(new DataPoint(x, pulse[i]));
+                this.trendSeries.Points.Add(new DataPoint(x, slope * i + intercept));
             }
 
             this.MaxVal.Text = pulse.Max().ToString("F2");
