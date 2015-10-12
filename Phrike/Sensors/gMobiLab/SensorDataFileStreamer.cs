@@ -146,7 +146,6 @@ namespace Phrike.GMobiLab
 
             var sampleCount = Math.Min(maxCount, this.GetAvailableSampleCount());
             var enabledChannelCount = sensorInfos.Count(si => si.Enabled);
-            var sampleLength = (double)TimeSpan.TicksPerSecond / sampleRate;
             for (var sampleIdx = 0; sampleIdx < sampleCount; ++sampleIdx)
             {
                 var sampleData = new double[enabledChannelCount];
