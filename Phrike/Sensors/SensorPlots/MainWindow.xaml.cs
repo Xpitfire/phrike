@@ -180,6 +180,15 @@ namespace Phrike.SensorPlots
                 this.pulseSeries.Points.Add(new DataPoint(x, pulse[i]));
             }
 
+            this.MaxVal.Text = pulse.Max().ToString("F2");
+            this.MinVal.Text = pulse.Min().ToString("F2");
+            this.AverageVal.Text = pulse.Average().ToString("F2");
+            this.DifferenceVal.Text = pulse.Difference().ToString("F2");
+            this.SigmaVal.Text = pulse.Sigma().ToString("F2");
+            this.AVal.Text = pulse.Intercept().ToString("F2");
+            this.BVal.Text = pulse.Slope().ToString();
+            this.RSquareVal.Text = pulse.DeterminationCoefficient().ToString("F2");
+
             this.PlotView.InvalidatePlot(true);
         }
 
