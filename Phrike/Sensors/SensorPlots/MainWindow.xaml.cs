@@ -87,16 +87,46 @@ namespace Phrike.SensorPlots
             this.plotModel.Series.Add(this.maxSeries);
             this.plotModel.Series.Add(this.mergedPeaksSeries);
             this.plotModel.Series.Add(this.pulseSeries);
-            this.PlotView.Model = this.plotModel;
+
             this.dataSeries.StrokeThickness = 1;
             this.minSeries.StrokeThickness = 1;
             this.maxSeries.StrokeThickness = 1;
             this.mergedPeaksSeries.StrokeThickness = 1;
             this.pulseSeries.StrokeThickness = 1.3;
+            this.PlotView.Model = this.plotModel;
             this.pulseSeries.YAxisKey = "pulseAxis";
-            this.plotModel.Axes.Add(new LinearAxis { Key = "pulseAxis", Minimum = 0, Maximum = 120, AxisDistance = 40});
+            this.plotModel.Axes.Add(new LinearAxis { Key = "pulseAxis", Minimum = 0, Maximum = 120, AxisDistance = 40 });
         }
 
+
+        public void UpdateMainWindow()
+        {
+
+            this.InitializeComponent();
+            this.plotModel.Series.Clear();
+            if (this.Checkbox.IsChecked != true)
+            {
+                this.plotModel.Series.Add(this.dataSeries);
+                this.plotModel.Series.Add(this.minSeries);
+                this.plotModel.Series.Add(this.maxSeries);
+                this.plotModel.Series.Add(this.mergedPeaksSeries);
+                this.plotModel.Series.Add(this.pulseSeries);
+                this.dataSeries.StrokeThickness = 1;
+                this.minSeries.StrokeThickness = 1;
+                this.maxSeries.StrokeThickness = 1;
+                this.mergedPeaksSeries.StrokeThickness = 1;
+                this.pulseSeries.StrokeThickness = 1.3;
+
+            }
+            else
+            {
+                this.plotModel.Series.Add(this.dataSeries);
+                this.dataSeries.StrokeThickness = 1;
+            }
+            this.PlotView.Model = this.plotModel;
+            this.pulseSeries.YAxisKey = "pulseAxis";
+            this.plotModel.Axes.Add(new LinearAxis { Key = "pulseAxis", Minimum = 0, Maximum = 120, AxisDistance = 40 });
+        }
         /// <summary>
         /// Invoked when the "Open file" button is clicked.
         /// </summary>
@@ -132,10 +162,9 @@ namespace Phrike.SensorPlots
             }
         }
 
-        /// <summary>
-        /// Update the plot from <see cref="data"/> and the selected Dropdown item.
-        /// </summary>
-        private void UpdatePlot()
+
+
+        private void UpdateFilteredData()
         {
             if (this.ChannelSelection.SelectedItem == null || this.data.Length <= 0)
             {
@@ -143,15 +172,18 @@ namespace Phrike.SensorPlots
             }
 
             var sensor = (SensorInfo)this.ChannelSelection.SelectedItem;
+
             this.dataSeries.Points.Clear();
+
             this.mergedPeaksSeries.Points.Clear();
             this.minSeries.Points.Clear();
             this.maxSeries.Points.Clear();
             this.pulseSeries.Points.Clear();
             this.dataSeries.Title = sensor.Name;
 
+
             int sensorIdx = this.dataSource.GetSensorValueIndexInSample(sensor);
-            
+
             double[] sensorData = SensorUtil.GetSampleValues(this.data, sensorIdx).ToArray();
 
             var filterChain = new FilterChain();
@@ -169,7 +201,7 @@ namespace Phrike.SensorPlots
             mergedPeaks = maxFilter.Filter(mergedPeaks);
 
             IReadOnlyList<double> pulse = new PulseCalculator().Filter(mergedPeaks);
-           
+
             for (int i = 0; i < sensorData.Length; ++i)
             {
                 var x = i / (double)this.dataSource.SampleRate;
@@ -179,9 +211,42 @@ namespace Phrike.SensorPlots
                 this.mergedPeaksSeries.Points.Add(new DataPoint(x, mergedPeaks[i]));
                 this.pulseSeries.Points.Add(new DataPoint(x, pulse[i]));
             }
-
             this.PlotView.InvalidatePlot(true);
         }
+
+        private void UpdateUnfilteredData()
+        {
+            if (this.ChannelSelection.SelectedItem == null || this.data.Length <= 0)
+            {
+                return;
+            }
+
+            var sensor = (SensorInfo)this.ChannelSelection.SelectedItem;
+
+            this.dataSeries.Points.Clear();
+
+            this.dataSeries.Points.Clear();
+            this.dataSeries.Title = sensor.Name;
+
+            int sensorIdx = this.dataSource.GetSensorValueIndexInSample(sensor);
+            double[] sensorData = SensorUtil.GetSampleValues(this.data, sensorIdx).ToArray();
+
+            var filterChain = new FilterChain();
+
+            filterChain.Add(new GaussFilter(4));
+            filterChain.Add(new EdgeDetectionFilter(2));
+            IReadOnlyList<double> prefilteredData = filterChain.Filter(sensorData);
+           
+            for (int i = 0; i < sensorData.Length; ++i)
+            {
+                var x = i / (double)this.dataSource.SampleRate;
+                this.dataSeries.Points.Add(new DataPoint(x, prefilteredData[i]));
+            }
+            this.PlotView.InvalidatePlot(true);
+
+        }
+
+       
 
         /// <summary>
         /// Invoked when the selection in the channel selection Dropdown changes.
@@ -190,7 +255,31 @@ namespace Phrike.SensorPlots
         /// <param name="e">Additional event arguments.</param>
         private void CbChannelSelected(object sender, SelectionChangedEventArgs e)
         {
-            this.UpdatePlot();
+            this.UpdateFilteredData();
+        }
+
+
+        /// <summary>
+        /// Invoked when the checkbox state changes. 
+        /// </summary>
+        /// <param name="sender">The event source.</param>
+        /// <param name="e">Additional event arguments.</param>
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            this.UpdateMainWindow();
+            this.UpdateUnfilteredData();
+            
+        }
+
+        /// <summary>
+        /// Invoked when the checkbox state changes.
+        /// </summary>
+        /// <param name="sender">The event source.</param>
+        /// <param name="e">Additional event arguments.</param>
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            this.UpdateMainWindow();
+            this.UpdateFilteredData();          
         }
     }
 }

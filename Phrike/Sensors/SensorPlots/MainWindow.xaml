@@ -15,6 +15,7 @@
             <Button Margin="5" Click="BtnOpenFileClicked">Open file…</Button>
             <TextBlock Margin="5">Display Channel:</TextBlock>
             <ComboBox x:Name="ChannelSelection" Margin="5" SelectionChanged="CbChannelSelected"/>
+            <CheckBox x:Name="Checkbox" Content="Show Pulse Conductance" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"/>
         </StackPanel>
     </Grid>
 </Window>
