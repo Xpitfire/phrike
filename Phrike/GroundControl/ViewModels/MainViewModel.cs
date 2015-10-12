@@ -16,7 +16,6 @@ namespace Phrike.GroundControl.ViewModels
 
         public MainViewModel()
         {
-            // TODO: MVVM Lite -> Service Locator
             Instance = this;
         }
 
