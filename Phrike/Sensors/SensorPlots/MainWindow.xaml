@@ -7,15 +7,36 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <oxy:PlotView x:Name="PlotView"/>
         
         <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">
+            <TextBlock Margin="5">Maximaler Wert</TextBlock>
+            <TextBlock x:Name="MaxVal" Margin="5"/>
+            <TextBlock Margin="5">Minimaler Wert</TextBlock>
+            <TextBlock x:Name="MinVal" Margin="5"/>
+            <TextBlock Margin="5">Mittelwert</TextBlock>
+            <TextBlock x:Name="AverageVal" Margin="5"/>
+            <TextBlock Margin="5">Differenz</TextBlock>
+            <TextBlock x:Name="DifferenceVal" Margin="5"/>
+            <TextBlock Margin="5">Sigma</TextBlock>
+            <TextBlock x:Name="SigmaVal" Margin="5"/>
+            <TextBlock Margin="5">a-Wert</TextBlock>
+            <TextBlock x:Name="AVal" Margin="5"/>
+            <TextBlock Margin="5">b-Wert</TextBlock>
+            <TextBlock x:Name="BVal" Margin="5"/>
+            <TextBlock Margin="5">r^2-Wert</TextBlock>
+            <TextBlock x:Name="RSquareVal" Margin="5"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center">
             <Button Margin="5" Click="BtnOpenFileClicked">Open file…</Button>
             <TextBlock Margin="5">Display Channel:</TextBlock>
             <ComboBox x:Name="ChannelSelection" Margin="5" SelectionChanged="CbChannelSelected"/>
             <CheckBox x:Name="Checkbox" Content="Show Pulse Conductance" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"/>
         </StackPanel>
+        
     </Grid>
 </Window>

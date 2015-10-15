@@ -4,12 +4,11 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Windows.Media.Media3D;
 using NLog;
-using Phrike.GroundControl.ViewModels;
 using Phrike.PhrikeSocket;
 
-namespace Phrike.GroundControl.Model
+namespace Phrike.GroundControl.Controller
 {
-    class UnrealEngineModel
+    class UnrealEngineController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -25,8 +24,8 @@ namespace Phrike.GroundControl.Model
         private SocketWriter unrealSocketWriter;
         private SocketReader unrealSocketReader;
 
-        private Utils.ViewModelCallbackMethod disableUnrealEngineWindowCallback;
-        private Utils.ErrorMessageCallbackMethod errorMessageCallback;
+        private ControlDelegates.ViewModelCallbackMethod disableUnrealEngineCallback;
+        private ControlDelegates.ErrorMessageCallbackMethod errorMessageCallback;
 
         /// <summary>
         /// Is alive flag for the socket communication thread.
@@ -36,10 +35,10 @@ namespace Phrike.GroundControl.Model
         /// <summary>
         /// Create a new Unreal Engine instance and connect to the socket.
         /// </summary>
-        public UnrealEngineModel(Utils.ErrorMessageCallbackMethod errorMessageCallback, Utils.ViewModelCallbackMethod disableUnrealEngineWindowCallback)
+        public UnrealEngineController(ControlDelegates.ErrorMessageCallbackMethod errorMessageCallback, ControlDelegates.ViewModelCallbackMethod disableUnrealEngineCallback)
         {
             this.errorMessageCallback = errorMessageCallback;
-            this.disableUnrealEngineWindowCallback = disableUnrealEngineWindowCallback;
+            this.disableUnrealEngineCallback = disableUnrealEngineCallback;
 
             try
             {
@@ -207,7 +206,7 @@ namespace Phrike.GroundControl.Model
                 }
                 Logger.Debug("Received command: {0}", cmd);
             }
-            disableUnrealEngineWindowCallback();
+            disableUnrealEngineCallback();
             try
             {
                 if (socket != null)
