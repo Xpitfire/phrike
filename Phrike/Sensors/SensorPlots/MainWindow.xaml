@@ -11,8 +11,8 @@
         </Grid.RowDefinitions>
         
         <oxy:PlotView x:Name="PlotView"/>
-
-        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">            
+        
+        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">
             <TextBlock Margin="5">Maximaler Wert</TextBlock>
             <TextBlock x:Name="MaxVal" Margin="5"/>
             <TextBlock Margin="5">Minimaler Wert</TextBlock>
@@ -35,7 +35,8 @@
             <Button Margin="5" Click="BtnOpenFileClicked">Open file…</Button>
             <TextBlock Margin="5">Display Channel:</TextBlock>
             <ComboBox x:Name="ChannelSelection" Margin="5" SelectionChanged="CbChannelSelected"/>
-        </StackPanel>   
+            <CheckBox x:Name="Checkbox" Content="Show Raw Data" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed" />
+        </StackPanel>
         
     </Grid>
 </Window>
