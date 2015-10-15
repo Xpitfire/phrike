@@ -96,7 +96,9 @@ namespace Phrike.SensorPlots
             this.plotModel.Axes.Add(new LinearAxis { Key = "pulseAxis", Minimum = 0, Maximum = 120, AxisDistance = 40 });
         }
 
-
+        /// <summary>
+        /// Updates the instance of the <see cref="MainWindow"/> class.
+        /// </summary>
         public void UpdateMainWindow()
         {
             this.plotModel.Series.Clear();
@@ -111,6 +113,7 @@ namespace Phrike.SensorPlots
             }
             this.UpdateData();
         }
+
         /// <summary>
         /// Invoked when the "Open file" button is clicked.
         /// </summary>
@@ -146,6 +149,9 @@ namespace Phrike.SensorPlots
             }
         }
 
+        /// <summary>
+        /// Updates the Data in the  <see cref="MainWindow"/>
+        /// </summary>
         private void UpdateData()
         {
             if (this.ChannelSelection.SelectedItem == null || this.data.Length <= 0)
@@ -165,8 +171,9 @@ namespace Phrike.SensorPlots
             filterChain.Add(new GaussFilter(4));
             filterChain.Add(new EdgeDetectionFilter(2));
             IReadOnlyList<double> prefilteredData = filterChain.Filter(sensorData);
-
-            if (this.Checkbox.IsChecked != true) {
+            
+            if (this.Checkbox.IsChecked == true)
+            {
                 for (int i = 0; i < sensorData.Length; ++i)
                 {
                     var x = i / (double)this.dataSource.SampleRate;
@@ -227,7 +234,6 @@ namespace Phrike.SensorPlots
         {
             this.UpdateMainWindow();
         }
-
 
         /// <summary>
         /// Invoked when the checkbox state changes. 
