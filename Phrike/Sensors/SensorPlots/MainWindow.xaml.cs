@@ -43,7 +43,7 @@ namespace Phrike.SensorPlots
         /// <summary>
         /// The prefiltered data series that is displayed in the PlotModel.
         /// </summary>
-        private readonly LineSeries dataSeries = new LineSeries();
+        private readonly LineSeries dataSeries = new LineSeries() { Title = "Raw Data" };
 
         /// <summary>
         /// Series of minimum peaks.
@@ -85,13 +85,6 @@ namespace Phrike.SensorPlots
         {
             this.InitializeComponent();
             this.plotModel.Axes.Add(new LinearAxis());
-            this.plotModel.Series.Add(this.dataSeries);
-            this.plotModel.Series.Add(this.minSeries);
-            this.plotModel.Series.Add(this.maxSeries);
-            this.plotModel.Series.Add(this.mergedPeaksSeries);
-            this.plotModel.Series.Add(this.pulseSeries);
-            this.plotModel.Series.Add(this.trendSeries);
-
             this.dataSeries.StrokeThickness = 1;
             this.minSeries.StrokeThickness = 1;
             this.maxSeries.StrokeThickness = 1;
@@ -101,38 +94,22 @@ namespace Phrike.SensorPlots
             this.pulseSeries.YAxisKey = "pulseAxis";
             this.trendSeries.YAxisKey = "pulseAxis";
             this.plotModel.Axes.Add(new LinearAxis { Key = "pulseAxis", Minimum = 0, Maximum = 120, AxisDistance = 40 });
-   
         }
 
 
         public void UpdateMainWindow()
         {
-
-            this.InitializeComponent();
             this.plotModel.Series.Clear();
+            this.plotModel.Series.Add(this.dataSeries);
             if (this.Checkbox.IsChecked != true)
-            {
-                this.plotModel.Series.Add(this.dataSeries);
+            {    
                 this.plotModel.Series.Add(this.minSeries);
                 this.plotModel.Series.Add(this.maxSeries);
                 this.plotModel.Series.Add(this.mergedPeaksSeries);
                 this.plotModel.Series.Add(this.pulseSeries);
                 this.plotModel.Series.Add(this.trendSeries);
-                this.dataSeries.StrokeThickness = 1;
-                this.minSeries.StrokeThickness = 1;
-                this.maxSeries.StrokeThickness = 1;
-                this.mergedPeaksSeries.StrokeThickness = 1;
-                this.pulseSeries.StrokeThickness = 1.3;
             }
-            else
-            {
-                this.plotModel.Series.Add(this.dataSeries);
-                this.dataSeries.StrokeThickness = 1;
-            }
-            this.PlotView.Model = this.plotModel;
-            this.pulseSeries.YAxisKey = "pulseAxis";
-            this.trendSeries.YAxisKey = "pulseAxis";
-            this.plotModel.Axes.Add(new LinearAxis { Key = "pulseAxis", Minimum = 40, Maximum = 210, AxisDistance = 40});            
+            this.UpdateData();
         }
         /// <summary>
         /// Invoked when the "Open file" button is clicked.
@@ -169,7 +146,7 @@ namespace Phrike.SensorPlots
             }
         }
 
-        private void UpdateFilteredData()
+        private void UpdateData()
         {
             if (this.ChannelSelection.SelectedItem == null || this.data.Length <= 0)
             {
@@ -178,75 +155,8 @@ namespace Phrike.SensorPlots
 
             var sensor = (SensorInfo)this.ChannelSelection.SelectedItem;
             this.dataSeries.Points.Clear();
-            this.mergedPeaksSeries.Points.Clear();
-            this.minSeries.Points.Clear();
-            this.maxSeries.Points.Clear();
-            this.pulseSeries.Points.Clear();
-            this.trendSeries.Points.Clear();
+
             this.dataSeries.Title = sensor.Name;
-
-            int sensorIdx = this.dataSource.GetSensorValueIndexInSample(sensor);
-            
-            double[] sensorData = SensorUtil.GetSampleValues(this.data, sensorIdx).ToArray();
-
-            var filterChain = new FilterChain();
-
-            filterChain.Add(new GaussFilter(4));
-            filterChain.Add(new EdgeDetectionFilter(2));
-            IReadOnlyList<double> prefilteredData = filterChain.Filter(sensorData);
-            IReadOnlyList<double> maxPeaks = new PeakFilter(15).Filter(prefilteredData);
-            var maxFilter = new BinaryThresholdFilter(0.5);
-            maxPeaks = maxFilter.Filter(maxPeaks);
-            IReadOnlyList<double> minPeaks = new PeakFilter(15, false).Filter(prefilteredData);
-            minPeaks = new BinaryThresholdFilter(0.5, false).Filter(minPeaks);
-            IReadOnlyList<double> mergedPeaks = HeartPeakFilter.MergePeaks(
-                maxPeaks, minPeaks, 11);
-            mergedPeaks = maxFilter.Filter(mergedPeaks);
-
-            IReadOnlyList<double> pulse = new PulseCalculator().Filter(mergedPeaks);
-           
-            double slope = pulse.Slope();
-            double intercept = pulse.Intercept();
-
-            this.MaxVal.Text = pulse.Max().ToString("F2");
-            this.MinVal.Text = pulse.Min().ToString("F2");
-            this.AverageVal.Text = pulse.Average().ToString("F2");
-            this.DifferenceVal.Text = pulse.Difference().ToString("F2");
-            this.SigmaVal.Text = pulse.Sigma().ToString("F2");
-            this.AVal.Text = pulse.Intercept().ToString("F2");
-            this.BVal.Text = pulse.Slope().ToString();
-            this.RSquareVal.Text = pulse.DeterminationCoefficient().ToString("F2");
-
-
-            for (int i = 0; i < sensorData.Length; ++i)
-            {
-                var x = i / (double)this.dataSource.SampleRate;
-                this.dataSeries.Points.Add(new DataPoint(x, prefilteredData[i]));
-                this.minSeries.Points.Add(new DataPoint(x, minPeaks[i]));
-                this.maxSeries.Points.Add(new DataPoint(x, maxPeaks[i]));
-                this.mergedPeaksSeries.Points.Add(new DataPoint(x, mergedPeaks[i]));
-                this.pulseSeries.Points.Add(new DataPoint(x, pulse[i]));
-                this.trendSeries.Points.Add(new DataPoint(x, slope * i + intercept));
-            }
-
-
-            this.PlotView.InvalidatePlot(true);
-        }
-
-        private void UpdateUnfilteredData()
-        {
-            if (this.ChannelSelection.SelectedItem == null || this.data.Length <= 0)
-            {
-                return;
-            }
-
-            var sensor = (SensorInfo)this.ChannelSelection.SelectedItem;
-
-            this.dataSeries.Points.Clear();
-
-            this.dataSeries.Points.Clear();
-            this.dataSeries.Title = sensor.Name;
-
             int sensorIdx = this.dataSource.GetSensorValueIndexInSample(sensor);
             double[] sensorData = SensorUtil.GetSampleValues(this.data, sensorIdx).ToArray();
 
@@ -256,16 +166,57 @@ namespace Phrike.SensorPlots
             filterChain.Add(new EdgeDetectionFilter(2));
             IReadOnlyList<double> prefilteredData = filterChain.Filter(sensorData);
 
-            for (int i = 0; i < sensorData.Length; ++i)
+            if (this.Checkbox.IsChecked != true) {
+                for (int i = 0; i < sensorData.Length; ++i)
+                {
+                    var x = i / (double)this.dataSource.SampleRate;
+                    this.dataSeries.Points.Add(new DataPoint(x, prefilteredData[i]));
+                }
+            }
+            else
             {
-                var x = i / (double)this.dataSource.SampleRate;
-                this.dataSeries.Points.Add(new DataPoint(x, prefilteredData[i]));
+                this.minSeries.Points.Clear();
+                this.maxSeries.Points.Clear();
+                this.mergedPeaksSeries.Points.Clear();
+                this.pulseSeries.Points.Clear();
+                this.trendSeries.Points.Clear();
 
+                IReadOnlyList<double> maxPeaks = new PeakFilter(15).Filter(prefilteredData);
+                var maxFilter = new BinaryThresholdFilter(0.5);
+                maxPeaks = maxFilter.Filter(maxPeaks);
+                IReadOnlyList<double> minPeaks = new PeakFilter(15, false).Filter(prefilteredData);
+                minPeaks = new BinaryThresholdFilter(0.5, false).Filter(minPeaks);
+                IReadOnlyList<double> mergedPeaks = HeartPeakFilter.MergePeaks(
+                    maxPeaks, minPeaks, 11);
+                mergedPeaks = maxFilter.Filter(mergedPeaks);
+
+                IReadOnlyList<double> pulse = new PulseCalculator().Filter(mergedPeaks);
+
+                double slope = pulse.Slope();
+                double intercept = pulse.Intercept();
+
+                this.MaxVal.Text = pulse.Max().ToString("F2");
+                this.MinVal.Text = pulse.Min().ToString("F2");
+                this.AverageVal.Text = pulse.Average().ToString("F2");
+                this.DifferenceVal.Text = pulse.Difference().ToString("F2");
+                this.SigmaVal.Text = pulse.Sigma().ToString("F2");
+                this.AVal.Text = pulse.Intercept().ToString("F2");
+                this.BVal.Text = pulse.Slope().ToString();
+                this.RSquareVal.Text = pulse.DeterminationCoefficient().ToString("F2");
+
+                for (int i = 0; i < sensorData.Length; ++i)
+                {
+                    var x = i / (double)this.dataSource.SampleRate;
+                    this.dataSeries.Points.Add(new DataPoint(x, prefilteredData[i]));
+                    this.minSeries.Points.Add(new DataPoint(x, minPeaks[i]));
+                    this.maxSeries.Points.Add(new DataPoint(x, maxPeaks[i]));
+                    this.mergedPeaksSeries.Points.Add(new DataPoint(x, mergedPeaks[i]));
+                    this.pulseSeries.Points.Add(new DataPoint(x, pulse[i]));
+                    this.trendSeries.Points.Add(new DataPoint(x, slope * i + intercept));
+                }
             }
             this.PlotView.InvalidatePlot(true);
-
         }
-
 
         /// <summary>
         /// Invoked when the selection in the channel selection Dropdown changes.
@@ -274,7 +225,7 @@ namespace Phrike.SensorPlots
         /// <param name="e">Additional event arguments.</param>
         private void CbChannelSelected(object sender, SelectionChangedEventArgs e)
         {
-            this.UpdateFilteredData();
+            this.UpdateMainWindow();
         }
 
 
@@ -283,21 +234,10 @@ namespace Phrike.SensorPlots
         /// </summary>
         /// <param name="sender">The event source.</param>
         /// <param name="e">Additional event arguments.</param>
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        private void CheckBox_Changed(object sender, RoutedEventArgs e)
         {
             this.UpdateMainWindow();
-            this.UpdateUnfilteredData();
         }
 
-        /// <summary>
-        /// Invoked when the checkbox state changes.
-        /// </summary>
-        /// <param name="sender">The event source.</param>
-        /// <param name="e">Additional event arguments.</param>
-        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            this.UpdateMainWindow();
-            this.UpdateFilteredData();          
-        }
     }
 }
