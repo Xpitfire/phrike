@@ -93,15 +93,18 @@ namespace Phrike.Sensors.Filters
             {
                 if (maxPeaks[i] != 0)
                 {
-                    bool found = false;
-                    for (int j = i; j < i + maxPeakDistance && j < maxPeaks.Count && !found; ++j)
+                    double minDistance = 0;
+                    for (
+                        int j = ((i - maxPeakDistance) >= 0 ? i - maxPeakDistance : 0); 
+                        j < i + maxPeakDistance && j < maxPeaks.Count;
+                        ++j)
                     {
-                        if (minPeaks[j] != 0)
+                        if (minPeaks[j] != 0 && minPeaks[j] < minDistance)
                         {
-                            result[i] = maxPeaks[i] - minPeaks[j];
-                            found = true;
+                            minDistance = minPeaks[j];
                         }
                     }
+                    result[i] = maxPeaks[i] - minDistance;
                 }
             }
 
