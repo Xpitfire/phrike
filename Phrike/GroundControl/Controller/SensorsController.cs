@@ -73,7 +73,7 @@ namespace Phrike.GroundControl.Controller
             catch (Exception e)
             {
                 const string message = "Could not connect to sensor device!";
-                Logger.Error(message, e);
+                Logger.Error( e, message);
             }
         }
 
@@ -98,7 +98,8 @@ namespace Phrike.GroundControl.Controller
                 catch (Exception e)
                 {
                     const string message = "Sensors recording failed!";
-                    Logger.Error(message, e);
+                    //Logger.Error(message, e);
+                    Logger.Error(e, message);
                     errorMessageCallback(message);
                     return false;
                 }

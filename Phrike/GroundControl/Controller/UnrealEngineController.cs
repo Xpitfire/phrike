@@ -59,7 +59,8 @@ namespace Phrike.GroundControl.Controller
             {
                 IsAlive = false;
                 const string message = "Could not initialize Unreal Engine socket instance.";
-                Logger.Error(message, e);
+                //Logger.Error(message, e);
+                Logger.Error(e, message);
                 errorMessageCallback(message);
             }
         }
@@ -80,7 +81,8 @@ namespace Phrike.GroundControl.Controller
             catch (Exception e)
             {
                 const string message = "Could not send Unreal Engine exit command!";
-                Logger.Error(message, e);
+                //Logger.Error(message, e);
+                Logger.Error(e, message);
             }
             finally
             {
@@ -105,7 +107,7 @@ namespace Phrike.GroundControl.Controller
                 }
                 catch (Exception e)
                 {
-                    Logger.Warn("unrealSocketReader connection lost.");
+                    Logger.Warn(e, "unrealSocketReader connection lost.");
                 }
             }
         }
@@ -123,7 +125,8 @@ namespace Phrike.GroundControl.Controller
             catch (Exception e)
             {
                 const string message = "Could not send Unreal Engine start capture command!";
-                Logger.Error(message, e);
+                //Logger.Error(message, e);
+                Logger.Error(e, message);
                 errorMessageCallback(message);
             }
         }
@@ -140,7 +143,8 @@ namespace Phrike.GroundControl.Controller
             catch (Exception e)
             {
                 const string message = "Could not send Unreal Engine stop capture command!";
-                Logger.Error(message, e);
+                //Logger.Error(message, e);
+                Logger.Error(e, message);
                 errorMessageCallback(message);
             }
         }
@@ -153,9 +157,7 @@ namespace Phrike.GroundControl.Controller
         {
             try
             {
-                unrealSocketWriter.WriteString("pos");
-                unrealSocketWriter.WriteFloat(0.5f);
-                unrealSocketWriter.WriteString("agl");
+                unrealSocketWriter.WriteString("init");
                 unrealSocketWriter.WriteFloat(0.5f);
                 unrealSocketWriter.Send();
                 Logger.Info("Unreal Engine successfully initialized position tracking!");
@@ -163,7 +165,8 @@ namespace Phrike.GroundControl.Controller
             catch (Exception e)
             {
                 const string message = "Could not send Unreal Engine position tracking initalization command!";
-                Logger.Error(message, e);
+                //Logger.Error(message, e);
+                Logger.Error(e, message);
                 errorMessageCallback(message);
             }
         }
@@ -179,32 +182,43 @@ namespace Phrike.GroundControl.Controller
             {
                 unrealSocketReader.Receive();
 
-                String cmd = unrealSocketReader.ReadString();
-                Logger.Info("Received command with Length: {0} - {1}", cmd.Length, cmd);
-
-                Vector3D pos = default(Vector3D);
-
-                switch (cmd.ToLower())
+                while (unrealSocketReader.BytesAvailable > 0)
                 {
-                    case "pos":
-                    case "agl":
-                        float x = unrealSocketReader.ReadFloat();
-                        float y = unrealSocketReader.ReadFloat();
-                        float z = unrealSocketReader.ReadFloat();
+                    String cmd = unrealSocketReader.ReadString();
+                    Logger.Info("Received command with Length: {0} - {1}", cmd.Length, cmd);
 
-                        pos = new Vector3D() { X = x, Y = y, Z = z };
-                        Logger.Debug("Received position: {0}", pos);
-                        break;
+                    Vector3D pos = default(Vector3D);
+                    Vector3D agl = default(Vector3D);
 
-                    case "end":
-                        IsAlive = false;
-                        break;
+                    switch (cmd.ToLower())
+                    {
+                        case "pos":
+                            float x = unrealSocketReader.ReadFloat();
+                            float y = unrealSocketReader.ReadFloat();
+                            float z = unrealSocketReader.ReadFloat();
 
-                    default:
-                        Logger.Error("Unkown Command: {0}", cmd);
-                        break;
+                            pos = new Vector3D() { X = x, Y = y, Z = z };
+                            Logger.Debug("Received position: {0}", pos);
+                            break;
+                        case "agl":
+                            float pitch = unrealSocketReader.ReadFloat();
+                            float yaw = unrealSocketReader.ReadFloat();
+                            float roll = unrealSocketReader.ReadFloat();
+
+                            agl = new Vector3D() { X = pitch, Y = yaw, Z = roll };
+                            Logger.Debug("Received angle: {0}", agl);
+                            break;
+
+                        case "end":
+                            IsAlive = false;
+                            break;
+
+                        default:
+                            Logger.Error("Unkown Command: {0}", cmd);
+                            break;
+                    }
+                    Logger.Debug("Received command: {0}", cmd);
                 }
-                Logger.Debug("Received command: {0}", cmd);
             }
             disableUnrealEngineCallback();
             try
@@ -215,7 +229,8 @@ namespace Phrike.GroundControl.Controller
             }
             catch (Exception e)
             {
-                Logger.Warn("Socket stop failed!", e);
+                //Logger.Warn("Socket stop failed!", e);
+                Logger.Warn(e, "Socket stop failed!");
             }
         }
     }
