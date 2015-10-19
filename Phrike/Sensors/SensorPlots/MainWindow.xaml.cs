@@ -93,7 +93,7 @@ namespace Phrike.SensorPlots
             this.PlotView.Model = this.plotModel;
             this.pulseSeries.YAxisKey = "pulseAxis";
             this.trendSeries.YAxisKey = "pulseAxis";
-            this.plotModel.Axes.Add(new LinearAxis { Key = "pulseAxis", Minimum = 0, Maximum = 120, AxisDistance = 40 });
+            this.plotModel.Axes.Add(new LinearAxis { Key = "pulseAxis", Minimum = 0, Maximum = 200, AxisDistance = 40 });
         }
 
         /// <summary>
