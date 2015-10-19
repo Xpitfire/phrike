@@ -18,12 +18,6 @@ namespace DataAccess
         public DbSet<Propositus> Propositi { get; set; }
         public DbSet<Video> Videos { get; set; }
 
-
-        public Propositus GetDeineMudda ()
-        {
-            return (from m in this.Propositi
-                    where m.LastName == "Steinke" && m.Sex == Sex.Female
-                    select m).SingleOrDefault();
-        }
+        
     }
 }
