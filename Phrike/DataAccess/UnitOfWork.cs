@@ -14,12 +14,14 @@ namespace DataAccess
 
 
         private BaseEntityRepository<PositionData> _positionDataRepository;
-        private BaseEntityRepository<Propositus> _propositusRepository;
+        private BaseEntityRepository<Scenario> _scenarioRepository; 
+        private BaseEntityRepository<Subject> _subjectRepository;
         private BaseEntityRepository<Survey> _surveyRepository;
         private BaseEntityRepository<SurveyQuestion> _surveyQuestionRepository;
         private BaseEntityRepository<SurveyResult> _surveyResultRepository;
         private BaseEntityRepository<Test> _testRepository;
         private BaseEntityRepository<Video> _videoRepository;
+
 
         public BaseEntityRepository<PositionData> PositionDataRepository
         {
@@ -33,15 +35,27 @@ namespace DataAccess
             }
         }
 
-        public BaseEntityRepository<Propositus> PropositusRepository
+        public BaseEntityRepository<Scenario> ScenarioRepository
         {
             get
             {
-                if (_propositusRepository == null)
+                if (_scenarioRepository == null)
                 {
-                    _propositusRepository = new BaseEntityRepository<Propositus>(_context);
+                    _scenarioRepository = new BaseEntityRepository<Scenario>(_context);
                 }
-                return _propositusRepository;
+                return _scenarioRepository;
+            }
+        }
+
+        public BaseEntityRepository<Subject> SubjectRepository
+        {
+            get
+            {
+                if (_subjectRepository == null)
+                {
+                    _subjectRepository = new BaseEntityRepository<Subject>(_context);
+                }
+                return _subjectRepository;
             }
         }
 

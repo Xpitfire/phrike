@@ -8,6 +8,8 @@ namespace DataModel
 {
     public class Video : BaseEntity
     {
+        public Test Test { get; set; }
+
         public DateTime Timestamp { get; set; }
         public string Source { get; set; }
         public string Description { get; set; }
