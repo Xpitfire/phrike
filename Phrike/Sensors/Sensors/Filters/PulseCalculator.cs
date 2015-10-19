@@ -39,6 +39,7 @@ namespace Phrike.Sensors.Filters
             return new FilterChain(
                 new GaussFilter(4),
                 new EdgeDetectionFilter(2),
+
                 new HeartPeakFilter(
                     new FilterChain( // maxPeakFilter
                         new PeakFilter(15),
@@ -73,7 +74,7 @@ namespace Phrike.Sensors.Filters
                     lastInsertPos = pos;
                 };
 
-            for (int i = 0; i < peaks.Count; i++)
+            for (int i = 0; i < peaks.Count; ++i)
             {
                 if (peaks[i] <= 0)
                 {
@@ -95,8 +96,9 @@ namespace Phrike.Sensors.Filters
                     {
                         double averagePulse = pulseRates.Skip(pulseRates.Count - 3).Average();
 
-                        if (pulse <= averagePulse * 1.2 && pulse < averagePulse * 0.8)
+                        if (pulse < averagePulse * 0.8)
                         {
+                            // pulse has to be corrected
                             double oneMissingPulse = pulse * 2;
                             double twoMissingPulse = pulse * 3;
                             double oneMissingToAvg = Math.Abs(averagePulse - oneMissingPulse);
@@ -108,6 +110,10 @@ namespace Phrike.Sensors.Filters
                             }
 
                             addPulse(correctedPulse, i);
+                        }
+                        else if (pulse >= averagePulse * 1.2)
+                        {
+                            // NOP
                         }
                         else
                         {
