@@ -71,6 +71,7 @@ namespace Phrike.GMobiLab
         /// </param>
         public SensorDataFileStreamer(string filename)
         {
+            Name = filename;
             file = new FileStream(filename, FileMode.Open);
             dataReader = new BinaryReader(file);
             this.analogChannels = new SensorChannel?[8];
@@ -111,6 +112,9 @@ namespace Phrike.GMobiLab
         {
             get { return sampleRate; }
         }
+
+        /// <inheritdoc />
+        public string Name { get; }
 
         /// <inheritdoc />
         public void SetSensorEnabled(SensorInfo sensor, bool enabled = true)

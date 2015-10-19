@@ -42,6 +42,11 @@ namespace Phrike.Sensors
         int SampleRate { get; }
 
         /// <summary>
+        /// Gets the 
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
         /// Sets which sensors should be recorded/retrieved.
         /// </summary>
         /// <param name="sensor">
