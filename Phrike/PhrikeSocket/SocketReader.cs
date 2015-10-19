@@ -28,6 +28,7 @@ namespace Phrike.PhrikeSocket
         private Socket socket;
         private MemoryStream ms;
         private int length;
+        private int bytesRead;
 
         private bool readAble;
         private bool receiveAble;
@@ -55,7 +56,7 @@ namespace Phrike.PhrikeSocket
                 return this.receiveAble;
             }
         }
-        
+
         /// <summary>
         /// Gets a value indicating whether the reader is ready to read data from a received byte-stream.
         /// </summary>
@@ -64,6 +65,17 @@ namespace Phrike.PhrikeSocket
             get
             {
                 return this.readAble;
+            }
+        }
+
+        /// <summary>
+        /// Gets the amount of Bytes available for reading on the Input-Buffer
+        /// </summary>
+        public int BytesAvailable
+        {
+            get
+            {
+                return CanReceive ? this.length-this.bytesRead : -1;
             }
         }
 
@@ -85,6 +97,7 @@ namespace Phrike.PhrikeSocket
 
                 byte[] buf2 = new byte[strlen];
                 this.ms.Read(buf2, 0, strlen);
+                this.bytesRead += strlen + 1;
 
                 string ret = Encoding.UTF8.GetString(buf2, 0, strlen);
                 return ret;
@@ -110,6 +123,7 @@ namespace Phrike.PhrikeSocket
 
             byte[] buf2 = new byte[4];
             this.ms.Read(buf2, 0, 4);
+            this.bytesRead += 4;
 
             float ret = BitConverter.ToSingle(buf2, 0);
             return ret;
@@ -130,6 +144,7 @@ namespace Phrike.PhrikeSocket
                 this.socket.ReceiveTimeout = timeout;
 
                 this.buffer = new byte[100];
+                this.bytesRead = 0;
                 this.length = this.socket.Receive(this.buffer);
                 this.ms = new MemoryStream(this.buffer, 0, this.length);
                 this.readAble = true;

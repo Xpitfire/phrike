@@ -52,7 +52,8 @@ namespace Phrike.GroundControl.ViewModels
             }
             catch (Exception e)
             {
-                Logger.Error("Could not load pulse data!", e);
+                //Logger.Error("Could not load pulse data!", e);
+                Logger.Error(e, "Could not load pulse data!");
             }
         }
     }

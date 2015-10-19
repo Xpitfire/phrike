@@ -92,7 +92,8 @@ namespace Phrike.GroundControl.ViewModels
             }
             catch (Exception e)
             {
-                Logger.Warn("Task on execution interrupted!", e);
+                //Logger.Warn("Task on execution interrupted!", e);
+                Logger.Warn(e, "Task on execution interrupted!");
             }
         }
 
