@@ -46,9 +46,7 @@ namespace DataAccessTest
 
 
                 context.SaveChanges();
-
-
-                Console.WriteLine(context.GetDeineMudda());
+                
             }
         }
 

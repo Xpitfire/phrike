@@ -192,27 +192,24 @@ namespace Phrike.GroundControl.Controller
 
                     switch (cmd.ToLower())
                     {
-                        case "pos":
+                        case "posagl":
                             float x = unrealSocketReader.ReadFloat();
                             float y = unrealSocketReader.ReadFloat();
                             float z = unrealSocketReader.ReadFloat();
 
                             pos = new Vector3D() { X = x, Y = y, Z = z };
-                            Logger.Debug("Received position: {0}", pos);
-                            break;
-                        case "agl":
+
+                            float roll = unrealSocketReader.ReadFloat();
                             float pitch = unrealSocketReader.ReadFloat();
                             float yaw = unrealSocketReader.ReadFloat();
-                            float roll = unrealSocketReader.ReadFloat();
 
-                            agl = new Vector3D() { X = pitch, Y = yaw, Z = roll };
+                            agl = new Vector3D() { X = roll, Y = pitch, Z = yaw };
+                            Logger.Debug("Received position: {0}", pos);
                             Logger.Debug("Received angle: {0}", agl);
                             break;
-
                         case "end":
                             IsAlive = false;
                             break;
-
                         default:
                             Logger.Error("Unkown Command: {0}", cmd);
                             break;
