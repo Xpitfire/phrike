@@ -1,14 +1,39 @@
-﻿using System;
+﻿// <summary>Implement StatisticUtil</summary>
+// -----------------------------------------------------------------------
+// Copyright (c) 2015 University of Applied Sciences Upper-Austria
+// Project OperationPhrike
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
+// ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
+// CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// -----------------------------------------------------------------------
+
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Phrike.Sensors
 {
+    /// <summary>
+    /// The statistic util.
+    /// </summary>
     public static class StatisticUtil
     {
-
+        /// <summary>
+        /// The difference.
+        /// </summary>
+        /// <param name="arr">
+        /// It must be possible to run trough the array several times. 
+        /// </param>
+        /// <returns>
+        /// The <see cref="double"/>.
+        /// </returns>
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration", Justification = "OK. See documentation.")]
         public static double Difference(this IEnumerable<double> arr)
         {
             var min = arr.Min();
@@ -16,13 +41,32 @@ namespace Phrike.Sensors
             return max - min;
         }
 
-        public static  double Sigma (this IEnumerable<double> arr)
+        /// <summary>
+        /// The sigma.
+        /// </summary>
+        /// <param name="arr">
+        /// The arr.
+        /// </param>
+        /// <returns>
+        /// The <see cref="double"/>.
+        /// </returns>
+        public static double Sigma(this IEnumerable<double> arr)
         {
             var variance = Variance(arr);
             return Math.Sqrt(variance);
         }
 
-        public static double Variance (this IEnumerable<double> arr)
+        /// <summary>
+        /// The variance.
+        /// </summary>
+        /// <param name="arr">
+        /// It must be possible to run trough the array several times. 
+        /// </param>
+        /// <returns>
+        /// The <see cref="double"/>.
+        /// </returns>
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration", Justification = "OK. See documentation.")]
+        public static double Variance(this IEnumerable<double> arr)
         {
             var avg = arr.Average();
 
@@ -31,14 +75,25 @@ namespace Phrike.Sensors
 
             foreach (double x in arr)
             {
-                sum = sum + (x - avg) * (x - avg);
+                sum = sum + ((x - avg) * (x - avg));
                 count++;
             }
 
             return sum / count;
         }
 
-        public static double Slope (this IEnumerable<double> arr)
+        /// <summary>
+        /// The slope.
+        /// </summary>
+        /// <param name="arr">
+        /// It must be possible to run trough the array several times. 
+        /// </param>
+        /// <returns>
+        /// The <see cref="double"/>.
+        /// </returns>
+        [SuppressMessage("ReSharper", "PossibleLossOfFraction", Justification = "OK. See documentation.")]
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration", Justification = "OK. See documentation.")]
+        public static double Slope(this IEnumerable<double> arr)
         {
             double numerator = 0;
             double denominator = 0;
@@ -49,18 +104,40 @@ namespace Phrike.Sensors
 
             foreach (var y in arr)
             {
-                numerator = numerator + (idx - xAvg) * (y - yAvg);
-                denominator = denominator + (idx - xAvg) * (idx - xAvg);
+                numerator = numerator + ((idx - xAvg) * (y - yAvg));
+                denominator = denominator + ((idx - xAvg) * (idx - xAvg));
                 idx++;
             }
+
             return numerator / denominator;
         }
 
-        public static double Intercept (this IEnumerable<double> arr)
+        /// <summary>
+        /// The intercept.
+        /// </summary>
+        /// <param name="arr">
+        /// It must be possible to run trough the array several times. 
+        /// </param>
+        /// <returns>
+        /// The <see cref="double"/>.
+        /// </returns>
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration", Justification = "OK. See documentation.")]
+        public static double Intercept(this IEnumerable<double> arr)
         {
-            return arr.Average() - Slope(arr) * arr.Count() / 2;
+            return arr.Average() - (Slope(arr) * arr.Count() / 2);
         }
 
+        /// <summary>
+        /// The determination coefficient.
+        /// </summary>
+        /// <param name="arr">
+        /// It must be possible to run trough the array several times. 
+        /// </param>
+        /// <returns>
+        /// The <see cref="double"/>.
+        /// </returns>
+        [SuppressMessage("ReSharper", "PossibleLossOfFraction", Justification = "OK. See documentation.")]
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration", Justification = "OK. See documentation.")]
         public static double DeterminationCoefficient(this IEnumerable<double> arr)
         {
             double numerator = 0;
@@ -73,9 +150,9 @@ namespace Phrike.Sensors
 
             foreach (var y in arr)
             {
-                numerator = numerator + (idx - xAvg) * (y - yAvg);
-                denominatorX = denominatorX + (idx - xAvg) * (idx - xAvg);
-                denominatorY = denominatorY + (y - yAvg) * (y - yAvg);
+                numerator = numerator + ((idx - xAvg) * (y - yAvg));
+                denominatorX = denominatorX + ((idx - xAvg) * (idx - xAvg));
+                denominatorY = denominatorY + ((y - yAvg) * (y - yAvg));
                 idx++;
             }
 
