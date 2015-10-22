@@ -17,7 +17,11 @@ namespace Phrike.GroundControl.Controller
             PlotModel sensorPulsPlot = new PlotModel { Title = "Pulse Result", PlotAreaBackground = OxyColors.Transparent };
             sensorPulsPlot.LegendBorder = OxyColors.Transparent;
 
-            var yAxis = new LinearAxis(AxisPosition.Left, 0, 200, "Pulse (bpm)");
+            var yAxis = new LinearAxis();
+            yAxis.Position = AxisPosition.Left;
+            yAxis.Minimum = 0;
+            yAxis.Maximum = 200;
+            yAxis.Title = "Pulse (bpm)";
             yAxis.MinorStep = 5;
             yAxis.MajorStep = 20;
             yAxis.MajorGridlineStyle = LineStyle.Solid;
@@ -25,7 +29,11 @@ namespace Phrike.GroundControl.Controller
             yAxis.MinorGridlineStyle = LineStyle.Solid;
             yAxis.MinorGridlineColor = OxyColor.FromRgb(240, 240, 240);
 
-            var xAxis = new LinearAxis(AxisPosition.Bottom, 0, Double.NaN, "Time (sec)");
+            var xAxis = new LinearAxis();
+            xAxis.Position = AxisPosition.Bottom;
+            xAxis.Minimum = 0;
+            xAxis.Maximum = double.NaN;
+            xAxis.Title = "Time (sec)";
             xAxis.MinorStep = 5;
             xAxis.MajorStep = 10;
 
