@@ -104,7 +104,7 @@ namespace Phrike.PhrikeSocket
             }
             catch (Exception e)
             {
-                Logger.Warn("Could not read command!", e);
+                Logger.Warn(e, "Could not read command!");
                 return "end";
             }
         }

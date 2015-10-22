@@ -31,6 +31,23 @@ namespace Phrike.Sensors.Filters
     public class PulseCalculator : IFilter
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="PulseCalculator"/> class. 
+        /// Constructor of PulseCalculator.
+        /// </summary>
+        /// <param name="filter">
+        /// Filter that is applied during the pulse calculation.
+        /// </param>
+        public PulseCalculator(IFilter filter = null)
+        {
+            PulseFilter = filter;
+        }
+
+        /// <summary>
+        /// Gets the filter that is applied during the pulse calculation.
+        /// </summary>
+        public IFilter PulseFilter { get; }
+
+        /// <summary>
         /// Create a filter chain to calculate the pulse from completely unfiltered sensor data.
         /// </summary>
         /// <returns>The pulse rate at each sample.</returns>
@@ -39,7 +56,6 @@ namespace Phrike.Sensors.Filters
             return new FilterChain(
                 new GaussFilter(4),
                 new EdgeDetectionFilter(2),
-
                 new HeartPeakFilter(
                     new FilterChain( // maxPeakFilter
                         new PeakFilter(15),
@@ -50,14 +66,6 @@ namespace Phrike.Sensors.Filters
                     11), // maxPeakDistance
                 new PulseCalculator());
         }
-
-        public IFilter PulseFilter { get; }
-
-        public PulseCalculator(IFilter filter = null)
-        {
-            PulseFilter = filter;
-        }
-
 
         /// <inheritdoc/>
         public IReadOnlyList<double> Filter(IReadOnlyList<double> peaks)
@@ -70,7 +78,6 @@ namespace Phrike.Sensors.Filters
             var pulseRates = new List<double>();
             var pulseLengths = new List<int>();
            
-
             int lastInsertPos = -1;
             Action<double, int> addPulse = (pulse, pos) =>
                 {
@@ -150,7 +157,6 @@ namespace Phrike.Sensors.Filters
                     ++outIdx;
                 }
             }
-
             
             if (pulseRates.Count > 0)
             {
