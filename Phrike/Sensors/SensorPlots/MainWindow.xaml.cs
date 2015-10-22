@@ -13,7 +13,6 @@
 // -----------------------------------------------------------------------
 
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
@@ -114,6 +113,7 @@ namespace Phrike.SensorPlots
                 this.plotModel.Series.Add(this.pulseSeries);
                 this.plotModel.Series.Add(this.trendSeries);
             }
+
             this.UpdateData();
         }
 
@@ -223,12 +223,14 @@ namespace Phrike.SensorPlots
                     this.mergedPeaksSeries.Points.Add(new DataPoint(x, mergedPeaks[i]));
                     this.pulseSeries.Points.Add(new DataPoint(x, pulse[i]));
                 }
+
                 this.trendSeries.Points.Add(new DataPoint(0, (slope * 0) + intercept));
                 this.trendSeries.Points.Add(new DataPoint(
                     sensorData.Length / (double)this.dataSource.SampleRate, 
                     (slope * sensorData.Length) + intercept));
             }
-            this.PlotView.InvalidatePlot(true);
+
+            this.PlotView.InvalidatePlot();
         }
 
         /// <summary>
@@ -250,6 +252,5 @@ namespace Phrike.SensorPlots
         {
             this.UpdateMainWindow();
         }
-
     }
 }
