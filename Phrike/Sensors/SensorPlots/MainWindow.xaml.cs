@@ -168,8 +168,7 @@ namespace Phrike.SensorPlots
 
             var filterChain = new FilterChain();
 
-            filterChain.Add(new GaussFilter(4));
-            filterChain.Add(new EdgeDetectionFilter(2));
+         
             IReadOnlyList<double> prefilteredData = filterChain.Filter(sensorData);
             
             if (this.Checkbox.IsChecked == true)
@@ -187,6 +186,8 @@ namespace Phrike.SensorPlots
                 this.mergedPeaksSeries.Points.Clear();
                 this.pulseSeries.Points.Clear();
                 this.trendSeries.Points.Clear();
+                filterChain.Add(new GaussFilter(4));
+                filterChain.Add(new EdgeDetectionFilter(2));
 
                 IReadOnlyList<double> maxPeaks = new PeakFilter(15).Filter(prefilteredData);
                 var maxFilter = new BinaryThresholdFilter(0.5);
@@ -240,7 +241,7 @@ namespace Phrike.SensorPlots
         /// </summary>
         /// <param name="sender">The event source.</param>
         /// <param name="e">Additional event arguments.</param>
-        private void CheckBox_Changed(object sender, RoutedEventArgs e)
+        private void CheckBoxChanged(object sender, RoutedEventArgs e)
         {
             this.UpdateMainWindow();
         }
