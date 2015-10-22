@@ -26,13 +26,25 @@ namespace Phrike.Sensors
     /// </summary>
     public class BiofeedbackCsvFileStreamer : ISensorHub
     {
+        /// <summary>
+        /// Holds information for each column in the CSV file that represents a sensor.
+        /// </summary>
+        private readonly SensorInfo[] sensorInfos;
+
+        /// <summary>
+        /// Holds the file handle and parses the CSV file.
+        /// </summary>
         private TextFieldParser csvFile;
 
+        /// <summary>
+        /// The sample rate of the data in the CSV file.
+        /// </summary>
         private int sampleRate;
 
+        /// <summary>
+        /// Counts how many samples remain in the CSV file.
+        /// </summary>
         private int remainingSamples;
-
-        private readonly SensorInfo[] sensorInfos;
 
         /// <summary>
         /// Necessary to determine the sample rate in advance. Buffers up to
@@ -56,9 +68,8 @@ namespace Phrike.Sensors
             this.remainingSamples =
                 File.ReadLines(filename).TakeWhile(s => !s.StartsWith(";")).Count() - 1;
 
-            csvFile = new TextFieldParser(filename);
-            csvFile.Delimiters = new[] {";"};
-            var header = csvFile.ReadFields();
+            csvFile = new TextFieldParser(filename) { Delimiters = new[] { ";" } };
+            string[] header = csvFile.ReadFields();
             if (header == null)
             {
                 throw new InvalidDataException("Empty file.");
@@ -79,15 +90,15 @@ namespace Phrike.Sensors
                 csvFile.ReadFields(), csvFile.ReadFields()
             };
 
-            var t1 = TimeSpan.Parse(bufferedBegin[0][0]);
-            var t2 = TimeSpan.Parse(bufferedBegin[1][0]);
-            var dt = t2 - t1;
+            TimeSpan t1 = TimeSpan.Parse(bufferedBegin[0][0]);
+            TimeSpan t2 = TimeSpan.Parse(bufferedBegin[1][0]);
+            TimeSpan dt = t2 - t1;
             if (dt.Ticks < 0)
             {
                 throw new InvalidDataException("Negative samplerate.");
             }
 
-            var rawSampleRate = 1.0 / dt.TotalSeconds;
+            double rawSampleRate = 1.0 / dt.TotalSeconds;
             this.sampleRate = (int)rawSampleRate;
 
             // ReSharper disable once CompareOfFloatsByEqualityOperator
@@ -97,28 +108,22 @@ namespace Phrike.Sensors
             }
         }
 
-        private static Unit GetUnit(string s)
+        /// <inheritdoc />
+        public bool IsUpdating { get { return false; } }
+
+        /// <inheritdoc />
+        public int SampleRate { get { return sampleRate; } }
+
+        /// <inheritdoc />
+        public string Name { get; }
+
+        /// <inheritdoc />
+        public IReadOnlyList<SensorInfo> Sensors
         {
-
-            if (s.Contains("_SCL"))
-            {
-                return Unit.MicroSiemens;
-            }
-
-            if (s.Contains("_Temp"))
-            {
-                return Unit.DegreeCelsius;
-            }
-
-            if (s.Contains("_Puls"))
-            {
-                return Unit.Bpm;
-            }
-
-            // Resp, BVP, PVA, Mot
-            return Unit.Unknown;
+            get { return this.sensorInfos; }
         }
 
+        /// <inheritdoc />
         public void Dispose()
         {
             if (csvFile != null)
@@ -128,17 +133,7 @@ namespace Phrike.Sensors
             }
         }
 
-        public IReadOnlyList<SensorInfo> Sensors
-        {
-            get { return this.sensorInfos; }
-        }
-
-        public bool IsUpdating { get { return false; } }
-
-        public int SampleRate { get { return sampleRate; } }
-
-        public string Name { get; }
-
+        /// <inheritdoc />
         public void SetSensorEnabled(SensorInfo sensor, bool enabled = true)
         {
             // TODO Code duplication from SensorDataFileStreamer
@@ -151,11 +146,13 @@ namespace Phrike.Sensors
             this.sensorInfos[sensor.Id] = oldInfo.ToEnabled(enabled);
         }
 
+        /// <inheritdoc />
         public int GetAvailableSampleCount()
         {
             return remainingSamples;
         }
 
+        /// <inheritdoc />
         public int GetSensorValueIndexInSample(SensorInfo sensor)
         {
             // TODO Code duplication from SensorDataFileStreamer
@@ -164,6 +161,7 @@ namespace Phrike.Sensors
             return sensor.Id - disabledWithLowerIdCount;
         }
 
+        /// <inheritdoc />
         public IEnumerable<Sample> ReadSamples(int maxCount = Int32.MaxValue)
         {
             maxCount = Math.Min(maxCount, remainingSamples);
@@ -192,7 +190,43 @@ namespace Phrike.Sensors
             }
         }
 
-        private Sample MakeSample(string[] fields) {
+        /// <summary>
+        /// Gets the unit of the column with the given column header.
+        /// </summary>
+        /// <param name="columnName">
+        /// Name of the column for which to retrieve the unit.
+        /// </param>
+        /// <returns>
+        /// The unit of the data in the column with the given name.
+        /// </returns>
+        private static Unit GetUnit(string columnName)
+        {
+            if (columnName.Contains("_SCL"))
+            {
+                return Unit.MicroSiemens;
+            }
+
+            if (columnName.Contains("_Temp"))
+            {
+                return Unit.DegreeCelsius;
+            }
+
+            if (columnName.Contains("_Puls"))
+            {
+                return Unit.Bpm;
+            }
+
+            // Resp, BVP, PVA, Mot
+            return Unit.Unknown;
+        }
+
+        /// <summary>
+        /// Creates a sample from a parsed CSV line.
+        /// </summary>
+        /// <param name="fields">The fields of a CSV line.</param>
+        /// <returns>A sample containing the data from <paramref name="fields"/> as a <see cref="Sample"/>.</returns>
+        private Sample MakeSample(string[] fields)
+        {
             --remainingSamples;
             return new Sample(
                 fields

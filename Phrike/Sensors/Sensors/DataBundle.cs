@@ -22,32 +22,38 @@ namespace Phrike.Sensors
     /// </summary>
     public class DataBundle
     {
+        /// <summary>
+        /// Creates a data bundle of all sensors with all currently
+        /// available samples from <paramref name="hub" />.
+        /// </summary>
+        /// <param name="hub">The hub from which to retrieve the data.</param>
+        /// <returns>A new instance of <see cref="DataBundle"/>.</returns>
         public static DataBundle FromHub(ISensorHub hub)
         {
             var result = new DataBundle();
-            var samples = hub.ReadSamples().ToArray();
+            Sample[] samples = hub.ReadSamples().ToArray();
             var transposdSamples
                 = new List<double>[hub.Sensors.Count(s => s.Enabled)];
-            for (int i = 0; i < transposdSamples.Length; ++i)
+
+            for (var i = 0; i < transposdSamples.Length; ++i)
             {
                 transposdSamples[i] = new List<double>();
             }
 
-            foreach (var sample in samples)
+            foreach (Sample sample in samples)
             {
-                for (int i = 0; i < sample.SensorValues.Count; ++i)
+                for (var i = 0; i < sample.SensorValues.Count; ++i)
                 {
                     transposdSamples[i].Add(sample.SensorValues[i]);
                 }
             }
 
             var sensors = new SensorInfo[transposdSamples.Length];
-            for (int i = 0; i < hub.Sensors.Count; ++i)
+            foreach (SensorInfo sensorInfo in hub.Sensors)
             {
-                if (hub.Sensors[i].Enabled)
+                if (sensorInfo.Enabled)
                 {
-                    sensors[hub.GetSensorValueIndexInSample(hub.Sensors[i])]
-                        = hub.Sensors[i];
+                    sensors[hub.GetSensorValueIndexInSample(sensorInfo)] = sensorInfo;
                 }
             }
 
@@ -65,6 +71,9 @@ namespace Phrike.Sensors
             return result;
         }
 
+        /// <summary>
+        /// The list of all bundled data series.
+        /// </summary>
         public IList<DataSeries> DataSeries { get; } = new List<DataSeries>();
     }
 }

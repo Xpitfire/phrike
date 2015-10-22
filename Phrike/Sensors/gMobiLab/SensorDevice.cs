@@ -117,6 +117,9 @@ namespace Phrike.GMobiLab
             }
         }
 
+        /// <summary>
+        /// This property is not implemented.
+        /// </summary>
         public bool IsUpdating
         {
             get { throw new NotImplementedException(); }
@@ -204,21 +207,27 @@ namespace Phrike.GMobiLab
             analogChannelsEnabled[sensor.Id] = enabled;
         }
 
+        /// <summary>
+        /// This method is not implemented.
+        /// </summary>
         public int GetAvailableSampleCount()
         {
-            // TODO: implementation is missing
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// This method is not implemented.
+        /// </summary>
         public int GetSensorValueIndexInSample(SensorInfo sensor)
         {
-            // TODO: implementation is missing
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// This method is not implemented.
+        /// </summary>
         public IEnumerable<Sample> ReadSamples(int maxCount = int.MaxValue)
         {
-            // TODO: implementation is missing
             throw new NotImplementedException();
         }
     }

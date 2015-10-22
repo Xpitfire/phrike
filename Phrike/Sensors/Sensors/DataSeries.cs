@@ -41,17 +41,6 @@ namespace Phrike.Sensors
             Unit = unit;
         }
 
-        public static DataSeries FromSamples(
-            IEnumerable<Sample> samples, ISensorHub hub, SensorInfo sensor)
-        {
-            return new DataSeries(
-                SensorUtil.GetSampleValues(samples, hub.GetSensorValueIndexInSample(sensor)),
-                hub.SampleRate,
-                hub.Name,
-                sensor.Name,
-                sensor.Unit);
-        }
-
         /// <summary>
         /// Gets the actual data, with a sample rate of <see cref="SampleRate"/>.
         /// </summary>

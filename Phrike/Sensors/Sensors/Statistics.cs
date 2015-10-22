@@ -1,4 +1,4 @@
-﻿// <summary></summary>
+﻿// <summary>Implementation file for Statistics.</summary>
 // -----------------------------------------------------------------------
 // Copyright (c) 2015 University of Applied Sciences Upper-Austria
 // Project OperationPhrike
@@ -12,7 +12,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // -----------------------------------------------------------------------
 
-using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Phrike.Sensors
@@ -20,43 +20,52 @@ namespace Phrike.Sensors
     /// <summary>
     /// Caches statistical properties of a <see cref="DataSeries"/>.
     /// </summary>
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")] // TODO: Use!
     public class Statistics
     {
         /// <summary>
-        /// The average value of the data.
+        /// Gets or sets the average value of the data.
         /// </summary>
         public double Average { get; set; }
 
         /// <summary>
-        /// The minimum value of the data.
+        /// Gets or sets the minimum value of the data.
         /// </summary>
         public double Min { get; set; }
 
         /// <summary>
-        /// The maximum value of the data.
+        /// Gets or sets the maximum value of the data.
         /// </summary>
         public double Max { get; set; }
 
         /// <summary>
-        /// The variance (sigma^2) of the data.
+        /// Gets or sets the variance (sigma^2) of the data.
         /// </summary>
         public double Variance { get; set; }
 
         /// <summary>
-        /// The slope of the linear regression of the data.
+        /// Gets or sets the slope of the linear regression of the data.
         /// </summary>
         public double Slope { get; set; }
 
         /// <summary>
-        /// The y offset at the beginning of the linear regression line of this data.
+        /// Gets or sets the y offset at the beginning of the linear regression line of this data.
         /// </summary>
         public double Intercept { get; set; }
 
         /// <summary>
-        /// The determination coefficient (r^2) of the data.
+        /// Gets or sets the determination coefficient (r^2) of the data.
         /// </summary>
         public double DeterminationCoefficient { get; set; }
 
+        /// <summary>
+        /// Calculates <see cref="Statistics"/> from <paramref name="dataSeries"/>.
+        /// </summary>
+        /// <param name="dataSeries">The data series to calcualate the statistics from.</param>
+        /// <returns>
+        ///     A new instance of <see cref="Statistics"/> containing the
+        ///     results from <paramref name="dataSeries"/>
+        /// </returns>
         public static Statistics FromDataSeries(DataSeries dataSeries)
         {
             return new Statistics
