@@ -125,6 +125,9 @@ namespace Phrike.GMobiLab
         /// <inheritdoc />
         public int SampleRate { get { return 256; } }
 
+        /// <inheritdoc />
+        public string Name => "gMobiLab+";
+
         /// <inheritdoc/>
         public void Dispose()
         {

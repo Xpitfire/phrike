@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BiofeedbackCsvFileStreamer.cs" />
+    <Compile Include="DataBundle.cs" />
     <Compile Include="Filters\AverageFilter.cs" />
     <Compile Include="Filters\BinaryThresholdFilter.cs" />
     <Compile Include="Filters\FilterChain.cs" />
@@ -51,6 +54,7 @@
     <Compile Include="Filters\MedianFilter.cs" />
     <Compile Include="Filters\EdgeDetectionFilter.cs" />
     <Compile Include="Filters\PeakFilter.cs" />
+    <Compile Include="DataSeries.cs" />
     <Compile Include="ISensorHub.cs" />
     <Compile Include="ISensorHubDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -58,6 +62,7 @@
     <Compile Include="SensorInfo.cs" />
     <Compile Include="SensorUtil.cs" />
     <Compile Include="StatisticUtil.cs" />
+    <Compile Include="Statistics.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -52,11 +52,6 @@ namespace Phrike.GMobiLab
         private readonly SensorInfo[] sensorInfos;
 
         /// <summary>
-        ///     The approximate start time of the recording.
-        /// </summary>
-        private readonly DateTime startTime;
-
-        /// <summary>
         ///     Saves the number of channels in the file (digital sensors are
         ///     bundled in one channel if enabled).
         /// </summary>
@@ -76,10 +71,7 @@ namespace Phrike.GMobiLab
         /// </param>
         public SensorDataFileStreamer(string filename)
         {
-            var creationTime = File.GetCreationTime(filename);
-            var lastWriteTime = File.GetLastWriteTime(filename);
-            startTime = creationTime < lastWriteTime ? creationTime : lastWriteTime;
-
+            Name = filename;
             file = new FileStream(filename, FileMode.Open);
             dataReader = new BinaryReader(file);
             this.analogChannels = new SensorChannel?[8];
@@ -122,6 +114,9 @@ namespace Phrike.GMobiLab
         }
 
         /// <inheritdoc />
+        public string Name { get; }
+
+        /// <inheritdoc />
         public void SetSensorEnabled(SensorInfo sensor, bool enabled = true)
         {
             if (sensor.Id < 0 || sensor.Id >= analogChannels.Length)
@@ -136,11 +131,7 @@ namespace Phrike.GMobiLab
             }
 
             var oldInfo = sensorInfos[sensor.Id];
-            sensorInfos[sensor.Id] = new SensorInfo(
-                oldInfo.Name,
-                oldInfo.Unit,
-                enabled,
-                oldInfo.Id);
+            sensorInfos[sensor.Id] = oldInfo.ToEnabled(enabled);
         }
 
         /// <inheritdoc />
@@ -159,7 +150,6 @@ namespace Phrike.GMobiLab
 
             var sampleCount = Math.Min(maxCount, this.GetAvailableSampleCount());
             var enabledChannelCount = sensorInfos.Count(si => si.Enabled);
-            var sampleLength = (double)TimeSpan.TicksPerSecond / sampleRate;
             for (var sampleIdx = 0; sampleIdx < sampleCount; ++sampleIdx)
             {
                 var sampleData = new double[enabledChannelCount];

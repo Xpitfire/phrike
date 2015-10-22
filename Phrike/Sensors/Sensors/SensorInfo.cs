@@ -22,7 +22,27 @@ namespace Phrike.Sensors
         /// <summary>
         /// A millionsth of a Volt (usually raw sensor data).
         /// </summary>
-        MicroVolt
+        MicroVolt,
+
+        /// <summary>
+        /// The unit is unknown.
+        /// </summary>
+        Unknown,
+
+        /// <summary>
+        /// µS, typically used for skin-conductance level (SCL).
+        /// </summary>
+        MicroSiemens,
+
+        /// <summary>
+        /// Temperature in C°.
+        /// </summary>
+        DegreeCelsius,
+
+        /// <summary>
+        /// Beats per minute (1 Hz = 60 BPM).
+        /// </summary>
+        Bpm
     }
 
     /// <summary>
@@ -84,6 +104,21 @@ namespace Phrike.Sensors
         public override string ToString()
         {
             return Name;
+        }
+
+        /// <summary>
+        /// Returns a clone of this, with <see cref="Enabled"/> set to
+        /// <paramref name="enabled"/>.
+        /// </summary>
+        /// <param name="enabled">Whether the clone should be enabled or not.</param>
+        /// <returns>A clone of this with modified <see cref="Enabled"/>.</returns>
+        public SensorInfo ToEnabled(bool enabled)
+        {
+            return new SensorInfo(
+                this.Name,
+                this.Unit,
+                enabled,
+                this.Id);
         }
     }
 }

@@ -1,83 +1,190 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="DataModel.PositionData">
-    <Position X="2.5" Y="3.75" Width="1.5" />
+    <Position X="2.75" Y="5.75" Width="1.5" />
+    <Members>
+      <Property Name="Test" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAEAACAAAAAAAAAAAAAAAABAAAAAYQE=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAEAACAAAAAAAAAAAAAAAABACAAAYQE=</HashCode>
       <FileName>PositionData.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Test" />
+    </ShowAsAssociation>
   </Class>
-  <Class Name="DataModel.Propositus">
-    <Position X="5.75" Y="1.5" Width="1.5" />
+  <Class Name="DataModel.Subject">
+    <Position X="5.5" Y="1" Width="2.25" />
+    <Members>
+      <Property Name="Tests" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAABAAAAAAAAAAAAAAQAAAAAAAAAAAAAAg=</HashCode>
-      <FileName>Propositus.cs</FileName>
+      <HashCode>ECAAAEAAAAAgAACAABAAQAAAAAAQAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Subject.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Tests" />
+      <Property Name="BloodType" />
+      <Property Name="Gender" />
+      <Property Name="RhFactor" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="DataModel.Survey">
-    <Position X="12.25" Y="6" Width="1.5" />
+    <Position X="11.75" Y="6.5" Width="1.75" />
+    <AssociationLine Name="Questions" Type="DataModel.SurveyQuestion" FixedToPoint="true">
+      <Path>
+        <Point X="11.75" Y="7.5" />
+        <Point X="10.5" Y="7.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.11" Y="0.06" Height="0.182" Width="0.964" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAQAAAAAAAAEAAAAAAAAAAA=</HashCode>
       <FileName>Survey.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Questions" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DataModel.SurveyQuestion">
-    <Position X="9" Y="6.25" Width="1.5" />
+    <Position X="9" Y="6.75" Width="1.5" />
+    <Members>
+      <Property Name="Survey" Hidden="true" />
+      <Property Name="SurveyResults" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAACAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAQCAAAAAAAA=</HashCode>
       <FileName>SurveyQuestion.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Survey" />
+      <Property Name="SurveyResults" />
     </ShowAsAssociation>
   </Class>
   <Class Name="DataModel.SurveyResult">
     <Position X="9" Y="4" Width="1.5" />
+    <Members>
+      <Property Name="Test" Hidden="true" />
+    </Members>
+    <AssociationLine Name="SurveyQuestion" Type="DataModel.SurveyQuestion" FixedToPoint="true">
+      <Path>
+        <Point X="9.688" Y="4.997" />
+        <Point X="9.688" Y="6.75" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAACgAAAAA=</HashCode>
       <FileName>SurveyResult.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="SurveyQuestion" />
+      <Property Name="Test" />
+      <Property Name="Answer" />
     </ShowAsAssociation>
   </Class>
   <Class Name="DataModel.Test">
     <Position X="5.75" Y="4" Width="1.5" />
-    <AssociationLine Name="SurveyResult" Type="DataModel.SurveyResult">
+    <Members>
+      <Method Name="Test" Hidden="true" />
+    </Members>
+    <AssociationLine Name="PositionData" Type="DataModel.PositionData" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.75" Y="5.312" />
+        <Point X="3.562" Y="5.312" />
+        <Point X="3.562" Y="5.75" />
+      </Path>
       <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
-        <Position X="0.11" Y="0.06" Height="0.182" Width="1.079" />
+        <Position X="0.06" Y="0.11" Height="0.182" Width="1.076" />
       </MemberNameLabel>
     </AssociationLine>
     <AssociationLine Name="Video" Type="DataModel.Video">
       <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
-        <Position X="0.11" Y="0.06" Height="0.182" Width="0.609" />
+        <Position X="0.11" Y="0.06" Height="0.182" Width="0.755" />
       </MemberNameLabel>
     </AssociationLine>
+    <AssociationLine Name="SurveyResult" Type="DataModel.SurveyResult">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.277" Y="0.07" Height="0.182" Width="1.11" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Subject" Type="DataModel.Subject" FixedFromPoint="true">
+      <Path>
+        <Point X="6.562" Y="4" />
+        <Point X="6.562" Y="3.002" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Scenario" Type="DataModel.Scenario" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.75" Y="4.605" />
+        <Point X="3.604" Y="4.605" />
+        <Point X="3.604" Y="3.252" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAo=</HashCode>
+      <HashCode>AAAgAAAAAABAAEAAAIAAAAAAAAAAAAAAAAAAAAAACQo=</HashCode>
       <FileName>Test.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Propositus" />
+      <Property Name="Subject" />
+      <Property Name="Scenario" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="PositionData" />
-      <Property Name="SurveyResult" />
       <Property Name="Video" />
+      <Property Name="SurveyResult" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="DataModel.Video">
-    <Position X="5.75" Y="6" Width="1.5" />
+    <Position X="5.25" Y="6.5" Width="2.25" />
+    <Members>
+      <Property Name="Test" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAgAgAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAgAgAAAAAAACAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
       <FileName>Video.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Test" />
+    </ShowAsAssociation>
   </Class>
-  <Enum Name="DataModel.Sex">
-    <Position X="7.5" Y="1.5" Width="1.5" />
+  <Class Name="DataModel.Scenario">
+    <Position X="2.25" Y="1.25" Width="2.5" />
+    <Members>
+      <Property Name="Tests" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>MAAAAAAAAAAAAAFAAgAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scenario.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="DataModel.Gender">
+    <Position X="8.75" Y="1.25" Width="1.25" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
-      <FileName>Propositus.cs</FileName>
+      <FileName>Subject.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DataModel.SurveyAnswer">
+    <Position X="11.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAgBAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>SurveyResult.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DataModel.BloodType">
+    <Position X="10.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAIAEAAAI=</HashCode>
+      <FileName>Subject.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DataModel.RhFactor">
+    <Position X="10.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Subject.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />
