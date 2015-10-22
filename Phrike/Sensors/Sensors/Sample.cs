@@ -16,8 +16,18 @@ using System.Collections.Generic;
 
 namespace Phrike.Sensors
 {
+    /// <summary>
+    /// All sensor data available at a point in time from a particular source
+    /// (usually a <see cref="ISensorHub"/>).
+    /// </summary>
     public class Sample
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Sample"/> class.
+        /// </summary>
+        /// <param name="sensorValues">
+        /// Value for <see cref="SensorValues"/>.
+        /// </param>
         public Sample(IReadOnlyList<double> sensorValues)
         {
             SensorValues = sensorValues;
