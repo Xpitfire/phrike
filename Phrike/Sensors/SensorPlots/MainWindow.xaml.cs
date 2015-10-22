@@ -76,7 +76,6 @@ namespace Phrike.SensorPlots
         private ISensorHub dataSource;
 
         private LineSeries trendSeries = new LineSeries { Title = "Trendline" };
-        //private FunctionSeries trendSeries = new FunctionSeries();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
@@ -197,7 +196,8 @@ namespace Phrike.SensorPlots
                     maxPeaks, minPeaks, 11);
                 mergedPeaks = maxFilter.Filter(mergedPeaks);
 
-                IReadOnlyList<double> pulse = new PulseCalculator().Filter(mergedPeaks);
+                IReadOnlyList<double> pulse = new PulseCalculator(new MedianFilter(3)).Filter(mergedPeaks);
+                //IReadOnlyList<double> pulse = new SampleCalculator().Filter(mergedPeaks);
 
                 double slope = pulse.Slope();
                 double intercept = pulse.Intercept();
@@ -219,8 +219,12 @@ namespace Phrike.SensorPlots
                     this.maxSeries.Points.Add(new DataPoint(x, maxPeaks[i]));
                     this.mergedPeaksSeries.Points.Add(new DataPoint(x, mergedPeaks[i]));
                     this.pulseSeries.Points.Add(new DataPoint(x, pulse[i]));
-                    this.trendSeries.Points.Add(new DataPoint(x, slope * i + intercept));
                 }
+                this.trendSeries.Points.Add(new DataPoint(0, slope * 0 + intercept));
+                this.trendSeries.Points.Add(new DataPoint(
+                    sensorData.Length / (double)this.dataSource.SampleRate, 
+                    slope * sensorData.Length + intercept
+                ));
             }
             this.PlotView.InvalidatePlot(true);
         }
