@@ -196,49 +196,32 @@ namespace Phrike.GroundControl.Controller
                     unitOfWork.SubjectRepository.Insert(subject);
                     unitOfWork.Save();
                 }
-                Scenario s = unitOfWork.ScenarioRepository.Get().FirstOrDefault();
-                if (s == null)
+                Scenario scenario = unitOfWork.ScenarioRepository.Get().FirstOrDefault();
+                if (scenario == null)
                 {
-                    s = new Scenario()
+                    scenario = new Scenario
                     {
-                        ExecutionPath = "temp",
-                        Name = "Balance"
-                    };
-                    unitOfWork.ScenarioRepository.Insert(s);
-                    unitOfWork.Save();
-                }
-                Test t = unitOfWork.TestRepository.Get(test => test.Subject.ID == subject.ID).FirstOrDefault();
-                if (t == null)
-                {
-                    t = new Test()
-                    {
-                        Subject = subject,
-                        Scenario = s,
-                        Time = DateTime.Now
-                    };
-                    unitOfWork.TestRepository.Insert(t);
-                    unitOfWork.Save();
-                }
-                /*
-                Test abc = new Test()
-                {
-                    Subject = new Subject()
-                    {
-                        FirstName = "bla",
-                        LastName = "blub",
-                        DateOfBirth = DateTime.Now
-                    },
-                    Scenario = new Scenario()
-                    {
+                        Name = "Balance",
                         ExecutionPath = "",
-                        Name = "irgendwas",
-                        Version = "1.0"
-                    },
-                    Time = DateTime.Now
+                        MinimapPath = "Balance/minimap.png",
+                        Version = "1.0",
+
+                        ZeroX = 347,
+                        ZeroY = 146,
+                        Scale = 14.0 / 1420.0
+                    };
+                    unitOfWork.ScenarioRepository.Insert(scenario);
+                    unitOfWork.Save();
+                }
+                Test test = new Test()
+                {
+                    Subject = subject,
+                    Scenario = scenario,
+                    Time = DateTime.Now,
+                    Title = "Testrun DEBUG - " + DateTime.Now
                 };
-                unitOfWork.TestRepository.Insert(abc);
+                unitOfWork.TestRepository.Insert(test);
                 unitOfWork.Save();
-                */
 
                 #endregion
                 InitPositionTracking();
@@ -262,13 +245,13 @@ namespace Phrike.GroundControl.Controller
                                 float y = unrealSocketReader.ReadFloat();
                                 float z = unrealSocketReader.ReadFloat();
 
-                                pos = new Vector3D() {X = x, Y = y, Z = z};
+                                pos = new Vector3D() { X = x, Y = y, Z = z };
 
                                 float roll = unrealSocketReader.ReadFloat();
                                 float pitch = unrealSocketReader.ReadFloat();
                                 float yaw = unrealSocketReader.ReadFloat();
 
-                                agl = new Vector3D() {X = roll, Y = pitch, Z = yaw};
+                                agl = new Vector3D() { X = roll, Y = pitch, Z = yaw };
                                 Logger.Debug("Received position: {0}", pos);
                                 Logger.Debug("Received angle: {0}", agl);
 
@@ -281,9 +264,9 @@ namespace Phrike.GroundControl.Controller
                                     Pitch = pitch,
                                     Yaw = yaw,
                                     Time = DateTime.Now,
-                                    Test = t
+                                    Test = test
                                 };
-                                t.PositionData.Add(pd);
+                                test.PositionData.Add(pd);
                                 unitOfWork.PositionDataRepository.Insert(pd);
                                 break;
                             case "end":

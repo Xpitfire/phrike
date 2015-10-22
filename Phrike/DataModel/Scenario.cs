@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace DataModel
 {
@@ -8,7 +9,9 @@ namespace DataModel
         public string Version { get; set; }
         public string ExecutionPath { get; set; }
         public string MinimapPath { get; set; }
-        public object MinimapLocationRatio { get; set; }
+        public double ZeroX { get; set; }
+        public double ZeroY { get; set; }
+        public double Scale { get; set; }
 
 
         public virtual Collection<Test> Tests { get; set; }
