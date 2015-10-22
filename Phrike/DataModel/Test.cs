@@ -8,11 +8,15 @@ namespace DataModel
 {
     public class Test : BaseEntity
     {
-        public Propositus Propositus { get; set; }
+        public string Title { get; set; }
+        public Subject Subject { get; set; }
+        public DateTime Time { get; set; }
+        public string Notes { get; set; }
+
         public virtual ICollection<PositionData> PositionData { get; set; }
         public virtual ICollection<Video> Video { get; set; }
         public virtual ICollection<SurveyResult> SurveyResult { get; set; }
-        public string Scenario { get; set; }
+        public Scenario Scenario { get; set; }
 
         public Test()
         {

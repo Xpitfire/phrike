@@ -49,6 +49,8 @@ namespace Phrike.Sensors
         /// </param>
         public BiofeedbackCsvFileStreamer(string filename)
         {
+            Name = filename;
+
             // Note: We assume that the file has no empty lines.
             // -1: Subtract header.
             this.remainingSamples =
@@ -134,6 +136,8 @@ namespace Phrike.Sensors
         public bool IsUpdating { get { return false; } }
 
         public int SampleRate { get { return sampleRate; } }
+
+        public string Name { get; }
 
         public void SetSensorEnabled(SensorInfo sensor, bool enabled = true)
         {

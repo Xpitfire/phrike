@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Windows.Media.Media3D;
+using DataAccess;
+using DataModel;
 using NLog;
 using Phrike.PhrikeSocket;
 
@@ -176,61 +179,143 @@ namespace Phrike.GroundControl.Controller
         /// </summary>
         public void Run()
         {
-            InitPositionTracking();
-            Logger.Info("Unreal Engine listener socket thread active!");
-            while (IsAlive)
+            using (UnitOfWork unitOfWork = new UnitOfWork())
             {
-                unrealSocketReader.Receive();
-
-                while (unrealSocketReader.BytesAvailable > 0)
+                // TODO: This is for test purpose only !!!!
+                #region Test purpose only
+                Subject subject = unitOfWork.SubjectRepository.Get().FirstOrDefault();
+                if (subject == null)
                 {
-                    String cmd = unrealSocketReader.ReadString();
-                    Logger.Info("Received command with Length: {0} - {1}", cmd.Length, cmd);
-
-                    Vector3D pos = default(Vector3D);
-                    Vector3D agl = default(Vector3D);
-
-                    switch (cmd.ToLower())
+                    subject = new Subject()
                     {
-                        case "pos":
-                            float x = unrealSocketReader.ReadFloat();
-                            float y = unrealSocketReader.ReadFloat();
-                            float z = unrealSocketReader.ReadFloat();
-
-                            pos = new Vector3D() { X = x, Y = y, Z = z };
-                            Logger.Debug("Received position: {0}", pos);
-                            break;
-                        case "agl":
-                            float pitch = unrealSocketReader.ReadFloat();
-                            float yaw = unrealSocketReader.ReadFloat();
-                            float roll = unrealSocketReader.ReadFloat();
-
-                            agl = new Vector3D() { X = pitch, Y = yaw, Z = roll };
-                            Logger.Debug("Received angle: {0}", agl);
-                            break;
-
-                        case "end":
-                            IsAlive = false;
-                            break;
-
-                        default:
-                            Logger.Error("Unkown Command: {0}", cmd);
-                            break;
-                    }
-                    Logger.Debug("Received command: {0}", cmd);
+                        FirstName = "Max",
+                        LastName = "Musterman",
+                        DateOfBirth = new DateTime(1981, 10, 24),
+                        Gender = Gender.Male
+                    };
+                    unitOfWork.SubjectRepository.Insert(subject);
+                    unitOfWork.Save();
                 }
-            }
-            disableUnrealEngineCallback();
-            try
-            {
-                if (socket != null)
-                    socket.Close();
-                Logger.Info("Socket successfully closed!");
-            }
-            catch (Exception e)
-            {
-                //Logger.Warn("Socket stop failed!", e);
-                Logger.Warn(e, "Socket stop failed!");
+                Scenario s = unitOfWork.ScenarioRepository.Get().FirstOrDefault();
+                if (s == null)
+                {
+                    s = new Scenario()
+                    {
+                        ExecutionPath = "temp",
+                        Name = "Balance"
+                    };
+                    unitOfWork.ScenarioRepository.Insert(s);
+                    unitOfWork.Save();
+                }
+                Test t = unitOfWork.TestRepository.Get(test => test.Subject.ID == subject.ID).FirstOrDefault();
+                if (t == null)
+                {
+                    t = new Test()
+                    {
+                        Subject = subject,
+                        Scenario = s,
+                        Time = DateTime.Now
+                    };
+                    unitOfWork.TestRepository.Insert(t);
+                    unitOfWork.Save();
+                }
+                /*
+                Test abc = new Test()
+                {
+                    Subject = new Subject()
+                    {
+                        FirstName = "bla",
+                        LastName = "blub",
+                        DateOfBirth = DateTime.Now
+                    },
+                    Scenario = new Scenario()
+                    {
+                        ExecutionPath = "",
+                        Name = "irgendwas",
+                        Version = "1.0"
+                    },
+                    Time = DateTime.Now
+                };
+                unitOfWork.TestRepository.Insert(abc);
+                unitOfWork.Save();
+                */
+
+                #endregion
+                InitPositionTracking();
+                Logger.Info("Unreal Engine listener socket thread active!");
+                while (IsAlive)
+                {
+                    unrealSocketReader.Receive();
+
+                    while (unrealSocketReader.BytesAvailable > 0)
+                    {
+                        String cmd = unrealSocketReader.ReadString();
+                        Logger.Info("Received command with Length: {0} - {1}", cmd.Length, cmd);
+
+                        Vector3D pos;
+                        Vector3D agl;
+
+                        switch (cmd.ToLower())
+                        {
+                            case "posagl":
+                                float x = unrealSocketReader.ReadFloat();
+                                float y = unrealSocketReader.ReadFloat();
+                                float z = unrealSocketReader.ReadFloat();
+
+                                pos = new Vector3D() {X = x, Y = y, Z = z};
+
+                                float roll = unrealSocketReader.ReadFloat();
+                                float pitch = unrealSocketReader.ReadFloat();
+                                float yaw = unrealSocketReader.ReadFloat();
+
+                                agl = new Vector3D() {X = roll, Y = pitch, Z = yaw};
+                                Logger.Debug("Received position: {0}", pos);
+                                Logger.Debug("Received angle: {0}", agl);
+
+                                PositionData pd = new PositionData()
+                                {
+                                    X = x,
+                                    Y = y,
+                                    Z = z,
+                                    Roll = roll,
+                                    Pitch = pitch,
+                                    Yaw = yaw,
+                                    Time = DateTime.Now,
+                                    Test = t
+                                };
+                                t.PositionData.Add(pd);
+                                unitOfWork.PositionDataRepository.Insert(pd);
+                                break;
+                            case "end":
+                                IsAlive = false;
+                                break;
+                            default:
+                                Logger.Error("Unkown Command: {0}", cmd);
+                                break;
+                        }
+                        Logger.Debug("Received command: {0}", cmd);
+                    }
+                }
+
+                //Test x = unitOfWork.TestRepository.Get(test => test.Scenario.Name == "irgendwas").FirstOrDefault();
+                //Logger.Debug(x?.Scenario.Name + "; " + x?.Subject.FirstName);
+
+                disableUnrealEngineCallback();
+                try
+                {
+                    if (socket != null)
+                        socket.Close();
+                    Logger.Info("Socket successfully closed!");
+                }
+                catch (Exception e)
+                {
+                    //Logger.Warn("Socket stop failed!", e);
+                    Logger.Warn(e, "Socket stop failed!");
+                }
+                finally
+                {
+                    unitOfWork.Save();
+                }
             }
         }
     }

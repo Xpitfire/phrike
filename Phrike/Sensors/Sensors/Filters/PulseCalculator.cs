@@ -51,6 +51,14 @@ namespace Phrike.Sensors.Filters
                 new PulseCalculator());
         }
 
+        public IFilter PulseFilter { get; }
+
+        public PulseCalculator(IFilter filter = null)
+        {
+            PulseFilter = filter;
+        }
+
+
         /// <inheritdoc/>
         public IReadOnlyList<double> Filter(IReadOnlyList<double> peaks)
         {
@@ -60,17 +68,14 @@ namespace Phrike.Sensors.Filters
             int lastPeakPos = -1;
             double sampleDistanceInMs = 1000 / 256.0;
             var pulseRates = new List<double>();
-            var result = new double[peaks.Count];
+            var pulseLengths = new List<int>();
+           
 
             int lastInsertPos = -1;
             Action<double, int> addPulse = (pulse, pos) =>
                 {
                     pulseRates.Add(pulse);
-                    for (int i = lastInsertPos + 1; i <= pos; ++i)
-                    {
-                        result[i] = pulse;
-                    }
-
+                    pulseLengths.Add(pos - lastInsertPos);
                     lastInsertPos = pos;
                 };
 
@@ -129,6 +134,24 @@ namespace Phrike.Sensors.Filters
                 lastPeakPos = i;
             }
 
+            // 1. Filter pulseRates
+            IReadOnlyList<double> filteredPulse = PulseFilter != null ?
+                PulseFilter.Filter(pulseRates) : pulseRates;
+
+            // 2. Create result from filteredPulse & pulseLengths
+            var result = new double[peaks.Count];
+
+            int outIdx = 0;
+            for (int i = 0; i < pulseLengths.Count; i++)
+            {
+                for (int j = 0; j < pulseLengths[i]; j++)
+                {
+                    result[outIdx] = filteredPulse[i];
+                    ++outIdx;
+                }
+            }
+
+            
             if (pulseRates.Count > 0)
             {
                 for (int i = lastInsertPos + 1; i < result.Length; ++i)
@@ -136,7 +159,7 @@ namespace Phrike.Sensors.Filters
                     result[i] = pulseRates[pulseRates.Count - 1];
                 }    
             }
-
+            
             return result;
         }
     }

@@ -12,13 +12,30 @@ namespace DataAccessTest
     {
         static void Main(string[] args)
         {
-            using (OperationPhrikeContext context = new OperationPhrikeContext())
+            using (UnitOfWork unitOfWork = new UnitOfWork())
             {
                 Random rg = new Random(1);
 
                 for (int i = 0; i < 10; i++)
                 {
-                    Test t = new Test();
+                    Test t = new Test()
+                    {
+                        Time = DateTime.Now
+                    };
+                    t.Subject = new Subject()
+                    {
+                        DateOfBirth = DateTime.Now.AddYears(rg.Next(10, 30) * -1),
+                        FirstName = RandomString(rg),
+                        LastName = RandomString(rg),
+                        Gender = (Gender)rg.Next(0, 2)
+                    };
+                    t.Scenario = new Scenario
+                    {
+                        Name = RandomString(rg)
+                    };
+                    unitOfWork.TestRepository.Insert(t);
+                    unitOfWork.Save();
+
                     for (int j = 0; j < 100; j++)
                     {
                         t.PositionData.Add(new PositionData()
@@ -32,23 +49,19 @@ namespace DataAccessTest
                             Yaw = (float)rg.NextDouble()
                         });
                     }
-
-                    t.Propositus = new Propositus()
-                    {
-                        DateOfBirth = DateTime.Now.AddYears(rg.Next(10, 30) * -1),
-                        FirstName = RandomString(rg),
-                        LastName = (i == 0)? "Steinke": RandomString(rg),
-                        Sex = (i == 0)? Sex.Female : (Sex) rg.Next(0,2)
-                    };
-                    t.Scenario = RandomString(rg);
-                    context.Tests.Add(t);
                 }
+                
+                unitOfWork.Save();
+                
+            }
 
-
-                context.SaveChanges();
-
-
-                Console.WriteLine(context.GetDeineMudda());
+            using (UnitOfWork unitOfWork = new UnitOfWork())
+            {
+                Subject s = unitOfWork.SubjectRepository.Get().FirstOrDefault();
+                if (s != null)
+                {
+                    Console.WriteLine(s.FirstName + " " + s.LastName);
+                }
             }
         }
 
