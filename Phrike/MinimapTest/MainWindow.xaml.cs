@@ -47,13 +47,13 @@ namespace MinimapTest
             ImageSource backgroundImage = ((ImageBrush)Canvas.Background).ImageSource;
             Canvas.Width = backgroundImage.Width;
             Canvas.Height = backgroundImage.Height;
-            this.Width = Canvas.Width;
-            this.Height = Canvas.Height;
+            this.Width = 800;
+            this.Height = 600;
 
             IEnumerable<PositionData> positions = null;
             using (UnitOfWork unitOfWork = new UnitOfWork())
             {
-                positions = unitOfWork.PositionDataRepository.Get(p => p.Test.ID == 2).OrderBy(p => p.Time).ToList();
+                positions = unitOfWork.PositionDataRepository.Get(p => p.Test.ID == 1).OrderBy(p => p.Time).ToList();
             }
             
             double scale = Scenario.Scale;
@@ -64,7 +64,7 @@ namespace MinimapTest
             Path myPath = new Path
             {
                 Stroke = Brushes.Red,
-                StrokeThickness = 1,
+                StrokeThickness = 5,
                 Data = new PathGeometry { Figures = new PathFigureCollection { pathFigure } }
             };
             Canvas.Children.Add(myPath);
