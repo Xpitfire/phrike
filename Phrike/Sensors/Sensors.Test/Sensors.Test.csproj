@@ -54,7 +54,6 @@
   <ItemGroup>
     <Compile Include="HeartPeakFilterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SensorFilterTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sensors\Sensors.csproj">
