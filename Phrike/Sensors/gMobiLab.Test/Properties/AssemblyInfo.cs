@@ -1,28 +1,16 @@
-﻿// <summary>Assembly info file for SensorDeviceTest</summary>
-// -----------------------------------------------------------------------
-// Copyright (c) 2015 University of Applied Sciences Upper-Austria
-// Project OperationPhrike
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
-// ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
-// CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-// -----------------------------------------------------------------------
-using System.Reflection;
+﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SensorDeviceTest")]
+[assembly: AssemblyTitle("gMobiLab.Test")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("FH-Hagenberg")]
-[assembly: AssemblyProduct("SensorDeviceTest")]
-[assembly: AssemblyCopyright("Copyright © FH-Hagenberg 2015")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("gMobiLab.Test")]
+[assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("65e096d0-b34b-451c-aca0-d87991a47fa7")]
+[assembly: Guid("dad79d51-61f4-423c-a136-6ab2ff9df9e6")]
 
 // Version information for an assembly consists of the following four values:
 //
