@@ -105,7 +105,7 @@ namespace Phrike.SensorPlots
         {
             this.plotModel.Series.Clear();
             this.plotModel.Series.Add(this.dataSeries);
-            if (this.Checkbox.IsChecked != true)
+            if (this.CheckboxShowRaw.IsChecked != true)
             {    
                 this.plotModel.Series.Add(this.minSeries);
                 this.plotModel.Series.Add(this.maxSeries);
@@ -170,7 +170,7 @@ namespace Phrike.SensorPlots
             double[] sensorData = SensorUtil.GetSampleValues(this.data, sensorIdx).ToArray();
 
             
-            if (this.Checkbox.IsChecked == true)
+            if (this.CheckboxShowRaw.IsChecked == true)
             {
                 for (int i = 0; i < sensorData.Length; ++i)
                 {
