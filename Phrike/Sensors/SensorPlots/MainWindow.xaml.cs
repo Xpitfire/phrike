@@ -105,7 +105,7 @@ namespace Phrike.SensorPlots
         {
             this.plotModel.Series.Clear();
             this.plotModel.Series.Add(this.dataSeries);
-            if (this.Checkbox.IsChecked != true)
+            if (this.CheckboxShowRaw.IsChecked != true)
             {    
                 this.plotModel.Series.Add(this.minSeries);
                 this.plotModel.Series.Add(this.maxSeries);
@@ -169,16 +169,13 @@ namespace Phrike.SensorPlots
             int sensorIdx = this.dataSource.GetSensorValueIndexInSample(sensor);
             double[] sensorData = SensorUtil.GetSampleValues(this.data, sensorIdx).ToArray();
 
-            var filterChain = new FilterChain();
-
-            IReadOnlyList<double> prefilteredData = filterChain.Filter(sensorData);
             
-            if (this.Checkbox.IsChecked == true)
+            if (this.CheckboxShowRaw.IsChecked == true)
             {
                 for (int i = 0; i < sensorData.Length; ++i)
                 {
                     var x = i / (double)this.dataSource.SampleRate;
-                    this.dataSeries.Points.Add(new DataPoint(x, prefilteredData[i]));
+                    this.dataSeries.Points.Add(new DataPoint(x, sensorData[i]));
                 }
             }
             else
@@ -188,9 +185,12 @@ namespace Phrike.SensorPlots
                 this.mergedPeaksSeries.Points.Clear();
                 this.pulseSeries.Points.Clear();
                 this.trendSeries.Points.Clear();
-                filterChain.Add(new GaussFilter(4));
-                filterChain.Add(new EdgeDetectionFilter(2));
+                var filterChain = new FilterChain(
+                    new GaussFilter(4),
+                    new EdgeDetectionFilter(2)
+                );
 
+                IReadOnlyList<double> prefilteredData = filterChain.Filter(sensorData);
                 IReadOnlyList<double> maxPeaks = new PeakFilter(15).Filter(prefilteredData);
                 var maxFilter = new BinaryThresholdFilter(0.5);
                 maxPeaks = maxFilter.Filter(maxPeaks);
