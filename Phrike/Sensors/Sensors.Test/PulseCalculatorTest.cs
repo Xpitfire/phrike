@@ -13,6 +13,8 @@
 // -----------------------------------------------------------------------
 namespace Sensors.Test
 {
+    using System.Linq;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Phrike.Sensors.Filters;
@@ -26,20 +28,29 @@ namespace Sensors.Test
         /// <summary>
         /// The peaks.
         /// </summary>
-        private readonly double[] peaks = new double[] { 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
+        private readonly double[] peaks = new double[] { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1 };
 
-        private readonly double[] heartRate = new double[] { 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1 };
+        /// <summary>
+        /// The heart rate.
+        /// </summary>
+        private readonly double[] heartRate = new double[] 
+            {
+                34.28, 34.28, 34.28, 34.28, 34.28, 34.28, 34.28, 34.28,
+                40, 40, 40, 40, 40, 40, 40, 40, 40, 40,
+                34.28, 34.28, 34.28, 34.28, 34.28, 34.28, 34.28,
+                40, 40, 40, 40, 40, 40
+            };
 
         [TestMethod]
         public void PCFilterTest()
         {
-            PulseCalculator pulseCalculator = new PulseCalculator(null, 2);
+            PulseCalculator pulseCalculator = new PulseCalculator(null, 4);
 
-            var pulse = pulseCalculator.Filter(peaks);
-
-            var y = 0;
-
+            var heartRateReal = pulseCalculator.Filter(peaks);
+            for (int i = 0; i < heartRateReal.Count; i++)
+            {
+                Assert.AreEqual(heartRate[i], heartRateReal[i], 0.01);
+            }
         }
-
     }
 }
