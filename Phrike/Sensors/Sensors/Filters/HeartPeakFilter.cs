@@ -105,7 +105,7 @@ namespace Phrike.Sensors.Filters
                         }
                     }
 
-                    result[i] = maxPeaks[i] - minDistance;
+                    result[i] = minDistance == 0 ? 0 : maxPeaks[i] - minDistance;
                 }
             }
 

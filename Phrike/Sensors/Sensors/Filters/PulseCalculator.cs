@@ -37,15 +37,24 @@ namespace Phrike.Sensors.Filters
         /// <param name="filter">
         /// Filter that is applied during the pulse calculation.
         /// </param>
-        public PulseCalculator(IFilter filter = null)
+        /// <param name="sampleRate">
+        /// The sample Rate.
+        /// </param>
+        public PulseCalculator(IFilter filter = null, int sampleRate = 256)
         {
             PulseFilter = filter;
+            SampleRate = sampleRate;
         }
 
         /// <summary>
         /// Gets the filter that is applied during the pulse calculation.
         /// </summary>
         public IFilter PulseFilter { get; }
+
+        /// <summary>
+        /// Gets or sets the sample rate.
+        /// </summary>
+        public int SampleRate { get; set; }
 
         /// <summary>
         /// Create a filter chain to calculate the pulse from completely unfiltered sensor data.
@@ -74,7 +83,7 @@ namespace Phrike.Sensors.Filters
             const int MaxPulse = 250;
 
             int lastPeakPos = -1;
-            double sampleDistanceInMs = 1000 / 256.0;
+            double sampleDistanceInMs = 1000.0 / SampleRate;
             var pulseRates = new List<double>();
             var pulseLengths = new List<int>();
            

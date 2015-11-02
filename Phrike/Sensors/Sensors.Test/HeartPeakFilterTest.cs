@@ -19,8 +19,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Sensors.Test
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    using Phrike.Sensors.Filters;
 
     /// <summary>
     /// The heart peak filter test.
@@ -31,17 +34,20 @@ namespace Sensors.Test
         /// <summary>
         /// The max peaks.
         /// </summary>
-        private double[] maxPeaks = new double[] { 0, 0, 5, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0 };
+        private readonly double[] maxPeaks = 
+            new double[] { 4, 0, 0, 5, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3, 0, 0, 0, 2, 3, 2, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0 };
 
         /// <summary>
         /// The min peaks.
         /// </summary>
-        private double[] minPeaks = new double[] { 0, 0, 4, 0, 0, 0, 0, 2, 0, 0, 0, 4, 0, 0, 0 };
+        private readonly double[] minPeaks = 
+            new double[] { -2, 0, 0, -4, 0, 0, 0, 0, -2, 0, 0, 0, -4, 0, 0, 0, 0, 0, -3, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0 };
 
         /// <summary>
         /// The result.
         /// </summary>
-        private double[] expectedResult   = new double[] { 0, 0, 9, 0, 0, 0, 5, 0, 0, 0, 0, 0, 7, 0, 0 };
+        private readonly double[] expectedResult = 
+            new double[] { 6, 0, 0, 9, 0, 0, 0, 5, 0, 0, 0, 0, 0, 7, 0, 0, 0, 5, 6, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
         /// <summary>
         /// The max peak distance.
@@ -54,7 +60,22 @@ namespace Sensors.Test
         [TestMethod]
         public void MergePeaksTest()
         {
-            //var result = new 
+            IReadOnlyList<double> result = HeartPeakFilter.MergePeaks(maxPeaks, minPeaks, maxPeakDistance);
+            CollectionAssert.AreEqual(result.ToArray(), expectedResult);
         }
+
+        /// <summary>
+        /// The hp filter test.
+        /// </summary>
+        [TestMethod]
+        public void HPFilterTest()
+        {
+            IFilter maxPeakFilter = new FixedResultFilter(maxPeaks);
+            IFilter minPeakFilter = new FixedResultFilter(minPeaks);
+            IFilter filter = new HeartPeakFilter(maxPeakFilter, minPeakFilter, maxPeakDistance);
+
+            CollectionAssert.AreEqual(filter.Filter(null).ToArray(), expectedResult);
+        }
+
     }
 }
