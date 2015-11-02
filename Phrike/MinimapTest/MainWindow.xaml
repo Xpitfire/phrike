@@ -8,10 +8,6 @@
         Title="MainWindow" Height="350" Width="525"
         Loaded="MainWindow_OnLoaded">
     <StackPanel>
-        <Canvas x:Name="Canvas" Width="1" Height="1" HorizontalAlignment="Left">
-            <Canvas.Background>
-                <ImageBrush x:Name="CanvasBackground" ImageSource="{Binding MinimapPath}" Stretch="None"/>
-            </Canvas.Background>
-        </Canvas>
+        <local:PhrikeMinimap></local:PhrikeMinimap>
     </StackPanel>
 </Window>
