@@ -54,6 +54,12 @@
   <ItemGroup>
     <Compile Include="HeartPeakFilterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AverageFilterTest.cs" />
+    <Compile Include="GaussFilterTest.cs" />
+    <Compile Include="MedianFilterTest.cs" />
+    <Compile Include="BinaryTresholdFilterTest.cs" />
+    <Compile Include="EdgeFilterTest.cs" />
+    <Compile Include="RadiusFilterBaseTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sensors\Sensors.csproj">
