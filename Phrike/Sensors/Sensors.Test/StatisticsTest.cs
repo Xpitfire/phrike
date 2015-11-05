@@ -45,7 +45,7 @@ namespace Sensors.Test
             Assert.AreEqual(stats.Intercept, arr.Intercept());
             Assert.AreEqual(stats.DeterminationCoefficient, arr.DeterminationCoefficient());
             Assert.AreEqual(stats.Min, arr.Min());
-            Assert.AreEqual(stats.Max, arr.Min());
+            Assert.AreEqual(stats.Max, arr.Max());
         }
     }
 }
