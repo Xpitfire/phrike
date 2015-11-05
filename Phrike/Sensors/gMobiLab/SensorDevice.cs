@@ -143,6 +143,12 @@ namespace Phrike.GMobiLab
         /// <param name="filename">
         /// The filename on SD-Card or null to disable.
         /// </param>
+        /// <remarks>
+        ///     The resulting filename on the SD-Card will have the format
+        ///     "filename__MP####.BIN" where filename is the given
+        ///     <paramref name="filename"/> transformed to upper-case and ####
+        ///     is an increasing four-digit number with leading zeroes.
+        /// </remarks>
         public void SetSdFilename(string filename)
         {
             if (!GMobiLabApi.EnableSdCard(device, filename != null))
