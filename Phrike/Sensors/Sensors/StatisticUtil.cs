@@ -98,8 +98,8 @@ namespace Phrike.Sensors
             double numerator = 0;
             double denominator = 0;
 
-            int idx = 1;
-            double xAvg = arr.Count() / 2;
+            int idx = 0;
+            double xAvg = (arr.Count() - 1) / 2.0;
             double yAvg = arr.Average();
 
             foreach (var y in arr)
@@ -124,7 +124,39 @@ namespace Phrike.Sensors
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration", Justification = "OK. See documentation.")]
         public static double Intercept(this IEnumerable<double> arr)
         {
-            return arr.Average() - (Slope(arr) * arr.Count() / 2);
+            return arr.Average() - (Slope(arr) * (arr.Count() - 1) / 2.0);
+        }
+
+        /// <summary>
+        /// The correlation coefficient.
+        /// </summary>
+        /// <param name="arr">
+        /// The arr.
+        /// </param>
+        /// <returns>
+        /// The <see cref="double"/>.
+        /// </returns>
+        [SuppressMessage("ReSharper", "PossibleLossOfFraction", Justification = "OK. See documentation.")]
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration", Justification = "OK. See documentation.")]
+        public static double CorrelationCoefficient(this IEnumerable<double> arr)
+        {
+            double numerator = 0;
+            double denominatorX = 0;
+            double denominatorY = 0;
+
+            int idx = 0;
+            double xAvg = (arr.Count() - 1) / 2.0;
+            double yAvg = arr.Average();
+
+            foreach (var y in arr)
+            {
+                numerator = numerator + ((idx - xAvg) * (y - yAvg));
+                denominatorX = denominatorX + ((idx - xAvg) * (idx - xAvg));
+                denominatorY = denominatorY + ((y - yAvg) * (y - yAvg));
+                idx++;
+            }
+
+            return numerator / Math.Sqrt(denominatorX * denominatorY);
         }
 
         /// <summary>
@@ -140,23 +172,8 @@ namespace Phrike.Sensors
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration", Justification = "OK. See documentation.")]
         public static double DeterminationCoefficient(this IEnumerable<double> arr)
         {
-            double numerator = 0;
-            double denominatorX = 0;
-            double denominatorY = 0;
-
-            int idx = 1;
-            double xAvg = arr.Count() / 2;
-            double yAvg = arr.Average();
-
-            foreach (var y in arr)
-            {
-                numerator = numerator + ((idx - xAvg) * (y - yAvg));
-                denominatorX = denominatorX + ((idx - xAvg) * (idx - xAvg));
-                denominatorY = denominatorY + ((y - yAvg) * (y - yAvg));
-                idx++;
-            }
-
-            return numerator / Math.Sqrt(denominatorX * denominatorY);
+            var r = CorrelationCoefficient(arr);
+            return r * r;
         }
     }
 }
