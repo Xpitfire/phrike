@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="DataBundleTest.cs" />
     <Compile Include="DataSeriesTest.cs" />
+    <Compile Include="StatisticUtilTest.cs" />
     <Compile Include="FilterChainTest.cs" />
     <Compile Include="FixedResultFilter.cs" />
     <Compile Include="FixedSampleSensorHub.cs" />
