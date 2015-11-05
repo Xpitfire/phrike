@@ -10,9 +10,10 @@ namespace DataModel
 {
     public class SurveyQuestion : BaseEntity
     {
+        [Required]
         public Survey Survey { get; set; }
         public virtual Collection<SurveyResult> SurveyResults { get; set; }
-
+        
         [Required]
         public string Question { get; set; }
     }

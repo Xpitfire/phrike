@@ -1,10 +1,15 @@
-﻿namespace DataModel
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DataModel
 {
     public class SurveyResult : BaseEntity
     {
+        [Required]
         public SurveyQuestion SurveyQuestion { get; set; }
+        [Required]
         public Test Test { get; set; }
 
+        [Required]
         public SurveyAnswer Answer { get; set; }
     }
 

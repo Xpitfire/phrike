@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,17 @@ namespace DataAccess
 {
     public class OperationPhrikeContext : DbContext
     {
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        }
+
+        public OperationPhrikeContext()
+            :base("DefaultConnectionString")
+        {
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<OperationPhrikeContext>());
+        }
+
         public DbSet<PositionData> PositionData { get; set; }
         public DbSet<Scenario> Scenarios { get; set; }
         public DbSet<Subject> Subjects { get; set; }

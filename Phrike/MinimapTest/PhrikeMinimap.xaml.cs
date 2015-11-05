@@ -50,7 +50,7 @@ namespace MinimapTest
             IEnumerable<PositionData> positions = null;
             using (UnitOfWork unitOfWork = new UnitOfWork())
             {
-                positions = unitOfWork.PositionDataRepository.Get(p => p.Test.ID == 1).OrderBy(p => p.Time).ToList();
+                positions = unitOfWork.PositionDataRepository.Get(p => p.Test.Id == 1).OrderBy(p => p.Time).ToList();
             }
 
             double scale = Scenario.Scale;
