@@ -52,8 +52,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DataBundleTest.cs" />
+    <Compile Include="DataSeriesTest.cs" />
     <Compile Include="FilterChainTest.cs" />
     <Compile Include="FixedResultFilter.cs" />
+    <Compile Include="FixedSampleSensorHub.cs" />
     <Compile Include="HeartPeakFilterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AverageFilterTest.cs" />
@@ -63,6 +66,7 @@
     <Compile Include="EdgeFilterTest.cs" />
     <Compile Include="RadiusFilterBaseTest.cs" />
     <Compile Include="PulseCalculatorTest.cs" />
+    <Compile Include="StatisticsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sensors\Sensors.csproj">
