@@ -52,6 +52,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="StatisticUtilTest.cs" />
     <Compile Include="FilterChainTest.cs" />
     <Compile Include="FixedResultFilter.cs" />
     <Compile Include="HeartPeakFilterTest.cs" />
