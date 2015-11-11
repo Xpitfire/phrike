@@ -46,7 +46,7 @@ namespace MinimapTest
             Canvas.Height = backgroundImage.Height;
             //this.Width = 800;
             //this.Height = 600;
-
+            
             IEnumerable<PositionData> positions = null;
             using (UnitOfWork unitOfWork = new UnitOfWork())
             {
