@@ -66,12 +66,6 @@ public:
 	void loadConfig(const std::string filename = "C:\\tmp\\config.txt");
 
 	/**
-	* Set the framesPerSecond property
-	* @param config: a string with the framesPerSecond for the capturing
-	*/
-	void setFPS(std::string framesPerSecond);
-
-	/**
 	 * Set the videoConfig property
 	 * @param config: a string with the configuration for the video capturing
 	 */
@@ -82,11 +76,6 @@ public:
 	* @param config: a string with the configuration for the camera capturing
 	*/
 	void setCameraConfig(std::string config);
-
-	/**
-	* Get the framesPerSecond property
-	*/
-	std::string getFPS();
 
 	/**
 	* Get the videoConfig property
