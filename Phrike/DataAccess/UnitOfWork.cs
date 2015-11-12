@@ -20,7 +20,7 @@ namespace DataAccess
         private BaseEntityRepository<SurveyQuestion> _surveyQuestionRepository;
         private BaseEntityRepository<SurveyResult> _surveyResultRepository;
         private BaseEntityRepository<Test> _testRepository;
-        private BaseEntityRepository<Video> _videoRepository;
+        private BaseEntityRepository<AuxilaryData> _videoRepository;
 
 
         public BaseEntityRepository<PositionData> PositionDataRepository
@@ -107,13 +107,13 @@ namespace DataAccess
             }
         }
 
-        public BaseEntityRepository<Video> VideoRepository
+        public BaseEntityRepository<AuxilaryData> VideoRepository
         {
             get
             {
                 if (_videoRepository == null)
                 {
-                    _videoRepository = new BaseEntityRepository<Video>(_context);
+                    _videoRepository = new BaseEntityRepository<AuxilaryData>(_context);
                 }
                 return _videoRepository;
             }
