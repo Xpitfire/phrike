@@ -21,9 +21,7 @@ namespace DataModel
         public Gender Gender { get; set; }
         [Required]
         public string Residence { get; set; }
-        [Required]
         public string ServiceRank { get; set; }
-        [Required]
         public string Function { get; set; }
         //public string Conditions { get; set; }
         //[Required]

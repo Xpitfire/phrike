@@ -18,7 +18,7 @@ namespace Phrike.GroundControl.Controller
         /// <summary>
         /// Execution path of the Unreal Engine.
         /// </summary>
-        public const string UnrealEnginePath = @"/UnrealData/Balance.exe";
+        public const string UnrealEnginePath = @"/UnrealData/Balance/Balance.exe";
 
         public const int UnrealEngineSocketPort = 5678;
 
