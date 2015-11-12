@@ -191,7 +191,11 @@ namespace Phrike.GroundControl.Controller
                         FirstName = "Max",
                         LastName = "Musterman",
                         DateOfBirth = new DateTime(1981, 10, 24),
-                        Gender = Gender.Male
+                        Gender = Gender.Male,
+                        CountryCode = "AT",
+                        Function = "-debug-",
+                        Residence = "Hagenberg",
+                        ServiceRank = "Kloputzer"
                     };
                     unitOfWork.SubjectRepository.Insert(subject);
                     unitOfWork.Save();
@@ -202,13 +206,13 @@ namespace Phrike.GroundControl.Controller
                     scenario = new Scenario
                     {
                         Name = "Balance",
-                        ExecutionPath = "",
+                        ExecutionPath = "ich bin eine Biene",
                         MinimapPath = "Balance/minimap.png",
                         Version = "1.0",
 
-                        ZeroX = 347,
-                        ZeroY = 146,
-                        Scale = 14.0 / 1420.0
+                        ZeroX = 1921,
+                        ZeroY = 257,
+                        Scale = 1354.0 / 24000.0
                     };
                     unitOfWork.ScenarioRepository.Insert(scenario);
                     unitOfWork.Save();
@@ -218,10 +222,10 @@ namespace Phrike.GroundControl.Controller
                     Subject = subject,
                     Scenario = scenario,
                     Time = DateTime.Now,
-                    Title = "Testrun DEBUG - " + DateTime.Now
+                    Title = "Testrun DEBUG - " + DateTime.Now,
+                    Location = "PLS 5"
                 };
                 unitOfWork.TestRepository.Insert(test);
-                unitOfWork.Save();
 
                 #endregion
                 InitPositionTracking();
