@@ -60,7 +60,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="OperationPhrikeBalanceExec.link" />
     <None Include="Samples\EKG-Signal_zur_Verarbeitung_23_04_15.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

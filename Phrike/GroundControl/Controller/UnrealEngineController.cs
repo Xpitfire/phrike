@@ -15,10 +15,25 @@ namespace Phrike.GroundControl.Controller
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        private static string unrealEnginePath;
         /// <summary>
         /// Execution path of the Unreal Engine.
         /// </summary>
-        public const string UnrealEnginePath = @"/UnrealData/Balance/Balance.exe";
+        public static string UnrealEnginePath {
+            get
+            {
+                if (unrealEnginePath == null)
+                {
+                    using (var unitOfWork = new UnitOfWork())
+                    {
+                        unrealEnginePath = unitOfWork.TestRepository.Get(
+                            data => data.Scenario.Name == "Balance").FirstOrDefault()?.Scenario.Name;
+                    }
+                }
+                return unrealEnginePath;
+            }
+            set { unrealEnginePath = value; }
+        }
 
         public const int UnrealEngineSocketPort = 5678;
 
@@ -42,6 +57,11 @@ namespace Phrike.GroundControl.Controller
         {
             this.errorMessageCallback = errorMessageCallback;
             this.disableUnrealEngineCallback = disableUnrealEngineCallback;
+            
+            if (UnrealEnginePath == null)
+            {
+                throw new NotSupportedException("Could not find scenario data!");
+            }
 
             try
             {

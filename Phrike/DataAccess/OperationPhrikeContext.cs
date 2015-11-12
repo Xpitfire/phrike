@@ -34,12 +34,13 @@ namespace DataAccess
         
     }
 
-    class OperationPhrikeStrategy : DropCreateDatabaseIfModelChanges<OperationPhrikeContext>
+    class OperationPhrikeStrategy : DropCreateDatabaseAlways<OperationPhrikeContext>
     {
         protected override void Seed(OperationPhrikeContext context)
         {
             context.Scenarios.Add(new Scenario()
             {
+                Name = "Balance",
                 ExecutionPath = "UnrealData/Balance/Balance.exe",
                 Description = "Walk over a slackline between two canyon ledges",
 
@@ -155,6 +156,7 @@ namespace DataAccess
                 ServiceRank = "Master of Desaster",
             });
 
+            context.SaveChanges();
 #endif
             base.Seed(context);
         }
