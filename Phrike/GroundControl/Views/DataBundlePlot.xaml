@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="Phrike.GroundControl.Views.DataBundlePlot"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:oxy="http://oxyplot.org/wpf"
+             xmlns:viewModels="clr-namespace:Phrike.GroundControl.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance viewModels:DataBundleViewModel}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <oxy:PlotView Model="{Binding PlotModel}" />
+        <ListBox Grid.Column="1"
+                  ItemsSource="{Binding DataSeries}">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="viewModels:DataSeriesViewModel">
+                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsActive}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>
