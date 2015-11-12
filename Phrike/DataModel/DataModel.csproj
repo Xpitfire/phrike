@@ -59,7 +59,7 @@
     <Compile Include="SurveyQuestion.cs" />
     <Compile Include="SurveyResult.cs" />
     <Compile Include="Test.cs" />
-    <Compile Include="Video.cs" />
+    <Compile Include="AuxilaryData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
