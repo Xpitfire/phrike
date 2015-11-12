@@ -29,7 +29,7 @@ namespace DataAccess
         public DbSet<SurveyQuestion> SurveyQuestions { get; set; }
         public DbSet<SurveyResult> SurveyResults { get; set; }
         public DbSet<Test> Tests { get; set; }
-        public DbSet<Video> Videos { get; set; }
+        public DbSet<AuxilaryData> Videos { get; set; }
 
         
     }

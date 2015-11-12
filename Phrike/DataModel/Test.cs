@@ -20,7 +20,7 @@ namespace DataModel
         public string Notes { get; set; }
 
         public ICollection<PositionData> PositionData { get; set; }
-        public ICollection<Video> Video { get; set; }
+        public ICollection<AuxilaryData> AuxilaryData { get; set; }
         public ICollection<SurveyResult> SurveyResult { get; set; }
         [Required]
         public Scenario Scenario { get; set; }
@@ -28,7 +28,7 @@ namespace DataModel
         public Test()
         {
             this.PositionData = new List<PositionData>();
-            this.Video = new List<Video>();
+            this.AuxilaryData = new List<AuxilaryData>();
             this.SurveyResult = new List<SurveyResult>();
         }
     }
