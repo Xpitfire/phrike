@@ -13,7 +13,7 @@ namespace Phrike.GroundControl.ViewModels
     /// The StressTest.xaml ViewModel to control the hardware components and
     /// run multiple sub-process calls and Tasks.
     /// </summary>
-    class StressTestViewModel : INotifyPropertyChanged
+    public class StressTestViewModel : INotifyPropertyChanged
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 

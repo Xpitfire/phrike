@@ -9,7 +9,7 @@ using Phrike.GroundControl.Annotations;
 
 namespace Phrike.GroundControl.ViewModels
 {
-    class SettingsViewModel : INotifyPropertyChanged
+    public class SettingsViewModel : INotifyPropertyChanged
     {
 
         public static SettingsViewModel Instance { get; private set; }
@@ -27,7 +27,7 @@ namespace Phrike.GroundControl.ViewModels
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
