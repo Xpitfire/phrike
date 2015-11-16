@@ -40,8 +40,11 @@
             <TabItem Padding="30" Header="Start" Name="TabItemStart">
                 <Views:Start DataContext="{Binding}"></Views:Start>
             </TabItem>
-            <TabItem Padding="30" Header="New Stress Test" Name="TabItemStresstest">
+            <!--<TabItem Padding="30" Header="New Stress Test" Name="TabItemStresstest">
                 <Views:StressTest DataContext="{Binding}"></Views:StressTest>
+            </TabItem>-->
+            <TabItem Padding="30" Header="New Stress Test" Name="TabItemUser">
+                <Views:UserSelect DataContext="{Binding}"></Views:UserSelect>
             </TabItem>
             <TabItem Padding="30" Header="Analysis" Name="TabItemAnalysis">
                 <Views:Analysis DataContext="{Binding}"></Views:Analysis>
