@@ -59,6 +59,11 @@ namespace Phrike.GroundControl.ViewModels
         {
             SelectedTab = 2;
         }
+
+        public void SelectTabUser()
+        {
+            //SelectedTab = 4;
+        }
         #endregion
 
         #region PropertyChanged Handling
@@ -126,6 +131,7 @@ namespace Phrike.GroundControl.ViewModels
                 progressDialogController = null;
             }
         }
+
         #endregion
 
     }

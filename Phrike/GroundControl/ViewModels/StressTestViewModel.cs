@@ -131,23 +131,25 @@ namespace Phrike.GroundControl.ViewModels
         /// </summary>
         public async void AutoStressTest()
         {
-            // show progress animation in UI
-            MainViewModel.Instance.ShowProgressMessage("Preparing a new stress test", "All engines are initializing and staring up! Please wait...");
-            // start sequencial tasks in a new Thread
-            var stressTestThread = new Thread(async () =>
-            {
-                await StartUnrealEngineTask();
-                await StartScreenCaptureTask();
-                await StartSensorsTask();
-            });
-            // start the Thread and stop the animation with a delay
-            await Task.Run(() =>
-            {
-                stressTestThread.Start();
-                Thread.Sleep(5000);
-            });
-            // stop progress animation
-            MainViewModel.Instance.CloseProgressMessage();
+            MainViewModel.Instance.SelectTabUser();
+
+            //// show progress animation in UI
+            //MainViewModel.Instance.ShowProgressMessage("Preparing a new stress test", "All engines are initializing and staring up! Please wait...");
+            //// start sequencial tasks in a new Thread
+            //var stressTestThread = new Thread(async () =>
+            //{
+            //    await StartUnrealEngineTask();
+            //    await StartScreenCaptureTask();
+            //    await StartSensorsTask();
+            //});
+            //// start the Thread and stop the animation with a delay
+            //await Task.Run(() =>
+            //{
+            //    stressTestThread.Start();
+            //    Thread.Sleep(5000);
+            //});
+            //// stop progress animation
+            //MainViewModel.Instance.CloseProgressMessage();
         }
 
         #endregion
