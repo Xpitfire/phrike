@@ -214,7 +214,7 @@ namespace Phrike.GroundControl.Controller
                         Gender = Gender.Male,
                         CountryCode = "AT",
                         Function = "-debug-",
-                        Residence = "Hagenberg",
+                        City = "Hagenberg",
                         ServiceRank = "Kloputzer"
                     };
                     unitOfWork.SubjectRepository.Insert(subject);
