@@ -26,7 +26,7 @@ namespace DataAccessTest
                         LastName = RandomString(rg, capital: true),
                         Function = RandomString(rg, capital:true),
                         Gender = rg.Next(0, 2) == 0 ? Gender.Male : Gender.Female,
-                        Residence = RandomString(rg, capital: true),
+                        City = RandomString(rg, capital: true),
                         ServiceRank = RandomString(rg, capital: true)
                     };
 
