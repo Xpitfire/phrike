@@ -8,7 +8,7 @@ using Phrike.GroundControl.Annotations;
 namespace Phrike.GroundControl.ViewModels
 {
 
-    class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : INotifyPropertyChanged
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -77,8 +77,7 @@ namespace Phrike.GroundControl.ViewModels
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
-            if (handler != null) 
-                handler(this, new PropertyChangedEventArgs(propertyName));
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
 
