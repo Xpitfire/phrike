@@ -60,7 +60,7 @@ namespace DataAccess
                 DateOfBirth = new DateTime(1988, 7, 3),
                 CountryCode = "AT",
                 Gender = Gender.Male,
-                Residence = "Hagenberg",
+                City = "Hagenberg",
                 Function = "Developer"
             });
             context.Subjects.Add(new Subject()
@@ -70,7 +70,7 @@ namespace DataAccess
                 DateOfBirth = new DateTime(1993, 9, 8),
                 CountryCode = "AT",
                 Gender = Gender.Female,
-                Residence = "Hagenberg",
+                City = "Hagenberg",
                 Function = "Developer"
             });
             context.Subjects.Add(new Subject()
@@ -80,7 +80,7 @@ namespace DataAccess
                 DateOfBirth = new DateTime(1994, 9, 8),
                 CountryCode = "AT",
                 Gender = Gender.Male,
-                Residence = "Hagenberg",
+                City = "Hagenberg",
                 Function = "Developer"
             });
             context.Subjects.Add(new Subject()
@@ -90,7 +90,7 @@ namespace DataAccess
                 DateOfBirth = new DateTime(1993, 7, 3),
                 CountryCode = "AT",
                 Gender = Gender.Male,
-                Residence = "Linz",
+                City = "Linz",
                 Function = "Developer"
             });
             context.Subjects.Add(new Subject()
@@ -100,7 +100,7 @@ namespace DataAccess
                 DateOfBirth = new DateTime(1989, 12, 7),
                 CountryCode = "AT",
                 Gender = Gender.Male,
-                Residence = "Linz",
+                City = "Linz",
                 Function = "Scrum Master"
             });
             context.Subjects.Add(new Subject()
@@ -110,7 +110,7 @@ namespace DataAccess
                 DateOfBirth = new DateTime(1993, 5, 5),
                 CountryCode = "AT",
                 Gender = Gender.Male,
-                Residence = "Wien",
+                City = "Wien",
                 Function = "Developer",
                 ServiceRank = "Junior",
             });
@@ -121,7 +121,7 @@ namespace DataAccess
                 DateOfBirth = new DateTime(1990, 6, 12),
                 CountryCode = "AT",
                 Gender = Gender.Male,
-                Residence = "Klagenfurt",
+                City = "Klagenfurt",
                 Function = "Developer"
             });
             context.Subjects.Add(new Subject()
@@ -131,7 +131,7 @@ namespace DataAccess
                 DateOfBirth = new DateTime(1986, 2, 27),
                 CountryCode = "AT",
                 Gender = Gender.Male,
-                Residence = "Hagenberg",
+                City = "Hagenberg",
                 Function = "Magician"
             });
             context.Subjects.Add(new Subject()
@@ -141,7 +141,7 @@ namespace DataAccess
                 DateOfBirth = new DateTime(1991, 4, 17),
                 CountryCode = "CZ",
                 Gender = Gender.Male,
-                Residence = "Praha",
+                City = "Praha",
                 Function = "Developer"
             });
             context.Subjects.Add(new Subject()
@@ -151,7 +151,7 @@ namespace DataAccess
                 DateOfBirth = new DateTime(1992, 10, 30),
                 CountryCode = "AT",
                 Gender = Gender.Male,
-                Residence = "Hagenberg",
+                City = "Hagenberg",
                 Function = "Developer",
                 ServiceRank = "Master of Desaster",
             });
