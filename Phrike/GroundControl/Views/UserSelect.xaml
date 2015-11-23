@@ -19,20 +19,28 @@
                 <PropertyGroupDescription PropertyName="LastName[0]" />
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
+        <!--<CollectionViewSource x:Key="SourceVm" Source="{Binding Source={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.Source}" />-->
     </UserControl.Resources>
 
-    <StackPanel Orientation="Vertical">
-        <Grid Margin="10">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="12*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Margin="10" Grid.Row="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" MinWidth="200"></ColumnDefinition>
                 <ColumnDefinition Width="7*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="tbxSearch" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TbxSearch_OnKeyDown" Grid.Row="0" Grid.Column="0"></TextBox>
+            <TextBox x:Name="tbxSearch" Text="{Binding Source={}, Path=Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TbxSearch_OnKeyDown" Grid.Row="0" Grid.Column="0"></TextBox>
         </Grid>
-        <ListView x:Name="spUser" ItemsSource="{Binding Source={StaticResource Source}}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="Transparent">
+        <ListView x:Name="spUser" ItemsSource="{Binding Source={StaticResource Source}}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="Transparent" Grid.Row="1">
             <ListView.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.ContainerStyle>
@@ -55,7 +63,7 @@
                     <GroupStyle.Panel>
                         <ItemsPanelTemplate>
                             <!--<StackPanel Orientation="Horizontal"></StackPanel>-->
-                            <WrapPanel IsItemsHost="True" Orientation="Vertical"  />
+                            <WrapPanel IsItemsHost="True" Orientation="Vertical" />
                         </ItemsPanelTemplate>
                     </GroupStyle.Panel>
                 </GroupStyle>
@@ -87,5 +95,5 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-    </StackPanel>
+    </Grid>
 </UserControl>
