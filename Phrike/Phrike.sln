@@ -42,11 +42,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sensors.Test", "Sensors\Sen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gMobiLab.Test", "Sensors\gMobiLab.Test\gMobiLab.Test.csproj", "{DAD79D51-61F4-423C-A136-6AB2FF9DF9E6}"
 EndProject
-<<<<<<< HEAD
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GdfPlotDemo", "GdfPlotDemo\GdfPlotDemo.csproj", "{24F8944B-21C3-4B6A-90F8-C4822386C83F}"
-=======
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroundControl.Test", "GroundControl.Test\GroundControl.Test.csproj", "{36CC6A02-6E86-4838-ABD1-150C6F6DAE8F}"
->>>>>>> 746b9de333b83f08674c87906e194a994762b767
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
