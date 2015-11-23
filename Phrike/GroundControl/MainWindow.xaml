@@ -42,7 +42,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Controls:MetroAnimatedSingleRowTabControl SelectedIndex="{Binding SelectedTab}" Grid.Row="1" x:Name="MainTabControl">
+        <TabControl SelectedIndex="{Binding SelectedTab}" Grid.Row="1" x:Name="MainTabControl">
             <TabItem Padding="30" Header="Start" Name="TabItemStart">
                 <Views:Start DataContext="{Binding}" />
             </TabItem>
@@ -55,6 +55,6 @@
             <TabItem Padding="30" Header="Einstellungen" Name="TabItemSettings">
                 <Views:Settings DataContext="{Binding}" />
             </TabItem>
-        </Controls:MetroAnimatedSingleRowTabControl>
+        </TabControl>
     </Grid>
 </Controls:MetroWindow>
