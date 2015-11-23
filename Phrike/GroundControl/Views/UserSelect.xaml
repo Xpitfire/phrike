@@ -38,7 +38,7 @@
                 <ColumnDefinition Width="1*" MinWidth="200"></ColumnDefinition>
                 <ColumnDefinition Width="7*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="tbxSearch" Text="{Binding Source={}, Path=Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TbxSearch_OnKeyDown" Grid.Row="0" Grid.Column="0"></TextBox>
+            <TextBox x:Name="tbxSearch" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TbxSearch_OnKeyDown" Grid.Row="0" Grid.Column="0"></TextBox>
         </Grid>
         <ListView x:Name="spUser" ItemsSource="{Binding Source={StaticResource Source}}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="Transparent" Grid.Row="1">
             <ListView.GroupStyle>
