@@ -12,7 +12,13 @@
                       Title="Ground Control" Height="800" Width="1200"
                       ShowIconOnTitleBar="True"
                       Icon="/Resources/img/op_icon.ico"
-                      Closing="ApplicationClose">
+                      Closing="ApplicationClose"
+                      BorderBrush="{DynamicResource AccentColorBrush}"
+                      BorderThickness="1"
+                      GlowBrush="{DynamicResource AccentColorBrush}"
+                      ResizeMode="CanResizeWithGrip"
+                      MinHeight="400"
+                      MinWidth="650">
     
     <Controls:MetroWindow.Resources>
         <ViewModels:MainViewModel x:Key="MainViewModel" />
