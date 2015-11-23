@@ -85,12 +85,12 @@
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <DockPanel>
+                    <DockPanel ToolTip="{Binding}">
                         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
                             <TextBlock Text="{Binding FirstName }" Margin="5 0 5 0"/>
-                            <TextBlock Text="{Binding LastName}" Margin="5 0 5 0"/>
+                            <TextBlock Text="{Binding LastName}" FontWeight="Bold" Margin="5 0 5 0"/>
                         </StackPanel>
-                        <Image Source="{Binding AvatarPath}" DockPanel.Dock="Bottom" />
+                        <Image Source="{Binding AvatarPath}"  DockPanel.Dock="Bottom" />
                     </DockPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

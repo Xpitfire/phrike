@@ -36,6 +36,7 @@ namespace Phrike.GroundControl.Views
             {
                 //var child = BuildChildItem(subj);
                 if (subj.AvatarPath == null) subj.AvatarPath = @"C:\public\user.png";
+                subj.LastName = subj.LastName.ToUpperInvariant();
                 this.Subjects.Add(subj);
             }
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(spUser.ItemsSource);

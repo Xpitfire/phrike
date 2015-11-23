@@ -33,6 +33,11 @@ namespace DataModel
         public string AvatarPath { get; set; }
 
         public virtual Collection<Test> Tests { get; set; }
+
+        public override string ToString()
+        {
+            return $"{ServiceRank} {FirstName} {LastName}";
+        }
     }
 
     public enum RhFactor
