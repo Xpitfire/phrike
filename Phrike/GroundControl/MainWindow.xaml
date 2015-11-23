@@ -6,24 +6,24 @@
                       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
                       xmlns:GroundControl="clr-namespace:Phrike.GroundControl"
+                      
                       xmlns:Views="clr-namespace:Phrike.GroundControl.Views"
                       xmlns:ViewModels="clr-namespace:Phrike.GroundControl.ViewModels"
                       WindowState="Maximized"
                       Title="Ground Control" Height="800" Width="1200"
-                      ShowIconOnTitleBar="True"
-                      Icon="/Resources/img/op_icon.ico"
-                      Closing="ApplicationClose"
                       BorderBrush="{DynamicResource AccentColorBrush}"
                       BorderThickness="1"
                       GlowBrush="{DynamicResource AccentColorBrush}"
-                      ResizeMode="CanResizeWithGrip"
-                      MinHeight="400"
-                      MinWidth="650">
-    
+                      MinHeight="500"
+                      MinWidth="850"
+                      ShowIconOnTitleBar="True"
+                      Icon="/Resources/img/op_icon.ico"
+                      Closing="ApplicationClose">
+
     <Controls:MetroWindow.Resources>
         <ViewModels:MainViewModel x:Key="MainViewModel" />
     </Controls:MetroWindow.Resources>
-    
+
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands DataContext="{StaticResource MainViewModel}">
             <Button Content="settings">
@@ -35,7 +35,7 @@
             </Button>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
-    
+
     <Grid DataContext="{StaticResource MainViewModel}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -44,19 +44,16 @@
 
         <Controls:MetroAnimatedSingleRowTabControl SelectedIndex="{Binding SelectedTab}" Grid.Row="1" x:Name="MainTabControl">
             <TabItem Padding="30" Header="Start" Name="TabItemStart">
-                <Views:Start DataContext="{Binding}"></Views:Start>
+                <Views:Start DataContext="{Binding}" />
             </TabItem>
-            <!--<TabItem Padding="30" Header="New Stress Test" Name="TabItemStresstest">
-                <Views:StressTest DataContext="{Binding}"></Views:StressTest>
-            </TabItem>-->
-            <TabItem Padding="30" Header="New Stress Test" Name="TabItemUser">
-                <Views:UserSelect DataContext="{Binding}"></Views:UserSelect>
+            <TabItem Padding="30" Header="Neuer Stresstest" Name="TabItemUser">
+                <Views:UserSelect DataContext="{Binding}" />
             </TabItem>
-            <TabItem Padding="30" Header="Analysis" Name="TabItemAnalysis">
-                <Views:Analysis DataContext="{Binding}"></Views:Analysis>
+            <TabItem Padding="30" Header="Analyse" Name="TabItemAnalysis">
+                <Views:Analysis DataContext="{Binding}" />
             </TabItem>
-            <TabItem Padding="30" Header="Settings" Name="TabItemSettings">
-                <Views:Settings DataContext="{Binding}"></Views:Settings>
+            <TabItem Padding="30" Header="Einstellungen" Name="TabItemSettings">
+                <Views:Settings DataContext="{Binding}" />
             </TabItem>
         </Controls:MetroAnimatedSingleRowTabControl>
     </Grid>
