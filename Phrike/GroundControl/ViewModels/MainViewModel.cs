@@ -45,6 +45,14 @@ namespace Phrike.GroundControl.ViewModels
         }
 
         /// <summary>
+        /// Change the current tab view to the "Debug" view.
+        /// </summary>
+        public void SelectTabDebug()
+        {
+            SelectedTab = 4;
+        }
+
+        /// <summary>
         /// Change the current tab view to the "NewStresstest" view.
         /// </summary>
         public void SelectTabNewStresstest()

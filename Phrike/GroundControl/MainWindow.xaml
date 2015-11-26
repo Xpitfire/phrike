@@ -55,6 +55,9 @@
             <TabItem Padding="30" Header="Einstellungen" Name="TabItemSettings">
                 <Views:Settings DataContext="{Binding}" />
             </TabItem>
+            <TabItem Padding="30" Header="Debug" Name="TabItemDebug">
+                <Views:Debug DataContext="{Binding}" />
+            </TabItem>
         </TabControl>
     </Grid>
 </Controls:MetroWindow>
