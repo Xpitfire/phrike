@@ -41,6 +41,8 @@ namespace Phrike.GroundControl.Views
             }
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(spUser.ItemsSource);
             view.Filter = FilterSubjects;
+
+            tbxSearch.Focus();
         }
 
         private bool FilterSubjects(object o)
