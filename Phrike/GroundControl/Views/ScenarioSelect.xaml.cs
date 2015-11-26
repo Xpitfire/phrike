@@ -1,6 +1,6 @@
-﻿using System;
+﻿using DataModel;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,39 +13,35 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using DataModel;
 
 namespace Phrike.GroundControl.Views
 {
     /// <summary>
-    /// Interaction logic for UserSelect.xaml
+    /// Interaction logic for ScenarioSelect.xaml
     /// </summary>
-    public partial class UserSelect : UserControl
+    public partial class ScenarioSelect : UserControl
     {
-        public List<Subject> Subjects { get; private set; }
-        //public ICollectionView ItemsView { get; set; }
         public string Filter { get; set; }
+        public List<Scenario> Scenarios { get; set; }
 
-        public UserSelect()
+
+        public ScenarioSelect()
         {
             InitializeComponent();
-            var x = (ViewModels.UserSelectViewModel) this.FindResource("UserSelectViewModel");
-            this.Subjects= new List<Subject>();
+            var x = (ViewModels.ScenarioSelectViewModel) this.FindResource("ScenarioSelectViewModel");
+            this.Scenarios = new List<Scenario>();
 
-            foreach (var subj in x.Subjects)
+            foreach (Scenario s in x.Scenarios)
             {
-                //var child = BuildChildItem(subj);
-                if (subj.AvatarPath == null) subj.AvatarPath = @"C:\public\user.png";
-                subj.LastName = subj.LastName.ToUpperInvariant();
-                this.Subjects.Add(subj);
+                this.Scenarios.Add(s);
             }
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(spUser.ItemsSource);
-            view.Filter = FilterSubjects;
+            view.Filter = FilterScenarios;
         }
 
-        private bool FilterSubjects(object o)
+        public bool FilterScenarios(object o)
         {
-            return Filter == null ? true : o is Subject ? ((Subject)o).LastName.ToLower().Contains(Filter) : false;
+            return Filter == null ? true : o is Scenario ? ((Scenario)o).Name.ToLower().Contains(Filter) : false;
         }
 
         private void TbxSearch_OnKeyDown(object sender, TextChangedEventArgs e)
