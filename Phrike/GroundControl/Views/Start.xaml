@@ -11,7 +11,7 @@
         <WrapPanel>
             <Button x:Name="ButtonNewStresstest" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0">
                 <StackPanel Height="190" Width="190">
-                    <Label Content="New Stresstest" HorizontalAlignment="Left" Width="190" Height="38" FontSize="20"/>
+                    <Label Content="Neuer Stresstest" HorizontalAlignment="Left" Width="190" Height="38" FontSize="20"/>
                     <Image Height="152" Source="/Resources/img/new-stresstest-tile.PNG"></Image>
                 </StackPanel>
                 <i:Interaction.Triggers>
@@ -33,7 +33,7 @@
             </Button>
             <Button x:Name="ButtonSetings" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0">
                 <StackPanel Height="190" Width="190">
-                    <Label Content="Settings" HorizontalAlignment="Left" Width="190" Height="38" FontSize="20"/>
+                    <Label Content="Einstellungen" HorizontalAlignment="Left" Width="190" Height="38" FontSize="20"/>
                     <Image Height="152" Source="/Resources/img/settings-tile.PNG"></Image>
                 </StackPanel>
                 <i:Interaction.Triggers>

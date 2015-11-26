@@ -21,31 +21,6 @@ using Phrike.Sensors;
 namespace Phrike.GMobiLab
 {
     /// <summary>
-    /// The state a <see cref="SensorDevice"/> is currently in.
-    /// </summary>
-    public enum SensorDeviceState
-    {
-        /// <summary>The device has been disposed.</summary>
-        Disposed,
-
-        /// <summary>
-        /// The device has been opened, but transfer has not started yet
-        /// or has been stopped.
-        /// </summary>
-        Openened,
-
-        /// <summary>
-        /// The device is transferring data.
-        /// </summary>
-        Transferring,
-
-        /// <summary>
-        /// The device is measuring, but transfer has been paused.
-        /// </summary>
-        Paused
-    }
-
-    /// <summary>
     /// A gMobiLab Sensor device.
     /// </summary>
     public sealed class SensorDevice : ISensorHubDevice

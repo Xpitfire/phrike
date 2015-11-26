@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,35 +23,35 @@ namespace Phrike.GroundControl.Views
     public partial class UserSelect : UserControl
     {
         public List<Subject> Subjects { get; private set; }
+        //public ICollectionView ItemsView { get; set; }
+        public string Filter { get; set; }
 
         public UserSelect()
         {
             InitializeComponent();
             var x = (ViewModels.UserSelectViewModel) this.FindResource("UserSelectViewModel");
             this.Subjects= new List<Subject>();
+
             foreach (var subj in x.Subjects)
             {
                 //var child = BuildChildItem(subj);
-
+                if (subj.AvatarPath == null) subj.AvatarPath = @"C:\public\user.png";
+                subj.LastName = subj.LastName.ToUpperInvariant();
                 this.Subjects.Add(subj);
             }
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(spUser.ItemsSource);
+            view.Filter = FilterSubjects;
         }
 
-        private UIElement BuildChildItem(Subject subj)
+        private bool FilterSubjects(object o)
         {
-            StackPanel stp = new StackPanel();
-            stp.Orientation = Orientation.Vertical;
+            return Filter == null ? true : o is Subject ? ((Subject)o).LastName.Contains(Filter) : false;
+        }
 
-            Label lbl = new Label();
-            lbl.Content = $"{subj.FirstName} {subj.LastName}";
-
-            stp.Children.Add(lbl);
-
-            Image img = new Image();
-            img.Source = new BitmapImage(new Uri(@"C:\OperationPhrike\Git\Phrike\GroundControl\bin\Debug\user1.png", UriKind.Absolute));
-            stp.Children.Add(img);
-
-            return stp;
+        private void TbxSearch_OnKeyDown(object sender, TextChangedEventArgs e)
+        {
+            this.Filter = tbxSearch.Text;
+            CollectionViewSource.GetDefaultView(spUser.ItemsSource).Refresh();
         }
     }
 }
