@@ -1,9 +1,10 @@
 ﻿using System.Windows.Controls;
-using System.Windows.Input;
+
+using Phrike.GroundControl.ViewModels;
 
 namespace Phrike.GroundControl.Views {
     /// <summary>
-    /// Interaction logic for DataBundlePlot.xaml
+    /// A user control that displays the <see cref="DataBundleViewModel"/> set as DataContext.
     /// </summary>
     public partial class DataBundlePlot : UserControl {
         public DataBundlePlot() {
