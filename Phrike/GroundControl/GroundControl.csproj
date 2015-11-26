@@ -113,6 +113,7 @@
     </ApplicationDefinition>
     <Compile Include="Controller\PlotController.cs" />
     <Compile Include="Controller\ProcessController.cs" />
+    <Compile Include="Controller\SensorAuxDataController.cs" />
     <Compile Include="Controller\SensorsController.cs" />
     <Compile Include="Controller\UnrealEngineController.cs" />
     <Compile Include="Controller\ControlDelegates.cs" />
