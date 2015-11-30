@@ -8,19 +8,6 @@
       xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.Resources>
-        <viewModels:ScenarioSelectViewModel x:Key="ScenarioSelectViewModel" />
-        <CollectionViewSource x:Key="Source" Source="{Binding Source={StaticResource ScenarioSelectViewModel}, Path=Scenarios}">
-            <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="Name" />
-                <scm:SortDescription PropertyName="Description"/>
-            </CollectionViewSource.SortDescriptions>
-            <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="Name[0]" />
-            </CollectionViewSource.GroupDescriptions>
-        </CollectionViewSource>
-        <!--<CollectionViewSource x:Key="SourceVm" Source="{Binding Source={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.Source}" />-->
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -40,7 +27,7 @@
             </Grid.ColumnDefinitions>
             <TextBox x:Name="tbxSearch" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TbxSearch_OnKeyDown" Grid.Row="1" Grid.Column="0"></TextBox>
         </Grid>
-        <ListView x:Name="spUser" ItemsSource="{Binding Source={StaticResource Source}}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="Transparent" Grid.Row="1">
+        <ListView x:Name="spUser" ItemsSource="{Binding Path=Scenarios}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="Transparent" Grid.Row="1">
             <ListView.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.ContainerStyle>
@@ -85,11 +72,11 @@
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <DockPanel ToolTip="{Binding}">
+                    <DockPanel ToolTip="{Binding Description}">
                         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
                             <TextBlock Text="{Binding Name }" Margin="5 0 5 0"/>
                         </StackPanel>
-                        <Image Source="{Binding MinimapPath}"  DockPanel.Dock="Bottom" />
+                        <Image Source="{Binding Icon}"  DockPanel.Dock="Bottom" />
                     </DockPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
