@@ -8,40 +8,25 @@
       xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.Resources>
-        <viewModels:UserSelectViewModel x:Key="UserSelectViewModel" />
-        <CollectionViewSource x:Key="Source" Source="{Binding Source={StaticResource UserSelectViewModel}, Path=Subjects}">
-            <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="LastName" />
-                <scm:SortDescription PropertyName="FirstName"/>
-            </CollectionViewSource.SortDescriptions>
-            <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="LastName[0]" />
-            </CollectionViewSource.GroupDescriptions>
-        </CollectionViewSource>
-        <!--<CollectionViewSource x:Key="SourceVm" Source="{Binding Source={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.Source}" />-->
-    </UserControl.Resources>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="11*"/>
+            <RowDefinition Height="12*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid Margin="10" Grid.Row="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="5*"></RowDefinition>
-                <RowDefinition Height="5*"></RowDefinition>
+                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" MinWidth="200"></ColumnDefinition>
                 <ColumnDefinition Width="7*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="tbxSearch" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TbxSearch_OnKeyDown" Grid.Row="1" Grid.Column="0"></TextBox>
+            <TextBox x:Name="tbxSearch" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TbxSearch_OnKeyDown" Grid.Row="0" Grid.Column="0"/>
         </Grid>
-        <ListView x:Name="spUser" ItemsSource="{Binding Source={StaticResource Source}}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="Transparent" Grid.Row="1">
+        <ListView x:Name="spUser" ItemsSource="{Binding Path=Subjects}" SelectedItem="{Binding Path=CurrentSubject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="Transparent" Grid.Row="1">
             <ListView.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.ContainerStyle>
@@ -86,12 +71,12 @@
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <DockPanel ToolTip="{Binding}">
+                    <DockPanel ToolTip="{Binding FullName}">
                         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
                             <TextBlock Text="{Binding FirstName }" Margin="5 0 5 0"/>
                             <TextBlock Text="{Binding LastName}" FontWeight="Bold" Margin="5 0 5 0"/>
                         </StackPanel>
-                        <Image Source="{Binding AvatarPath}"  DockPanel.Dock="Bottom" />
+                        <Image Source="{Binding ImagePath}"  DockPanel.Dock="Bottom" />
                     </DockPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DataModel;
+using Phrike.GroundControl.ViewModels;
 
 namespace Phrike.GroundControl.Views
 {
@@ -22,32 +23,25 @@ namespace Phrike.GroundControl.Views
     /// </summary>
     public partial class UserSelect : UserControl
     {
-        public List<Subject> Subjects { get; private set; }
-        //public ICollectionView ItemsView { get; set; }
         public string Filter { get; set; }
 
         public UserSelect()
         {
             InitializeComponent();
-            var x = (ViewModels.UserSelectViewModel) this.FindResource("UserSelectViewModel");
-            this.Subjects= new List<Subject>();
-
-            foreach (var subj in x.Subjects)
+            this.Loaded += (s, e) =>
             {
-                //var child = BuildChildItem(subj);
-                if (subj.AvatarPath == null) subj.AvatarPath = @"C:\public\user.png";
-                subj.LastName = subj.LastName.ToUpperInvariant();
-                this.Subjects.Add(subj);
-            }
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(spUser.ItemsSource);
-            view.Filter = FilterSubjects;
-
-            tbxSearch.Focus();
+                this.DataContext = new SubjectCollectionVM();
+                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(spUser.ItemsSource);
+                view.SortDescriptions.Add(new SortDescription("LastName", ListSortDirection.Ascending));
+                view.SortDescriptions.Add(new SortDescription("FirstName", ListSortDirection.Ascending));
+                view.GroupDescriptions.Add(new PropertyGroupDescription("LastName[0]"));
+                view.Filter = FilterSubjects;
+            };
         }
 
         private bool FilterSubjects(object o)
         {
-            return Filter == null ? true : o is Subject ? ((Subject)o).LastName.ToLower().Contains(Filter) : false;
+            return Filter == null ? true : o is SubjectVM ? ((SubjectVM)o).LastName.ToLower().Contains(Filter) : false;
         }
 
         private void TbxSearch_OnKeyDown(object sender, TextChangedEventArgs e)

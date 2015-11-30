@@ -130,6 +130,7 @@
     <Compile Include="ViewModels\DataBundleViewModel.cs" />
     <Compile Include="ViewModels\DataSeriesViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\RealViewModels.cs" />
     <Compile Include="ViewModels\ScenarioSelectViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\DebugViewModel.cs" />
@@ -139,6 +140,9 @@
     </Compile>
     <Compile Include="Views\DataBundlePlot.xaml.cs">
       <DependentUpon>DataBundlePlot.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OverviewNew.xaml.cs">
+      <DependentUpon>OverviewNew.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ScenarioSelect.xaml.cs">
       <DependentUpon>ScenarioSelect.xaml</DependentUpon>
@@ -176,6 +180,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DataBundlePlot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OverviewNew.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

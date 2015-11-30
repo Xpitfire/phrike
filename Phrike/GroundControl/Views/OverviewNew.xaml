@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="Phrike.GroundControl.Views.OverviewNew"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:local="clr-namespace:Phrike.GroundControl.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <WrapPanel>
+        <Button x:Name="btnSubject" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0" Click="SelectNewSubject" DataContext="{Binding Path=CurrentSubject}">
+            <StackPanel Height="190" Width="190">
+                <Label Content="Benutzer wählen" HorizontalAlignment="Left" Width="190" Height="38" FontSize="20"/>
+                <Image Height="152" Source="{Binding Path=AvatarPath}"></Image>
+            </StackPanel>
+        </Button>
+        <Button x:Name="btnScenario" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0" Click="SelectNewScenario" DataContext="{Binding Path=CurrentScenario}">
+            <StackPanel Height="190" Width="190">
+                <Label Content="Analyse" HorizontalAlignment="Left" Width="190" Height="38" FontSize="20"/>
+                <Image Height="152" Source="{Binding Path=Icon}"></Image>
+            </StackPanel>
+        </Button>
+    </WrapPanel>
+
+</UserControl>
