@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccess;
 using OxyPlot;
+using Phrike.GroundControl.Helper;
 
 namespace Phrike.GroundControl.ViewModels
 {
@@ -65,7 +66,7 @@ namespace Phrike.GroundControl.ViewModels
 
         public String ImagePath
         {
-            get { return subject.AvatarPath != String.Empty ? subject.AvatarPath : @"C:\public\user.png"; }
+            get { return subject.AvatarPath == null || subject.AvatarPath != String.Empty ? subject.AvatarPath : System.IO.Path.Combine( PathHelper.PhrikePicture, "user.png"); }
         }
 
         public String FullName
@@ -130,16 +131,10 @@ namespace Phrike.GroundControl.ViewModels
 
         public String Icon
         {
-            get
-            {
-                if (scenario.MinimapPath == null)
-                {
-                    return @"C:\public\scenario.png";
-                }
-                else
-                {
-                    return scenario.MinimapPath;
-                }
+            get {
+                return scenario.ThumbnailPath == null || scenario.ThumbnailPath == String.Empty
+                           ? System.IO.Path.Combine(PathHelper.PhrikePicture, "scenario.png")
+                           : scenario.MinimapPath;
             }
         }
 
