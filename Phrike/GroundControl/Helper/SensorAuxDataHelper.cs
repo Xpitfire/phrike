@@ -27,6 +27,15 @@ namespace Phrike.GroundControl.Helper
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// Read the file specified by <paramref name="aux"/> and convert it into a <see cref="DataBundle"/>.
+        /// </summary>
+        /// <param name="aux">
+        /// The file to read. Must have a supported MIME type.
+        /// </param>
+        /// <returns>
+        /// A new <see cref="DataBundle"/> with the data from <paramref name="aux"/>.
+        /// </returns>
         public static DataBundle AuxDataToSensorData(AuxilaryData aux)
         {
             Logger.Info($"Attempting to open {aux.FilePath} ({aux.MimeType}) as sensor data.");
@@ -56,6 +65,18 @@ namespace Phrike.GroundControl.Helper
             }
         }
 
+        /// <summary>
+        /// Import a sensor data file for the specified test.
+        /// </summary>
+        /// <param name="fpath">
+        /// The path to a sensor data file. Must have a supported file name extension.
+        /// </param>
+        /// <param name="testId">
+        /// The ID of the test to which the file belongs.
+        /// </param>
+        /// <returns>
+        /// A newly created <see cref="AuxilaryData"/> object already contained in the database.
+        /// </returns>
         public static AuxilaryData ImportSensorDataFile(string fpath, int testId)
         {
             return FileStorageHelper.ImportFile(fpath, GetMimeType(fpath), testId);
