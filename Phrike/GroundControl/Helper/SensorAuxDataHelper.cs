@@ -15,8 +15,6 @@
 using System;
 using System.IO;
 
-using DataAccess;
-
 using DataModel;
 
 using NLog;
@@ -58,9 +56,9 @@ namespace Phrike.GroundControl.Helper
             }
         }
 
-        public static AuxilaryData ImportSensorDataFile(string fpath, Test test)
+        public static AuxilaryData ImportSensorDataFile(string fpath, int testId)
         {
-            return FileStorageHelper.ImportFile(fpath, GetMimeType(fpath), test.Id);
+            return FileStorageHelper.ImportFile(fpath, GetMimeType(fpath), testId);
         }
 
         private static string GetMimeType(string fpath)
