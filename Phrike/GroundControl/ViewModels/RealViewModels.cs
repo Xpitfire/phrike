@@ -70,12 +70,11 @@ namespace Phrike.GroundControl.ViewModels
             {
                 if (subject.AvatarPath == null || subject.AvatarPath == String.Empty)
                 {
-                    string filename = DefaultDataProvider.PrepareDefaultSubjectIcon();
-                    return System.IO.Path.Combine(PathHelper.PhrikePicture, filename);
+                    return DefaultDataProvider.PrepareDefaultSubjectIcon();
                 }
                 else
                 {
-                    return subject.AvatarPath;
+                    return System.IO.Path.Combine(PathHelper.PhrikePicture, subject.AvatarPath);
                 }
             }
         }
@@ -146,12 +145,11 @@ namespace Phrike.GroundControl.ViewModels
             {
                 if (scenario.ThumbnailPath == null || scenario.ThumbnailPath == String.Empty)
                 {
-                    string iconpath = DefaultDataProvider.PrepareDefaultScenarioIcon();
-                    return System.IO.Path.Combine(PathHelper.PhrikePicture, iconpath);
+                    return DefaultDataProvider.PrepareDefaultScenarioIcon();
                 }
                 else
                 {
-                    return scenario.MinimapPath;
+                    return System.IO.Path.Combine(PathHelper.PhrikePicture, scenario.ThumbnailPath);
                 }
             }
         }

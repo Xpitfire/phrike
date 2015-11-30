@@ -7,21 +7,28 @@
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              xmlns:local="clr-namespace:Phrike.GroundControl.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-
-    <WrapPanel>
-        <Button x:Name="btnSubject" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0" Click="SelectNewSubject" DataContext="{Binding Path=CurrentSubject}">
-            <StackPanel Height="190" Width="190">
-                <Label Content="Benutzer wählen" HorizontalAlignment="Left" Width="190" Height="38" FontSize="20"/>
-                <Image Height="152" Source="{Binding Path=AvatarPath}"></Image>
-            </StackPanel>
-        </Button>
-        <Button x:Name="btnScenario" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0" Click="SelectNewScenario" DataContext="{Binding Path=CurrentScenario}">
-            <StackPanel Height="190" Width="190">
-                <Label Content="Analyse" HorizontalAlignment="Left" Width="190" Height="38" FontSize="20"/>
-                <Image Height="152" Source="{Binding Path=Icon}"></Image>
-            </StackPanel>
-        </Button>
-    </WrapPanel>
-
+             d:DesignHeight="426" d:DesignWidth="835">
+    <Grid x:Name="stpBase">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="10*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Button x:Name="btnBack" Content="Back" Grid.Row="0" Click="BtnBack_OnClick" IsEnabled="False"/>
+        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="wpButtons" Grid.Row="1">
+            <Button x:Name="btnSubject" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0" Click="SelectNewSubject" DataContext="{Binding Path=CurrentSubject}">
+                <StackPanel Height="190" Width="190">
+                    <Label Content="Benutzer wählen" HorizontalAlignment="Left" Width="190" Height="38" FontSize="20"/>
+                    <Image Height="152" Source="{Binding Path=AvatarPath}"></Image>
+                </StackPanel>
+            </Button>
+            <Button x:Name="btnScenario" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0" Click="SelectNewScenario" DataContext="{Binding Path=CurrentScenario}">
+                <StackPanel Height="190" Width="190">
+                    <Label Content="Analyse" HorizontalAlignment="Left" Width="190" Height="38" FontSize="20"/>
+                    <Image Height="152" Source="{Binding Path=Icon}"></Image>
+                </StackPanel>
+            </Button>
+        </WrapPanel>
+        <local:UserSelect Visibility="Hidden" x:Name="ucUser" Grid.Row="1"/>
+        <local:ScenarioSelect Visibility="Hidden" x:Name="ucScenario" Grid.Row="1"/>
+    </Grid>
 </UserControl>
