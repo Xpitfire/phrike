@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using Phrike.GroundControl.Helper;
+using System;
+using System.Windows;
 
 namespace Phrike.GroundControl
 {
@@ -7,5 +9,9 @@ namespace Phrike.GroundControl
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            AppDomain.CurrentDomain.SetData("DataDirectory", PathHelper.PhrikeData);
+        }
     }
 }
