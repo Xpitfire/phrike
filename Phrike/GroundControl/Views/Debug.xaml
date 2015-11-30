@@ -37,8 +37,9 @@
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.RowSpan="2" Margin="100,50,0,0">
             <Label Content="Single Step Tests&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" Height="63" Margin="0,50,0,50"/>
-            <Grid DataContext="{StaticResource DebugViewModel}" Margin="0,0,0,0" HorizontalAlignment="Left" Width="413" >
+            <Grid DataContext="{StaticResource DebugViewModel}" Margin="0,0,0,0" HorizontalAlignment="Left">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
@@ -93,6 +94,8 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
+
+                <Button Content="Add Sensor File" Grid.Row="1" Grid.Column="2" Height="55" Width="187" Command="{Binding AddSensorFile}" />
             </Grid>
         </StackPanel>
         <Border Grid.Column="0" Grid.Row="2">

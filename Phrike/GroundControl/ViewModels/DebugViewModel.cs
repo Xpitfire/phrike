@@ -2,10 +2,19 @@
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Windows.Media;
+
+using DataAccess;
+
+using DataModel;
+
+using Microsoft.Win32;
+
 using NLog;
 using Phrike.GroundControl.Annotations;
 using Phrike.GroundControl.Controller;
+using Phrike.GroundControl.Helper;
 
 namespace Phrike.GroundControl.ViewModels
 {
@@ -19,6 +28,7 @@ namespace Phrike.GroundControl.ViewModels
 
         private SensorsController sensorsModel;
         private UnrealEngineController unrealEngineModel;
+        private ICommand addSensorCmd;
 
         #region Status Info Properties
         private Brush unrealStatusColor;
@@ -73,6 +83,7 @@ namespace Phrike.GroundControl.ViewModels
         public Brush Activate = Brushes.GreenYellow;
         public Brush Disable = Brushes.OrangeRed;
 
+
         private void InitStatusColors()
         {
             UnrealStatusColor = Disable;
@@ -89,6 +100,25 @@ namespace Phrike.GroundControl.ViewModels
         }
 
         public static DebugViewModel Instance { get; private set; }
+
+        public ICommand AddSensorFile
+            => addSensorCmd ?? (addSensorCmd = new RelayCommand(AddSensorFileImpl));
+
+        private void AddSensorFileImpl(object obj)
+        {
+            var dlg = new OpenFileDialog
+            {
+                Filter = "GMobiLabPlus (*.bin)|*.bin|Biofeedback 2000 (*.csv)|*.csv"
+            };
+            if (dlg.ShowDialog() != true)
+                return;
+
+            using (var db = new UnitOfWork())
+            {
+                Test test = db.TestRepository.GetByID(1);
+                SensorAuxDataHelper.ImportSensorDataFile(dlg.FileName, test);
+            }
+        }
 
         // Methods for UI button click bindings.
         #region Binding Methods

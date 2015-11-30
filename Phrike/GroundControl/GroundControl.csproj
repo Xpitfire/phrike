@@ -90,6 +90,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -118,6 +119,8 @@
     <Compile Include="Controller\ControlDelegates.cs" />
     <Compile Include="Helper\DefaultDataProvider.cs" />
     <Compile Include="Helper\PathHelper.cs" />
+    <Compile Include="Helper\FileStorageHelper.cs" />
+    <Compile Include="Helper\SensorAuxDataHelper.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
