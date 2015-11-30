@@ -34,7 +34,7 @@ namespace DataAccess
         
     }
 
-    class OperationPhrikeStrategy : DropCreateDatabaseAlways<OperationPhrikeContext>
+    class OperationPhrikeStrategy : DropCreateDatabaseIfModelChanges<OperationPhrikeContext>
     {
         protected override void Seed(OperationPhrikeContext context)
         {

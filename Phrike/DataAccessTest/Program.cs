@@ -16,7 +16,7 @@ namespace DataAccessTest
             {
                 Random rg = new Random(1);
 
-                for (int i = 0; i < 100; i++)
+                for (int i = 0; i < 1000; i++)
                 {
                     Subject s = new Subject()
                     {
@@ -27,7 +27,8 @@ namespace DataAccessTest
                         Function = RandomString(rg, capital:true),
                         Gender = rg.Next(0, 2) == 0 ? Gender.Male : Gender.Female,
                         City = RandomString(rg, capital: true),
-                        ServiceRank = RandomString(rg, capital: true)
+                        ServiceRank = RandomString(rg, capital: true),
+                        AvatarPath = RandomIconPath(rg) 
                     };
 
                     unitOfWork.SubjectRepository.Insert(s);
@@ -47,6 +48,13 @@ namespace DataAccessTest
             //        Console.WriteLine(s.FirstName + " " + s.LastName);
             //    }
             //}
+        }
+
+        static string RandomIconPath(Random rdn)
+        {
+            string stdPath = @"C:\public\user{0}.png";
+
+            return String.Format(stdPath, rdn.Next(1, 7));
         }
 
         static string RandomString(Random rg, int minLen = 2, int maxLen = 16, bool capital = false)

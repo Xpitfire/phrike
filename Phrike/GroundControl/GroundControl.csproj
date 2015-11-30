@@ -91,6 +91,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -118,6 +119,10 @@
     <Compile Include="Controller\UnrealEngineController.cs" />
     <Compile Include="Controller\ControlDelegates.cs" />
     <Compile Include="Models\Sensor.cs" />
+    <Compile Include="Helper\DefaultDataProvider.cs" />
+    <Compile Include="Helper\PathHelper.cs" />
+    <Compile Include="Helper\FileStorageHelper.cs" />
+    <Compile Include="Helper\SensorAuxDataHelper.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
@@ -130,8 +135,10 @@
     <Compile Include="ViewModels\DataBundleViewModel.cs" />
     <Compile Include="ViewModels\DataSeriesViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\RealViewModels.cs" />
+    <Compile Include="ViewModels\ScenarioSelectViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
-    <Compile Include="ViewModels\StressTestViewModel.cs" />
+    <Compile Include="ViewModels\DebugViewModel.cs" />
     <Compile Include="ViewModels\UserSelectViewModel.cs" />
     <Compile Include="Views\Analysis.xaml.cs">
       <DependentUpon>Analysis.xaml</DependentUpon>
@@ -139,14 +146,20 @@
     <Compile Include="Views\DataBundlePlot.xaml.cs">
       <DependentUpon>DataBundlePlot.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\OverviewNew.xaml.cs">
+      <DependentUpon>OverviewNew.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ScenarioSelect.xaml.cs">
+      <DependentUpon>ScenarioSelect.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Start.xaml.cs">
       <DependentUpon>Start.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\StressTest.xaml.cs">
-      <DependentUpon>StressTest.xaml</DependentUpon>
+    <Compile Include="Views\Debug.xaml.cs">
+      <DependentUpon>Debug.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserSelect.xaml.cs">
       <DependentUpon>UserSelect.xaml</DependentUpon>
@@ -175,6 +188,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\OverviewNew.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ScenarioSelect.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -183,7 +204,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\StressTest.xaml">
+    <Page Include="Views\Debug.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -205,7 +226,11 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="user1.png" />
+    <Resource Include="Resources\scenario.png" />
+    <Resource Include="Resources\user.png" />
+    <Resource Include="user1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="op_icon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

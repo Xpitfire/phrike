@@ -23,7 +23,7 @@
         <ViewModels:MainViewModel x:Key="MainViewModel" />
     </Controls:MetroWindow.Resources>
 
-    <Grid DataContext="{StaticResource MainViewModel}">     
+    <Grid DataContext="{StaticResource MainViewModel}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -39,9 +39,12 @@
             <TabItem Padding="30" Header="Analyse" Name="TabItemAnalysis">
                 <Views:Analysis DataContext="{Binding}" />
             </TabItem>
-            <TabItem Padding="30" Header="Einstellungen" Name="TabItemSettings">            
+            <TabItem Padding="30" Header="Einstellungen" Name="TabItemSettings">
                 <Views:Settings DataContext="{Binding}" />
-            </TabItem>            
+            </TabItem>
+            <TabItem Padding="30" Header="Debug" Name="TabItemDebug">
+                <Views:Debug DataContext="{Binding}" />
+            </TabItem>
         </TabControl>
 
     </Grid>

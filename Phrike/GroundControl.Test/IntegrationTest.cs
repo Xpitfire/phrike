@@ -32,7 +32,7 @@ namespace GroundControl.Test
         [TestMethod]
         public void TestUnrealEngineController()
         {
-            var stressTestVM = new StressTestViewModel();
+            var stressTestVM = new DebugViewModel();
             stressTestVM.StartUnrealEngineTask();
         }
     }

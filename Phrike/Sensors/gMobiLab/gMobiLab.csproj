@@ -46,8 +46,6 @@
     </Compile>
     <Compile Include="GMobiLabException.cs" />
     <Compile Include="GMobiLabSensors.cs" />
-    <Compile Include="GMobiLabXferException.cs" />
-    <Compile Include="GMobiLabXferHelpersApi.cs" />
     <Compile Include="SensorDataFileStreamer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SensorDevice.cs" />

@@ -15,6 +15,7 @@ namespace DataModel
         public string ExecutionPath { get; set; }
         [Required]
         public string MinimapPath { get; set; }
+        public string ThumbnailPath { get; set; }
         [Required]
         public double ZeroX { get; set; }
         [Required]

@@ -1,4 +1,4 @@
-﻿// <summary>Implements GMobiLabXferException.</summary>
+﻿// <summary></summary>
 // -----------------------------------------------------------------------
 // Copyright (c) 2015 University of Applied Sciences Upper-Austria
 // Project OperationPhrike
@@ -11,30 +11,14 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // -----------------------------------------------------------------------
-
-using System;
-
-namespace Phrike.GMobiLab
+namespace DataModel
 {
     /// <summary>
-    ///     A call to the GMobiLab Xfer Helpers C API failed.
+    /// Defines string constants for use as <see cref="AuxilaryData.MimeType"/>.
     /// </summary>
-    public class GMobiLabXferException : Exception
+    public static class AuxiliaryDataMimeTypes
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GMobiLabXferException"/> class. 
-        /// Initializes a new instance of the
-        ///     <see cref="GMobiLabXferException"/> class.
-        /// </summary>
-        /// <param name="message">
-        /// A message describing the error.
-        /// </param>
-        /// <param name="inner">
-        /// The original exception (if any).
-        /// </param>
-        public GMobiLabXferException(string message, Exception inner = null)
-            : base(message, inner)
-        {
-        }
+        public const string Biofeedback2000Csv= "application/x-biofeedback200";
+        public const string GMobilabPlusBin = "application/x-gmobilabplusbin";
     }
 }
