@@ -66,7 +66,18 @@ namespace Phrike.GroundControl.ViewModels
 
         public String ImagePath
         {
-            get { return subject.AvatarPath == null || subject.AvatarPath != String.Empty ? subject.AvatarPath : System.IO.Path.Combine( PathHelper.PhrikePicture, "user.png"); }
+            get
+            {
+                if (subject.AvatarPath == null || subject.AvatarPath == String.Empty)
+                {
+                    string filename = DefaultDataProvider.PrepareDefaultSubjectIcon();
+                    return System.IO.Path.Combine(PathHelper.PhrikePicture, filename);
+                }
+                else
+                {
+                    return subject.AvatarPath;
+                }
+            }
         }
 
         public String FullName
@@ -131,10 +142,17 @@ namespace Phrike.GroundControl.ViewModels
 
         public String Icon
         {
-            get {
-                return scenario.ThumbnailPath == null || scenario.ThumbnailPath == String.Empty
-                           ? System.IO.Path.Combine(PathHelper.PhrikePicture, "scenario.png")
-                           : scenario.MinimapPath;
+            get
+            {
+                if (scenario.ThumbnailPath == null || scenario.ThumbnailPath == String.Empty)
+                {
+                    string iconpath = DefaultDataProvider.PrepareDefaultScenarioIcon();
+                    return System.IO.Path.Combine(PathHelper.PhrikePicture, iconpath);
+                }
+                else
+                {
+                    return scenario.MinimapPath;
+                }
             }
         }
 
