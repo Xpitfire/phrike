@@ -17,7 +17,7 @@ namespace Phrike.GroundControl.ViewModels
         public MainViewModel()
         {
             Instance = this;
-        }
+        }               
 
         #region Tab Control
 

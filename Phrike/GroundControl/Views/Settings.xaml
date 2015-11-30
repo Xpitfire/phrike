@@ -11,7 +11,42 @@
     </UserControl.Resources>
 
     <Grid Margin="0" DataContext="{StaticResource SettingsViewModel}">
-        <Label Content="Sensor COM Port" HorizontalAlignment="Left" Margin="126,87,0,0" VerticalAlignment="Top"/>
-        <ComboBox HorizontalAlignment="Left" Margin="282,87,0,0" VerticalAlignment="Top" Width="120" Name="SensorComPortComboBox" SelectedValue="{Binding Mode=OneWayToSource, Path=SensorComPort}" />
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">Sensoren:</Label>
+        <ComboBox Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" Height="20" Width="200" Name="SensorTypesComboBox" SelectedIndex="{Binding Mode=OneWayToSource, Path=SelectedSensorType}" ItemsSource="{Binding Path=Sensors}" DisplayMemberPath="SensorName"></ComboBox>
+
+        <Label Grid.Column="1" Grid.Row="3" VerticalAlignment="Center">COM Port:</Label>
+        <ComboBox Grid.Column="2" Grid.Row="3" VerticalAlignment="Center" Height="20" Width="200" Name="SensorComPortComboBox" SelectedValue="{Binding Mode=OneWayToSource, Path=SensorComPort}" ItemsSource="{Binding Path=COMPorts}">
+            <ComboBox.Style>
+                <Style TargetType="ComboBox" BasedOn="{StaticResource MetroComboBox}">
+                    <Setter Property="IsEnabled"  Value="False" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SelectedSensorType}" Value="0">
+                            <Setter Property="IsEnabled" Value="True" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+        </ComboBox>
+
+        <Button Grid.Column="2" Grid.Row="7" Content="Speichern" HorizontalAlignment="Right" VerticalAlignment="Top" Height="30" Width="200" />
+        
     </Grid>
 </UserControl>

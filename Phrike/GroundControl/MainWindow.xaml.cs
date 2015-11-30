@@ -43,5 +43,6 @@ namespace Phrike.GroundControl
             StressTestViewModel.Instance?.ApplicationClose();
             Logger.Info("Successfully closed application!");
         }
+
     }
 }

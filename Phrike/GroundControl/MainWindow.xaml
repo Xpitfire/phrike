@@ -9,7 +9,6 @@
                       
                       xmlns:Views="clr-namespace:Phrike.GroundControl.Views"
                       xmlns:ViewModels="clr-namespace:Phrike.GroundControl.ViewModels"
-                      WindowState="Maximized"
                       Title="Ground Control" Height="800" Width="1200"
                       BorderBrush="{DynamicResource AccentColorBrush}"
                       BorderThickness="1"
@@ -24,25 +23,13 @@
         <ViewModels:MainViewModel x:Key="MainViewModel" />
     </Controls:MetroWindow.Resources>
 
-    <Controls:MetroWindow.RightWindowCommands>
-        <Controls:WindowCommands DataContext="{StaticResource MainViewModel}">
-            <Button Content="settings">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="SelectTabSettings"></ei:CallMethodAction>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.RightWindowCommands>
-
-    <Grid DataContext="{StaticResource MainViewModel}">
+    <Grid DataContext="{StaticResource MainViewModel}">     
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TabControl SelectedIndex="{Binding SelectedTab}" Grid.Row="1" x:Name="MainTabControl">
+        <TabControl SelectedIndex="{Binding SelectedTab}" Grid.Row="1" x:Name="MainTabControl"> <!---->
             <TabItem Padding="30" Header="Start" Name="TabItemStart">
                 <Views:Start DataContext="{Binding}" />
             </TabItem>
@@ -52,9 +39,10 @@
             <TabItem Padding="30" Header="Analyse" Name="TabItemAnalysis">
                 <Views:Analysis DataContext="{Binding}" />
             </TabItem>
-            <TabItem Padding="30" Header="Einstellungen" Name="TabItemSettings">
+            <TabItem Padding="30" Header="Einstellungen" Name="TabItemSettings">            
                 <Views:Settings DataContext="{Binding}" />
-            </TabItem>
+            </TabItem>            
         </TabControl>
+
     </Grid>
 </Controls:MetroWindow>
