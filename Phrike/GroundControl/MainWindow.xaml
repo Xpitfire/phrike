@@ -41,13 +41,13 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
+        
         <TabControl SelectedIndex="{Binding SelectedTab}" Grid.Row="1" x:Name="MainTabControl">
             <TabItem Padding="30" Header="Start" Name="TabItemStart">
                 <Views:Start DataContext="{Binding}" />
             </TabItem>
             <TabItem Padding="30" Header="Neuer Stresstest" Name="TabItemUser">
-                <Views:OverviewNew DataContext="{Binding}" />
+                <Views:UserSelect DataContext="{Binding}" />
             </TabItem>
             <TabItem Padding="30" Header="Analyse" Name="TabItemAnalysis">
                 <Views:Analysis DataContext="{Binding}" />
