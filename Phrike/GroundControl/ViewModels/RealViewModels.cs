@@ -90,7 +90,7 @@ namespace Phrike.GroundControl.ViewModels
 
     class ScenarioCollectionVM : INotifyPropertyChanged
     {
-        private Scenario currentScenario;
+        private ScenarioVM currentScenario;
         public ObservableCollection<ScenarioVM> Scenarios { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -115,7 +115,7 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
-        public Scenario CurrentScenario
+        public ScenarioVM CurrentScenario
         {
             get { return this.currentScenario; }
             set
@@ -161,10 +161,39 @@ namespace Phrike.GroundControl.ViewModels
 
     class OverviewVM : INotifyPropertyChanged
     {
+        private ScenarioVM currentScenario;
+        private SubjectVM currentSubject;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
 
-        public ScenarioVM CurrentScenario { get; set; }
-        public Subject CurrentSubject { get; set; }
+        public ScenarioVM CurrentScenario
+        {
+            get { return currentScenario;}
+            set
+            {
+                if (currentScenario != value)
+                {
+                    currentScenario = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentScenario)));
+                }
+            }
+        }
+
+        public SubjectVM CurrentSubject
+        {
+            get
+            {
+                return currentSubject;
+            }
+            set
+            {
+                if (currentSubject != value)
+                {
+                    currentSubject = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(currentSubject)));
+                }
+            }
+        }
     }
 }

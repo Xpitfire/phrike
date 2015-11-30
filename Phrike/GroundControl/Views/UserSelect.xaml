@@ -26,7 +26,7 @@
             </Grid.ColumnDefinitions>
             <TextBox x:Name="tbxSearch" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TbxSearch_OnKeyDown" Grid.Row="0" Grid.Column="0"/>
         </Grid>
-        <ListView x:Name="spUser" ItemsSource="{Binding Path=Subjects}" SelectedItem="{Binding Path=CurrentSubject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="Transparent" Grid.Row="1">
+        <ListView x:Name="spUser" ItemsSource="{Binding Path=Subjects}" SelectionChanged="SpUser_OnSelectionChanged" SelectedItem="{Binding Path=CurrentSubject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="Transparent" Grid.Row="1">
             <ListView.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.ContainerStyle>

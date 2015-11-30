@@ -23,6 +23,18 @@ namespace Phrike.GroundControl.Views
     /// </summary>
     public partial class UserSelect : UserControl
     {
+        public static readonly RoutedEvent UserSelectedEvent = EventManager.RegisterRoutedEvent(
+            "UserSelectedEvent",
+            RoutingStrategy.Bubble,
+            typeof(RoutedEventHandler),
+            typeof(UserSelect));
+
+        public event RoutedEventHandler UserSelected
+        {
+            add { AddHandler(UserSelectedEvent, value); }
+            remove { RemoveHandler(UserSelectedEvent, value); }
+        }
+
         public string Filter { get; set; }
 
         public UserSelect()
@@ -48,6 +60,11 @@ namespace Phrike.GroundControl.Views
         {
             this.Filter = tbxSearch.Text.ToLower();
             CollectionViewSource.GetDefaultView(spUser.ItemsSource).Refresh();
+        }
+
+        private void SpUser_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RaiseEvent(new RoutedEventArgs(UserSelect.UserSelectedEvent));
         }
     }
 }
