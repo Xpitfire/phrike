@@ -20,6 +20,8 @@ namespace Phrike.GroundControl
         {
             InitializeComponent();
             Instance = this;
+
+            Logger.Info("Application successfully started!");
         }
 
         /// <summary>
