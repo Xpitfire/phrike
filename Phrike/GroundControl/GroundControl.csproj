@@ -114,13 +114,13 @@
     </ApplicationDefinition>
     <Compile Include="Controller\PlotController.cs" />
     <Compile Include="Controller\ProcessController.cs" />
-    <Compile Include="Controller\SensorAuxDataController.cs" />
     <Compile Include="Controller\SensorsController.cs" />
     <Compile Include="Controller\UnrealEngineController.cs" />
     <Compile Include="Controller\ControlDelegates.cs" />
     <Compile Include="Helper\DefaultDataProvider.cs" />
     <Compile Include="Helper\PathHelper.cs" />
     <Compile Include="Helper\FileStorageHelper.cs" />
+    <Compile Include="Helper\SensorAuxDataHelper.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>

@@ -1,4 +1,4 @@
-﻿// <summary>Implements the SensorAuxDataController.</summary>
+﻿// <summary>Implements the SensorAuxDataHelper.</summary>
 // -----------------------------------------------------------------------
 // Copyright (c) 2015 University of Applied Sciences Upper-Austria
 // Project OperationPhrike
@@ -23,9 +23,9 @@ using NLog;
 
 using Phrike.Sensors;
 
-namespace Phrike.GroundControl.Controller
+namespace Phrike.GroundControl.Helper
 {
-    public class SensorAuxDataController
+    public class SensorAuxDataHelper
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -58,30 +58,17 @@ namespace Phrike.GroundControl.Controller
             }
         }
 
-        public static AuxilaryData InsertSensorDataFile(string fpath, Test test)
+        public static AuxilaryData ImportSensorDataFile(string fpath, Test test)
         {
-            Logger.Info("Attempting to add " + fpath + " as auxiliary data.");
-            using (var db = new UnitOfWork())
-            {
-                var aux = new AuxilaryData
-                {
-                    FilePath = fpath,
-                    Test = test,
-                    Timestamp = File.GetCreationTime(fpath),
-                    MimeType = GetMimeType(fpath)
-                };
-                db.AuxiliaryDataRepository.Insert(aux);
-                Logger.Trace("Successfully inserted auxiliary data.");
-                return aux;
-            }
+            return FileStorageHelper.ImportFile(fpath, GetMimeType(fpath), test.Id);
         }
 
         private static string GetMimeType(string fpath)
         {
-            string ext = Path.GetExtension(fpath);
-            if (ext == "bin")
+            string ext = Path.GetExtension(fpath)?.ToLowerInvariant();
+            if (ext == ".bin")
                 return AuxiliaryDataMimeTypes.GMobilabPlusBin;
-            if (ext == "csv")
+            if (ext == ".csv")
                 return AuxiliaryDataMimeTypes.Biofeedback2000Csv;
             const string Message = "Unknown sensor data file extension";
             Logger.Error(Message);
