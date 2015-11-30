@@ -46,5 +46,6 @@ namespace Phrike.GroundControl
             DebugViewModel.Instance?.ApplicationClose();
             Logger.Info("Successfully closed application!");
         }
+
     }
 }

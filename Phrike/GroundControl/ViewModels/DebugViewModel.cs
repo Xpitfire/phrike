@@ -113,11 +113,7 @@ namespace Phrike.GroundControl.ViewModels
             if (dlg.ShowDialog() != true)
                 return;
 
-            using (var db = new UnitOfWork())
-            {
-                Test test = db.TestRepository.GetByID(1);
-                SensorAuxDataHelper.ImportSensorDataFile(dlg.FileName, test);
-            }
+            SensorAuxDataHelper.ImportSensorDataFile(dlg.FileName, testId: 1);
         }
 
         // Methods for UI button click bindings.
