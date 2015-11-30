@@ -117,6 +117,7 @@
     <Compile Include="Controller\SensorsController.cs" />
     <Compile Include="Controller\UnrealEngineController.cs" />
     <Compile Include="Controller\ControlDelegates.cs" />
+    <Compile Include="Helper\PathHelper.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
