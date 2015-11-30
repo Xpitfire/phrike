@@ -29,6 +29,8 @@ namespace Phrike.GroundControl.Helper
 
         public static string PhrikeImport => Path.Combine(PhrikeDirectory, "Import");
 
+        public static string PhrikeLog => Path.Combine(PhrikeDirectory, "Log");
+
         public static string PhrikeScenario => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "UnrealData");
 
         static PathHelper()
@@ -43,6 +45,7 @@ namespace Phrike.GroundControl.Helper
             CreateIfNotExisting(PhrikeVideo);
             CreateIfNotExisting(PhrikePicture);
             CreateIfNotExisting(PhrikeImport);
+            CreateIfNotExisting(PhrikeLog);
             //CreateIfNotExisting(PhrikeScenario); // Should exist
         }
 
