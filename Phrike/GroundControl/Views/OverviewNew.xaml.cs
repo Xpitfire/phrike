@@ -21,6 +21,15 @@ namespace Phrike.GroundControl.Views
     /// </summary>
     public partial class OverviewNew : UserControl
     {
+        private enum ViewState
+        {
+            Home,
+            Subject,
+            Scenario
+        };
+
+        private static ViewState state = ViewState.Home;
+
         public OverviewNew()
         {
             InitializeComponent();
@@ -29,16 +38,43 @@ namespace Phrike.GroundControl.Views
             {
                 this.DataContext = new OverviewVM();
             };
+
+            // todo: routed event from select-uc's
         }
 
         private void SelectNewSubject(object sender, RoutedEventArgs e)
         {
-            // TODO: call UserSelect uc
+            wpButtons.Visibility = Visibility.Hidden;
+            ucUser.Visibility = Visibility.Visible;
+            btnBack.IsEnabled = true;
+            state = ViewState.Subject;
         }
 
         private void SelectNewScenario(object sender, RoutedEventArgs e)
         {
-            // TODO: call ScenarioSelect uc        
+            wpButtons.Visibility = Visibility.Hidden;
+            ucScenario.Visibility = Visibility.Visible;
+            btnBack.IsEnabled = true;
+            state = ViewState.Scenario;
+        }
+
+        private void BtnBack_OnClick(object sender, RoutedEventArgs e)
+        {
+            switch (state)
+            {
+                case ViewState.Home:
+                    break;
+                case ViewState.Scenario:
+                    ucScenario.Visibility = Visibility.Hidden;
+                    wpButtons.Visibility = Visibility.Visible;
+                    state = ViewState.Home;
+                    break;
+                case ViewState.Subject:
+                    ucUser.Visibility = Visibility.Hidden;
+                    wpButtons.Visibility = Visibility.Visible;
+                    state = ViewState.Home;
+                    break;
+            }
         }
     }
 }
