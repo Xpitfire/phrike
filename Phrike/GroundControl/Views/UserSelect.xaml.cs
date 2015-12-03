@@ -66,5 +66,13 @@ namespace Phrike.GroundControl.Views
         {
             RaiseEvent(new RoutedEventArgs(UserSelect.UserSelectedEvent));
         }
+
+        private void BtnAdd_OnClick(object sender, RoutedEventArgs e)
+        {
+            grdSelect.IsEnabled = false;
+            grdSelect.Visibility = Visibility.Hidden;
+            ucAdd.Visibility = Visibility.Visible;
+            ucAdd.IsEnabled = true;
+        }
     }
 }

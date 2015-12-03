@@ -2,8 +2,10 @@
 using NLog.Targets;
 using Phrike.GroundControl.Helper;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Windows;
+using System.Windows.Markup;
 
 namespace Phrike.GroundControl
 {
@@ -20,6 +22,9 @@ namespace Phrike.GroundControl
 
 
             AppDomain.CurrentDomain.SetData("DataDirectory", PathHelper.PhrikeData);
+
+
+            FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
         }
     }
 }
