@@ -31,9 +31,18 @@ namespace Phrike.GroundControl.Helper
     /// </summary>
     public static class FileStorageHelper
     {
-        private static readonly string StoragePath = PathHelper.PhrikeImport;
-
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        private static string GetTargetPath(string src, int id, string dstDir)
+                => Path.Combine(dstDir, id + "-" + Path.GetFileName(src));
+
+        // Note that this may generate false negatives. See
+        // http://stackoverflow.com/a/410794/2128694 if we ever need a proper implementation.
+        private static bool IsFileInDir(string filepath, string dir) =>
+            string.Compare(
+                Path.GetDirectoryName(Path.GetFullPath(filepath)),
+                dir,
+                StringComparison.InvariantCultureIgnoreCase) == 0;
 
         /// <summary>
         /// Import a file into the Phrike file storage directory and create
@@ -65,14 +74,8 @@ namespace Phrike.GroundControl.Helper
             string description = null)
         {
             Logger.Trace($"Importing file {fromPath} ({mimeType}).");
-            fromPath = Path.GetFullPath(fromPath);
-            if (String.Compare(
-                Path.GetDirectoryName(fromPath),
-                StoragePath,
-                StringComparison.InvariantCultureIgnoreCase) == 0)
+            if (IsFileInDir(fromPath, PathHelper.PhrikeImport))
             {
-                // Note that this may generate false negatives. See
-                // http://stackoverflow.com/a/410794/2128694 if we ever need a proper implementation.
                 throw new ArgumentException(@"File is already in the file storage.", nameof(fromPath));
             }
             using (var ts = new TransactionScope())
@@ -88,13 +91,11 @@ namespace Phrike.GroundControl.Helper
                 };
                 db.AuxiliaryDataRepository.Insert(aux);
                 db.Save(); // Save to generate ID.
-                string targetPath = Path.Combine(
-                    StoragePath,
-                    aux.Id + "-" + Path.GetFileName(fromPath));
+                string targetPath = GetTargetPath(fromPath, aux.Id, PathHelper.PhrikeImport);
                 File.Copy(fromPath, targetPath);
                 try
                 {
-                    aux.FilePath = targetPath;
+                    aux.FilePath = Path.GetFileName(targetPath);
                     db.Save();
                     ts.Complete();
                 }
