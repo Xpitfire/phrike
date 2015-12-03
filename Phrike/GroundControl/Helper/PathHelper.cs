@@ -56,5 +56,11 @@ namespace Phrike.GroundControl.Helper
                 Directory.CreateDirectory(path);
             }
         }
+
+        public static string GetPicturePath(string name) => Path.Combine(PhrikePicture, name);
+
+        public static string GetVideoPath(string name) => Path.Combine(PhrikeVideo, name);
+
+        public static string GetImportPath(string name) => Path.Combine(PhrikeImport, name);
     }
 }
