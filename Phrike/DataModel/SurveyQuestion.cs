@@ -12,7 +12,7 @@ namespace DataModel
     {
         [Required]
         public Survey Survey { get; set; }
-        public virtual Collection<SurveyResult> SurveyResults { get; set; }
+        public virtual List<SurveyResult> SurveyResults { get; set; }
         
         [Required]
         public string Question { get; set; }
