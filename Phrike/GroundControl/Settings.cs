@@ -27,7 +27,7 @@ namespace Phrike.GroundControl
 
         private static string GetDefaultComPort()
         {
-            return SerialPort.GetPortNames().First() != null ? SerialPort.GetPortNames().First() : "";
+            return SerialPort.GetPortNames().FirstOrDefault() ?? "";
         }
 
         public static void LoadSettings()
