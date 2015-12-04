@@ -9,77 +9,82 @@
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="12*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid Margin="10" Grid.Row="0">
+        <Grid x:Name="grdSelect">
             <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="12*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" MinWidth="200"></ColumnDefinition>
-                <ColumnDefinition Width="7*"></ColumnDefinition>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="tbxSearch" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TbxSearch_OnKeyDown" Grid.Row="0" Grid.Column="0"/>
-        </Grid>
-        <ListView x:Name="spUser" ItemsSource="{Binding Path=Subjects}" SelectionChanged="SpUser_OnSelectionChanged" SelectedItem="{Binding Path=CurrentSubject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="Transparent" Grid.Row="1">
-            <ListView.GroupStyle>
-                <GroupStyle>
-                    <GroupStyle.ContainerStyle>
-                        <Style TargetType="{x:Type GroupItem}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type GroupItem}">
-                                        <!--<GroupBox Header="{Binding Name}">
+            <Grid Margin="10" Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" MinWidth="200"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="6*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="tbxSearch" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TbxSearch_OnKeyDown" Grid.Row="0" Grid.Column="0"/>
+                <Button x:Name="btnAdd" Content="Add new Subject" Click="BtnAdd_OnClick" Grid.Row="0" Grid.Column="1"/>
+            </Grid>
+            <ListView x:Name="spUser" ItemsSource="{Binding Path=Subjects}" SelectionChanged="SpUser_OnSelectionChanged" SelectedItem="{Binding Path=CurrentSubject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="Transparent" Grid.Row="1">
+                <ListView.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <!--<GroupBox Header="{Binding Name}">
                                         <ItemsPresenter />
                                     </GroupBox>-->
-                                        <StackPanel >
-                                            <Label Content="{Binding Name}" FontSize="30" FontWeight="ExtraBold"/>
-                                            <ItemsPresenter />
-                                        </StackPanel>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </GroupStyle.ContainerStyle>
-                    <GroupStyle.Panel>
-                        <ItemsPanelTemplate>
-                            <!--<StackPanel Orientation="Horizontal"></StackPanel>-->
-                            <WrapPanel IsItemsHost="True" Orientation="Vertical" />
-                        </ItemsPanelTemplate>
-                    </GroupStyle.Panel>
-                </GroupStyle>
-            </ListView.GroupStyle>
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel IsItemsHost="True" Orientation="Horizontal"  />
-                    <!--<StackPanel Orientation="Vertical"></StackPanel>-->
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem" BasedOn="{StaticResource MetroListViewItem}">
-                    <Setter Property="Margin" Value="5"></Setter>
-                    <Setter Property="Width" Value="170"></Setter>
-                    <Setter Property="Height" Value="200"></Setter>
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
-                    <Setter Property="VerticalContentAlignment" Value="Stretch"></Setter>
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <DockPanel ToolTip="{Binding FullName}">
-                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                            <TextBlock Text="{Binding FirstName }" Margin="5 0 5 0"/>
-                            <TextBlock Text="{Binding LastName}" FontWeight="Bold" Margin="5 0 5 0"/>
-                        </StackPanel>
-                        <Image Source="{Binding ImagePath}"  DockPanel.Dock="Bottom" />
-                    </DockPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                                            <StackPanel >
+                                                <Label Content="{Binding Name}" FontSize="30" FontWeight="ExtraBold"/>
+                                                <ItemsPresenter />
+                                            </StackPanel>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                        <GroupStyle.Panel>
+                            <ItemsPanelTemplate>
+                                <!--<StackPanel Orientation="Horizontal"></StackPanel>-->
+                                <WrapPanel IsItemsHost="True" Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </GroupStyle.Panel>
+                    </GroupStyle>
+                </ListView.GroupStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True" Orientation="Horizontal"  />
+                        <!--<StackPanel Orientation="Vertical"></StackPanel>-->
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem" BasedOn="{StaticResource MetroListViewItem}">
+                        <Setter Property="Margin" Value="5"></Setter>
+                        <Setter Property="Width" Value="170"></Setter>
+                        <Setter Property="Height" Value="200"></Setter>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                        <Setter Property="VerticalContentAlignment" Value="Stretch"></Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel ToolTip="{Binding FullName}">
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                                <TextBlock Text="{Binding FirstName }" Margin="5 0 5 0"/>
+                                <TextBlock Text="{Binding LastName}" FontWeight="Bold" Margin="5 0 5 0"/>
+                            </StackPanel>
+                            <Image Source="{Binding ImagePath}"  DockPanel.Dock="Bottom" />
+                        </DockPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        <local:AddUser x:Name="ucAdd" Visibility="Hidden"/>
     </Grid>
 </UserControl>

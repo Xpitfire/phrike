@@ -1,64 +1,74 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using Phrike.GroundControl.Annotations;
+using Phrike.GroundControl.Controller;
 using Phrike.GroundControl.Models;
 using System.Windows.Input;
-using System.Configuration;
 using System.IO.Ports;
 
 namespace Phrike.GroundControl.ViewModels
 {
     public class SettingsViewModel : INotifyPropertyChanged
     {
-        public IEnumerable<Sensor> Sensors { get; private set; }     
-        public IEnumerable<string> COMPorts { get; private set; } 
-
-        private int selectedSensorType;
+        private ICommand saveSettingsCommand;
 
         public static SettingsViewModel Instance { get; private set; }
 
-        public string SensorComPort { get; set; }
+        public static IEnumerable<Sensor> Sensors => SettingsController.Sensors;
+        public static IEnumerable<string> COMPorts => SettingsController.COMPorts;
 
-        public int SelectedSensorType
+        public SettingsViewModel()
+        {
+            Instance = this;
+            Settings.LoadSettings();
+        }
+
+        public string SensorComPort
         {
             get
             {
-                return selectedSensorType;
+                return Settings.SensorComPort;
             }
             set
             {
-                if (selectedSensorType != value)
+                if (Settings.SensorComPort != value)
                 {
-                    selectedSensorType = value;
+                    Settings.SensorComPort = value;
                     OnPropertyChanged();
                 }
             }
         }
 
-        public SettingsViewModel()
+        public int SelectedSensorType
         {
-            Instance = this;
-            LoadSensors();
-            LoadCOMPorts();
-        }
-
-        private void LoadSensors()
-        {
-            Sensors = new List<Sensor>
+            get
             {
-                new Sensor(0, "g.MOBIlab+"),
-                new Sensor(1, "Biofeedback 2000 x-pert")
-            };
+                return (int)Settings.SelectedSensorType;
+            }
+            set
+            {
+                if ((int)Settings.SelectedSensorType != value)
+                {
+                    Settings.SelectedSensorType = (SensorType)value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
-        private void LoadCOMPorts()
-        {
-            COMPorts = SerialPort.GetPortNames();
+        public bool RecordingEnabled {
+            get
+            {
+                return Settings.RecordingEnabled;
+            }
+            set
+            {
+                if (Settings.RecordingEnabled != value)
+                {
+                    Settings.RecordingEnabled = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -68,6 +78,20 @@ namespace Phrike.GroundControl.ViewModels
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public ICommand SaveProductCommand
+        {
+            get
+            {
+                if (saveSettingsCommand == null)
+                {
+                    saveSettingsCommand = new RelayCommand(
+                        param => Settings.SaveSettings()
+                    );
+                }
+                return saveSettingsCommand;
+            }
         }
     }
 }
