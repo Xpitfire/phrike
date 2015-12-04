@@ -87,7 +87,7 @@ namespace Phrike.GroundControl.Helper
                     Test = db.TestRepository.GetByID(testId),
                     Timestamp = timestamp ?? File.GetCreationTime(fromPath),
                     MimeType = mimeType,
-                    Description = description
+                    Description = description ?? Path.GetFileName(fromPath)
                 };
                 db.AuxiliaryDataRepository.Insert(aux);
                 db.Save(); // Save to generate ID.
