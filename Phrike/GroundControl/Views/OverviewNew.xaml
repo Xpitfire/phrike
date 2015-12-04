@@ -14,21 +14,33 @@
             <RowDefinition Height="10*"></RowDefinition>
         </Grid.RowDefinitions>
         <Button x:Name="btnBack" Content="Back" Grid.Row="0" Click="BtnBack_OnClick" IsEnabled="False"/>
-        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="wpButtons" Grid.Row="1">
-            <Button x:Name="btnSubject" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0" Click="SelectNewSubject" DataContext="{Binding Path=CurrentSubject}">
-                <StackPanel Height="190" Width="190">
-                    <Label Content="Benutzer wählen" HorizontalAlignment="Left" Width="190" Height="38" FontSize="20"/>
-                    <Image Height="152" Source="{Binding Path=AvatarPath}"></Image>
-                </StackPanel>
+        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="wpButtons" Grid.Row="1" DataContext="{Binding}">
+            <Button x:Name="btnSubject" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0" Click="SelectNewSubject" DataContext="{Binding Path=CurrentSubject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <Grid Height="190" Width="190">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Benutzer wählen" HorizontalAlignment="Left" Width="190" Height="38" FontSize="20" Grid.Row="0"/>
+                    <Image Height="152" Source="{Binding Path=ImagePath}" Grid.Row="1"/>
+                    <Label Content="{Binding Path=FullName}" Grid.Row="2"/>
+                </Grid>
             </Button>
-            <Button x:Name="btnScenario" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0" Click="SelectNewScenario" DataContext="{Binding Path=CurrentScenario}">
-                <StackPanel Height="190" Width="190">
-                    <Label Content="Analyse" HorizontalAlignment="Left" Width="190" Height="38" FontSize="20"/>
-                    <Image Height="152" Source="{Binding Path=Icon}"></Image>
-                </StackPanel>
+            <Button x:Name="btnScenario" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0" Click="SelectNewScenario" DataContext="{Binding Path=CurrentScenario, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <Grid Height="190" Width="190">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Szenario wählen" HorizontalAlignment="Left" Width="190" Height="38" FontSize="20" Grid.Row="0"/>
+                    <Image Height="152" Source="{Binding Path=Icon}" Grid.Row="1"/>
+                    <Label Content="{Binding Path=Name}" Grid.Row="2"/>
+                </Grid>
             </Button>
         </WrapPanel>
-        <local:UserSelect Visibility="Hidden" x:Name="ucUser" Grid.Row="1"/>
-        <local:ScenarioSelect Visibility="Hidden" x:Name="ucScenario" Grid.Row="1"/>
+        <local:UserSelect Visibility="Hidden" x:Name="ucUser" Grid.Row="1" UserSelected="UcUser_OnUserSelected"/>
+        <local:ScenarioSelect Visibility="Hidden" x:Name="ucScenario" Grid.Row="1" ScenarioSelected="UcScenario_OnScenarioSelected"/>
     </Grid>
 </UserControl>

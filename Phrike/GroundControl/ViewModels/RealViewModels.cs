@@ -64,17 +64,32 @@ namespace Phrike.GroundControl.ViewModels
             this.subject = subject;
         }
 
+        public SubjectVM()
+        {
+            subject = new Subject();
+        }
+
+        public bool UseDefaultIcon { get { return subject.AvatarPath == null || subject.AvatarPath == String.Empty; } }
+
         public String ImagePath
         {
             get
             {
-                if (subject.AvatarPath == null || subject.AvatarPath == String.Empty)
+                if (UseDefaultIcon)
                 {
                     return DefaultDataProvider.PrepareDefaultSubjectIcon();
                 }
                 else
                 {
                     return System.IO.Path.Combine(PathHelper.PhrikePicture, subject.AvatarPath);
+                }
+            }
+            set
+            {
+                if (subject.AvatarPath != value)
+                {
+                    subject.AvatarPath = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImagePath)));
                 }
             }
         }
@@ -84,13 +99,176 @@ namespace Phrike.GroundControl.ViewModels
             get { return $"{subject.ServiceRank} {subject.FirstName} {subject.LastName}"; }
         }
 
-        public String LastName { get { return subject.LastName; } }
-        public String FirstName { get { return subject.FirstName; } }
+        public IEnumerable<Gender> AvailableGenders => (Gender[]) Enum.GetValues(typeof(Gender));
+        public IEnumerable<String> AvailableCountries => (new List<string>() { "AT", "DE", "CH" });
+        public IEnumerable<RhFactor> AvailableRhFactors => (RhFactor[])Enum.GetValues(typeof(RhFactor));
+        public IEnumerable<BloodType> AvailableBloodTypes => (BloodType[])Enum.GetValues(typeof(BloodType));
+        public IEnumerable<String> AvailableServiceRanks => (new List<string>() { "Rekrut", "Gefreiter", "Korporal", "Zugsführer", "Wachtmeister", "Oberwachtmeister", "Stabswachtmeister", "Oberstabswachtmeister", "Offiziersstellvertreter", "Vizeleutnant", "Fähnrich", "Leutnant", "Oberleutnant", "Hauptmann", "Major", "Oberstleutnant", "Oberst", "Brigardier", "Generalmajor", "Generalleutnant", "General" }); 
+        #region Property Propagation
+
+        public String LastName
+        {
+            get { return subject.LastName; }
+            set
+            {
+                if (subject.LastName != value)
+                {
+                    subject.LastName = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LastName)));
+                }
+            }
+        }
+        public String FirstName
+        {
+            get { return subject.FirstName; }
+            set
+            {
+                if (subject.FirstName != value)
+                {
+                    subject.FirstName = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FirstName)));
+                }
+            }
+        }
+        public DateTime DateOfBirth
+        {
+            get { return subject.DateOfBirth; }
+            set
+            {
+                if (subject.DateOfBirth != value)
+                {
+                    subject.DateOfBirth = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DateOfBirth)));
+                }
+            }
+        }
+        public Gender Gender
+        {
+            get { return subject.Gender; }
+            set
+            {
+                if (subject.Gender != value)
+                {
+                    subject.Gender = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Gender)));
+                }
+            }
+        }
+        public string CountryCode
+        {
+            get { return subject.CountryCode; }
+            set
+            {
+                if (subject.CountryCode != value)
+                {
+                    subject.CountryCode = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CountryCode)));
+                }
+            }
+        }
+        public string City
+        {
+            get { return subject.City; }
+            set
+            {
+                if (subject.City != value)
+                {
+                    subject.City = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(City)));
+                }
+            }
+        }
+        public string PostalCode
+        {
+            get { return subject.PostalCode; }
+            set
+            {
+                if (subject.PostalCode != value)
+                {
+                    subject.PostalCode = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PostalCode)));
+                }
+            }
+        }
+        public string Street
+        {
+            get { return subject.Street; }
+            set
+            {
+                if (subject.Street != value)
+                {
+                    subject.Street = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Street)));
+                }
+            }
+        }
+        public string ServiceRank
+        {
+            get { return subject.ServiceRank; }
+            set
+            {
+                if (subject.ServiceRank != value)
+                {
+                    subject.ServiceRank = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ServiceRank)));
+                }
+            }
+        }
+        public string Function
+        {
+            get { return subject.Function; }
+            set
+            {
+                if (subject.Function != value)
+                {
+                    subject.Function = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Function)));
+                }
+            }
+        }
+        public string Conditions
+        {
+            get { return subject.Conditions; }
+            set
+            {
+                if (subject.Conditions != value)
+                {
+                    subject.Conditions = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Conditions)));
+                }
+            }
+        }
+        public BloodType BloodType
+        {
+            get { return subject.BloodType; }
+            set
+            {
+                if (subject.BloodType != value)
+                {
+                    subject.BloodType = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BloodType)));
+                }
+            }
+        }
+        public RhFactor RhFactor
+        {
+            get { return subject.RhFactor; }
+            set
+            {
+                if (subject.RhFactor != value)
+                {
+                    subject.RhFactor = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RhFactor)));
+                }
+            }
+        }
+
+        #endregion
     }
 
     class ScenarioCollectionVM : INotifyPropertyChanged
     {
-        private Scenario currentScenario;
+        private ScenarioVM currentScenario;
         public ObservableCollection<ScenarioVM> Scenarios { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -115,7 +293,7 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
-        public Scenario CurrentScenario
+        public ScenarioVM CurrentScenario
         {
             get { return this.currentScenario; }
             set
@@ -161,10 +339,39 @@ namespace Phrike.GroundControl.ViewModels
 
     class OverviewVM : INotifyPropertyChanged
     {
+        private ScenarioVM currentScenario;
+        private SubjectVM currentSubject;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
 
-        public ScenarioVM CurrentScenario { get; set; }
-        public Subject CurrentSubject { get; set; }
+        public ScenarioVM CurrentScenario
+        {
+            get { return currentScenario; }
+            set
+            {
+                if (currentScenario != value)
+                {
+                    currentScenario = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentScenario)));
+                }
+            }
+        }
+
+        public SubjectVM CurrentSubject
+        {
+            get
+            {
+                return currentSubject;
+            }
+            set
+            {
+                if (currentSubject != value)
+                {
+                    currentSubject = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(currentSubject)));
+                }
+            }
+        }
     }
 }

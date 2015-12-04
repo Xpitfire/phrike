@@ -1,4 +1,4 @@
-﻿// <summary></summary>
+﻿// <summary>Unit-Test for PulseCalculator</summary>
 // -----------------------------------------------------------------------
 // Copyright (c) 2015 University of Applied Sciences Upper-Austria
 // Project OperationPhrike
@@ -13,10 +13,7 @@
 // -----------------------------------------------------------------------
 namespace Sensors.Test
 {
-    using System.Linq;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using Phrike.Sensors.Filters;
 
     /// <summary>
@@ -41,8 +38,11 @@ namespace Sensors.Test
                 40, 40, 40, 40, 40, 40
             };
 
+        /// <summary>
+        /// Test the values of the PcFilter
+        /// </summary>
         [TestMethod]
-        public void PCFilterTest()
+        public void PcFilterTest()
         {
             PulseCalculator pulseCalculator = new PulseCalculator(null, 4);
 

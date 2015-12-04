@@ -23,6 +23,18 @@ namespace Phrike.GroundControl.Views
     /// </summary>
     public partial class ScenarioSelect : UserControl
     {
+        public static readonly RoutedEvent ScenarioSelectedEvent = EventManager.RegisterRoutedEvent(
+            "ScenarioSelectedEvent",
+            RoutingStrategy.Bubble,
+            typeof(RoutedEventHandler),
+            typeof(UserSelect));
+
+        public event RoutedEventHandler ScenarioSelected
+        {
+            add { AddHandler(ScenarioSelectedEvent, value); }
+            remove { RemoveHandler(ScenarioSelectedEvent, value); }
+        }
+
         public string Filter { get; set; }
      
         public ScenarioSelect()
@@ -48,6 +60,11 @@ namespace Phrike.GroundControl.Views
         {
             this.Filter = tbxSearch.Text.ToLower();
             CollectionViewSource.GetDefaultView(spUser.ItemsSource).Refresh();
+        }
+
+        private void SpUser_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RaiseEvent(new RoutedEventArgs(ScenarioSelect.ScenarioSelectedEvent));
         }
     }
 }

@@ -1,16 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// <summary> Unit-Test for AverageFilter</summary>
+// -----------------------------------------------------------------------
+// Copyright (c) 2015 University of Applied Sciences Upper-Austria
+// Project OperationPhrike
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
+// ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
+// CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// -----------------------------------------------------------------------
+
 using System.Linq;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using Phrike.Sensors.Filters;
 
 namespace Sensors.Test
 {
+    /// <summary>
+    /// Class to test the AverageFilter.
+    /// </summary>
     [TestClass]
     public class AverageFilterTest
     {
+        /// <summary>
+        /// Test for the AverageFilter. 
+        /// </summary>
         [TestMethod]
         public void AverageFilterTest1()
         {
@@ -25,6 +41,9 @@ namespace Sensors.Test
             }
         }
 
+        /// <summary>
+        /// Test for the AverageFilter.
+        /// </summary>
         [TestMethod]
         public void AverageFilterTest2()
         {

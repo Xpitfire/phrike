@@ -1,18 +1,32 @@
-﻿using System;
+﻿// <summary> Unit-Test for BinaryTresholdFilter</summary>
+// -----------------------------------------------------------------------
+// Copyright (c) 2015 University of Applied Sciences Upper-Austria
+// Project OperationPhrike
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
+// ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
+// CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// -----------------------------------------------------------------------
+
 using System.Linq;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using Phrike.Sensors.Filters;
 
 namespace Sensors.Test
 {
     /// <summary>
-    /// The gauss filter test.
+    /// Class to test the GaussFilter.
     /// </summary>
     [TestClass]
     public class GaussFilterTest
     {
+        /// <summary>
+        /// Test for the GaussFilter. 
+        /// </summary>
         [TestMethod]
         public void GaussFilterTest1()
         {
@@ -31,11 +45,14 @@ namespace Sensors.Test
             }
         }
 
+        /// <summary>
+        /// Test for the GaussFilter with negative values. 
+        /// </summary>
         [TestMethod]
         public void GaussFilterTest2()
         {
             GaussFilter gf = new GaussFilter(3);
-            double[] unfilterdData = new double[] {4, 5, 8, -6, 8, 1, -2, 6, 5, 3, 7, 9};
+            double[] unfilterdData = new double[] { 4, 5, 8, -6, 8, 1, -2, 6, 5, 3, 7, 9 };
             double[] expectedResult = new double[] 
                                       {
                                           4.46516731464974, 4.20113832655137, 3.4469867544489, 2.58478248709246,

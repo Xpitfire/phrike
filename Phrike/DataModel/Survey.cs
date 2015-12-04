@@ -15,6 +15,6 @@ namespace DataModel
         [Required]
         public string Description { get; set; }
 
-        public virtual Collection<SurveyQuestion> Questions { get; set; }
+        public virtual List<SurveyQuestion> Questions { get; set; }
     }
 }
