@@ -1,0 +1,50 @@
+﻿<UserControl xmlns:Views="clr-namespace:Phrike.GroundControl.Views"  x:Class="Phrike.GroundControl.Views.InterviewTest"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ViewModels="clr-namespace:Phrike.GroundControl.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1200">
+
+    <UserControl.Resources>
+        <ViewModels:InterviewTestViewModel x:Key="InterviewTestViewModel" />
+        
+        <DataTemplate x:Key="RadioButtonsTemplate">
+            <RadioButton Margin="0,0,10,0"  Checked="RadioButton_Checked" GroupName="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=Content}" Content="{Binding}" />
+        </DataTemplate>
+        
+        <ControlTemplate x:Key="ListViewTemplate" TargetType="ListView">
+            <ListView DataContext="{StaticResource InterviewTestViewModel}" ItemsSource="{Binding SurveyAnsList}" ItemTemplate="{StaticResource RadioButtonsTemplate}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+        </ControlTemplate>
+        
+    </UserControl.Resources>
+
+    <Grid Margin="0" DataContext="{StaticResource InterviewTestViewModel}">
+        <StackPanel>
+            <TextBlock Text="{Binding Path=SurveyName}"/>
+            <StackPanel>
+                <ListBox Height="Auto" ItemsSource="{Binding QuestionList}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical" Margin="10">
+                                <TextBlock Text="{Binding}" />
+                                <ListView Template="{StaticResource ListViewTemplate}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </StackPanel>
+
+            <Button Click="ButtonClick">Speichern</Button>
+        </StackPanel>
+    </Grid>
+</UserControl>
+

@@ -49,6 +49,9 @@
             <TabItem Padding="30" Header="Settings" Name="TabItemSettings">
                 <Views:Settings DataContext="{Binding}"></Views:Settings>
             </TabItem>
+            <TabItem Padding="30" Header="Interview" Name="TabItemInterviewTest">
+                <Views:InterviewTest DataContext="{Binding}"></Views:InterviewTest>
+            </TabItem>
         </Controls:MetroAnimatedSingleRowTabControl>
     </Grid>
 </Controls:MetroWindow>

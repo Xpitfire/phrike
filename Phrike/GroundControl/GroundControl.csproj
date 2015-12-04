@@ -122,11 +122,15 @@
       <Generator>ResXFileCodeGenerator</Generator>
     </Compile>
     <Compile Include="ViewModels\AnalysisViewModel.cs" />
+    <Compile Include="ViewModels\InterviewTestViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\StressTestViewModel.cs" />
     <Compile Include="Views\Analysis.xaml.cs">
       <DependentUpon>Analysis.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InterviewTest.xaml.cs">
+      <DependentUpon>InterviewTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -154,6 +158,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Analysis.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InterviewTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
