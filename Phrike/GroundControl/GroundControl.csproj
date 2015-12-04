@@ -134,6 +134,7 @@
     <Compile Include="ViewModels\AnalysisViewModel.cs" />
     <Compile Include="ViewModels\DataBundleViewModel.cs" />
     <Compile Include="ViewModels\DataSeriesViewModel.cs" />
+    <Compile Include="ViewModels\InterviewTestViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RealViewModels.cs" />
     <Compile Include="ViewModels\ScenarioSelectViewModel.cs" />
@@ -154,6 +155,9 @@
     </Compile>
     <Compile Include="Views\ScenarioSelect.xaml.cs">
       <DependentUpon>ScenarioSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InterviewTest.xaml.cs">
+      <DependentUpon>InterviewTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -188,6 +192,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Analysis.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InterviewTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,21 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// <summary> Unit-Test for SensorDataFileStreamer</summary>
+// -----------------------------------------------------------------------
+// Copyright (c) 2015 University of Applied Sciences Upper-Austria
+// Project OperationPhrike
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR 
+// ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
+// CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// -----------------------------------------------------------------------
+
+using System;
 using System.Linq;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using Phrike.GMobiLab;
 using Phrike.Sensors;
 
 namespace gMobiLab.Test
 {
+    /// <summary>
+    /// Class to test the SensorDataFileStreamer.
+    /// </summary>
     [TestClass]
     public class SensorDataFileStreamerTest
     {
+        /// <summary>
+        /// Test for the first values in the sample.
+        /// </summary>
         [TestMethod]
         public void SensorDataFileStreamerTest1()
         {
-
             using (SensorDataFileStreamer s = new SensorDataFileStreamer("test.bin.testin"))
             {
                 double[] expectedValues = new double[]
@@ -25,16 +41,17 @@ namespace gMobiLab.Test
                                               -0.024261474609375
                                           };
                 Sample[] fileValues = s.ReadSamples().ToArray();
-                Sample test = fileValues[0];
                 for (int j = 0; j < 7; j++)
                 {
                     Console.WriteLine("{0} : {1}", expectedValues[j], fileValues[0].SensorValues[j]);
                     Assert.AreEqual(expectedValues[j], fileValues[0].SensorValues[j], 0.00000000001);
                 }
             }
-
         }
 
+        /// <summary>
+        /// Test for the last values in the sample.
+        /// </summary>
         [TestMethod]
         public void SensorDataFileStreamerTest2()
         {
@@ -49,7 +66,6 @@ namespace gMobiLab.Test
 
                 Sample[] fileValues = s.ReadSamples().ToArray();
 
-                Sample test = fileValues[fileValues.Length - 1];
                 for (int j = 0; j < 7; j++)
                 {
                     Console.WriteLine("{0} : {1}", expectedValues[j], fileValues[fileValues.Length - 1].SensorValues[j]);
@@ -58,6 +74,9 @@ namespace gMobiLab.Test
             }
         }
 
+        /// <summary>
+        /// Test for amount of sensors.
+        /// </summary>
         [TestMethod]
         public void SensorDataFileStreamerTest3()
         {
@@ -67,6 +86,9 @@ namespace gMobiLab.Test
             }
         }
 
+        /// <summary>
+        /// Test the enabled sensors.
+        /// </summary>
         [TestMethod]
         public void SensorDataFileStreamerTest4()
         {
@@ -80,6 +102,9 @@ namespace gMobiLab.Test
             }
         }
 
+        /// <summary>
+        /// Test the names of the sensors. 
+        /// </summary>
         [TestMethod]
         public void SensorDataFileStreamerTest5()
         {

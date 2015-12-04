@@ -1,4 +1,4 @@
-﻿// <summary></summary>
+﻿// <summary>Unit-Test for HeartPeakFilter</summary>
 // -----------------------------------------------------------------------
 // Copyright (c) 2015 University of Applied Sciences Upper-Austria
 // Project OperationPhrike
@@ -12,21 +12,15 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // -----------------------------------------------------------------------
 
-using System;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace Sensors.Test
 {
     using System.Collections.Generic;
     using System.Linq;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using Phrike.Sensors.Filters;
 
     /// <summary>
-    /// The heart peak filter test.
+    /// Class to test the HeartPeakFilter.
     /// </summary>
     [TestClass]
     public class HeartPeakFilterTest
@@ -68,7 +62,7 @@ namespace Sensors.Test
         /// The hp filter test.
         /// </summary>
         [TestMethod]
-        public void HPFilterTest()
+        public void HpFilterTest()
         {
             IFilter maxPeakFilter = new FixedResultFilter(maxPeaks);
             IFilter minPeakFilter = new FixedResultFilter(minPeaks);
@@ -76,6 +70,5 @@ namespace Sensors.Test
 
             CollectionAssert.AreEqual(filter.Filter(null).ToArray(), expectedResult);
         }
-
     }
 }

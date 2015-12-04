@@ -1,4 +1,4 @@
-﻿// <summary></summary>
+﻿// <summary> Unit-Test for FixedResultFilter</summary>
 // -----------------------------------------------------------------------
 // Copyright (c) 2015 University of Applied Sciences Upper-Austria
 // Project OperationPhrike

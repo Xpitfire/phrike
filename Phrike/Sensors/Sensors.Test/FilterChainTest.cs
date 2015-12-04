@@ -1,4 +1,4 @@
-﻿// <summary></summary>
+﻿// <summary>Unit-Test for FilterChain</summary>
 // -----------------------------------------------------------------------
 // Copyright (c) 2015 University of Applied Sciences Upper-Austria
 // Project OperationPhrike
@@ -13,12 +13,8 @@
 // -----------------------------------------------------------------------
 namespace Sensors.Test
 {
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Linq.Expressions;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     using Phrike.Sensors.Filters;
 
     /// <summary>
