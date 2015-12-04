@@ -3,9 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using DataAccess;
 using OxyPlot;
 using Phrike.GroundControl.Helper;
@@ -21,9 +23,10 @@ namespace Phrike.GroundControl.ViewModels
         public SubjectCollectionVM()
         {
             Subjects = new ObservableCollection<SubjectVM>();
-
+            currentSubject = new SubjectVM();
             LoadSubjects();
         }
+        
 
         public SubjectVM CurrentSubject
         {
@@ -51,13 +54,15 @@ namespace Phrike.GroundControl.ViewModels
                 }
             }
         }
+        
     }
 
 
-    class SubjectVM : INotifyPropertyChanged
+    public class SubjectVM : INotifyPropertyChanged
     {
         private Subject subject;
         public event PropertyChangedEventHandler PropertyChanged;
+        private bool insertsDone = true;
 
         public SubjectVM(Subject subject)
         {
@@ -67,6 +72,41 @@ namespace Phrike.GroundControl.ViewModels
         public SubjectVM()
         {
             subject = new Subject();
+        }
+
+        internal bool Add(out string message)
+        {
+            using (var x = new UnitOfWork())
+            {
+                try
+                {
+                    x.SubjectRepository.Insert(subject);
+                    x.Save();
+                    InsertsDone = true;
+                    message = "";
+                    return true;
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    message = "Fehler beim erstellen eines neuen Benutzers:\n";
+                    foreach (var error in ex.EntityValidationErrors.FirstOrDefault()?.ValidationErrors)
+                    {
+                        message += $"{error.ErrorMessage}\n";
+                    }
+                    return false;
+                }
+                catch (Exception end)
+                {
+                    message = "Unbekannter Fehler:\n";
+                    message += end.Message;
+                    return false;
+                }
+            }
+        }
+
+        internal void Cancel()
+        {
+            InsertsDone = true;
         }
 
         public bool UseDefaultIcon { get { return subject.AvatarPath == null || subject.AvatarPath == String.Empty; } }
@@ -99,11 +139,24 @@ namespace Phrike.GroundControl.ViewModels
             get { return $"{subject.ServiceRank} {subject.FirstName} {subject.LastName}"; }
         }
 
-        public IEnumerable<Gender> AvailableGenders => (Gender[]) Enum.GetValues(typeof(Gender));
+        public bool InsertsDone
+        {
+            get { return insertsDone; }
+            set
+            {
+                if (insertsDone != value)
+                {
+                    insertsDone = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(InsertsDone)));
+                }
+            }
+        }
+
+        public IEnumerable<Gender> AvailableGenders => (Gender[])Enum.GetValues(typeof(Gender));
         public IEnumerable<String> AvailableCountries => (new List<string>() { "AT", "DE", "CH" });
         public IEnumerable<RhFactor> AvailableRhFactors => (RhFactor[])Enum.GetValues(typeof(RhFactor));
         public IEnumerable<BloodType> AvailableBloodTypes => (BloodType[])Enum.GetValues(typeof(BloodType));
-        public IEnumerable<String> AvailableServiceRanks => (new List<string>() { "Rekrut", "Gefreiter", "Korporal", "Zugsführer", "Wachtmeister", "Oberwachtmeister", "Stabswachtmeister", "Oberstabswachtmeister", "Offiziersstellvertreter", "Vizeleutnant", "Fähnrich", "Leutnant", "Oberleutnant", "Hauptmann", "Major", "Oberstleutnant", "Oberst", "Brigardier", "Generalmajor", "Generalleutnant", "General" }); 
+        public IEnumerable<String> AvailableServiceRanks => (new List<string>() { "Rekrut", "Gefreiter", "Korporal", "Zugsführer", "Wachtmeister", "Oberwachtmeister", "Stabswachtmeister", "Oberstabswachtmeister", "Offiziersstellvertreter", "Vizeleutnant", "Fähnrich", "Leutnant", "Oberleutnant", "Hauptmann", "Major", "Oberstleutnant", "Oberst", "Brigardier", "Generalmajor", "Generalleutnant", "General" });
         #region Property Propagation
 
         public String LastName
@@ -259,6 +312,21 @@ namespace Phrike.GroundControl.ViewModels
                 {
                     subject.RhFactor = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RhFactor)));
+                }
+            }
+        }
+        public String AvatarPath
+        {
+            get
+            {
+                return String.IsNullOrEmpty(subject.AvatarPath) ? "" : System.IO.Path.Combine(PathHelper.PhrikePicture, subject.AvatarPath);
+            }
+            set
+            {
+                if (subject.AvatarPath != value)
+                {
+                    subject.AvatarPath = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AvatarPath)));
                 }
             }
         }
