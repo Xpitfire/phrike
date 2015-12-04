@@ -18,9 +18,9 @@ namespace Phrike.GroundControl.Views
     /// <summary>
     /// Interaktionslogik für StressTest.xaml
     /// </summary>
-    public partial class StressTest : UserControl
+    public partial class Debug : UserControl
     {
-        public StressTest()
+        public Debug()
         {
             InitializeComponent();
         }

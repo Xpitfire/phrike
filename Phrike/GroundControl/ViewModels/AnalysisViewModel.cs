@@ -11,7 +11,7 @@ using PlotController = Phrike.GroundControl.Controller.PlotController;
 
 namespace Phrike.GroundControl.ViewModels
 {
-    class AnalysisViewModel
+    public class AnalysisViewModel
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly PlotController plotController;
@@ -43,11 +43,7 @@ namespace Phrike.GroundControl.ViewModels
 
                 if (dlg.ShowDialog() == true)
                 {
-                    await Task.Run(() =>
-                    {
-                        plotController.LoadPlotData(SensorPulsePlot, dlg.FileName);
-                        Logger.Info("Pluse Data successfully loaded!");
-                    });
+                    await LoadPulsDataTask(dlg.FileName);
                 }
             }
             catch (Exception e)
@@ -55,6 +51,12 @@ namespace Phrike.GroundControl.ViewModels
                 //Logger.Error("Could not load pulse data!", e);
                 Logger.Error(e, "Could not load pulse data!");
             }
+        }
+
+        public async Task LoadPulsDataTask(string fileName)
+        {
+            await Task.Run(() => plotController.LoadPlotData(SensorPulsePlot, fileName));
+            Logger.Info("Pluse Data successfully loaded!");
         }
     }
 }

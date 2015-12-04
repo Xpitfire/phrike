@@ -59,6 +59,12 @@ namespace Phrike.Sensors
         public string Name { get; }
 
         /// <summary>
+        /// Returns a combination of the <see cref="SourceName"/> and the <see cref="FullName"/>.
+        /// This uniquely identifies the data series within the containing <see cref="DataBundle"/>.
+        /// </summary>
+        public string FullName => SourceName + "." + Name;
+
+        /// <summary>
         /// Gets the unit of the data or <see cref="Unit.Unknown"/>.
         /// </summary>
         public Unit Unit { get; }

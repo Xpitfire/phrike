@@ -3,6 +3,7 @@ using System.Windows;
 using MahApps.Metro.Controls;
 using NLog;
 using Phrike.GroundControl.ViewModels;
+using System;
 
 namespace Phrike.GroundControl
 {
@@ -19,6 +20,8 @@ namespace Phrike.GroundControl
         {
             InitializeComponent();
             Instance = this;
+
+            Logger.Info("Application successfully started!");
         }
 
         /// <summary>
@@ -40,8 +43,9 @@ namespace Phrike.GroundControl
         public void ApplicationClose(object sender, CancelEventArgs e)
         {
             Logger.Info("Application close triggered! Preventive stop send to all tasks.");
-            StressTestViewModel.Instance.ApplicationClose();
+            DebugViewModel.Instance?.ApplicationClose();
             Logger.Info("Successfully closed application!");
         }
+
     }
 }

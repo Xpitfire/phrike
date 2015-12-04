@@ -8,7 +8,7 @@ using Phrike.GroundControl.Annotations;
 namespace Phrike.GroundControl.ViewModels
 {
 
-    class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : INotifyPropertyChanged
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -17,7 +17,7 @@ namespace Phrike.GroundControl.ViewModels
         public MainViewModel()
         {
             Instance = this;
-        }
+        }               
 
         #region Tab Control
 
@@ -45,6 +45,14 @@ namespace Phrike.GroundControl.ViewModels
         }
 
         /// <summary>
+        /// Change the current tab view to the "Debug" view.
+        /// </summary>
+        public void SelectTabDebug()
+        {
+            SelectedTab = 4;
+        }
+
+        /// <summary>
         /// Change the current tab view to the "NewStresstest" view.
         /// </summary>
         public void SelectTabNewStresstest()
@@ -59,6 +67,11 @@ namespace Phrike.GroundControl.ViewModels
         {
             SelectedTab = 2;
         }
+
+        public void SelectTabUser()
+        {
+            //SelectedTab = 4;
+        }
         #endregion
 
         #region PropertyChanged Handling
@@ -72,8 +85,7 @@ namespace Phrike.GroundControl.ViewModels
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
-            if (handler != null) 
-                handler(this, new PropertyChangedEventArgs(propertyName));
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
 
@@ -127,6 +139,7 @@ namespace Phrike.GroundControl.ViewModels
                 progressDialogController = null;
             }
         }
+
         #endregion
 
     }

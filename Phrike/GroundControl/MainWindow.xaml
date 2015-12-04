@@ -6,10 +6,15 @@
                       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
                       xmlns:GroundControl="clr-namespace:Phrike.GroundControl"
+                      
                       xmlns:Views="clr-namespace:Phrike.GroundControl.Views"
                       xmlns:ViewModels="clr-namespace:Phrike.GroundControl.ViewModels"
-                      WindowState="Maximized"
                       Title="Ground Control" Height="800" Width="1200"
+                      BorderBrush="{DynamicResource AccentColorBrush}"
+                      BorderThickness="1"
+                      GlowBrush="{DynamicResource AccentColorBrush}"
+                      MinHeight="500"
+                      MinWidth="850"
                       ShowIconOnTitleBar="True"
                       Icon="/Resources/img/op_icon.ico"
                       Closing="ApplicationClose">
@@ -18,40 +23,33 @@
         <ViewModels:MainViewModel x:Key="MainViewModel" />
     </Controls:MetroWindow.Resources>
     
-    <Controls:MetroWindow.RightWindowCommands>
-        <Controls:WindowCommands DataContext="{StaticResource MainViewModel}">
-            <Button Content="settings">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <ei:CallMethodAction TargetObject="{Binding Mode=OneWay}" MethodName="SelectTabSettings"></ei:CallMethodAction>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.RightWindowCommands>
-    
     <Grid DataContext="{StaticResource MainViewModel}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Controls:MetroAnimatedSingleRowTabControl SelectedIndex="{Binding SelectedTab}" Grid.Row="1" x:Name="MainTabControl">
+        <TabControl SelectedIndex="{Binding SelectedTab}" Grid.Row="1" x:Name="MainTabControl"> <!---->
             <TabItem Padding="30" Header="Start" Name="TabItemStart">
-                <Views:Start DataContext="{Binding}"></Views:Start>
+                <Views:Start DataContext="{Binding}" />
             </TabItem>
-            <TabItem Padding="30" Header="New Stress Test" Name="TabItemStresstest">
-                <Views:StressTest DataContext="{Binding}"></Views:StressTest>
+            <TabItem Padding="30" Header="Neuer Stresstest" Name="TabItemUser">
+                <Views:OverviewNew DataContext="{Binding}" />
             </TabItem>
-            <TabItem Padding="30" Header="Analysis" Name="TabItemAnalysis">
-                <Views:Analysis DataContext="{Binding}"></Views:Analysis>
+            <TabItem Padding="30" Header="Analyse" Name="TabItemAnalysis">
+                <Views:Analysis DataContext="{Binding}" />
             </TabItem>
-            <TabItem Padding="30" Header="Settings" Name="TabItemSettings">
-                <Views:Settings DataContext="{Binding}"></Views:Settings>
+            <TabItem Padding="30" Header="Einstellungen" Name="TabItemSettings">
+                <Views:Settings DataContext="{Binding}" />
+            </TabItem>
+            <TabItem Padding="30" Header="Debug" Name="TabItemDebug">
+                <Views:Debug DataContext="{Binding}" />
             </TabItem>
             <TabItem Padding="30" Header="Interview" Name="TabItemInterviewTest">
                 <Views:InterviewTest DataContext="{Binding}"></Views:InterviewTest>
             </TabItem>
         </Controls:MetroAnimatedSingleRowTabControl>
+        </TabControl>
+
     </Grid>
 </Controls:MetroWindow>

@@ -16,63 +16,55 @@ namespace DataAccessTest
             {
                 Random rg = new Random(1);
 
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 1000; i++)
                 {
-                    Test t = new Test()
+                    Subject s = new Subject()
                     {
-                        Time = DateTime.Now
+                        CountryCode = RandomString(rg, 2, 2).ToUpper(),
+                        DateOfBirth = DateTime.Now,
+                        FirstName = RandomString(rg, capital: true),
+                        LastName = RandomString(rg, capital: true),
+                        Function = RandomString(rg, capital:true),
+                        Gender = rg.Next(0, 2) == 0 ? Gender.Male : Gender.Female,
+                        City = RandomString(rg, capital: true),
+                        ServiceRank = RandomString(rg, capital: true),
+                        AvatarPath = RandomIconPath(rg) 
                     };
-                    t.Subject = new Subject()
-                    {
-                        DateOfBirth = DateTime.Now.AddYears(rg.Next(10, 30) * -1),
-                        FirstName = RandomString(rg),
-                        LastName = RandomString(rg),
-                        Gender = (Gender)rg.Next(0, 2)
-                    };
-                    t.Scenario = new Scenario
-                    {
-                        Name = RandomString(rg)
-                    };
-                    unitOfWork.TestRepository.Insert(t);
-                    unitOfWork.Save();
 
-                    for (int j = 0; j < 100; j++)
-                    {
-                        t.PositionData.Add(new PositionData()
-                        {
-                            Time = DateTime.Now,
-                            X = rg.Next(),
-                            Y = rg.Next(),
-                            Z = rg.Next(),
-                            Pitch = (float)rg.NextDouble(),
-                            Roll = (float)rg.NextDouble(),
-                            Yaw = (float)rg.NextDouble()
-                        });
-                    }
+                    unitOfWork.SubjectRepository.Insert(s);
+
                 }
-                
+
+
                 unitOfWork.Save();
-                
+
             }
 
-            using (UnitOfWork unitOfWork = new UnitOfWork())
-            {
-                Subject s = unitOfWork.SubjectRepository.Get().FirstOrDefault();
-                if (s != null)
-                {
-                    Console.WriteLine(s.FirstName + " " + s.LastName);
-                }
-            }
+            //using (UnitOfWork unitOfWork = new UnitOfWork())
+            //{
+            //    Subject s = unitOfWork.SubjectRepository.Get().FirstOrDefault();
+            //    if (s != null)
+            //    {
+            //        Console.WriteLine(s.FirstName + " " + s.LastName);
+            //    }
+            //}
         }
 
-        static string RandomString(Random rg, int minLen = 2, int maxLen = 16)
+        static string RandomIconPath(Random rdn)
+        {
+            string stdPath = @"C:\public\user{0}.png";
+
+            return String.Format(stdPath, rdn.Next(1, 7));
+        }
+
+        static string RandomString(Random rg, int minLen = 2, int maxLen = 16, bool capital = false)
         {
             int length = rg.Next(minLen, maxLen);
             StringBuilder sb = new StringBuilder(length);
 
             for (int i = 0; i < length; i++)
             {
-                sb.Append((char) rg.Next('a', 'z'));
+                sb.Append((char)(capital && i == 0 ? rg.Next('A', 'Z') : rg.Next('a', 'z')));
             }
 
             return sb.ToString();
