@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="Phrike.GroundControl.Views.TestResult"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewmodels="clr-namespace:Phrike.GroundControl.ViewModels"
+             xmlns:views="clr-namespace:Phrike.GroundControl.Views"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    
+    <UserControl.Resources>
+        <viewmodels:TestResultViewModel x:Key="TestResultViewModel"/>
+    </UserControl.Resources>
+    
+    <Grid DataContext="TestResultViewModel">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Vertical">
+            <Label Content="Filter" />
+            <StackPanel Orientation="Horizontal">
+                <RadioButton GroupName="Filter" Content="Alle"/>
+                <RadioButton GroupName="Filter" Content="Benutzer"/>
+                <RadioButton GroupName="Filter" Content="Datum"/>
+                <RadioButton GroupName="Filter" Content="Szenario"/>
+            </StackPanel>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <Label Content="Auswahl"/>
+            <ComboBox ItemsSource="{Binding SubjectList}" />
+            <DatePicker 
+                Text="{Binding FilterDateTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectedDate="{Binding FilterDateTime, Mode=TwoWay}"
+                DisplayDate="{Binding FilterDateTime, Mode=TwoWay}"/>
+        </StackPanel>
+
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Label Grid.Column="0" Content="Test auswählen" />
+                <TextBox Grid.Column="1" controls:TextBoxHelper.Watermark="Suche"/>
+            </Grid>
+
+            <ListView Grid.Row="1">
+                
+            </ListView>
+            
+            <Button Grid.Row="2" Content="Anzeigen"/>
+        </Grid>
+
+    </Grid>
+</UserControl>

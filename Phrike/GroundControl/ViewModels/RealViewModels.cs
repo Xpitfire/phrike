@@ -109,9 +109,9 @@ namespace Phrike.GroundControl.ViewModels
             InsertsDone = true;
         }
 
-        public bool UseDefaultIcon { get { return subject.AvatarPath == null || subject.AvatarPath == String.Empty; } }
+        public bool UseDefaultIcon { get { return subject.AvatarPath == null || subject.AvatarPath == string.Empty; } }
 
-        public String ImagePath
+        public string ImagePath
         {
             get
             {
@@ -134,7 +134,7 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
-        public String FullName
+        public string FullName
         {
             get { return $"{subject.ServiceRank} {subject.FirstName} {subject.LastName}"; }
         }
@@ -153,13 +153,13 @@ namespace Phrike.GroundControl.ViewModels
         }
 
         public IEnumerable<Gender> AvailableGenders => (Gender[])Enum.GetValues(typeof(Gender));
-        public IEnumerable<String> AvailableCountries => (new List<string>() { "AT", "DE", "CH" });
+        public IEnumerable<string> AvailableCountries => (new List<string>() { "AT", "DE", "CH" });
         public IEnumerable<RhFactor> AvailableRhFactors => (RhFactor[])Enum.GetValues(typeof(RhFactor));
         public IEnumerable<BloodType> AvailableBloodTypes => (BloodType[])Enum.GetValues(typeof(BloodType));
-        public IEnumerable<String> AvailableServiceRanks => (new List<string>() { "Rekrut", "Gefreiter", "Korporal", "Zugsführer", "Wachtmeister", "Oberwachtmeister", "Stabswachtmeister", "Oberstabswachtmeister", "Offiziersstellvertreter", "Vizeleutnant", "Fähnrich", "Leutnant", "Oberleutnant", "Hauptmann", "Major", "Oberstleutnant", "Oberst", "Brigardier", "Generalmajor", "Generalleutnant", "General" });
+        public IEnumerable<string> AvailableServiceRanks => (new List<string>() { "Rekrut", "Gefreiter", "Korporal", "Zugsführer", "Wachtmeister", "Oberwachtmeister", "Stabswachtmeister", "Oberstabswachtmeister", "Offiziersstellvertreter", "Vizeleutnant", "Fähnrich", "Leutnant", "Oberleutnant", "Hauptmann", "Major", "Oberstleutnant", "Oberst", "Brigardier", "Generalmajor", "Generalleutnant", "General" });
         #region Property Propagation
 
-        public String LastName
+        public string LastName
         {
             get { return subject.LastName; }
             set
@@ -171,7 +171,7 @@ namespace Phrike.GroundControl.ViewModels
                 }
             }
         }
-        public String FirstName
+        public string FirstName
         {
             get { return subject.FirstName; }
             set
@@ -315,11 +315,11 @@ namespace Phrike.GroundControl.ViewModels
                 }
             }
         }
-        public String AvatarPath
+        public string AvatarPath
         {
             get
             {
-                return String.IsNullOrEmpty(subject.AvatarPath) ? "" : System.IO.Path.Combine(PathHelper.PhrikePicture, subject.AvatarPath);
+                return string.IsNullOrEmpty(subject.AvatarPath) ? "" : System.IO.Path.Combine(PathHelper.PhrikePicture, subject.AvatarPath);
             }
             set
             {
@@ -385,11 +385,11 @@ namespace Phrike.GroundControl.ViewModels
             this.scenario = scenario;
         }
 
-        public String Icon
+        public string Icon
         {
             get
             {
-                if (scenario.ThumbnailPath == null || scenario.ThumbnailPath == String.Empty)
+                if (scenario.ThumbnailPath == null || scenario.ThumbnailPath == string.Empty)
                 {
                     return DefaultDataProvider.PrepareDefaultScenarioIcon();
                 }
@@ -400,9 +400,9 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
-        public String Name { get { return scenario.Name; } }
+        public string Name { get { return scenario.Name; } }
 
-        public String Description { get { return scenario.Description; } }
+        public string Description { get { return scenario.Description; } }
     }
 
     class OverviewVM : INotifyPropertyChanged
