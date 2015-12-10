@@ -202,5 +202,22 @@ namespace Phrike.GroundControl.Helper
                 }
             }
         }
+
+        public static void DeleteFile(int auxDataId)
+        {
+            Logger.Trace($"Deleting file #{auxDataId}.");
+
+            using (var ts = new TransactionScope())
+            using (var db = new UnitOfWork())
+            {
+                AuxilaryData data = db.AuxiliaryDataRepository.GetByID(auxDataId);
+                string path = data.FilePath;
+                db.AuxiliaryDataRepository.Delete(data);
+                db.Save();
+                File.Delete(PathHelper.GetImportPath(path));
+                ts.Complete();
+                Logger.Info($"Sucessfully deleted file {path}.");
+            }
+        }
     }
 }
