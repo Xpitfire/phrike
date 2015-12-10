@@ -74,17 +74,30 @@ namespace Phrike.GroundControl.ViewModels
             subject = new Subject();
         }
 
-        internal bool Add(out string message)
+        internal bool Submit(out string message)
         {
             using (var x = new UnitOfWork())
             {
                 try
                 {
-                    string path = subject.AvatarPath;
-                    subject.AvatarPath = null;
-                    FileStorageHelper.SetSubjectAvatar(path, subject);
-                    x.SubjectRepository.Insert(subject);
-                    x.Save();
+                    if (subject.Id == default(int))
+                    {
+                        string path = subject.AvatarPath;
+                        subject.AvatarPath = null;
+                        x.SubjectRepository.Insert(subject);
+                        x.Save();
+
+                        FileStorageHelper.SetSubjectAvatar(path, subject, x);
+                    }
+                    else
+                    {
+                        string path = subject.AvatarPath;
+                        subject.AvatarPath = null;
+                        x.SubjectRepository.Update(subject);
+                        x.Save();
+
+                        FileStorageHelper.SetSubjectAvatar(path, subject, x);
+                    }
                     InsertsDone = true;
                     message = "";
                     return true;

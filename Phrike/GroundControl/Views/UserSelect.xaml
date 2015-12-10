@@ -29,7 +29,7 @@
                 <TextBox x:Name="tbxSearch" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TbxSearch_OnKeyDown" Grid.Row="0" Grid.Column="0"/>
                 <Button x:Name="btnAdd" Content="Add new Subject" Click="BtnAdd_OnClick" Grid.Row="0" Grid.Column="1"/>
             </Grid>
-            <ListView x:Name="spUser" ItemsSource="{Binding Path=Subjects}" SelectionChanged="SpUser_OnSelectionChanged" SelectedItem="{Binding Path=CurrentSubject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="Transparent" Grid.Row="1">
+            <ListView x:Name="spUser" ItemsSource="{Binding Path=Subjects}" MouseLeftButtonUp="SpUser_LeftClick" SelectedItem="{Binding Path=CurrentSubject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="Transparent" Grid.Row="1">
                 <ListView.GroupStyle>
                     <GroupStyle>
                         <GroupStyle.ContainerStyle>
@@ -74,7 +74,7 @@
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <DockPanel ToolTip="{Binding FullName}">
+                        <DockPanel ToolTip="{Binding FullName}" MouseRightButtonUp="UIElement_OnMouseRightButtonUp">
                             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
                                 <TextBlock Text="{Binding FirstName }" Margin="5 0 5 0"/>
                                 <TextBlock Text="{Binding LastName}" FontWeight="Bold" Margin="5 0 5 0"/>
