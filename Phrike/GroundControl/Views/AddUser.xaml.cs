@@ -30,10 +30,5 @@ namespace Phrike.GroundControl.Views
             this.DataContext = subj;
             subj.DateOfBirth = DateTime.Now;
         }
-
-        private void BtnSubmit_OnClick(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

@@ -9,7 +9,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Grid x:Name="grdSelect">
+        <Grid x:Name="grdSelect" Visibility="{Binding Path=SelectVisibility, UpdateSourceTrigger=PropertyChanged}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="12*"/>
@@ -85,6 +85,19 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
-        <local:AddUser x:Name="ucAdd" Visibility="Hidden"/>
+        <Grid x:Name="grdAdd" Visibility="Hidden">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="11*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <local:AddUser x:Name="ucAdd" DataContext="{Binding Path=CurrentSubject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" Grid.Row="0"/>
+            <Button x:Name="btnSubmit" Click="BtnSubmit_OnClick" Width="Auto" Grid.Row="1" IsDefault="True">Submit</Button>
+            <Button x:Name="btnCancel" Click="BtnCancel_OnClick" Width="Auto" Grid.Row="2" IsCancel="True">Cancel</Button>
+        </Grid>
     </Grid>
 </UserControl>

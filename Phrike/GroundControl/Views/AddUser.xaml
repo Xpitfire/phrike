@@ -7,18 +7,10 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="11*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <WrapPanel Grid.ColumnSpan="2" Grid.Row="0">
-            <GroupBox Background="Aqua" Header="Basic Information" x:Name="grpBase">
+  
+        
+        <WrapPanel>
+            <GroupBox  Header="Basic Information" x:Name="grpBase">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -60,7 +52,7 @@
 
                 </Grid>
             </GroupBox>
-            <GroupBox Background="Aqua" Header="Optional Information" Width="{Binding Path=ActualWidth, ElementName=grpBase}">
+            <GroupBox Header="Optional Information" >
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -78,9 +70,6 @@
                     <Label Grid.Row="0" Grid.Column="0" Content="Postal Code: " Margin="5"/>
                     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=PostalCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
-                    <Label Grid.Row="1" Grid.Column="0" Content="City: " Margin="5"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=City, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
-
                     <Label Grid.Row="2" Grid.Column="0" Content="Street: " Margin="5"/>
                     <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Street, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
@@ -91,14 +80,12 @@
                     <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=Function, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                     <Label Grid.Row="5" Grid.Column="0" Content="Conditions: " Margin="5"/>
-                    <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Path=Conditions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                    <TextBox TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="5" Grid.Column="1" Text="{Binding Path=Conditions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                     <Label Grid.Row="6" Grid.Column="0" Content="Icon: " Margin="5"/>
-                    <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Path=ImagePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                    <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Path=AvatarPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
                 </Grid>
             </GroupBox>
         </WrapPanel>
-        <Button x:Name="btnSubmit" Click="BtnSubmit_OnClick" Width="Auto" Grid.Row="1">Submit</Button>
-        <Button x:Name="btnCancel" Width="Auto" Grid.Row="2">Cancel</Button>
-    </Grid>
+
 </UserControl>

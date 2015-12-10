@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DataModel;
 using Phrike.GroundControl.ViewModels;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace Phrike.GroundControl.Views
 {
@@ -23,6 +24,15 @@ namespace Phrike.GroundControl.Views
     /// </summary>
     public partial class UserSelect : UserControl
     {
+        private SubjectCollectionVM context;
+        private enum ViewState
+        {
+            Select,
+            Add
+        };
+        private static ViewState state = ViewState.Select;
+
+
         public static readonly RoutedEvent UserSelectedEvent = EventManager.RegisterRoutedEvent(
             "UserSelectedEvent",
             RoutingStrategy.Bubble,
@@ -42,7 +52,7 @@ namespace Phrike.GroundControl.Views
             InitializeComponent();
             this.Loaded += (s, e) =>
             {
-                this.DataContext = new SubjectCollectionVM();
+                this.DataContext = context = new SubjectCollectionVM();
                 CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(spUser.ItemsSource);
                 view.SortDescriptions.Add(new SortDescription("LastName", ListSortDirection.Ascending));
                 view.SortDescriptions.Add(new SortDescription("FirstName", ListSortDirection.Ascending));
@@ -69,10 +79,39 @@ namespace Phrike.GroundControl.Views
 
         private void BtnAdd_OnClick(object sender, RoutedEventArgs e)
         {
-            grdSelect.IsEnabled = false;
+            //grdSelect.IsEnabled = false;
+            //grdSelect.Visibility = Visibility.Hidden;
+            //ucAdd.Visibility = Visibility.Visible;
+            //ucAdd.IsEnabled = true;
+            //context.CurrentSubject.InsertsDone = false;
+
             grdSelect.Visibility = Visibility.Hidden;
-            ucAdd.Visibility = Visibility.Visible;
-            ucAdd.IsEnabled = true;
+            grdAdd.Visibility = Visibility.Visible;
+        }
+
+        private void BtnSubmit_OnClick(object sender, RoutedEventArgs e)
+        {
+            string message;
+            if (context.CurrentSubject.Add(out message))
+            {
+                grdSelect.Visibility = Visibility.Visible;
+                grdAdd.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                var x = message.Split('\n');
+                string title = x[0];
+                string msg = "";
+                for (int i = 1; i < x.Length; i++) msg += $"{x[i]}\n";
+                MainWindow.Instance.Dispatcher.Invoke(() => MainWindow.Instance.ShowMessageAsync(title, msg));
+            }
+        }
+
+        private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
+        {
+            //context.CurrentSubject = context.Subjects.FirstOrDefault();
+            grdSelect.Visibility = Visibility.Visible;
+            grdAdd.Visibility = Visibility.Hidden;
         }
     }
 }
