@@ -26,7 +26,7 @@ namespace Phrike.GroundControl.ViewModels
             currentSubject = new SubjectVM();
             LoadSubjects();
         }
-        
+
 
         public SubjectVM CurrentSubject
         {
@@ -54,7 +54,7 @@ namespace Phrike.GroundControl.ViewModels
                 }
             }
         }
-        
+
     }
 
 
@@ -80,6 +80,9 @@ namespace Phrike.GroundControl.ViewModels
             {
                 try
                 {
+                    string path = subject.AvatarPath;
+                    subject.AvatarPath = null;
+                    FileStorageHelper.SetSubjectAvatar(path, subject);
                     x.SubjectRepository.Insert(subject);
                     x.Save();
                     InsertsDone = true;
@@ -109,7 +112,25 @@ namespace Phrike.GroundControl.ViewModels
             InsertsDone = true;
         }
 
-        public bool UseDefaultIcon { get { return subject.AvatarPath == null || subject.AvatarPath == String.Empty; } }
+        internal void Flush()
+        {
+            LastName = "";
+            FirstName = "";
+            DateOfBirth = DateTime.MinValue;
+            Gender = default(Gender);
+            CountryCode = "";
+            City = "";
+            PostalCode = "";
+            Street = "";
+            ServiceRank = "";
+            Function = "";
+            Conditions = "";
+            BloodType = default(BloodType);
+            RhFactor = default(RhFactor);
+            AvatarPath = "";
+        }
+
+        public bool UseDefaultIcon { get { return String.IsNullOrEmpty(AvatarPath); } }
 
         public String ImagePath
         {
@@ -122,14 +143,6 @@ namespace Phrike.GroundControl.ViewModels
                 else
                 {
                     return System.IO.Path.Combine(PathHelper.PhrikePicture, subject.AvatarPath);
-                }
-            }
-            set
-            {
-                if (subject.AvatarPath != value)
-                {
-                    subject.AvatarPath = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImagePath)));
                 }
             }
         }
@@ -188,7 +201,12 @@ namespace Phrike.GroundControl.ViewModels
             get { return subject.DateOfBirth; }
             set
             {
-                if (subject.DateOfBirth != value)
+                if (value == DateTime.MinValue)
+                {
+                    subject.DateOfBirth = subject.DateOfBirth = DateTime.Today.Subtract(new TimeSpan(18 * 365, 0, 0, 0));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DateOfBirth)));
+                }
+                else if (subject.DateOfBirth != value)
                 {
                     subject.DateOfBirth = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DateOfBirth)));
@@ -319,7 +337,8 @@ namespace Phrike.GroundControl.ViewModels
         {
             get
             {
-                return String.IsNullOrEmpty(subject.AvatarPath) ? "" : System.IO.Path.Combine(PathHelper.PhrikePicture, subject.AvatarPath);
+                //return String.IsNullOrEmpty(subject.AvatarPath) ? "" : System.IO.Path.Combine(PathHelper.PhrikePicture, subject.AvatarPath);
+                return subject.AvatarPath;
             }
             set
             {
@@ -327,6 +346,7 @@ namespace Phrike.GroundControl.ViewModels
                 {
                     subject.AvatarPath = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AvatarPath)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImagePath)));
                 }
             }
         }

@@ -23,12 +23,17 @@ namespace Phrike.GroundControl.Views
     /// </summary>
     public partial class AddUser : UserControl
     {
-        SubjectVM subj = new SubjectVM();
         public AddUser()
         {
             InitializeComponent();
-            this.DataContext = subj;
-            subj.DateOfBirth = DateTime.Now;
+        }
+
+        private void BtnFile_OnClick(object sender, RoutedEventArgs e)
+        {
+            var ofd = new Microsoft.Win32.OpenFileDialog() { Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif" };
+            var result = ofd.ShowDialog();
+            if (result == false) return;
+            ((SubjectVM)this.DataContext).AvatarPath = ofd.FileName;
         }
     }
 }

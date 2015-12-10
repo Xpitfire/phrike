@@ -79,7 +79,7 @@
                                 <TextBlock Text="{Binding FirstName }" Margin="5 0 5 0"/>
                                 <TextBlock Text="{Binding LastName}" FontWeight="Bold" Margin="5 0 5 0"/>
                             </StackPanel>
-                            <Image Source="{Binding ImagePath}"  DockPanel.Dock="Bottom" />
+                            <Image Source="{Binding ImagePath, Mode=OneWay}"  DockPanel.Dock="Bottom" />
                         </DockPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

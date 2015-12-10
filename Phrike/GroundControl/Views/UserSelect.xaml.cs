@@ -74,7 +74,8 @@ namespace Phrike.GroundControl.Views
 
         private void SpUser_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            RaiseEvent(new RoutedEventArgs(UserSelect.UserSelectedEvent));
+            if (spUser.SelectedItem != null)
+            { RaiseEvent(new RoutedEventArgs(UserSelect.UserSelectedEvent)); }
         }
 
         private void BtnAdd_OnClick(object sender, RoutedEventArgs e)
@@ -87,6 +88,8 @@ namespace Phrike.GroundControl.Views
 
             grdSelect.Visibility = Visibility.Hidden;
             grdAdd.Visibility = Visibility.Visible;
+            context.CurrentSubject.Flush();
+            //spUser.SelectedItem = new SubjectVM();
         }
 
         private void BtnSubmit_OnClick(object sender, RoutedEventArgs e)
@@ -96,6 +99,7 @@ namespace Phrike.GroundControl.Views
             {
                 grdSelect.Visibility = Visibility.Visible;
                 grdAdd.Visibility = Visibility.Hidden;
+                ((SubjectCollectionVM)this.DataContext).LoadSubjects();
             }
             else
             {
