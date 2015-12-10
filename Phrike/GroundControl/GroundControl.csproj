@@ -145,6 +145,7 @@
     <Compile Include="ViewModels\ScenarioSelectViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\DebugViewModel.cs" />
+    <Compile Include="ViewModels\TestResultViewModel.cs" />
     <Compile Include="ViewModels\UserSelectViewModel.cs" />
     <Compile Include="Views\AddUser.xaml.cs">
       <DependentUpon>AddUser.xaml</DependentUpon>
@@ -178,6 +179,9 @@
     </Compile>
     <Compile Include="Views\Debug.xaml.cs">
       <DependentUpon>Debug.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TestResult.xaml.cs">
+      <DependentUpon>TestResult.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserSelect.xaml.cs">
       <DependentUpon>UserSelect.xaml</DependentUpon>
@@ -239,6 +243,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Debug.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TestResult.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -355,9 +363,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Plot\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
