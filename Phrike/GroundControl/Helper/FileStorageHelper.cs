@@ -146,40 +146,61 @@ namespace Phrike.GroundControl.Helper
         /// subjects avatar. If <paramref name="db"/> is not null, also saves
         /// the subject to the DB.
         /// </summary>
-        public static void SetSubjectAvatar([NotNull] string fromPath, [NotNull] Subject subject, UnitOfWork db = null)
+        public static void SetSubjectAvatar(string fromPath, [NotNull] Subject subject, UnitOfWork db = null)
         {
-            Logger.Trace($"Importing picture {fromPath}.");
-            if (IsFileInDir(fromPath, PathHelper.PhrikePicture))
+            if (fromPath != null)
             {
-                throw new ArgumentException(@"Picture is already in the picture storage.", nameof(fromPath));
-            }
-            string targetPath = GetTargetPath(
-                fromPath,
-                subject.Id,
-                PathHelper.PhrikePicture);
-            string oldPath = subject.AvatarPath;
-            string restorePath = null;
-            if (!string.IsNullOrEmpty(oldPath))
-            {
-                restorePath = Path.GetTempFileName();
-                File.Move(PathHelper.GetPicturePath(oldPath), restorePath);
-            }
-            try
-            {
-                File.Copy(fromPath, targetPath);
-                subject.AvatarPath = Path.GetFileName(targetPath);
-                db?.Save();
-            }
-            catch
-            {
-                if (restorePath != null)
+                Logger.Trace($"Importing picture {fromPath}.");
+                if (IsFileInDir(fromPath, PathHelper.PhrikePicture))
                 {
-                    File.Move(restorePath, oldPath);
+                    throw new ArgumentException(
+                        @"Picture is already in the picture storage.",
+                        nameof(fromPath));
                 }
-                subject.AvatarPath = oldPath;
-                throw;
+                string targetPath = GetTargetPath(
+                    fromPath,
+                    subject.Id,
+                    PathHelper.PhrikePicture);
+                string oldPath = subject.AvatarPath;
+                string restorePath = null;
+                if (!string.IsNullOrEmpty(oldPath))
+                {
+                    restorePath = Path.GetTempFileName();
+                    File.Move(PathHelper.GetPicturePath(oldPath), restorePath);
+                }
+                try
+                {
+                    File.Copy(fromPath, targetPath);
+                    subject.AvatarPath = Path.GetFileName(targetPath);
+                    db?.Save();
+                }
+                catch
+                {
+                    if (restorePath != null)
+                    {
+                        File.Move(restorePath, oldPath);
+                    }
+                    subject.AvatarPath = oldPath;
+                    throw;
+                }
+                if (!string.IsNullOrEmpty(restorePath))
+                {
+                    File.Delete(restorePath);
+                }
+                Logger.Info($"Sucessfully imported picture {fromPath} as {targetPath}.");
             }
-            Logger.Info($"Sucessfully imported picture {fromPath} as {targetPath}.");
+            else if (subject.AvatarPath != null)
+            {
+                Logger.Trace($"Removing picture for Subject {subject.Id}.");
+                string path = subject.AvatarPath;
+                using (var ts = new TransactionScope())
+                {
+                    subject.AvatarPath = null;
+                    db?.Save();
+                    File.Delete(PathHelper.GetPicturePath(path));
+                    ts.Complete();
+                }
+            }
         }
     }
 }
