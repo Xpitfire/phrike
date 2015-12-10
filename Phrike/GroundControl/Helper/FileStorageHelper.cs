@@ -44,6 +44,40 @@ namespace Phrike.GroundControl.Helper
                 dir,
                 StringComparison.InvariantCultureIgnoreCase) == 0;
 
+        public static AuxilaryData ReserveFile(
+            [NotNull] string name,
+            [NotNull] string mimeType,
+            int testId,
+            DateTime? timestamp, string description = null)
+        {
+            Logger.Trace($"Reserving file {name} ({mimeType}).");
+            if (name != Path.GetFileName(name))
+            {
+                throw new ArgumentException("Name must not contain directory.", nameof(name));
+            }
+
+            using (var ts = new TransactionScope())
+            using (var db = new UnitOfWork())
+            {
+                var aux = new AuxilaryData
+                {
+                    FilePath = name,
+                    Test = db.TestRepository.GetByID(testId),
+                    Timestamp = timestamp ?? DateTime.Now,
+                    MimeType = mimeType,
+                    Description = description ?? name
+                };
+                db.AuxiliaryDataRepository.Insert(aux);
+                db.Save(); // Save to generate ID.
+                aux.FilePath = aux.Id + "-" + name;
+                db.Save();
+                ts.Complete();
+                Logger.Info(
+                    $"Sucessfully resved file {name} ({mimeType}) as {aux.FilePath}.");
+                return aux;
+            }
+        }
+
         /// <summary>
         /// Import a file into the Phrike file storage directory and create
         /// and return a new <see cref="AuxilaryData"/> object in the database.
@@ -76,21 +110,18 @@ namespace Phrike.GroundControl.Helper
             Logger.Trace($"Importing file {fromPath} ({mimeType}).");
             if (IsFileInDir(fromPath, PathHelper.PhrikeImport))
             {
-                throw new ArgumentException(@"File is already in the file storage.", nameof(fromPath));
+                throw new ArgumentException("File is already in the file storage.", nameof(fromPath));
             }
+
             using (var ts = new TransactionScope())
             using (var db = new UnitOfWork())
             {
-                var aux = new AuxilaryData
-                {
-                    FilePath = fromPath,
-                    Test = db.TestRepository.GetByID(testId),
-                    Timestamp = timestamp ?? File.GetCreationTime(fromPath),
-                    MimeType = mimeType,
-                    Description = description
-                };
-                db.AuxiliaryDataRepository.Insert(aux);
-                db.Save(); // Save to generate ID.
+                AuxilaryData aux = ReserveFile(
+                    Path.GetFileName(fromPath),
+                    mimeType,
+                    testId,
+                    timestamp ?? File.GetCreationTime(fromPath),
+                    description);
                 string targetPath = GetTargetPath(fromPath, aux.Id, PathHelper.PhrikeImport);
                 File.Copy(fromPath, targetPath);
                 try
@@ -115,40 +146,78 @@ namespace Phrike.GroundControl.Helper
         /// subjects avatar. If <paramref name="db"/> is not null, also saves
         /// the subject to the DB.
         /// </summary>
-        public static void SetSubjectAvatar([NotNull] string fromPath, [NotNull] Subject subject, UnitOfWork db = null)
+        public static void SetSubjectAvatar(string fromPath, [NotNull] Subject subject, UnitOfWork db = null)
         {
-            Logger.Trace($"Importing picture {fromPath}.");
-            if (IsFileInDir(fromPath, PathHelper.PhrikePicture))
+            if (fromPath != null)
             {
-                throw new ArgumentException(@"Picture is already in the picture storage.", nameof(fromPath));
-            }
-            string targetPath = GetTargetPath(
-                fromPath,
-                subject.Id,
-                PathHelper.PhrikePicture);
-            string oldPath = subject.AvatarPath;
-            string restorePath = null;
-            if (!string.IsNullOrEmpty(oldPath))
-            {
-                restorePath = Path.GetTempFileName();
-                File.Move(PathHelper.GetPicturePath(oldPath), restorePath);
-            }
-            try
-            {
-                File.Copy(fromPath, targetPath);
-                subject.AvatarPath = Path.GetFileName(targetPath);
-                db?.Save();
-            }
-            catch
-            {
-                if (restorePath != null)
+                Logger.Trace($"Importing picture {fromPath}.");
+                if (IsFileInDir(fromPath, PathHelper.PhrikePicture))
                 {
-                    File.Move(restorePath, oldPath);
+                    throw new ArgumentException(
+                        @"Picture is already in the picture storage.",
+                        nameof(fromPath));
                 }
-                subject.AvatarPath = oldPath;
-                throw;
+                string targetPath = GetTargetPath(
+                    fromPath,
+                    subject.Id,
+                    PathHelper.PhrikePicture);
+                string oldPath = subject.AvatarPath;
+                string restorePath = null;
+                if (!string.IsNullOrEmpty(oldPath))
+                {
+                    restorePath = Path.GetTempFileName();
+                    File.Move(PathHelper.GetPicturePath(oldPath), restorePath);
+                }
+                try
+                {
+                    File.Copy(fromPath, targetPath);
+                    subject.AvatarPath = Path.GetFileName(targetPath);
+                    db?.Save();
+                }
+                catch
+                {
+                    if (restorePath != null)
+                    {
+                        File.Move(restorePath, oldPath);
+                    }
+                    subject.AvatarPath = oldPath;
+                    throw;
+                }
+                if (!string.IsNullOrEmpty(restorePath))
+                {
+                    File.Delete(restorePath);
+                }
+                Logger.Info($"Sucessfully imported picture {fromPath} as {targetPath}.");
             }
-            Logger.Info($"Sucessfully imported picture {fromPath} as {targetPath}.");
+            else if (subject.AvatarPath != null)
+            {
+                Logger.Trace($"Removing picture for Subject {subject.Id}.");
+                string path = subject.AvatarPath;
+                using (var ts = new TransactionScope())
+                {
+                    subject.AvatarPath = null;
+                    db?.Save();
+                    File.Delete(PathHelper.GetPicturePath(path));
+                    ts.Complete();
+                }
+            }
+        }
+
+        public static void DeleteFile(int auxDataId)
+        {
+            Logger.Trace($"Deleting file #{auxDataId}.");
+
+            using (var ts = new TransactionScope())
+            using (var db = new UnitOfWork())
+            {
+                AuxilaryData data = db.AuxiliaryDataRepository.GetByID(auxDataId);
+                string path = data.FilePath;
+                db.AuxiliaryDataRepository.Delete(data);
+                db.Save();
+                File.Delete(PathHelper.GetImportPath(path));
+                ts.Complete();
+                Logger.Info($"Sucessfully deleted file {path}.");
+            }
         }
     }
 }

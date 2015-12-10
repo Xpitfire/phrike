@@ -11,6 +11,12 @@
 // CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // -----------------------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+
 namespace DataModel
 {
     /// <summary>
@@ -20,5 +26,48 @@ namespace DataModel
     {
         public const string Biofeedback2000Csv= "application/x-biofeedback200";
         public const string GMobilabPlusBin = "application/x-gmobilabplusbin";
+        public const string AnyVideo = "video/x-video";
+
+        public enum Category
+        {
+            Unknown,
+
+            Video,
+
+            SensorData
+        };
+
+        public static readonly IReadOnlyDictionary<string, string> FileExtMimeTypes =
+            new Dictionary<string, string>
+        {
+            {"csv", Biofeedback2000Csv},
+            {"bin", GMobilabPlusBin},
+            {"mp4", AnyVideo},
+            {"mkv", AnyVideo},
+            {"avi", AnyVideo},
+            {"wmv", AnyVideo},
+        };
+
+        public static string GetMimeTypeForPath(string path)
+        {
+            string ext = Path.GetExtension(path);
+            if (ext == null || !ext.StartsWith("."))
+            {
+                throw new KeyNotFoundException("File has no extension.");
+            }
+
+            return FileExtMimeTypes[ext.Substring(1)];
+        }
+
+        public static Category GetCategory(string mimetype)
+        {
+            switch (mimetype)
+            {
+                case Biofeedback2000Csv: return Category.SensorData;
+                case GMobilabPlusBin: return Category.SensorData;
+                case AnyVideo: return Category.Video;
+                default: return Category.Unknown;
+            }
+    }
     }
 }

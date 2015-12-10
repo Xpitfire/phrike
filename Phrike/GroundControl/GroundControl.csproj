@@ -114,6 +114,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controller\PlotController.cs" />
+    <Compile Include="Controller\PositionDataController.cs" />
     <Compile Include="Controller\ProcessController.cs" />
     <Compile Include="Controller\SensorsController.cs" />
     <Compile Include="Controller\SettingsController.cs" />
@@ -134,10 +135,12 @@
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="ViewModels\AnalysisViewModel.cs" />
+    <Compile Include="ViewModels\AuxiliaryDataListViewModel.cs" />
     <Compile Include="ViewModels\DataBundleViewModel.cs" />
     <Compile Include="ViewModels\DataSeriesViewModel.cs" />
     <Compile Include="ViewModels\InterviewTestViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\PositionDataViewModel.cs" />
     <Compile Include="ViewModels\RealViewModels.cs" />
     <Compile Include="ViewModels\ScenarioSelectViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
@@ -149,11 +152,17 @@
     <Compile Include="Views\Analysis.xaml.cs">
       <DependentUpon>Analysis.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AuxiliaryDataList.xaml.cs">
+      <DependentUpon>AuxiliaryDataList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DataBundlePlot.xaml.cs">
       <DependentUpon>DataBundlePlot.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OverviewNew.xaml.cs">
       <DependentUpon>OverviewNew.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PositionData.xaml.cs">
+      <DependentUpon>PositionData.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ScenarioSelect.xaml.cs">
       <DependentUpon>ScenarioSelect.xaml</DependentUpon>
@@ -197,6 +206,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\AuxiliaryDataList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\InterviewTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -208,6 +221,10 @@
     <Page Include="Views\OverviewNew.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PositionData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ScenarioSelect.xaml">
       <SubType>Designer</SubType>
