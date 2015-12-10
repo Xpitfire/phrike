@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataAccess;
+using DataModel;
 
 namespace Phrike.GroundControl.ViewModels
 {
@@ -13,16 +14,14 @@ namespace Phrike.GroundControl.ViewModels
         //Initialize FilterDateTime with a default value
         private DateTime _filterDateTime = DateTime.Now;
 
-        private List<SubjectVM> _subjectList = new List<SubjectVM>();
+        private List<Subject> _subjectList = new List<Subject>();
 
         public TestResultViewModel()
         {
             using (var unitOfWork = new UnitOfWork())
             {
                 var subjects = unitOfWork.SubjectRepository.Get();
-                _subjectList.Clear();
-                _subjectList.AddRange(subjects.Select(x => new SubjectVM(x)));
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SubjectList)));
+                SubjectList = subjects.ToList();
             }
         }
 
@@ -36,7 +35,7 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
-        public List<SubjectVM> SubjectList
+        public List<Subject> SubjectList
         {
             get { return _subjectList; }
             set
