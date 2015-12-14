@@ -145,7 +145,7 @@
     <Compile Include="ViewModels\ScenarioSelectViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\DebugViewModel.cs" />
-    <Compile Include="ViewModels\TestResultViewModel.cs" />
+    <Compile Include="ViewModels\TestArchiveViewModel.cs" />
     <Compile Include="ViewModels\UserSelectViewModel.cs" />
     <Compile Include="Views\AddUser.xaml.cs">
       <DependentUpon>AddUser.xaml</DependentUpon>

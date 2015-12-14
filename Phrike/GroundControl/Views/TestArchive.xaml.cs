@@ -18,7 +18,7 @@ namespace Phrike.GroundControl.Views
     /// <summary>
     /// Interaction logic for TestResult.xaml
     /// </summary>
-    public partial class TestResult : UserControl
+    public partial class TestArchive : UserControl
     {
         public TestResult()
         {
