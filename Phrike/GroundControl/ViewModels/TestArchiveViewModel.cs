@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccess;
 using DataModel;
+using Phrike.GroundControl.Helper;
 
 namespace Phrike.GroundControl.ViewModels
 {
@@ -18,10 +19,13 @@ namespace Phrike.GroundControl.ViewModels
 
         public TestArchiveViewModel()
         {
-            using (var unitOfWork = new UnitOfWork())
+            if (DataLoadHelper.IsLoadDataActive())
             {
-                var subjects = unitOfWork.SubjectRepository.Get();
-                SubjectList = subjects.ToList();
+                using (var unitOfWork = new UnitOfWork())
+                {
+                    var subjects = unitOfWork.SubjectRepository.Get();
+                    SubjectList = subjects.ToList();
+                }
             }
         }
 

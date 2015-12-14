@@ -5,11 +5,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Entity.Validation;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using DataAccess;
-using OxyPlot;
 using Phrike.GroundControl.Helper;
 
 namespace Phrike.GroundControl.ViewModels
@@ -24,7 +21,8 @@ namespace Phrike.GroundControl.ViewModels
         {
             Subjects = new ObservableCollection<SubjectVM>();
             currentSubject = new SubjectVM();
-            LoadSubjects();
+            if (DataLoadHelper.IsLoadDataActive())
+                LoadSubjects();
         }
 
 
@@ -376,8 +374,8 @@ namespace Phrike.GroundControl.ViewModels
         public ScenarioCollectionVM()
         {
             this.Scenarios = new ObservableCollection<ScenarioVM>();
-
-            LoadScenarios();
+            if (DataLoadHelper.IsLoadDataActive())
+                LoadScenarios();
         }
 
         private async void LoadScenarios()
