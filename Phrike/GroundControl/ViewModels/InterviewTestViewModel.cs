@@ -7,11 +7,15 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
+using System.Windows.Documents;
 
+using DataAccess;
 using DataModel;
+using NLog;
 
 namespace Phrike.GroundControl.ViewModels
 {
@@ -20,26 +24,26 @@ namespace Phrike.GroundControl.ViewModels
     /// </summary>
     public class InterviewTestViewModel : INotifyPropertyChanged
     {
+
+        /// <summary>
+        /// The property changed.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
         /// <summary>
         /// Gets or sets the question list.
         /// </summary>
         public List<string> QuestionList { get; set;  }
 
         /// <summary>
-        /// Gets or sets the result list.
+        /// Gets or sets the survey ans list.
         /// </summary>
-        //public List<string> ResultList { get; set; }
-
         public List<string> SurveyAnsList { get; set; } 
 
         /// <summary>
         /// Gets or sets the survey name.
         /// </summary>
-        public string SurveyName
-        {
-            get { return Survey.Name; }
-            set { SurveyName = value; }
-        }
+        public string SurveyName { get; set; }
 
         /// <summary>
         /// Gets or sets the instance.
@@ -56,53 +60,35 @@ namespace Phrike.GroundControl.ViewModels
         /// </summary>
         public InterviewTestViewModel()
         {
-            /* test survey */
-            Survey = new Survey { Name = "SurveyName", Description = "TestSurveyDescription1" };
-            List<SurveyQuestion> sq = new List<SurveyQuestion>();
-            Survey.Questions = null;
+            SurveyAnsList = new List<string>
+                            {
+                                SurveyAnswer.Perfect.ToString(),
+                                SurveyAnswer.Good.ToString(),
+                                SurveyAnswer.Gratifying.ToString(),
+                                SurveyAnswer.Bad.ToString(),
+                                SurveyAnswer.Worst.ToString()
+                            };
 
-            SurveyAnsList = new List<string> { "Perfect", "Good", "Gratifying", "Bad", "Worse" };
-
-            SurveyQuestion surveyQuestion1 = new SurveyQuestion { Survey = Survey, Question = "Question1" };
-            SurveyQuestion surveyQuestion2 = new SurveyQuestion { Survey = Survey, Question = "Question2" };
-            //surveyQuestion1.SurveyResults = null;
-            //surveyQuestion2.SurveyResults = null;
-
-            //SurveyResult surveyResult1 = new SurveyResult {SurveyQuestion = surveyQuestion1, Answer = SurveyAnswer.Perfect };
-            //SurveyResult surveyResult2 = new SurveyResult {SurveyQuestion = surveyQuestion1, Answer = SurveyAnswer.Bad };
-
-            //var surveyResults1 = new Collection<SurveyResult>();
-            //surveyResults1.Add(surveyResult1);
-            //surveyResults1.Add(surveyResult2);
-
-            //surveyQuestion1.SurveyResults = surveyResults1;
-            //surveyQuestion2.SurveyResults = surveyResults1;
-
-            sq.Add(surveyQuestion1);
-            sq.Add(surveyQuestion2);
-
-            Survey.Questions = sq;
-
-            QuestionList = new List<string>();
-            foreach (SurveyQuestion q in sq)
+            using (UnitOfWork unitOfWork = new UnitOfWork())
             {
-                QuestionList.Add(q.Question);
+              
+                Survey testsur = unitOfWork.SurveyRepository.GetByID(1);
+
+                if (testsur.Questions == null)
+                {
+                    Console.WriteLine("No questions");
+                }
+
+                List<SurveyQuestion> sq = new List<SurveyQuestion>(testsur.Questions);
+
+                QuestionList = new List<string>();
+                foreach (SurveyQuestion q in sq)
+                {
+                    QuestionList.Add(q.Question);
+                }
             }
-
-            //ResultList = new List<string>();
-            //foreach (SurveyResult r in surveyResults1)
-            //{
-            //    ResultList.Add(r.Answer.ToString());
-            //}
-
-            /* test survey end */
 
             Instance = this;
         }
-
-        /// <summary>
-        /// The property changed.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
