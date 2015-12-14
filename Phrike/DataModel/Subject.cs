@@ -30,7 +30,8 @@ namespace DataModel
         public string Conditions { get; set; }
         public BloodType BloodType { get; set; }
         public RhFactor RhFactor { get; set; }
-        public string AvatarPath { get; set; }
+        private string avatarPath;
+        public string AvatarPath { get { return avatarPath; } set { avatarPath = value; } }
 
         public virtual Collection<Test> Tests { get; set; }
 

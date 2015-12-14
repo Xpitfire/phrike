@@ -72,9 +72,10 @@ namespace Phrike.GroundControl.Views
             CollectionViewSource.GetDefaultView(spUser.ItemsSource).Refresh();
         }
 
-        private void SpUser_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void SpUser_LeftClick(object sender, MouseButtonEventArgs e)
         {
-            RaiseEvent(new RoutedEventArgs(UserSelect.UserSelectedEvent));
+            if (spUser.SelectedItem != null)
+            { RaiseEvent(new RoutedEventArgs(UserSelect.UserSelectedEvent)); }
         }
 
         private void BtnAdd_OnClick(object sender, RoutedEventArgs e)
@@ -87,15 +88,18 @@ namespace Phrike.GroundControl.Views
 
             grdSelect.Visibility = Visibility.Hidden;
             grdAdd.Visibility = Visibility.Visible;
+            context.CurrentSubject.Flush();
+            //spUser.SelectedItem = new SubjectVM();
         }
 
         private void BtnSubmit_OnClick(object sender, RoutedEventArgs e)
         {
             string message;
-            if (context.CurrentSubject.Add(out message))
+            if (context.CurrentSubject.Submit(out message))
             {
                 grdSelect.Visibility = Visibility.Visible;
                 grdAdd.Visibility = Visibility.Hidden;
+                ((SubjectCollectionVM)this.DataContext).LoadSubjects();
             }
             else
             {
@@ -105,6 +109,7 @@ namespace Phrike.GroundControl.Views
                 for (int i = 1; i < x.Length; i++) msg += $"{x[i]}\n";
                 MainWindow.Instance.Dispatcher.Invoke(() => MainWindow.Instance.ShowMessageAsync(title, msg));
             }
+
         }
 
         private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
@@ -112,6 +117,12 @@ namespace Phrike.GroundControl.Views
             //context.CurrentSubject = context.Subjects.FirstOrDefault();
             grdSelect.Visibility = Visibility.Visible;
             grdAdd.Visibility = Visibility.Hidden;
+        }
+
+        private void UIElement_OnMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            grdSelect.Visibility = Visibility.Hidden;
+            grdAdd.Visibility = Visibility.Visible;
         }
     }
 }
