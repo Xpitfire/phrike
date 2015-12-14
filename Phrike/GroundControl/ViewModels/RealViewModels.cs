@@ -62,9 +62,12 @@ namespace Phrike.GroundControl.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         private bool insertsDone = true;
 
+        private string oldAvatarPath;
+
         public SubjectVM(Subject subject)
         {
             this.subject = subject;
+            oldAvatarPath = subject.AvatarPath;
         }
 
         public SubjectVM()
@@ -81,20 +84,22 @@ namespace Phrike.GroundControl.ViewModels
                     if (subject.Id == default(int))
                     {
                         string path = subject.AvatarPath;
-                        subject.AvatarPath = null;
+                        subject.AvatarPath = oldAvatarPath;
                         x.SubjectRepository.Insert(subject);
                         x.Save();
 
                         FileStorageHelper.SetSubjectAvatar(path, subject, x);
+                        oldAvatarPath = path;
                     }
                     else
                     {
                         string path = subject.AvatarPath;
-                        subject.AvatarPath = null;
+                        subject.AvatarPath = oldAvatarPath;
                         x.SubjectRepository.Update(subject);
                         x.Save();
 
                         FileStorageHelper.SetSubjectAvatar(path, subject, x);
+                        oldAvatarPath = path;
                     }
                     InsertsDone = true;
                     message = "";
