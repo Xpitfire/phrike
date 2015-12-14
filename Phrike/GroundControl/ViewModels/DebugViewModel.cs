@@ -192,7 +192,7 @@ namespace Phrike.GroundControl.ViewModels
             await Task.Run(() =>
             {
                 // start the external application sub-process
-                ProcessController.StartProcess(UnrealEngineController.UnrealEnginePath, true, new string[] { "-fullscreen" });
+                //ProcessController.StartProcess(UnrealEngineController.UnrealEnginePath, true, new string[] { "-fullscreen" });
                 Logger.Info("Unreal Engine process started!");
                 // create the Unreal Engine communication object
                 unrealEngineModel = new UnrealEngineController(ShowStressTestError, DisableUnrealEngineColor);
@@ -293,7 +293,8 @@ namespace Phrike.GroundControl.ViewModels
                     return;
                 }
 
-                unrealEngineModel.StartCapture();
+                // TODO: Screencapturing nicht mehr in Unreal Engine
+                //unrealEngineModel.StartCapture();
                 Logger.Info("Screen Capture successfully started!");
                 ScreenCapturingStatusColor = Activate;
             });
@@ -314,7 +315,8 @@ namespace Phrike.GroundControl.ViewModels
                     return;
                 }
 
-                unrealEngineModel.StopCapture();
+                // TODO: Screencapturing nicht mehr in Unreal Engine
+                //unrealEngineModel.StopCapture();
                 Logger.Info("Screen Capture successfully stopped!");
                 ScreenCapturingStatusColor = Disable;
             });
