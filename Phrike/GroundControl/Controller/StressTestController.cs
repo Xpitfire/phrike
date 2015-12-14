@@ -142,7 +142,6 @@ namespace Phrike.GroundControl.Controller
                     return;
                 }
 
-                unrealEngineController.StartCapture();
                 Logger.Info("Screen Capture successfully started!");
                 stressTestViewModel.ScreenCapturingStatusColor = GCColors.Active;
             });
@@ -160,7 +159,6 @@ namespace Phrike.GroundControl.Controller
                     return;
                 }
 
-                unrealEngineController.StopCapture();
                 Logger.Info("Screen Capture successfully stopped!");
                 stressTestViewModel.ScreenCapturingStatusColor = GCColors.Disabled;
             });
