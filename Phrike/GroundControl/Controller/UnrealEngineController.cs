@@ -52,6 +52,7 @@ namespace Phrike.GroundControl.Controller
                     using (var unitOfWork = new UnitOfWork())
                     {
                         // TODO: Szenario is fixed name!!!
+                        // TODO: Correct Path (PathHelper)
                         unrealEnginePath = unitOfWork.ScenarioRepository.Get(
                             data => data.Name == "Balance").FirstOrDefault()?.ExecutionPath;
                     }
@@ -74,7 +75,8 @@ namespace Phrike.GroundControl.Controller
         private TcpListener socketListener;
 
         public event EventHandler Restarting;
-        public event EventHandler Ending; 
+        public event EventHandler Ending;
+        public event EventHandler<PositionData> PositionReceived;
 
         /// <summary>
         /// Is alive flag for the socket communication thread.
@@ -308,8 +310,10 @@ namespace Phrike.GroundControl.Controller
                                     Time = DateTime.Now,
                                     Test = test
                                 };
-                                test.PositionData.Add(pd);
-                                unitOfWork.PositionDataRepository.Insert(pd);
+                                OnPositionReceived(pd);
+                                
+                                //test.PositionData.Add(pd);
+                                //unitOfWork.PositionDataRepository.Insert(pd);
                                 break;
                             case "end":
                                 IsAlive = false;
@@ -363,6 +367,11 @@ namespace Phrike.GroundControl.Controller
         {
             Logger.Info("Ending Test");
             Ending?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnPositionReceived(PositionData e)
+        {
+            PositionReceived?.Invoke(this, e);
         }
     }
 }
