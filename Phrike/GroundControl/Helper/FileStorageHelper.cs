@@ -166,7 +166,23 @@ namespace Phrike.GroundControl.Helper
                 if (!string.IsNullOrEmpty(oldPath))
                 {
                     restorePath = Path.GetTempFileName();
-                    File.Move(PathHelper.GetPicturePath(oldPath), restorePath);
+                    try
+                    {
+                        File.Move(PathHelper.GetPicturePath(oldPath), restorePath);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Warn(e, $"Failed moving old picture from {oldPath} to {restorePath}.");
+                        restorePath = null;
+                        try
+                        {
+                            File.Delete(PathHelper.GetPicturePath(oldPath));
+                        }
+                        catch (Exception e2)
+                        {
+                            Logger.Warn(e, $"Also failed just deleting old picture from {oldPath}.");
+                        }
+                    }
                 }
                 try
                 {

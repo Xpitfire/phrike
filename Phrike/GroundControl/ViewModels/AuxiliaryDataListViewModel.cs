@@ -13,7 +13,6 @@
 // -----------------------------------------------------------------------
 
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Windows.Input;
 
@@ -28,7 +27,10 @@ namespace Phrike.GroundControl.ViewModels
     public class AuxiliaryDataListViewModel
     {
         private readonly Test parentTest;
+
         private ICommand addFileCmd;
+
+        private ICommand deleteFileCmd;
 
         public AuxiliaryDataListViewModel(Test parentTest)
         {
@@ -39,8 +41,17 @@ namespace Phrike.GroundControl.ViewModels
 
         public ObservableCollection<AuxiliaryDataViewModel> AuxiliaryData { get; }
 
+        public ICommand DeleteFile 
+            => deleteFileCmd ?? (deleteFileCmd = new RelayCommand(DoDeleteFile));
         public ICommand AddFile
             => addFileCmd ?? (addFileCmd = new RelayCommand(DoAddFile));
+
+        private void DoDeleteFile(object rawAuxVm)
+        {
+            var auxVm = (AuxiliaryDataViewModel)rawAuxVm;
+            FileStorageHelper.DeleteFile(auxVm.Model.Id);
+            AuxiliaryData.Remove(auxVm);
+        }
 
         private void DoAddFile(object obj)
         {
@@ -51,9 +62,10 @@ namespace Phrike.GroundControl.ViewModels
             {
                 Filter = "Video oder Sensoraufzeichung|" + filterString
             };
-
             if (dlg.ShowDialog() != true)
+            {
                 return;
+            }
 
             AuxilaryData data = FileStorageHelper.ImportFile(
                 dlg.FileName,
@@ -66,26 +78,26 @@ namespace Phrike.GroundControl.ViewModels
 
     public class AuxiliaryDataViewModel
     {
-        private readonly AuxilaryData model;
-
         public AuxiliaryDataViewModel(AuxilaryData model)
         {
-            this.model = model;
+            this.Model = model;
         }
 
         public string DisplayName
             =>
-                string.IsNullOrEmpty(model.Description)
-                    ? model.FilePath
-                    : model.Description;
+                string.IsNullOrEmpty(Model.Description)
+                    ? Model.FilePath
+                    : Model.Description;
 
-        public string FullInfo => "Datei: " + model.FilePath + "\nTyp: " + model.MimeType;
+        public string FullInfo => "Datei: " + Model.FilePath + "\nTyp: " + Model.MimeType;
 
         public string CategoryName
             =>
-                AuxiliaryDataMimeTypes.GetCategory(model.MimeType)
+                AuxiliaryDataMimeTypes.GetCategory(Model.MimeType)
                 == AuxiliaryDataMimeTypes.Category.Video
                     ? "Video"
                     : "Sensoraufzeichnung";
+
+        public AuxilaryData Model { get; }
     }
 }

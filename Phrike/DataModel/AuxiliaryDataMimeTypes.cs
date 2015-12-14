@@ -56,7 +56,7 @@ namespace DataModel
                 throw new KeyNotFoundException("File has no extension.");
             }
 
-            return FileExtMimeTypes[ext.Substring(1)];
+            return FileExtMimeTypes[ext.Substring(1).ToLowerInvariant()];
         }
 
         public static Category GetCategory(string mimetype)
