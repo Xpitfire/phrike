@@ -114,6 +114,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controller\PlotController.cs" />
+    <Compile Include="Controller\PositionDataController.cs" />
     <Compile Include="Controller\ProcessController.cs" />
     <Compile Include="Controller\SensorsController.cs" />
     <Compile Include="Controller\SettingsController.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Views\FileListDebugView.xaml.cs">
       <DependentUpon>FileListDebugView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helper\DataLoadHelper.cs" />
     <Compile Include="Models\Sensor.cs" />
     <Compile Include="Helper\DefaultDataProvider.cs" />
     <Compile Include="Helper\PathHelper.cs" />
@@ -142,10 +144,12 @@
     <Compile Include="ViewModels\DataSeriesViewModel.cs" />
     <Compile Include="ViewModels\InterviewTestViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\PositionDataViewModel.cs" />
     <Compile Include="ViewModels\RealViewModels.cs" />
     <Compile Include="ViewModels\ScenarioSelectViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\DebugViewModel.cs" />
+    <Compile Include="ViewModels\TestArchiveViewModel.cs" />
     <Compile Include="ViewModels\UserSelectViewModel.cs" />
     <Compile Include="Views\AddUser.xaml.cs">
       <DependentUpon>AddUser.xaml</DependentUpon>
@@ -162,6 +166,9 @@
     <Compile Include="Views\OverviewNew.xaml.cs">
       <DependentUpon>OverviewNew.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PositionData.xaml.cs">
+      <DependentUpon>PositionData.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ScenarioSelect.xaml.cs">
       <DependentUpon>ScenarioSelect.xaml</DependentUpon>
     </Compile>
@@ -176,6 +183,9 @@
     </Compile>
     <Compile Include="Views\Debug.xaml.cs">
       <DependentUpon>Debug.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TestArchive.xaml.cs">
+      <DependentUpon>TestArchive.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserSelect.xaml.cs">
       <DependentUpon>UserSelect.xaml</DependentUpon>
@@ -224,6 +234,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\PositionData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\ScenarioSelect.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -237,6 +251,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Debug.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TestArchive.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -353,9 +371,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Plot\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

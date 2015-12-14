@@ -5,11 +5,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Entity.Validation;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using DataAccess;
-using OxyPlot;
 using Phrike.GroundControl.Helper;
 
 namespace Phrike.GroundControl.ViewModels
@@ -24,9 +21,10 @@ namespace Phrike.GroundControl.ViewModels
         {
             Subjects = new ObservableCollection<SubjectVM>();
             currentSubject = new SubjectVM();
-            LoadSubjects();
+            if (DataLoadHelper.IsLoadDataActive())
+                LoadSubjects();
         }
-        
+
 
         public SubjectVM CurrentSubject
         {
@@ -54,7 +52,7 @@ namespace Phrike.GroundControl.ViewModels
                 }
             }
         }
-        
+
     }
 
 
@@ -74,14 +72,30 @@ namespace Phrike.GroundControl.ViewModels
             subject = new Subject();
         }
 
-        internal bool Add(out string message)
+        internal bool Submit(out string message)
         {
             using (var x = new UnitOfWork())
             {
                 try
                 {
-                    x.SubjectRepository.Insert(subject);
-                    x.Save();
+                    if (subject.Id == default(int))
+                    {
+                        string path = subject.AvatarPath;
+                        subject.AvatarPath = null;
+                        x.SubjectRepository.Insert(subject);
+                        x.Save();
+
+                        FileStorageHelper.SetSubjectAvatar(path, subject, x);
+                    }
+                    else
+                    {
+                        string path = subject.AvatarPath;
+                        subject.AvatarPath = null;
+                        x.SubjectRepository.Update(subject);
+                        x.Save();
+
+                        FileStorageHelper.SetSubjectAvatar(path, subject, x);
+                    }
                     InsertsDone = true;
                     message = "";
                     return true;
@@ -109,7 +123,25 @@ namespace Phrike.GroundControl.ViewModels
             InsertsDone = true;
         }
 
-        public bool UseDefaultIcon { get { return subject.AvatarPath == null || subject.AvatarPath == String.Empty; } }
+        internal void Flush()
+        {
+            LastName = "";
+            FirstName = "";
+            DateOfBirth = DateTime.MinValue;
+            Gender = default(Gender);
+            CountryCode = "";
+            City = "";
+            PostalCode = "";
+            Street = "";
+            ServiceRank = "";
+            Function = "";
+            Conditions = "";
+            BloodType = default(BloodType);
+            RhFactor = default(RhFactor);
+            AvatarPath = "";
+        }
+
+        public bool UseDefaultIcon { get { return String.IsNullOrEmpty(AvatarPath); } }
 
         public String ImagePath
         {
@@ -122,14 +154,6 @@ namespace Phrike.GroundControl.ViewModels
                 else
                 {
                     return System.IO.Path.Combine(PathHelper.PhrikePicture, subject.AvatarPath);
-                }
-            }
-            set
-            {
-                if (subject.AvatarPath != value)
-                {
-                    subject.AvatarPath = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImagePath)));
                 }
             }
         }
@@ -188,7 +212,12 @@ namespace Phrike.GroundControl.ViewModels
             get { return subject.DateOfBirth; }
             set
             {
-                if (subject.DateOfBirth != value)
+                if (value == DateTime.MinValue)
+                {
+                    subject.DateOfBirth = subject.DateOfBirth = DateTime.Today.Subtract(new TimeSpan(18 * 365, 0, 0, 0));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DateOfBirth)));
+                }
+                else if (subject.DateOfBirth != value)
                 {
                     subject.DateOfBirth = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DateOfBirth)));
@@ -319,7 +348,8 @@ namespace Phrike.GroundControl.ViewModels
         {
             get
             {
-                return String.IsNullOrEmpty(subject.AvatarPath) ? "" : System.IO.Path.Combine(PathHelper.PhrikePicture, subject.AvatarPath);
+                //return String.IsNullOrEmpty(subject.AvatarPath) ? "" : System.IO.Path.Combine(PathHelper.PhrikePicture, subject.AvatarPath);
+                return subject.AvatarPath;
             }
             set
             {
@@ -327,6 +357,7 @@ namespace Phrike.GroundControl.ViewModels
                 {
                     subject.AvatarPath = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AvatarPath)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImagePath)));
                 }
             }
         }
@@ -343,8 +374,8 @@ namespace Phrike.GroundControl.ViewModels
         public ScenarioCollectionVM()
         {
             this.Scenarios = new ObservableCollection<ScenarioVM>();
-
-            LoadScenarios();
+            if (DataLoadHelper.IsLoadDataActive())
+                LoadScenarios();
         }
 
         private async void LoadScenarios()
