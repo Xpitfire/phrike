@@ -26,8 +26,8 @@ namespace Phrike.GroundControl.Controller
                 {
                     using (var unitOfWork = new UnitOfWork())
                     {
-                        unrealEnginePath = unitOfWork.TestRepository.Get(
-                            data => data.Scenario.Name == "Balance").FirstOrDefault()?.Scenario.Name;
+                        unrealEnginePath = unitOfWork.ScenarioRepository.Get(
+                            data => data.Name == "Balance").FirstOrDefault()?.ExecutionPath;
                     }
                 }
                 return unrealEnginePath;
@@ -68,6 +68,8 @@ namespace Phrike.GroundControl.Controller
                 IsAlive = true;
                 TcpListener socketListener = new TcpListener(IPAddress.Any, UnrealEngineSocketPort);
                 socketListener.Start();
+                // TODO Dispose socketListener
+                // TPDP Correct message (no connection there at this point!)
                 Logger.Info("Unreal Engine socket connection established on port {0} and waiting for connections...",
                     UnrealEngineSocketPort);
                 socket = socketListener.AcceptSocket();
@@ -110,7 +112,7 @@ namespace Phrike.GroundControl.Controller
             finally
             {
                 // fix for too fast socket close 
-                Thread.Sleep(2000);
+                Thread.Sleep(2000); // TODO Is this needed? We wait for end message anyway.
                 try
                 {
                     unrealSocketReader.Receive(1000);

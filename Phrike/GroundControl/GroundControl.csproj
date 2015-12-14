@@ -113,6 +113,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controller\StressTestController.cs" />
     <Compile Include="Controller\PlotController.cs" />
     <Compile Include="Controller\ProcessController.cs" />
     <Compile Include="Controller\SensorsController.cs" />
@@ -138,10 +139,12 @@
     <Compile Include="ViewModels\DataSeriesViewModel.cs" />
     <Compile Include="ViewModels\InterviewTestViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\OverviewNewViewModel.cs" />
     <Compile Include="ViewModels\RealViewModels.cs" />
     <Compile Include="ViewModels\ScenarioSelectViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\DebugViewModel.cs" />
+    <Compile Include="ViewModels\StressTestViewModel.cs" />
     <Compile Include="ViewModels\UserSelectViewModel.cs" />
     <Compile Include="Views\AddUser.xaml.cs">
       <DependentUpon>AddUser.xaml</DependentUpon>

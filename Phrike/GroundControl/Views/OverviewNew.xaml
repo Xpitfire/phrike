@@ -6,17 +6,20 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              xmlns:local="clr-namespace:Phrike.GroundControl.Views"
+             xmlns:ViewModels="clr-namespace:Phrike.GroundControl.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="426" d:DesignWidth="835">
-    <Grid x:Name="stpBase">
+
+    <Grid x:Name="stpBase" >
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"></RowDefinition>
             <RowDefinition Height="10*"></RowDefinition>
         </Grid.RowDefinitions>
         <Button x:Name="btnBack" Content="Back" Grid.Row="0" Click="BtnBack_OnClick" IsEnabled="False"/>
+        <Button x:Name="btnStart" Content="Start" Grid.Row="0" IsEnabled="True" Command="{Binding StartStressTestCommand}"/>
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="wpButtons" Grid.Row="1" DataContext="{Binding}">
-            <Button x:Name="btnSubject" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0" Click="SelectNewSubject" DataContext="{Binding Path=CurrentSubject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <Grid Height="190" Width="190">
+            <Button x:Name="btnSubject" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0" Click="SwitchToSubjectSelectionView">
+                <Grid Height="190" Width="190" DataContext="{Binding Path=CurrentSubject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*"/>
                         <RowDefinition Height="5*"/>
@@ -27,8 +30,8 @@
                     <Label Content="{Binding Path=FullName}" Grid.Row="2"/>
                 </Grid>
             </Button>
-            <Button x:Name="btnScenario" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0" Click="SelectNewScenario" DataContext="{Binding Path=CurrentScenario, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                <Grid Height="190" Width="190">
+            <Button x:Name="btnScenario" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0" Click="SwitchToScenarioSelectionView">
+                <Grid Height="190" Width="190" DataContext="{Binding Path=CurrentScenario, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*"/>
                         <RowDefinition Height="5*"/>
@@ -40,7 +43,8 @@
                 </Grid>
             </Button>
         </WrapPanel>
-        <local:UserSelect Visibility="Hidden" x:Name="ucUser" Grid.Row="1" UserSelected="UcUser_OnUserSelected"/>
-        <local:ScenarioSelect Visibility="Hidden" x:Name="ucScenario" Grid.Row="1" ScenarioSelected="UcScenario_OnScenarioSelected"/>
+
+        <local:UserSelect Visibility="Hidden" x:Name="ucUser" Grid.Row="1" UserSelected="SelectSubject"/>
+        <local:ScenarioSelect Visibility="Hidden" x:Name="ucScenario" Grid.Row="1" ScenarioSelected="SelectScenario"/>
     </Grid>
 </UserControl>

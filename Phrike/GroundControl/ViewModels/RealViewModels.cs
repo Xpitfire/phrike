@@ -12,7 +12,7 @@ using Phrike.GroundControl.Helper;
 
 namespace Phrike.GroundControl.ViewModels
 {
-    class SubjectCollectionVM : INotifyPropertyChanged
+    public class SubjectCollectionVM : INotifyPropertyChanged
     {
         private SubjectVM currentSubject;
         public ObservableCollection<SubjectVM> Subjects { get; set; }
@@ -21,7 +21,6 @@ namespace Phrike.GroundControl.ViewModels
         public SubjectCollectionVM()
         {
             Subjects = new ObservableCollection<SubjectVM>();
-
             LoadSubjects();
         }
 
@@ -54,7 +53,7 @@ namespace Phrike.GroundControl.ViewModels
     }
 
 
-    class SubjectVM : INotifyPropertyChanged
+    public class SubjectVM : INotifyPropertyChanged
     {
         private Subject subject;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -266,7 +265,7 @@ namespace Phrike.GroundControl.ViewModels
         #endregion
     }
 
-    class ScenarioCollectionVM : INotifyPropertyChanged
+    public class ScenarioCollectionVM : INotifyPropertyChanged
     {
         private ScenarioVM currentScenario;
         public ObservableCollection<ScenarioVM> Scenarios { get; set; }
@@ -307,7 +306,7 @@ namespace Phrike.GroundControl.ViewModels
         }
     }
 
-    class ScenarioVM : INotifyPropertyChanged
+    public class ScenarioVM : INotifyPropertyChanged
     {
         private Scenario scenario;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -337,6 +336,7 @@ namespace Phrike.GroundControl.ViewModels
         public String Description { get { return scenario.Description; } }
     }
 
+    /*
     class OverviewVM : INotifyPropertyChanged
     {
         private ScenarioVM currentScenario;
@@ -374,4 +374,5 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
     }
+    */
 }
