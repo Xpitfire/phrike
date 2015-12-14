@@ -12,6 +12,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // -----------------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -38,6 +39,8 @@ namespace Phrike.GroundControl.ViewModels
             AuxiliaryData = new ObservableCollection<AuxiliaryDataViewModel>(
                 parentTest.AuxilaryData.Select(d => new AuxiliaryDataViewModel(d)));
         }
+
+        public IEnumerable<AuxilaryData> Model => AuxiliaryData.Select(vm => vm.Model);
 
         public ObservableCollection<AuxiliaryDataViewModel> AuxiliaryData { get; }
 
@@ -74,30 +77,5 @@ namespace Phrike.GroundControl.ViewModels
 
             AuxiliaryData.Add(new AuxiliaryDataViewModel(data));
         }
-    }
-
-    public class AuxiliaryDataViewModel
-    {
-        public AuxiliaryDataViewModel(AuxilaryData model)
-        {
-            this.Model = model;
-        }
-
-        public string DisplayName
-            =>
-                string.IsNullOrEmpty(Model.Description)
-                    ? Model.FilePath
-                    : Model.Description;
-
-        public string FullInfo => "Datei: " + Model.FilePath + "\nTyp: " + Model.MimeType;
-
-        public string CategoryName
-            =>
-                AuxiliaryDataMimeTypes.GetCategory(Model.MimeType)
-                == AuxiliaryDataMimeTypes.Category.Video
-                    ? "Video"
-                    : "Sensoraufzeichnung";
-
-        public AuxilaryData Model { get; }
     }
 }
