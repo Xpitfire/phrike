@@ -91,12 +91,20 @@ namespace Phrike.GroundControl.ViewModels
                     }
                     else
                     {
-                        string path = subject.AvatarPath;
-                        subject.AvatarPath = null;
-                        x.SubjectRepository.Update(subject);
-                        x.Save();
+                        if (AvatarPathChanged)
+                        {
+                            string path = subject.AvatarPath;
+                            subject.AvatarPath = null;
+                            x.SubjectRepository.Update(subject);
+                            x.Save();
 
-                        FileStorageHelper.SetSubjectAvatar(path, subject, x);
+                            FileStorageHelper.SetSubjectAvatar(path, subject, x);
+                        }
+                        else
+                        {
+                            x.SubjectRepository.Update(subject);
+                            x.Save();
+                        }
                     }
                     InsertsDone = true;
                     message = "";
@@ -177,6 +185,8 @@ namespace Phrike.GroundControl.ViewModels
                 }
             }
         }
+
+        private bool AvatarPathChanged { get; set; }
 
         public IEnumerable<Gender> AvailableGenders => (Gender[])Enum.GetValues(typeof(Gender));
         public IEnumerable<String> AvailableCountries => (new List<string>() { "AT", "DE", "CH" });
@@ -360,6 +370,7 @@ namespace Phrike.GroundControl.ViewModels
                     subject.AvatarPath = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AvatarPath)));
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ImagePath)));
+                    AvatarPathChanged = true;
                 }
             }
         }
