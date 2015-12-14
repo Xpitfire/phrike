@@ -168,6 +168,7 @@ namespace Phrike.GroundControl.Helper
                     restorePath = Path.GetTempFileName();
                     try
                     {
+                        File.Delete(restorePath); // Dirty hack
                         File.Move(PathHelper.GetPicturePath(oldPath), restorePath);
                     }
                     catch (Exception e)
