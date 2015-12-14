@@ -119,6 +119,9 @@
     <Compile Include="Controller\SettingsController.cs" />
     <Compile Include="Controller\UnrealEngineController.cs" />
     <Compile Include="Controller\ControlDelegates.cs" />
+    <Compile Include="Views\FileListDebugView.xaml.cs">
+      <DependentUpon>FileListDebugView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\Sensor.cs" />
     <Compile Include="Helper\DefaultDataProvider.cs" />
     <Compile Include="Helper\PathHelper.cs" />
@@ -177,6 +180,10 @@
     <Compile Include="Views\UserSelect.xaml.cs">
       <DependentUpon>UserSelect.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\FileListDebugView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
