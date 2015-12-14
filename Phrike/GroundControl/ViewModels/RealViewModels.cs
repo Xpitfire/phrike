@@ -13,6 +13,42 @@ using Phrike.GroundControl.Helper;
 
 namespace Phrike.GroundControl.ViewModels
 {
+    class SurveryCollectionVM : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+    }
+
+    class SurveyVM : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+    }
+
+    class SurveyQuestionCollectionVM : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+    }
+
+    class SurveyQuestionVM : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+    }
+
+    class SurveyResultCollectionVM : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+    }
+
+    class SurveyResultVM : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+    }
+
     class TestCollectionVM : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
