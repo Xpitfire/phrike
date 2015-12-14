@@ -137,7 +137,6 @@ namespace Phrike.GroundControl.ViewModels
                 LoadSubjects();
         }
 
-
         public SubjectVM CurrentSubject
         {
             get { return this.currentSubject; }
@@ -164,7 +163,6 @@ namespace Phrike.GroundControl.ViewModels
                 }
             }
         }
-
     }
 
 
@@ -493,7 +491,7 @@ namespace Phrike.GroundControl.ViewModels
         #endregion
     }
 
-    class ScenarioCollectionVM : INotifyPropertyChanged
+    public class ScenarioCollectionVM : INotifyPropertyChanged
     {
         private ScenarioVM currentScenario;
         public ObservableCollection<ScenarioVM> Scenarios { get; set; }
@@ -534,7 +532,7 @@ namespace Phrike.GroundControl.ViewModels
         }
     }
 
-    class ScenarioVM : INotifyPropertyChanged
+    public class ScenarioVM : INotifyPropertyChanged
     {
         private Scenario scenario;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -564,6 +562,7 @@ namespace Phrike.GroundControl.ViewModels
         public String Description { get { return scenario.Description; } }
     }
 
+    /*
     class OverviewVM : INotifyPropertyChanged
     {
         private ScenarioVM currentScenario;
@@ -601,4 +600,5 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
     }
+    */
 }
