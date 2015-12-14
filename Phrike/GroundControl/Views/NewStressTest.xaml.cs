@@ -19,7 +19,7 @@ namespace Phrike.GroundControl.Views
     /// <summary>
     /// Interaction logic for OverviewNew.xaml
     /// </summary>
-    public partial class OverviewNew : UserControl
+    public partial class NewStressTest : UserControl
     {
         private enum ViewState
         {
@@ -29,22 +29,22 @@ namespace Phrike.GroundControl.Views
         };
 
         private static ViewState state = ViewState.Home;
-        private OverviewVM vm;
+        private NewStressTestViewModel overviewNewViewModel;
 
-        public OverviewNew()
+        public NewStressTest()
         {
             InitializeComponent();
 
             this.Loaded += (sender, args) =>
             {
-                this.DataContext = vm = new OverviewVM();
+                this.DataContext = overviewNewViewModel = new NewStressTestViewModel();
             };
 
             // todo: routed event from select-uc's
             // http://stackoverflow.com/questions/3067617/raising-an-event-on-parent-window-from-a-user-control-in-net-c-sharp
         }
 
-        private void SelectNewSubject(object sender, RoutedEventArgs e)
+        private void SwitchToSubjectSelectionView(object sender, RoutedEventArgs e)
         {
             wpButtons.Visibility = Visibility.Hidden;
             ucUser.Visibility = Visibility.Visible;
@@ -52,7 +52,7 @@ namespace Phrike.GroundControl.Views
             state = ViewState.Subject;
         }
 
-        private void SelectNewScenario(object sender, RoutedEventArgs e)
+        private void SwitchToScenarioSelectionView(object sender, RoutedEventArgs e)
         {
             wpButtons.Visibility = Visibility.Hidden;
             ucScenario.Visibility = Visibility.Visible;
@@ -86,21 +86,18 @@ namespace Phrike.GroundControl.Views
             GoBack();
         }
 
-        private void UcUser_OnUserSelected(object sender, RoutedEventArgs e)
+        private void SelectSubject(object sender, RoutedEventArgs e)
         {
-            var x = (SubjectCollectionVM)((UserSelect)sender).DataContext;
-            SubjectVM curr = x.CurrentSubject;
-            vm.CurrentSubject = curr;
+            var subjectCollectionVM = (SubjectCollectionVM)((UserSelect)sender).DataContext;
+            overviewNewViewModel.CurrentSubject = subjectCollectionVM.CurrentSubject;
             GoBack();
             //MessageBox.Show(curr.FullName+ " selected");
         }
 
-        private void UcScenario_OnScenarioSelected(object sender, RoutedEventArgs e)
+        private void SelectScenario(object sender, RoutedEventArgs e)
         {
-            var x = (ScenarioCollectionVM)((ScenarioSelect)sender).DataContext;
-            ScenarioVM curr = x.CurrentScenario;
-            
-            vm.CurrentScenario = curr;
+            var scenarioCollectionVM = (ScenarioCollectionVM)((ScenarioSelect)sender).DataContext;
+            overviewNewViewModel.CurrentScenario = scenarioCollectionVM.CurrentScenario;
             GoBack();
             //MessageBox.Show(curr.Name + " selected");
         }

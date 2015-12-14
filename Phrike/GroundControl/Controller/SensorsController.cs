@@ -63,17 +63,19 @@ namespace Phrike.GroundControl.Controller
 
             try
             {
+                var comPort = Settings.SensorComPort;
+
                 // get selected com port
-                Logger.Info("Selected sensors COM Port: " + SettingsViewModel.Instance.SensorComPort);
+                Logger.Info("Selected sensors COM Port: " + comPort);
                 // connect to hardware
-                sensors = new SensorDevice(SettingsViewModel.Instance.SensorComPort);
+                sensors = new SensorDevice(comPort);
                 // set default sensor export file name
                 sensors.SetSdFilename(DefaultSampleFileName);
             }
             catch (Exception e)
             {
                 const string message = "Could not connect to sensor device!";
-                Logger.Error( e, message);
+                Logger.Error(e, message);
             }
         }
 

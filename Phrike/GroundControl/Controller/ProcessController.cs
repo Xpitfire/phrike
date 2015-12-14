@@ -39,6 +39,7 @@ namespace Phrike.GroundControl.Controller
                         Arguments = (cmdParams != null) ? String.Join(" ", cmdParams) : ""
                     }
                 };
+                // TODO: Verify if process not started
                 process.Start();
                 ProcesseDictionary[cmdPath] = process;
                 Logger.Info("New process started: {0}", cmdPath);

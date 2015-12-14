@@ -11,7 +11,7 @@ using Phrike.GroundControl.Helper;
 
 namespace Phrike.GroundControl.ViewModels
 {
-    class SubjectCollectionVM : INotifyPropertyChanged
+    public class SubjectCollectionVM : INotifyPropertyChanged
     {
         private SubjectVM currentSubject;
         public ObservableCollection<SubjectVM> Subjects { get; set; }
@@ -22,9 +22,8 @@ namespace Phrike.GroundControl.ViewModels
             Subjects = new ObservableCollection<SubjectVM>();
             currentSubject = new SubjectVM();
             if (DataLoadHelper.IsLoadDataActive())
-                LoadSubjects();
+            LoadSubjects();
         }
-
 
         public SubjectVM CurrentSubject
         {
@@ -52,7 +51,6 @@ namespace Phrike.GroundControl.ViewModels
                 }
             }
         }
-
     }
 
 
@@ -195,7 +193,7 @@ namespace Phrike.GroundControl.ViewModels
         public IEnumerable<String> AvailableCountries => (new List<string>() { "AT", "DE", "CH" });
         public IEnumerable<RhFactor> AvailableRhFactors => (RhFactor[])Enum.GetValues(typeof(RhFactor));
         public IEnumerable<BloodType> AvailableBloodTypes => (BloodType[])Enum.GetValues(typeof(BloodType));
-        public IEnumerable<String> AvailableServiceRanks => (new List<string>() { "Rekrut", "Gefreiter", "Korporal", "Zugsführer", "Wachtmeister", "Oberwachtmeister", "Stabswachtmeister", "Oberstabswachtmeister", "Offiziersstellvertreter", "Vizeleutnant", "Fähnrich", "Leutnant", "Oberleutnant", "Hauptmann", "Major", "Oberstleutnant", "Oberst", "Brigardier", "Generalmajor", "Generalleutnant", "General" });
+        public IEnumerable<String> AvailableServiceRanks => (new List<string>() { "Rekrut", "Gefreiter", "Korporal", "Zugsführer", "Wachtmeister", "Oberwachtmeister", "Stabswachtmeister", "Oberstabswachtmeister", "Offiziersstellvertreter", "Vizeleutnant", "Fähnrich", "Leutnant", "Oberleutnant", "Hauptmann", "Major", "Oberstleutnant", "Oberst", "Brigardier", "Generalmajor", "Generalleutnant", "General" }); 
         #region Property Propagation
 
         public String LastName
@@ -381,7 +379,7 @@ namespace Phrike.GroundControl.ViewModels
         #endregion
     }
 
-    class ScenarioCollectionVM : INotifyPropertyChanged
+    public class ScenarioCollectionVM : INotifyPropertyChanged
     {
         private ScenarioVM currentScenario;
         public ObservableCollection<ScenarioVM> Scenarios { get; set; }
@@ -391,7 +389,7 @@ namespace Phrike.GroundControl.ViewModels
         {
             this.Scenarios = new ObservableCollection<ScenarioVM>();
             if (DataLoadHelper.IsLoadDataActive())
-                LoadScenarios();
+            LoadScenarios();
         }
 
         private async void LoadScenarios()
@@ -422,7 +420,7 @@ namespace Phrike.GroundControl.ViewModels
         }
     }
 
-    class ScenarioVM : INotifyPropertyChanged
+    public class ScenarioVM : INotifyPropertyChanged
     {
         private Scenario scenario;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -452,6 +450,7 @@ namespace Phrike.GroundControl.ViewModels
         public String Description { get { return scenario.Description; } }
     }
 
+    /*
     class OverviewVM : INotifyPropertyChanged
     {
         private ScenarioVM currentScenario;
@@ -489,4 +488,5 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
     }
+    */
 }
