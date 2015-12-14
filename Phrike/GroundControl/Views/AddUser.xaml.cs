@@ -30,7 +30,7 @@ namespace Phrike.GroundControl.Views
 
         private void BtnFile_OnClick(object sender, RoutedEventArgs e)
         {
-            var ofd = new Microsoft.Win32.OpenFileDialog() { Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif" };
+            var ofd = new Microsoft.Win32.OpenFileDialog() { Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png)|*.jpg;*.jpeg;*.jpe;*.jfif;*.png| All Files |*.*" };
             var result = ofd.ShowDialog();
             if (result == false) return;
             ((SubjectVM)this.DataContext).AvatarPath = ofd.FileName;
