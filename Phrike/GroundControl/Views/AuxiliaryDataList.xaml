@@ -14,15 +14,24 @@
         </Grid.RowDefinitions>
         <ListBox ItemsSource="{Binding AuxiliaryData}">
             <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock ToolTip="{Binding FullInfo}">
-                        <Run Text="{Binding CategoryName}" />
+                <DataTemplate DataType="{x:Type viewModels:AuxiliaryDataViewModel}">
+                    <TextBlock ToolTip="{Binding FullInfo, Mode=OneWay}"
+                               Tag="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBox}}">
+                        <TextBlock.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem
+                                    Header="Löschen"
+                                    CommandParameter="{Binding}"
+                                    Command="{Binding PlacementTarget.Tag.DeleteFile, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
+                            </ContextMenu>
+                        </TextBlock.ContextMenu>
+                        <Run Text="{Binding CategoryName, Mode=OneWay}" />
                         <Run>: </Run>
-                        <Run Text="{Binding DisplayName}" />
+                        <Run Text="{Binding DisplayName, Mode=OneWay}" />
                     </TextBlock>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Grid.Row="1" Content="Hinzufügen..." Command="{Binding AddFile}"/>
+        <Button Grid.Row="1" Content="Hinzufügen…" Command="{Binding AddFile}"/>
     </Grid>
 </UserControl>

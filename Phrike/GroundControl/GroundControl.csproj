@@ -120,6 +120,11 @@
     <Compile Include="Controller\SettingsController.cs" />
     <Compile Include="Controller\UnrealEngineController.cs" />
     <Compile Include="Controller\ControlDelegates.cs" />
+    <Compile Include="PathToImageConverter.cs" />
+    <Compile Include="Views\FileListDebugView.xaml.cs">
+      <DependentUpon>FileListDebugView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\DataLoadHelper.cs" />
     <Compile Include="Models\Sensor.cs" />
     <Compile Include="Helper\DefaultDataProvider.cs" />
     <Compile Include="Helper\PathHelper.cs" />
@@ -145,7 +150,7 @@
     <Compile Include="ViewModels\ScenarioSelectViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\DebugViewModel.cs" />
-    <Compile Include="ViewModels\TestResultViewModel.cs" />
+    <Compile Include="ViewModels\TestArchiveViewModel.cs" />
     <Compile Include="ViewModels\UserSelectViewModel.cs" />
     <Compile Include="Views\AddUser.xaml.cs">
       <DependentUpon>AddUser.xaml</DependentUpon>
@@ -180,12 +185,16 @@
     <Compile Include="Views\Debug.xaml.cs">
       <DependentUpon>Debug.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TestResult.xaml.cs">
-      <DependentUpon>TestResult.xaml</DependentUpon>
+    <Compile Include="Views\TestArchive.xaml.cs">
+      <DependentUpon>TestArchive.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserSelect.xaml.cs">
       <DependentUpon>UserSelect.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\FileListDebugView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -246,7 +255,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TestResult.xaml">
+    <Page Include="Views\TestArchive.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

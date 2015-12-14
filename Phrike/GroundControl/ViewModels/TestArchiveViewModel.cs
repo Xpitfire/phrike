@@ -6,22 +6,26 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccess;
 using DataModel;
+using Phrike.GroundControl.Helper;
 
 namespace Phrike.GroundControl.ViewModels
 {
-    class TestResultViewModel : INotifyPropertyChanged
+    class TestArchiveViewModel : INotifyPropertyChanged
     {
         //Initialize FilterDateTime with a default value
         private DateTime _filterDateTime = DateTime.Now;
 
         private List<Subject> _subjectList = new List<Subject>();
 
-        public TestResultViewModel()
+        public TestArchiveViewModel()
         {
-            using (var unitOfWork = new UnitOfWork())
+            if (DataLoadHelper.IsLoadDataActive())
             {
-                var subjects = unitOfWork.SubjectRepository.Get();
-                SubjectList = subjects.ToList();
+                using (var unitOfWork = new UnitOfWork())
+                {
+                    var subjects = unitOfWork.SubjectRepository.Get();
+                    SubjectList = subjects.ToList();
+                }
             }
         }
 
