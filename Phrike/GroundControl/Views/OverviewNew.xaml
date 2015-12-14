@@ -23,7 +23,7 @@
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
                     <Label Content="Benutzer wählen" HorizontalAlignment="Left" Width="190" Height="38" FontSize="20" Grid.Row="0"/>
-                    <Image Height="152" Source="{Binding Path=ImagePath}" Grid.Row="1"/>
+                    <Image Height="152" Source="{Binding Path=ImagePath, Converter={StaticResource ImageConverter}}" Grid.Row="1"/>
                     <Label Content="{Binding Path=FullName}" Grid.Row="2"/>
                 </Grid>
             </Button>

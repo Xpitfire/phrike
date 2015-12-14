@@ -1,6 +1,7 @@
 ﻿<Application x:Class="Phrike.GroundControl.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:gc="clr-namespace:Phrike.GroundControl"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -14,6 +15,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml"></ResourceDictionary>
                 <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" ></ResourceDictionary>-->
             </ResourceDictionary.MergedDictionaries>
+            <gc:PathToImageConverter x:Key="ImageConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
