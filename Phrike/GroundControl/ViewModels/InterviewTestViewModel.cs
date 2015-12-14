@@ -60,16 +60,18 @@ namespace Phrike.GroundControl.ViewModels
         /// </summary>
         public InterviewTestViewModel()
         {
-            SurveyAnsList = new List<string> {
-                SurveyAnswer.Perfect.ToString(),
-                SurveyAnswer.Good.ToString(),
-                SurveyAnswer.Gratifying.ToString(),
-                SurveyAnswer.Bad.ToString(),
-                SurveyAnswer.Worst.ToString()
-            };
+            SurveyAnsList = new List<string>
+                            {
+                                SurveyAnswer.Perfect.ToString(),
+                                SurveyAnswer.Good.ToString(),
+                                SurveyAnswer.Gratifying.ToString(),
+                                SurveyAnswer.Bad.ToString(),
+                                SurveyAnswer.Worst.ToString()
+                            };
 
             using (UnitOfWork unitOfWork = new UnitOfWork())
             {
+              
                 Survey testsur = unitOfWork.SurveyRepository.GetByID(1);
 
                 if (testsur.Questions == null)
