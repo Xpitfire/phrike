@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 using DataAccess;
 using DataModel;
@@ -13,21 +15,46 @@ namespace Phrike.GroundControl.Controller
 {
     class UnrealEngineController
     {
+        private class UnrealSocket
+        {
+            public Socket Socket { get; private set; }
+            public SocketWriter UnrealSocketWriter { get; private set; }
+            public SocketReader UnrealSocketReader { get; private set; }
+
+            public UnrealSocket(Socket socket)
+            {
+                if (socket == null)
+                    throw new ArgumentNullException(nameof(socket), "Socket mustn't be null");
+                this.Socket = socket;
+                UnrealSocketWriter = new SocketWriter(socket);
+                UnrealSocketReader = new SocketReader(socket);
+            }
+
+            public void Close()
+            {
+                Socket.Close();
+                Socket = null;
+            }
+        }
+
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private static string unrealEnginePath;
         /// <summary>
         /// Execution path of the Unreal Engine.
         /// </summary>
-        public static string UnrealEnginePath {
+        public static string UnrealEnginePath
+        {
             get
             {
                 if (unrealEnginePath == null)
                 {
                     using (var unitOfWork = new UnitOfWork())
                     {
-                        unrealEnginePath = unitOfWork.TestRepository.Get(
-                            data => data.Scenario.Name == "Balance").FirstOrDefault()?.Scenario.Name;
+                        // TODO: Szenario is fixed name!!!
+                        // TODO: Correct Path (PathHelper)
+                        unrealEnginePath = unitOfWork.ScenarioRepository.Get(
+                            data => data.Name == "Balance").FirstOrDefault()?.ExecutionPath;
                     }
                 }
                 return unrealEnginePath;
@@ -38,12 +65,18 @@ namespace Phrike.GroundControl.Controller
         public const int UnrealEngineSocketPort = 5678;
 
         // The socket for the Unreal Engine command communication
-        private Socket socket;
-        private SocketWriter unrealSocketWriter;
-        private SocketReader unrealSocketReader;
+        //private Socket socket;
+        private List<UnrealSocket> sockets;
 
-        private ControlDelegates.ViewModelCallbackMethod disableUnrealEngineCallback;
-        private ControlDelegates.ErrorMessageCallbackMethod errorMessageCallback;
+        private readonly ControlDelegates.ViewModelCallbackMethod disableUnrealEngineCallback;
+        private readonly ControlDelegates.ErrorMessageCallbackMethod errorMessageCallback;
+
+        private Thread socketListenerThread;
+        private TcpListener socketListener;
+
+        public event EventHandler Restarting;
+        public event EventHandler Ending;
+        public event EventHandler<PositionData> PositionReceived;
 
         /// <summary>
         /// Is alive flag for the socket communication thread.
@@ -57,26 +90,40 @@ namespace Phrike.GroundControl.Controller
         {
             this.errorMessageCallback = errorMessageCallback;
             this.disableUnrealEngineCallback = disableUnrealEngineCallback;
-            
+
             if (UnrealEnginePath == null)
             {
-                throw new NotSupportedException("Could not find scenario data!");
+                //throw new NotSupportedException("Could not find scenario data!");
             }
 
+            this.sockets = new List<UnrealSocket>();
+
+            IsAlive = true;
+            socketListener = new TcpListener(IPAddress.Any, UnrealEngineSocketPort);
+            socketListener.Start();
+
+            socketListenerThread = new Thread(ListenForEngineConnect);
+            socketListenerThread.Start();
+        }
+
+        private void ListenForEngineConnect()
+        {
             try
             {
-                IsAlive = true;
-                TcpListener socketListener = new TcpListener(IPAddress.Any, UnrealEngineSocketPort);
-                socketListener.Start();
                 Logger.Info("Unreal Engine socket connection established on port {0} and waiting for connections...",
                     UnrealEngineSocketPort);
-                socket = socketListener.AcceptSocket();
-                unrealSocketWriter = new SocketWriter(socket);
-                unrealSocketReader = new SocketReader(socket);
-                // run command listener thread
-                Thread trackingThread = new Thread(Run);
-                trackingThread.Start();
-                Logger.Info("Listener socket thread initialized.");
+                while (IsAlive)
+                {
+                    Socket socket = socketListener.AcceptSocket();
+
+                    UnrealSocket unrealSocket = new UnrealSocket(socket);
+                    sockets.Add(unrealSocket);
+
+                    // run command listener thread
+                    Thread trackingThread = new Thread(() => Run(unrealSocket));
+                    trackingThread.Start();
+                    Logger.Info("Listener socket thread initialized.");
+                }
             }
             catch (Exception e)
             {
@@ -96,15 +143,17 @@ namespace Phrike.GroundControl.Controller
             try
             {
                 // stop running screen capturing task
-                StopCapture();
-                // send close command
-                unrealSocketWriter.WriteString("end");
-                unrealSocketWriter.Send();
+                //StopCapture();
+                // send close commands
+                foreach (UnrealSocket socket in sockets)
+                {
+                    socket.UnrealSocketWriter.WriteString("end");
+                    socket.UnrealSocketWriter.Send();
+                }
             }
             catch (Exception e)
             {
                 const string message = "Could not send Unreal Engine exit command!";
-                //Logger.Error(message, e);
                 Logger.Error(e, message);
             }
             finally
@@ -113,20 +162,21 @@ namespace Phrike.GroundControl.Controller
                 Thread.Sleep(2000);
                 try
                 {
-                    unrealSocketReader.Receive(1000);
-                    string readString;
-                    if ((readString = unrealSocketReader.ReadString()) == "end")
+                    Parallel.ForEach(sockets, socket =>
                     {
-                        if (socket != null)
+                        socket.UnrealSocketReader.Receive(1000);
+                        string readString;
+                        if ((readString = socket.UnrealSocketReader.ReadString()) == "end")
+                        {
                             socket.Close();
-                        Logger.Info("Successfully closed socket connection!");
-                    }
-                    else
-                    {
-                        Logger.Error("Expected 'end' from Unreal Engine received '" + readString + "'. Killing connection!");
-                        if (socket != null)
+                            Logger.Info("Successfully closed socket connection!");
+                        }
+                        else
+                        {
+                            Logger.Error($"Expected 'end' from Unreal Engine received '{readString}'. Killing connection!");
                             socket.Close();
-                    }
+                        }
+                    });
                 }
                 catch (Exception e)
                 {
@@ -134,50 +184,14 @@ namespace Phrike.GroundControl.Controller
                 }
             }
         }
-
-        /// <summary>
-        /// Start a screen capturing instance.
-        /// </summary>
-        public void StartCapture()
-        {
-            try
-            {
-                unrealSocketWriter.WriteString("start_capture");
-                unrealSocketWriter.Send();
-            }
-            catch (Exception e)
-            {
-                const string message = "Could not send Unreal Engine start capture command!";
-                //Logger.Error(message, e);
-                Logger.Error(e, message);
-                errorMessageCallback(message);
-            }
-        }
-        /// <summary>
-        /// Stop a screen capturing instance.
-        /// </summary>
-        public void StopCapture()
-        {
-            try
-            {
-                unrealSocketWriter.WriteString("stop_capture");
-                unrealSocketWriter.Send();
-            }
-            catch (Exception e)
-            {
-                const string message = "Could not send Unreal Engine stop capture command!";
-                //Logger.Error(message, e);
-                Logger.Error(e, message);
-                errorMessageCallback(message);
-            }
-        }
-
+        
         /// <summary>
         /// Initialize position tracking interval / refresh rate and
         /// start position and angle transmition.
         /// </summary>
-        private void InitPositionTracking()
+        private void InitPositionTracking(UnrealSocket socket)
         {
+            SocketWriter unrealSocketWriter = socket.UnrealSocketWriter;
             try
             {
                 unrealSocketWriter.WriteString("init");
@@ -197,8 +211,12 @@ namespace Phrike.GroundControl.Controller
         /// <summary>
         /// Unreal Engine Socket command receive thread.
         /// </summary>
-        public void Run()
+        private void Run(UnrealSocket unrealSocket)
         {
+            Socket socket = unrealSocket.Socket;
+            SocketReader unrealSocketReader = unrealSocket.UnrealSocketReader;
+            SocketWriter unrealSocketWriter = unrealSocket.UnrealSocketWriter;
+
             using (UnitOfWork unitOfWork = new UnitOfWork())
             {
                 // TODO: This is for test purpose only !!!!
@@ -248,9 +266,11 @@ namespace Phrike.GroundControl.Controller
                 unitOfWork.TestRepository.Insert(test);
 
                 #endregion
-                InitPositionTracking();
+
+                InitPositionTracking(unrealSocket);
                 Logger.Info("Unreal Engine listener socket thread active!");
-                while (IsAlive)
+                bool keepRunning = true;
+                while (IsAlive && keepRunning)
                 {
                     unrealSocketReader.Receive();
 
@@ -290,11 +310,19 @@ namespace Phrike.GroundControl.Controller
                                     Time = DateTime.Now,
                                     Test = test
                                 };
-                                test.PositionData.Add(pd);
-                                unitOfWork.PositionDataRepository.Insert(pd);
+                                OnPositionReceived(pd);
+                                
+                                //test.PositionData.Add(pd);
+                                //unitOfWork.PositionDataRepository.Insert(pd);
                                 break;
                             case "end":
                                 IsAlive = false;
+                                keepRunning = false;
+                                OnEnding();
+                                break;
+                            case "restart":
+                                keepRunning = false;
+                                OnRestarting();
                                 break;
                             default:
                                 Logger.Error("Unkown Command: {0}", cmd);
@@ -307,11 +335,11 @@ namespace Phrike.GroundControl.Controller
                 //Test x = unitOfWork.TestRepository.Get(test => test.Scenario.Name == "irgendwas").FirstOrDefault();
                 //Logger.Debug(x?.Scenario.Name + "; " + x?.Subject.FirstName);
 
-                disableUnrealEngineCallback();
+                if (!IsAlive)
+                    disableUnrealEngineCallback();
                 try
                 {
-                    if (socket != null)
-                        socket.Close();
+                    socket?.Close();
                     Logger.Info("Socket successfully closed!");
                 }
                 catch (Exception e)
@@ -321,9 +349,29 @@ namespace Phrike.GroundControl.Controller
                 }
                 finally
                 {
+                    // Save PositionData from test
                     unitOfWork.Save();
+
+                    this.sockets.Remove(unrealSocket);
                 }
             }
+        }
+
+        protected virtual void OnRestarting()
+        {
+            Logger.Info("Restarting Test");
+            Restarting?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnEnding()
+        {
+            Logger.Info("Ending Test");
+            Ending?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnPositionReceived(PositionData e)
+        {
+            PositionReceived?.Invoke(this, e);
         }
     }
 }

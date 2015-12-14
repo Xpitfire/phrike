@@ -48,6 +48,9 @@
             <TabItem Padding="30" Header="Interview" Name="TabItemInterviewTest">
                 <Views:InterviewTest DataContext="{Binding}"></Views:InterviewTest>
             </TabItem>
+            <TabItem Padding="30" Header="Debug: FileList" Name="TabItemFileList">
+                <GroundControl:FileListDebugView DataContext="{Binding}" />
+            </TabItem>
      </TabControl>
 
     </Grid>

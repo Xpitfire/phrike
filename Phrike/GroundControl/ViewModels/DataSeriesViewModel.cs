@@ -58,7 +58,7 @@ namespace Phrike.GroundControl.ViewModels
         /// <summary>
         /// Backing field for <see cref="Color"/>.
         /// </summary>
-        private Brush color;
+        private SolidColorBrush color;
 
         /// <summary>
         /// Backing field for <see cref="IsTrendShown"/>.
@@ -112,9 +112,16 @@ namespace Phrike.GroundControl.ViewModels
         /// <summary>
         /// Gets the actual color of <see cref="PlottableData"/>.
         /// </summary>
-        public Brush Color => color ?? (color = new SolidColorBrush(
-            OxyPlot.Wpf.ConverterExtensions.ToColor(plottableData.ActualColor))
-        );
+        public Brush Color
+        {
+            get
+            {
+                SolidColorBrush result = color ?? (color = new SolidColorBrush());
+                result.Color =
+                    OxyPlot.Wpf.ConverterExtensions.ToColor(plottableData.ActualColor);
+                return result;
+            }
+        }
 
         /// <summary>
         /// The length of the time interval contained in the <see cref="Model"/> in seconds.

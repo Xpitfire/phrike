@@ -84,7 +84,7 @@
                 <TextBox TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="5" Grid.Column="1" Text="{Binding Path=Conditions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
                 <Label Grid.Row="6" Grid.Column="0" Content="Icon: " Margin="5"/>
-                <TextBox IsReadOnly="False" Grid.Row="6" Grid.Column="1" Text="{Binding Path=AvatarPath, Mode=OneWay}" Margin="5"/>
+                <TextBox IsReadOnly="True" Grid.Row="6" Grid.Column="1" Text="{Binding Path=AvatarPath, Mode=OneWay}" Margin="5"/>
                 <Button Name="btnFile" Content="..." Grid.Row="6" Grid.Column="2" Click="BtnFile_OnClick"/>
             </Grid>
         </GroupBox>

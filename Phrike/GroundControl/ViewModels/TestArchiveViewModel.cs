@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataAccess;
 using DataModel;
+using Phrike.GroundControl.Helper;
 
 namespace Phrike.GroundControl.ViewModels
 {
@@ -14,14 +16,12 @@ namespace Phrike.GroundControl.ViewModels
         //Initialize FilterDateTime with a default value
         private DateTime _filterDateTime = DateTime.Now;
 
-        private List<Subject> _subjectList = new List<Subject>();
-
         public TestArchiveViewModel()
         {
-            using (var unitOfWork = new UnitOfWork())
+            if (DataLoadHelper.IsLoadDataActive())
             {
-                var subjects = unitOfWork.SubjectRepository.Get();
-                SubjectList = subjects.ToList();
+                TestVM = new TestCollectionVM();
+                TestList = TestVM.Tests;
             }
         }
 
@@ -35,16 +35,10 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
-        public List<Subject> SubjectList
-        {
-            get { return _subjectList; }
-            set
-            {
-                _subjectList = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SubjectList)));
-            }
-        }
-        
+        public TestCollectionVM TestVM { get; }
+
+        public ObservableCollection<TestVM> TestList { get; } 
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }
