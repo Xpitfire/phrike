@@ -12,21 +12,22 @@ using System.Windows.Input;
 
 namespace Phrike.GroundControl.ViewModels
 {
-    public class OverviewNewViewModel : INotifyPropertyChanged
+    public class NewStressTestViewModel : INotifyPropertyChanged
     {
-        public static OverviewNewViewModel Instance;
+        public static NewStressTestViewModel Instance;
 
         private ScenarioVM currentScenario;
         private SubjectVM currentSubject;
+        private StressTestController stressTestController;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public OverviewNewViewModel()
+        public NewStressTestViewModel()
         {
             Instance = this;
+            stressTestController = new StressTestController();
             StartStressTestCommand = new RelayCommand(StartStressTest);
-            //SelectSubjectCommand = new RelayCommand(SelectSubject);
-            //SelectScenarioCommand = new RelayCommand(SelectScenario);
+            StopStressTestCommand = new RelayCommand(StopStressTest);
         }
 
         public ScenarioVM CurrentScenario
@@ -62,11 +63,16 @@ namespace Phrike.GroundControl.ViewModels
 
         private void StartStressTest(object parameter)
         {
-            StressTestController hc = new StressTestController();
-
-            hc.StartStressTest(CurrentSubject, CurrentScenario);
-
+            stressTestController.StartStressTest(CurrentSubject, CurrentScenario);
             Console.WriteLine("Test started...");
+        }
+
+        public ICommand StopStressTestCommand { get; private set; }
+
+        private void StopStressTest(object parameter)
+        {
+            stressTestController.StopStressTest();
+            Console.WriteLine("Test stopped...");
         }
 
         [NotifyPropertyChangedInvocator]

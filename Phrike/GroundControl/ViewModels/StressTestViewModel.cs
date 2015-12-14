@@ -19,7 +19,25 @@ namespace Phrike.GroundControl.ViewModels
 
     public class StressTestViewModel : INotifyPropertyChanged
     {
-        public static StressTestViewModel Instance;
+        private static StressTestViewModel instance = null;
+        public static StressTestViewModel Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new StressTestViewModel();
+                }
+                return instance;
+            }
+            private set
+            {
+                if (instance != value)
+                {
+                    instance = value;
+                }
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

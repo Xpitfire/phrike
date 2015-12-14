@@ -19,7 +19,7 @@ namespace Phrike.GroundControl.Views
     /// <summary>
     /// Interaction logic for OverviewNew.xaml
     /// </summary>
-    public partial class OverviewNew : UserControl
+    public partial class NewStressTest : UserControl
     {
         private enum ViewState
         {
@@ -29,15 +29,15 @@ namespace Phrike.GroundControl.Views
         };
 
         private static ViewState state = ViewState.Home;
-        private OverviewNewViewModel overviewNewViewModel;
+        private NewStressTestViewModel overviewNewViewModel;
 
-        public OverviewNew()
+        public NewStressTest()
         {
             InitializeComponent();
 
             this.Loaded += (sender, args) =>
             {
-                this.DataContext = overviewNewViewModel = new OverviewNewViewModel();
+                this.DataContext = overviewNewViewModel = new NewStressTestViewModel();
             };
 
             // todo: routed event from select-uc's
