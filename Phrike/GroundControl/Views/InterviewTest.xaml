@@ -9,16 +9,26 @@
 
     <UserControl.Resources>
         <ViewModels:InterviewTestViewModel x:Key="InterviewTestViewModel" />
-        
-        <DataTemplate x:Key="RadioButtonsTemplate">
-            <RadioButton Margin="0,0,10,0"  Checked="RadioButton_Checked" GroupName="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=Content}" Content="{Binding}" />
+
+        <DataTemplate x:Key="RadioButtonsTemplate" >
+            <RadioButton x:Name="rb" Margin="0,0,10,0"
+                        
+                         IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem}}"
+                         Content="{Binding}" />
         </DataTemplate>
         
         <ControlTemplate x:Key="ListViewTemplate" TargetType="ListView">
-            <ListView DataContext="{StaticResource InterviewTestViewModel}" ItemsSource="{Binding SurveyAnsList}" ItemTemplate="{StaticResource RadioButtonsTemplate}">
+            <ListView DataContext="{StaticResource InterviewTestViewModel}"
+                      ItemsSource="{Binding SurveyAnsList}"
+                      ItemTemplate="{StaticResource RadioButtonsTemplate}"
+                      SelectionMode="Single"
+                      BorderThickness="0">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
             </ListView>
@@ -26,22 +36,23 @@
         
     </UserControl.Resources>
 
-    <Grid Margin="0" DataContext="{StaticResource InterviewTestViewModel}">
+    <Grid x:Name="InterviewGrid"  Margin="0" DataContext="{StaticResource InterviewTestViewModel}">
         <StackPanel>
             <TextBlock Text="{Binding Path=SurveyName}"/>
             <StackPanel>
                 <ListBox Height="Auto" ItemsSource="{Binding QuestionList}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Vertical" Margin="10">
+                            <StackPanel  Orientation="Vertical" Margin="10">
                                 <TextBlock Text="{Binding}" />
-                                <ListView Template="{StaticResource ListViewTemplate}" />
+                                <ListView  Template="{StaticResource ListViewTemplate}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-
+                <StackPanel></StackPanel>
             </StackPanel>
+           
 
             <Button Click="ButtonClick">Speichern</Button>
         </StackPanel>

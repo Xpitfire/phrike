@@ -5,13 +5,125 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using DataAccess;
+using Phrike.GroundControl.Annotations;
 using Phrike.GroundControl.Helper;
 
 namespace Phrike.GroundControl.ViewModels
 {
-    public class SubjectCollectionVM : INotifyPropertyChanged
+    class TestCollectionVM : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+        public ObservableCollection<TestVM> Tests { get; set; }
+        private TestVM currentTest;
+
+        public TestCollectionVM()
+        {
+            Tests = new ObservableCollection<TestVM>();
+            currentTest = new TestVM();
+            if (DataLoadHelper.IsLoadDataActive())
+                LoadTest();
+        }
+
+        private async void LoadTest()
+        {
+            Tests.Clear();
+
+            using (var x = new UnitOfWork())
+            {
+                IEnumerator<Test> enu = x.TestRepository.Get(includeProperties: "Scenario,Subject").GetEnumerator();
+                while (await Task.Factory.StartNew(() => enu.MoveNext()))
+                {
+                    Tests.Add(new TestVM(enu.Current));
+                }
+            }
+        }
+
+        public TestVM CurrentTest
+        {
+            get { return this.currentTest; }
+            set
+            {
+                if (currentTest != value)
+                {
+                    this.currentTest = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentTest)));
+                }
+            }
+        }
+    }
+
+    internal class TestVM : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+        private Test test;
+        
+        public Test Test
+        {
+            get { return test; }
+            set
+            {
+                test = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Test)));
+            }
+        }
+
+        public TestVM(Test test)
+        {
+            this.test = test;
+        }
+
+        public TestVM()
+        {
+            test = new Test();
+        }
+
+        public string FullTitle => $"{test.Title} {test.Subject?.LastName} {test.Scenario?.Name}";
+        
+        public string Title
+        {
+            get { return test.Title; }
+            set
+            {
+                if (test.Title != value)
+                {
+                    test.Title = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Title)));
+                }
+            }
+        }
+
+        public Scenario Scenario
+        {
+            get { return test.Scenario; }
+            set
+            {
+                if (test.Scenario != value)
+                {
+                    test.Scenario = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Scenario)));
+                }
+            }
+        }
+
+        public Subject Subject
+        {
+            get { return test.Subject; }
+            set
+            {
+                if (test.Subject != value)
+                {
+                    test.Subject = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Subject)));
+                }
+            }
+        }
+
+    }
+
+    class SubjectCollectionVM : INotifyPropertyChanged
     {
         private SubjectVM currentSubject;
         public ObservableCollection<SubjectVM> Subjects { get; set; }
@@ -22,7 +134,7 @@ namespace Phrike.GroundControl.ViewModels
             Subjects = new ObservableCollection<SubjectVM>();
             currentSubject = new SubjectVM();
             if (DataLoadHelper.IsLoadDataActive())
-            LoadSubjects();
+                LoadSubjects();
         }
 
         public SubjectVM CurrentSubject
@@ -193,7 +305,7 @@ namespace Phrike.GroundControl.ViewModels
         public IEnumerable<String> AvailableCountries => (new List<string>() { "AT", "DE", "CH" });
         public IEnumerable<RhFactor> AvailableRhFactors => (RhFactor[])Enum.GetValues(typeof(RhFactor));
         public IEnumerable<BloodType> AvailableBloodTypes => (BloodType[])Enum.GetValues(typeof(BloodType));
-        public IEnumerable<String> AvailableServiceRanks => (new List<string>() { "Rekrut", "Gefreiter", "Korporal", "Zugsführer", "Wachtmeister", "Oberwachtmeister", "Stabswachtmeister", "Oberstabswachtmeister", "Offiziersstellvertreter", "Vizeleutnant", "Fähnrich", "Leutnant", "Oberleutnant", "Hauptmann", "Major", "Oberstleutnant", "Oberst", "Brigardier", "Generalmajor", "Generalleutnant", "General" }); 
+        public IEnumerable<String> AvailableServiceRanks => (new List<string>() { "Rekrut", "Gefreiter", "Korporal", "Zugsführer", "Wachtmeister", "Oberwachtmeister", "Stabswachtmeister", "Oberstabswachtmeister", "Offiziersstellvertreter", "Vizeleutnant", "Fähnrich", "Leutnant", "Oberleutnant", "Hauptmann", "Major", "Oberstleutnant", "Oberst", "Brigardier", "Generalmajor", "Generalleutnant", "General" });
         #region Property Propagation
 
         public String LastName
@@ -389,7 +501,7 @@ namespace Phrike.GroundControl.ViewModels
         {
             this.Scenarios = new ObservableCollection<ScenarioVM>();
             if (DataLoadHelper.IsLoadDataActive())
-            LoadScenarios();
+                LoadScenarios();
         }
 
         private async void LoadScenarios()
