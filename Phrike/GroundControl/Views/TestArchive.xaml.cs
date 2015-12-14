@@ -20,7 +20,7 @@ namespace Phrike.GroundControl.Views
     /// </summary>
     public partial class TestArchive : UserControl
     {
-        public TestResult()
+        public TestArchive()
         {
             InitializeComponent();
         }

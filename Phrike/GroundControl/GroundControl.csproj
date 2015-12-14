@@ -180,8 +180,8 @@
     <Compile Include="Views\Debug.xaml.cs">
       <DependentUpon>Debug.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TestResult.xaml.cs">
-      <DependentUpon>TestResult.xaml</DependentUpon>
+    <Compile Include="Views\TestArchive.xaml.cs">
+      <DependentUpon>TestArchive.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserSelect.xaml.cs">
       <DependentUpon>UserSelect.xaml</DependentUpon>
@@ -246,7 +246,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TestResult.xaml">
+    <Page Include="Views\TestArchive.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
