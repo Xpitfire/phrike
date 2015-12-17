@@ -77,6 +77,7 @@ namespace Phrike.GroundControl.ViewModels
                 if (testsur?.Questions == null)
                 {
                     Console.WriteLine("No questions");
+                    return;
                 }
 
                 List<SurveyQuestion> sq = new List<SurveyQuestion>(testsur.Questions);

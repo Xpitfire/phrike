@@ -51,6 +51,10 @@
             <TabItem Padding="30" Header="Debug: FileList" Name="TabItemFileList">
                 <GroundControl:FileListDebugView DataContext="{Binding}" />
             </TabItem>
+            
+            <TabItem Padding="30" Header="Debug: TestARchive" Name="TabItemArchive">
+                <Views:TestArchive DataContext="{Binding}" />
+            </TabItem>
      </TabControl>
 
     </Grid>

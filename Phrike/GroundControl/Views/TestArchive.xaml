@@ -10,28 +10,35 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     
-    <UserControl.Resources>
-        <viewmodels:TestArchiveViewModel x:Key="TestArchiveViewModel"/>
-    </UserControl.Resources>
-
-    <Grid DataContext="{StaticResource TestArchiveViewModel}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Vertical">
             <Label Content="Filter" />
             <StackPanel Orientation="Horizontal">
-                <RadioButton GroupName="Filter" Content="Alle"/>
-                <RadioButton GroupName="Filter" Content="Benutzer"/>
-                <RadioButton GroupName="Filter" Content="Datum"/>
-                <RadioButton GroupName="Filter" Content="Szenario"/>
+                <RadioButton GroupName="Filter" Content="Alle" IsChecked="{Binding Path=FilterAll, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                <RadioButton GroupName="Filter" Content="Benutzer" IsChecked="{Binding Path=FilterUser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                <RadioButton GroupName="Filter" Content="Datum" IsChecked="{Binding Path=FilterDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+                <RadioButton GroupName="Filter" Content="Szenario" IsChecked="{Binding Path=FilterScenario  , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
             </StackPanel>
         </StackPanel>
-        
-        <StackPanel Grid.Row="1" Orientation="Vertical">
+
+        <!--<Label Grid.Row="1" Content="Auswahl"/>-->
+        <ComboBox Grid.Row="1" ItemsSource="{Binding SubjectList}" SelectedItem="{Binding SelectedSubject}" Visibility="{Binding Path=SubjVisible}"/>
+        <ComboBox Grid.Row="1" ItemsSource="{Binding Path=ScenarioList}" SelectedItem="{Binding SelectedScenario}" Visibility="{Binding Path=ScenVisible}"></ComboBox>
+        <DatePicker Grid.Row="1" Text="{Binding Path=FilterDateTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=DateVisible}"></DatePicker>
+
+        <ListView Grid.Row="2" ItemsSource="{Binding TestList}" DisplayMemberPath="FullTitle" x:Name="lstTest">
+
+        </ListView>
+
+        <Button Grid.Row="3" Content="Anzeigen"/>
+        <!--<StackPanel Grid.Row="1" Orientation="Vertical">
             <Label Content="Auswahl"/>
             <ComboBox ItemsSource="{Binding SubjectList}" />
             <DatePicker 
@@ -57,12 +64,12 @@
                 <TextBox Grid.Column="1" controls:TextBoxHelper.Watermark="Suche"/>
             </Grid>
 
-            <ListView Grid.Row="1" ItemsSource="{Binding TestList}" DisplayMemberPath="FullTitle">
+            <ListView Grid.Row="1" ItemsSource="{Binding TestList}" DisplayMemberPath="FullTitle" x:Name="lstTest">
                 
             </ListView>
             
             <Button Grid.Row="2" Content="Anzeigen"/>
-        </Grid>
+        </Grid>-->
 
     </Grid>
 </UserControl>

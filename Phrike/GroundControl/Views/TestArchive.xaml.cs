@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Phrike.GroundControl.ViewModels;
 
 namespace Phrike.GroundControl.Views
 {
@@ -23,6 +24,21 @@ namespace Phrike.GroundControl.Views
         public TestArchive()
         {
             InitializeComponent();
+
+            this.Loaded += (sender, args) =>
+            {
+                var context = new TestArchiveViewModel();
+                this.DataContext = context;
+                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(lstTest.ItemsSource);
+                view.Filter = context.Filter;
+            };
+        }
+
+        private bool Filter(object o)
+        {
+            var x = this.DataContext as TestArchiveViewModel;
+
+            return true;
         }
     }
 }
