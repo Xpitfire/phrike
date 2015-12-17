@@ -48,7 +48,7 @@ namespace Phrike.GroundControl.ViewModels
         public DataBundleViewModel(DataBundle model)
         {
             DataSeries = new ObservableCollection<DataSeriesViewModel>(
-                model.DataSeries.Select(ds => new DataSeriesViewModel(ds)));
+                model.DataSeries.Select((ds, i) => new DataSeriesViewModel(ds, i)));
 
             foreach (DataSeriesViewModel ds in DataSeries)
             {

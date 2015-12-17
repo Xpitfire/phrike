@@ -30,11 +30,14 @@ namespace Phrike.GroundControl.ViewModels
     {
       PositionDataController pdc = new PositionDataController();
 
-      pdc.LoadData(1);
+      //pdc.LoadData(1);
       DataBundle dataBundle = new DataBundle
       {
         DataSeries =
                 {
+                    /*pdc.PositionSpeedSeries,
+                    pdc.PositionAccelSeries,
+                    pdc.PositionIdleMovementSeries*/
                     new DataSeries(new []{1.0, 2.0, 4.0, 0.0}, 2, "src", "ser", Unit.Unknown),
                     new DataSeries(new []{0.3, 0.0, 0.2, 0.4}, 2, "src", "ser2", Unit.Unknown)
                 }
