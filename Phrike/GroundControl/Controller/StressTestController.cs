@@ -59,7 +59,10 @@ namespace Phrike.GroundControl.Controller
                 ProcessController.StartProcess(UnrealEngineController.UnrealEnginePath, true, new string[] { "-fullscreen" });
                 Logger.Info("Unreal Engine process started!");
                 // create the Unreal Engine communication object
-                unrealEngineController = new UnrealEngineController(ShowStressTestError, DisableUnrealEngineAndScreenCapturingColor);
+                unrealEngineController = new UnrealEngineController();
+                unrealEngineController.ErrorOccoured += (sender, args) => ShowStressTestError(args.Message);
+                unrealEngineController.Ending += (sender, args) => DisableUnrealEngineAndScreenCapturingColor();
+
                 Logger.Info("Unreal Engine is ready to use!");
                 stressTestViewModel.UnrealStatusColor = GCColors.Active;
             });

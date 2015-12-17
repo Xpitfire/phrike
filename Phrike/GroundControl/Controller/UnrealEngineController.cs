@@ -68,11 +68,8 @@ namespace Phrike.GroundControl.Controller
         //private Socket socket;
         private List<UnrealSocket> sockets;
 
-        private readonly ControlDelegates.ViewModelCallbackMethod disableUnrealEngineCallback;
-        private readonly ControlDelegates.ErrorMessageCallbackMethod errorMessageCallback;
-
         private Thread socketListenerThread;
-        private TcpListener socketListener;
+        private readonly TcpListener socketListener;
 
         public event EventHandler Restarting;
         public event EventHandler Ending;
@@ -87,11 +84,8 @@ namespace Phrike.GroundControl.Controller
         /// <summary>
         /// Create a new Unreal Engine instance and connect to the socket.
         /// </summary>
-        public UnrealEngineController(ControlDelegates.ErrorMessageCallbackMethod errorMessageCallback, ControlDelegates.ViewModelCallbackMethod disableUnrealEngineCallback)
+        public UnrealEngineController()
         {
-            this.errorMessageCallback = errorMessageCallback;
-            this.disableUnrealEngineCallback = disableUnrealEngineCallback;
-
             if (UnrealEnginePath == null)
             {
                 //throw new NotSupportedException("Could not find scenario data!");
@@ -109,13 +103,13 @@ namespace Phrike.GroundControl.Controller
 
         private void ListenForEngineConnect()
         {
-            try
+            // TODO Dispose socketListener
+            // TPDP Correct message (no connection there at this point!)
+            Logger.Info("Unreal Engine socket connection established on port {0} and waiting for connections...",
+                UnrealEngineSocketPort);
+            while (IsAlive)
             {
-                // TODO Dispose socketListener
-                // TPDP Correct message (no connection there at this point!)
-                Logger.Info("Unreal Engine socket connection established on port {0} and waiting for connections...",
-                    UnrealEngineSocketPort);
-                while (IsAlive)
+                try
                 {
                     Socket socket = socketListener.AcceptSocket();
 
@@ -127,14 +121,19 @@ namespace Phrike.GroundControl.Controller
                     trackingThread.Start();
                     Logger.Info("Listener socket thread initialized.");
                 }
-            }
-            catch (Exception e)
-            {
-                IsAlive = false;
-                const string message = "Could not initialize Unreal Engine socket instance.";
-                //Logger.Error(message, e);
-                Logger.Error(e, message);
-                errorMessageCallback(message);
+                catch (Exception e)
+                {
+                    SocketException socketException = e as SocketException;
+                    if (socketException?.SocketErrorCode == SocketError.Interrupted)
+                    {
+                        // Everything alright
+                        IsAlive = false;
+                        return;
+                    }
+
+                    const string message = "Could not initialize Unreal Engine socket instance.";
+                    Logger.Error(e, message);
+                }
             }
         }
 
@@ -162,11 +161,12 @@ namespace Phrike.GroundControl.Controller
             finally
             {
                 // fix for too fast socket close 
-                Thread.Sleep(2000); // TODO Is this needed? We wait for end message anyway.
+                //Thread.Sleep(2000); // TODO Is this needed? We wait for end message anyway.
                 try
                 {
                     Parallel.ForEach(sockets, socket =>
                     {
+                        // Wait 1 sec for UE to update peacefully
                         socket.UnrealSocketReader.Receive(1000);
                         string readString;
                         if ((readString = socket.UnrealSocketReader.ReadString()) == "end")
@@ -180,6 +180,8 @@ namespace Phrike.GroundControl.Controller
                             socket.Close();
                         }
                     });
+
+                    socketListener.Stop();
                 }
                 catch (Exception e)
                 {
@@ -207,7 +209,6 @@ namespace Phrike.GroundControl.Controller
                 const string message = "Could not send Unreal Engine position tracking initalization command!";
                 //Logger.Error(message, e);
                 Logger.Error(e, message);
-                errorMessageCallback(message);
             }
         }
 
@@ -282,9 +283,6 @@ namespace Phrike.GroundControl.Controller
                         String cmd = unrealSocketReader.ReadString();
                         Logger.Info("Received command with Length: {0} - {1}", cmd.Length, cmd);
 
-                        Vector3D pos;
-                        Vector3D agl;
-
                         switch (cmd.ToLower())
                         {
                             case "posagl":
@@ -292,13 +290,13 @@ namespace Phrike.GroundControl.Controller
                                 float y = unrealSocketReader.ReadFloat();
                                 float z = unrealSocketReader.ReadFloat();
 
-                                pos = new Vector3D() { X = x, Y = y, Z = z };
+                                Vector3D pos = new Vector3D() { X = x, Y = y, Z = z };
 
                                 float roll = unrealSocketReader.ReadFloat();
                                 float pitch = unrealSocketReader.ReadFloat();
                                 float yaw = unrealSocketReader.ReadFloat();
 
-                                agl = new Vector3D() { X = roll, Y = pitch, Z = yaw };
+                                Vector3D agl = new Vector3D() { X = roll, Y = pitch, Z = yaw };
                                 Logger.Debug("Received position: {0}", pos);
                                 Logger.Debug("Received angle: {0}", agl);
 
@@ -339,7 +337,8 @@ namespace Phrike.GroundControl.Controller
                 //Logger.Debug(x?.Scenario.Name + "; " + x?.Subject.FirstName);
 
                 if (!IsAlive)
-                    disableUnrealEngineCallback();
+                {
+                }
                 try
                 {
                     socket?.Close();
@@ -368,6 +367,8 @@ namespace Phrike.GroundControl.Controller
 
         protected virtual void OnEnding()
         {
+            this.Close();
+
             Logger.Info("Ending Test");
             Ending?.Invoke(this, EventArgs.Empty);
         }
