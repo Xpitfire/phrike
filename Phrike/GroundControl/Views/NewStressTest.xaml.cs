@@ -39,7 +39,7 @@ namespace Phrike.GroundControl.Views
             {
                 this.DataContext = overviewNewViewModel = new NewStressTestViewModel();
             };
-
+            btnBack.Visibility = Visibility.Hidden;
             // todo: routed event from select-uc's
             // http://stackoverflow.com/questions/3067617/raising-an-event-on-parent-window-from-a-user-control-in-net-c-sharp
         }
@@ -49,6 +49,7 @@ namespace Phrike.GroundControl.Views
             wpButtons.Visibility = Visibility.Hidden;
             ucUser.Visibility = Visibility.Visible;
             btnBack.IsEnabled = true;
+            btnBack.Visibility = Visibility.Visible;
             state = ViewState.Subject;
         }
 
@@ -57,6 +58,7 @@ namespace Phrike.GroundControl.Views
             wpButtons.Visibility = Visibility.Hidden;
             ucScenario.Visibility = Visibility.Visible;
             btnBack.IsEnabled = true;
+            btnBack.Visibility = Visibility.Visible;
             state = ViewState.Scenario;
         }
 
@@ -79,6 +81,7 @@ namespace Phrike.GroundControl.Views
                     btnBack.IsEnabled = false;
                     break;
             }
+            btnBack.Visibility = Visibility.Hidden;
         }
 
         private void BtnBack_OnClick(object sender, RoutedEventArgs e)
