@@ -33,7 +33,7 @@ namespace Phrike.GroundControl {
                 {
                     DataContext =
                         new AuxiliaryDataListViewModel(
-                            db.TestRepository.Get(t => t.Id == 1, includeProperties: nameof(AuxilaryData)).Single());
+                            db.TestRepository.Get(includeProperties: nameof(AuxilaryData)).FirstOrDefault());
                 }
             };
         }
