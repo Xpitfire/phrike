@@ -1,4 +1,4 @@
-﻿using Phrike.GroundControl.Helper;
+﻿using DataModel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace Phrike.PhrikeScreenCapture
+namespace Phrike.GroundControl.Helper
 {
-    public class PhrikeScreenCapture
+    public class ScreenCaptureHelper
     {
-        private static PhrikeScreenCapture screenRercorder;
+        private static ScreenCaptureHelper screenRercorder;
         private Process gameProcess;
         private Process cameraProcess;
 
@@ -19,62 +19,59 @@ namespace Phrike.PhrikeScreenCapture
         public String CameraConfig { get; set; }
         public String GameConfig { get; set; }
 
-        private PhrikeScreenCapture()
+        private ScreenCaptureHelper()
         {
             // Private singleton constructor
-            LoadConfig(PathHelper.PhrikeData + "\\config.txt");
+            LoadConfig();
             IsRunningGame = false;
             IsRunningCamera = false;
         }
 
-        public static PhrikeScreenCapture GetInstance()
+        public static ScreenCaptureHelper GetInstance()
         {
             if (screenRercorder == null)
             {
                 //Create new instance if not available
-                screenRercorder = new PhrikeScreenCapture();
+                screenRercorder = new ScreenCaptureHelper();
             }
             return screenRercorder;
         }
 
-        public void LoadConfig(string configFile)
+        public void LoadConfig()
         {
-            string[] lines = System.IO.File.ReadAllLines(configFile);
-            if (lines.Count() >= 2)
-            {
-                GameConfig = lines[0];
-                CameraConfig = lines[1];
-            }
+            Settings.LoadSettings();
+            GameConfig = Settings.RecordingGameConfig;
+            CameraConfig = Settings.RecordingCameraConfig;
         }
 
-        public void StartRecording(String directory, String gameFilename, String cameraFilename, int testId)
+        public void StartRecording(int testId)
         {
-            StartGameRecording(directory, gameFilename, testId);
-            StartCameraRecording(directory, cameraFilename, testId);
+            StartGameRecording("gameRecording.mkv", testId);
+            StartCameraRecording("cameraRecording.mkv", testId);
         }
 
-        public void StartCameraRecording(String directory, String cameraFilename, int testId)
+        public void StartCameraRecording(String cameraFilename, int testId)
         {
             if (IsRunningCamera)
             {
                 return;
             }
 
-            if (StartProcessTask(ref cameraProcess, CameraConfig, directory, cameraFilename, testId))
+            if (StartProcessTask(ref cameraProcess, CameraConfig, cameraFilename, testId))
             {
                 IsRunningCamera = true;
                 Console.WriteLine(cameraProcess.Id);
             }
         }
 
-        public void StartGameRecording(String directory, String gameFilename, int testId)
+        public void StartGameRecording(String gameFilename, int testId)
         {
             if (IsRunningGame)
             {
                 return;
             }
 
-            if (StartProcessTask(ref gameProcess, GameConfig, directory, gameFilename, testId))
+            if (StartProcessTask(ref gameProcess, GameConfig, gameFilename, testId))
             {
                 IsRunningGame = true;
                 Console.WriteLine(gameProcess.Id);
@@ -82,10 +79,11 @@ namespace Phrike.PhrikeScreenCapture
 
         }
 
-        private bool StartProcessTask(ref Process process, String config, String directory, String filename, int testId)
+        private bool StartProcessTask(ref Process process, String config, String filename, int testId)
         {
-            FileStorageHelper.ReserveFile(filename, ".mkv", testId, DateTime.Now);
-            String command = config + " \"" + directory + filename + "\"";
+            var aux = FileStorageHelper.ReserveFile(filename, AuxiliaryDataMimeTypes.AnyVideo, testId, DateTime.Now);
+            String command = config + " \"" + PathHelper.PhrikeImport + "\\" +  aux.FilePath + "\"";
+            Console.WriteLine(command);
             process = new Process();
             process.StartInfo.FileName = "ffmpeg.exe";
             process.StartInfo.Arguments = command;
@@ -128,9 +126,14 @@ namespace Phrike.PhrikeScreenCapture
             Process stopProcess = new Process();
             stopProcess.StartInfo.FileName = "SendSignalCtrlC.exe";
             stopProcess.StartInfo.Arguments = process.Id.ToString();
-            bool started = stopProcess.Start();
-            Thread.Sleep(100);
-            return started;
+            stopProcess.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            bool stopped = false;
+            while (!process.HasExited)
+            {
+                stopped = stopProcess.Start();
+                Thread.Sleep(1000);
+            }
+            return stopped;
         }
     }
 }

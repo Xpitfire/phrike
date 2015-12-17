@@ -344,6 +344,11 @@ namespace Phrike.GroundControl.ViewModels
         public IEnumerable<String> AvailableServiceRanks => (new List<string>() { "Rekrut", "Gefreiter", "Korporal", "Zugsführer", "Wachtmeister", "Oberwachtmeister", "Stabswachtmeister", "Oberstabswachtmeister", "Offiziersstellvertreter", "Vizeleutnant", "Fähnrich", "Leutnant", "Oberleutnant", "Hauptmann", "Major", "Oberstleutnant", "Oberst", "Brigardier", "Generalmajor", "Generalleutnant", "General" });
         #region Property Propagation
 
+        public int Id
+        {
+            get { return subject.Id; }
+        }
+
         public String LastName
         {
             get { return subject.LastName; }
@@ -592,6 +597,8 @@ namespace Phrike.GroundControl.ViewModels
                 }
             }
         }
+
+        public int Id { get { return scenario.Id; } }
 
         public String Name { get { return scenario.Name; } }
 

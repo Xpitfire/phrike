@@ -40,6 +40,9 @@ namespace Phrike.GroundControl.Controller
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private static string unrealEnginePath;
+
+        private Test unrealTest;
+
         /// <summary>
         /// Execution path of the Unreal Engine.
         /// </summary>
@@ -86,8 +89,9 @@ namespace Phrike.GroundControl.Controller
         /// <summary>
         /// Create a new Unreal Engine instance and connect to the socket.
         /// </summary>
-        public UnrealEngineController(ControlDelegates.ErrorMessageCallbackMethod errorMessageCallback, ControlDelegates.ViewModelCallbackMethod disableUnrealEngineCallback)
+        public UnrealEngineController(ControlDelegates.ErrorMessageCallbackMethod errorMessageCallback, ControlDelegates.ViewModelCallbackMethod disableUnrealEngineCallback, Test test)
         {
+            this.unrealTest = test;
             this.errorMessageCallback = errorMessageCallback;
             this.disableUnrealEngineCallback = disableUnrealEngineCallback;
             
@@ -219,56 +223,6 @@ namespace Phrike.GroundControl.Controller
             SocketReader unrealSocketReader = unrealSocket.UnrealSocketReader;
             SocketWriter unrealSocketWriter = unrealSocket.UnrealSocketWriter;
 
-            using (UnitOfWork unitOfWork = new UnitOfWork())
-            {
-                // TODO: This is for test purpose only !!!!
-                #region Test purpose only
-                Subject subject = unitOfWork.SubjectRepository.Get().FirstOrDefault();
-                if (subject == null)
-                {
-                    subject = new Subject()
-                    {
-                        FirstName = "Max",
-                        LastName = "Musterman",
-                        DateOfBirth = new DateTime(1981, 10, 24),
-                        Gender = Gender.Male,
-                        CountryCode = "AT",
-                        Function = "-debug-",
-                        City = "Hagenberg",
-                        ServiceRank = "Kloputzer"
-                    };
-                    unitOfWork.SubjectRepository.Insert(subject);
-                    unitOfWork.Save();
-                }
-                Scenario scenario = unitOfWork.ScenarioRepository.Get().FirstOrDefault();
-                if (scenario == null)
-                {
-                    scenario = new Scenario
-                    {
-                        Name = "Balance",
-                        ExecutionPath = "ich bin eine Biene",
-                        MinimapPath = "Balance/minimap.png",
-                        Version = "1.0",
-
-                        ZeroX = 1921,
-                        ZeroY = 257,
-                        Scale = 1354.0 / 24000.0
-                    };
-                    unitOfWork.ScenarioRepository.Insert(scenario);
-                    unitOfWork.Save();
-                }
-                Test test = new Test()
-                {
-                    Subject = subject,
-                    Scenario = scenario,
-                    Time = DateTime.Now,
-                    Title = "Testrun DEBUG - " + DateTime.Now,
-                    Location = "PLS 5"
-                };
-                unitOfWork.TestRepository.Insert(test);
-
-                #endregion
-
                 InitPositionTracking(unrealSocket);
                 Logger.Info("Unreal Engine listener socket thread active!");
                 bool keepRunning = true;
@@ -310,7 +264,7 @@ namespace Phrike.GroundControl.Controller
                                     Pitch = pitch,
                                     Yaw = yaw,
                                     Time = DateTime.Now,
-                                    Test = test
+                                    Test = unrealTest
                                 };
                                 OnPositionReceived(pd);
                                 
@@ -351,12 +305,8 @@ namespace Phrike.GroundControl.Controller
                 }
                 finally
                 {
-                    // Save PositionData from test
-                    unitOfWork.Save();
-
                     this.sockets.Remove(unrealSocket);
                 }
-            }
                 }
 
         protected virtual void OnRestarting()
