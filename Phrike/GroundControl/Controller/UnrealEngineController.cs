@@ -68,6 +68,8 @@ namespace Phrike.GroundControl.Controller
         //private Socket socket;
         private List<UnrealSocket> sockets;
 
+        private Test test;
+
         private Thread socketListenerThread;
         private readonly TcpListener socketListener;
 
@@ -84,8 +86,9 @@ namespace Phrike.GroundControl.Controller
         /// <summary>
         /// Create a new Unreal Engine instance and connect to the socket.
         /// </summary>
-        public UnrealEngineController()
+        public UnrealEngineController(Test test)
         {
+            this.test = test;
             if (UnrealEnginePath == null)
             {
                 //throw new NotSupportedException("Could not find scenario data!");
