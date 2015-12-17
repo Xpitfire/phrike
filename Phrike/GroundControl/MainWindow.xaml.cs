@@ -44,6 +44,7 @@ namespace Phrike.GroundControl
         {
             Logger.Info("Application close triggered! Preventive stop send to all tasks.");
             DebugViewModel.Instance?.ApplicationClose();
+            StressTestView?.ApplicationClose();
             Logger.Info("Successfully closed application!");
         }
 

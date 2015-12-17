@@ -147,5 +147,10 @@ namespace Phrike.GroundControl.ViewModels
         {
             IsStartEnabled = currentSubject != null && currentScenario != null;
         }
+
+        public void ApplicationClose()
+        {
+            stressTestController?.ApplicationCloseTask();
+        }
     }
 }
