@@ -7,46 +7,270 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+
 using DataAccess;
 using Phrike.GroundControl.Annotations;
 using Phrike.GroundControl.Helper;
 
 namespace Phrike.GroundControl.ViewModels
 {
-    class SurveryCollectionVM : INotifyPropertyChanged
-    {
+    class SurveyCollectionVM : INotifyPropertyChanged
+    {      
+        private SurveyVM currentSurvey;
+        public ObservableCollection<SurveyVM> Surveys { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public SurveyCollectionVM()
+        {
+            Surveys = new ObservableCollection<SurveyVM>();
+            currentSurvey = new SurveyVM();
+            if (DataLoadHelper.IsLoadDataActive())
+                LoadSurveys();
+        }
+
+        public SurveyVM CurrentSurvey
+        {
+            get { return this.currentSurvey; }
+            set
+            {
+                if (currentSurvey != value)
+                {
+                    this.currentSurvey = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentSurvey)));
+                }
+            }
+        }
+
+        private async void LoadSurveys()
+        {
+            Surveys.Clear();
+
+            using (var x = new UnitOfWork())
+            {
+                IEnumerator<Survey> enu = x.SurveyRepository.Get().GetEnumerator();
+                while (await Task.Factory.StartNew(() => enu.MoveNext()))
+                {
+                    Surveys.Add(new SurveyVM(enu.Current));
+                }
+            }
+        }
 
     }
 
-    class SurveyVM : INotifyPropertyChanged
+    internal class SurveyVM : INotifyPropertyChanged
     {
+        private Survey survey;
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public SurveyVM(Survey survey)
+        {
+            this.survey = survey;
+        }
+
+        public SurveyVM()
+        {
+            survey = new Survey();
+        }
+
+        public String Name
+        {
+            get { return survey.Name; }
+            set
+            {
+                if (survey.Name != value)
+                {
+                    survey.Name = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
+                }
+            }
+        }
+
+        public String Description
+        {
+            get { return survey.Description; }
+            set
+            {
+                if (survey.Description != value)
+                {
+                    survey.Description = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Description)));
+                }
+            }
+        }
     }
 
     class SurveyQuestionCollectionVM : INotifyPropertyChanged
     {
+        private SurveyQuestionVM currentSurveyQuestion;
+        public ObservableCollection<SurveyQuestionVM> SurveyQuestions { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public SurveyQuestionCollectionVM()
+        {
+            SurveyQuestions = new ObservableCollection<SurveyQuestionVM>();
+            currentSurveyQuestion = new SurveyQuestionVM();
+            if (DataLoadHelper.IsLoadDataActive())
+                this.LoadSurveyQuestions();
+        }
+
+        public SurveyQuestionVM CurrentSurveyQuestion
+        {
+            get { return this.currentSurveyQuestion; }
+            set
+            {
+                if (currentSurveyQuestion != value)
+                {
+                    this.currentSurveyQuestion = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentSurveyQuestion)));
+                }
+            }
+        }
+
+        private async void LoadSurveyQuestions()
+        {
+            SurveyQuestions.Clear();
+
+            using (var x = new UnitOfWork())
+            {
+                IEnumerator<SurveyQuestion> enu = x.SurveyQuestionRepository.Get().GetEnumerator();
+                while (await Task.Factory.StartNew(() => enu.MoveNext()))
+                {
+                    SurveyQuestions.Add(new SurveyQuestionVM(enu.Current));
+                }
+            }
+        }
 
     }
 
     class SurveyQuestionVM : INotifyPropertyChanged
     {
+        private SurveyQuestion surveyQuestion;
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public SurveyQuestionVM(SurveyQuestion surveyQuestion)
+        {
+            this.surveyQuestion = surveyQuestion;
+        }
+
+        public SurveyQuestionVM()
+        {
+            surveyQuestion = new SurveyQuestion();
+        }
+
+        public String Question
+        {
+            get { return surveyQuestion.Question; }
+            set
+            {
+                if (surveyQuestion.Question != value)
+                {
+                    surveyQuestion.Question = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Question)));
+                }
+            }
+        }
+
+        public int SurveyId
+        {
+            get { return surveyQuestion.Survey.Id; }
+            set
+            {
+                if (surveyQuestion.Survey.Id != value)
+                {
+                    surveyQuestion.Survey.Id = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SurveyId)));
+                }
+            }
+        }
 
     }
 
     class SurveyResultCollectionVM : INotifyPropertyChanged
     {
+        private SurveyResultVM currentSurveyResult;
+        public ObservableCollection<SurveyResultVM> SurveyResults { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public SurveyResultCollectionVM()
+        {
+            SurveyResults = new ObservableCollection<SurveyResultVM>();
+            currentSurveyResult = new SurveyResultVM();
+            if (DataLoadHelper.IsLoadDataActive())
+                this.LoadSurveyResults();
+        }
+
+        public SurveyResultVM CurrentSurveyResult
+        {
+            get { return this.currentSurveyResult; }
+            set
+            {
+                if (currentSurveyResult != value)
+                {
+                    this.currentSurveyResult = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentSurveyResult)));
+                }
+            }
+        }
+
+        private async void LoadSurveyResults()
+        {
+            SurveyResults.Clear();
+
+            using (var x = new UnitOfWork())
+            {
+                IEnumerator<SurveyResult> enu = x.SurveyResultRepository.Get().GetEnumerator();
+                while (await Task.Factory.StartNew(() => enu.MoveNext()))
+                {
+                    SurveyResults.Add(new SurveyResultVM(enu.Current));
+                }
+            }
+        }
 
     }
 
     class SurveyResultVM : INotifyPropertyChanged
     {
+        private SurveyResult surveyResult;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public SurveyResultVM(SurveyResult surveyResult)
+        {
+            this.surveyResult = surveyResult;
+        }
+
+        public SurveyResultVM()
+        {
+            this.surveyResult = new SurveyResult();
+        }
+
+        public SurveyAnswer Answer
+        {
+            get { return this.surveyResult.Answer; }
+            set
+            {
+                if (this.surveyResult.Answer != value)
+                {
+                    this.surveyResult.Answer = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Answer)));
+                }
+            }
+        }
+
+        public int SurveyQuestionId
+        {
+            get { return this.surveyResult.SurveyQuestion.Id; }
+            set
+            {
+                if (this.surveyResult.SurveyQuestion.Id != value)
+                {
+                    this.surveyResult.SurveyQuestion.Id = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SurveyQuestionId)));
+                }
+            }
+        }
     }
 
     class TestCollectionVM : INotifyPropertyChanged
