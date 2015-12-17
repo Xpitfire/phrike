@@ -192,7 +192,7 @@ namespace Phrike.GroundControl.ViewModels
             await Task.Run(() =>
             {
                 // start the external application sub-process
-                //ProcessController.StartProcess(UnrealEngineController.UnrealEnginePath, true, new string[] { "-fullscreen" });
+                ProcessController.StartProcess(UnrealEngineController.UnrealEnginePath, true, new string[] { "-fullscreen" });
                 Logger.Info("Unreal Engine process started!");
                 // create the Unreal Engine communication object
                 unrealEngineModel = new UnrealEngineController(ShowStressTestError, DisableUnrealEngineColor);

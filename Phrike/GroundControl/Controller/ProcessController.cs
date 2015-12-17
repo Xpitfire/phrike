@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using NLog;
+using System.IO;
 
 namespace Phrike.GroundControl.Controller
 {
@@ -35,7 +36,7 @@ namespace Phrike.GroundControl.Controller
                     StartInfo =
                     {
                         WindowStyle = ProcessWindowStyle.Hidden,
-                        FileName = (useRelativePath) ? Environment.CurrentDirectory + cmdPath : cmdPath,
+                        FileName = (useRelativePath) ? Path.Combine(Environment.CurrentDirectory, cmdPath) : cmdPath,
                         Arguments = (cmdParams != null) ? String.Join(" ", cmdParams) : ""
                     }
                 };
