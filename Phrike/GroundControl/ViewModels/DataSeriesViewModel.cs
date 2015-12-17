@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Media;
 
 using OxyPlot;
@@ -10,6 +11,7 @@ using OxyPlot.Series;
 using Phrike.GroundControl.Annotations;
 using Phrike.Sensors;
 
+using Brush = System.Windows.Media.Brush;
 
 namespace Phrike.GroundControl.ViewModels
 {
@@ -18,6 +20,16 @@ namespace Phrike.GroundControl.ViewModels
     /// </summary>
     public class DataSeriesViewModel : INotifyPropertyChanged
     {
+        private static readonly Color[] colors =
+        {
+            Colors.BlueViolet,
+            Colors.DarkGoldenrod,
+            Colors.Brown,
+            Colors.DarkOliveGreen,
+            Colors.Coral,
+            Colors.DarkSlateGray
+        };
+
         /// <summary>
         /// Gets the model of this view.
         /// </summary>
@@ -44,6 +56,8 @@ namespace Phrike.GroundControl.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        private readonly int index;
 
         /// <summary>
         /// Backing field for <see cref="plottableData"/>.
@@ -74,8 +88,10 @@ namespace Phrike.GroundControl.ViewModels
         /// Initializes a new instance of the <see cref="DataSeriesViewModel"/> class.
         /// </summary>
         /// <param name="model">Value for <see cref="Model"/>.</param>
-        public DataSeriesViewModel(DataSeries model)
+        /// <param name="index">Index in the container, used for colorization.</param>
+        public DataSeriesViewModel(DataSeries model, int index)
         {
+            this.index = index;
             Model = model;
             YAxis = new LinearAxis { Key = model.FullName };
         }
@@ -90,7 +106,10 @@ namespace Phrike.GroundControl.ViewModels
             {
                 if (plottableData == null)
                 {
-                    plottableData = new LineSeries { YAxisKey = YAxis.Key };
+                    plottableData = new LineSeries {
+                        YAxisKey = YAxis.Key,
+                        Color = OxyPlot.Wpf.ConverterExtensions.ToOxyColor(RawColor)
+                    };
                     plottableData.Points.AddRange(Model.Data.Select(
                         (y, i) => new DataPoint(i / (double)Model.SampleRate, y)));
                 }
@@ -98,6 +117,8 @@ namespace Phrike.GroundControl.ViewModels
                 return plottableData;
             }
         }
+
+        private Color RawColor => colors[index % colors.Length];
 
         /// <summary>
         /// See <see cref="DataSeries.Name"/>.
@@ -112,16 +133,7 @@ namespace Phrike.GroundControl.ViewModels
         /// <summary>
         /// Gets the actual color of <see cref="PlottableData"/>.
         /// </summary>
-        public Brush Color
-        {
-            get
-            {
-                SolidColorBrush result = color ?? (color = new SolidColorBrush());
-                result.Color =
-                    OxyPlot.Wpf.ConverterExtensions.ToColor(plottableData.ActualColor);
-                return result;
-            }
-        }
+        public Brush Color => color ?? (color = new SolidColorBrush(RawColor));
 
         /// <summary>
         /// The length of the time interval contained in the <see cref="Model"/> in seconds.
@@ -155,7 +167,7 @@ namespace Phrike.GroundControl.ViewModels
                     trendSeries = new LineSeries
                     {
                         YAxisKey = YAxis.Key,
-                        Color = plottableData.ActualColor,
+                        Color = OxyPlot.Wpf.ConverterExtensions.ToOxyColor(RawColor),
                         LineStyle = LineStyle.Dash
                     };
                     trendSeries.Points.Add(new DataPoint(0, Statistics.Intercept));

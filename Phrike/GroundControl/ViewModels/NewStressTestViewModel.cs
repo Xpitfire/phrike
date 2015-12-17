@@ -18,6 +18,8 @@ namespace Phrike.GroundControl.ViewModels
 
         private ScenarioVM currentScenario;
         private SubjectVM currentSubject;
+        private bool isStartEnabled;
+        private bool isStopEnabled;
         private StressTestController stressTestController;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -28,6 +30,8 @@ namespace Phrike.GroundControl.ViewModels
             stressTestController = new StressTestController();
             StartStressTestCommand = new RelayCommand(StartStressTest);
             StopStressTestCommand = new RelayCommand(StopStressTest);
+            IsStartEnabled = false;
+            IsStopEnabled = false;
         }
 
         public ScenarioVM CurrentScenario
@@ -38,6 +42,7 @@ namespace Phrike.GroundControl.ViewModels
                 if (currentScenario != value)
                 {
                     currentScenario = value;
+                    EnableStartButton();
                     OnPropertyChanged();
                 }
             }
@@ -54,6 +59,39 @@ namespace Phrike.GroundControl.ViewModels
                 if (currentSubject != value)
                 {
                     currentSubject = value;
+                    EnableStartButton();
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool IsStartEnabled
+        {
+            get
+            {
+                return isStartEnabled;
+            }
+            set
+            {
+                if (isStartEnabled != value)
+                {
+                    isStartEnabled = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool IsStopEnabled
+        {
+            get
+            {
+                return isStopEnabled;
+            }
+            set
+            {
+                if (isStopEnabled != value)
+                {
+                    isStopEnabled = value;
                     OnPropertyChanged();
                 }
             }
@@ -65,6 +103,8 @@ namespace Phrike.GroundControl.ViewModels
         {
             stressTestController.StartStressTest(CurrentSubject, CurrentScenario);
             Console.WriteLine("Test started...");
+            IsStartEnabled = false;
+            IsStopEnabled = true;
         }
 
         public ICommand StopStressTestCommand { get; private set; }
@@ -73,6 +113,8 @@ namespace Phrike.GroundControl.ViewModels
         {
             stressTestController.StopStressTest();
             Console.WriteLine("Test stopped...");
+            IsStartEnabled = true;
+            IsStopEnabled = false;
         }
 
         [NotifyPropertyChangedInvocator]
@@ -80,6 +122,11 @@ namespace Phrike.GroundControl.ViewModels
         {
             PropertyChangedEventHandler handler = PropertyChanged;
             handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void EnableStartButton()
+        {
+            IsStartEnabled = currentSubject != null && currentScenario != null;
         }
     }
 }

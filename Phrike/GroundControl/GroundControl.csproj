@@ -148,7 +148,6 @@
     <Compile Include="ViewModels\InterviewTestViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NewStressTestViewModel.cs" />
-    <Compile Include="ViewModels\PositionDataViewModel.cs" />
     <Compile Include="ViewModels\RealViewModels.cs" />
     <Compile Include="ViewModels\ScenarioSelectViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
@@ -170,9 +169,6 @@
     </Compile>
     <Compile Include="Views\NewStressTest.xaml.cs">
       <DependentUpon>NewStressTest.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PositionData.xaml.cs">
-      <DependentUpon>PositionData.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ScenarioSelect.xaml.cs">
       <DependentUpon>ScenarioSelect.xaml</DependentUpon>
@@ -238,10 +234,6 @@
     <Page Include="Views\NewStressTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PositionData.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ScenarioSelect.xaml">
       <SubType>Designer</SubType>
