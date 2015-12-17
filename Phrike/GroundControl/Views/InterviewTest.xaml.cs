@@ -15,6 +15,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using DataAccess;
 using DataModel;
+using Phrike.GroundControl.ViewModels;
 
 namespace Phrike.GroundControl.Views
 {
@@ -27,8 +28,8 @@ namespace Phrike.GroundControl.Views
         /// Initializes a new instance of the <see cref="InterviewTest"/> class.
         /// </summary>
         public InterviewTest()
-        {        
-            this.InitializeComponent();
+        {
+           this.InitializeComponent();          
         }
 
         /// <summary>
@@ -49,7 +50,7 @@ namespace Phrike.GroundControl.Views
         {
             var grid = InterviewGrid;
             List<RadioButton> result = new List<RadioButton>();
-            foreach(RadioButton rb in FindVisualChildren<RadioButton>(grid))
+            foreach (RadioButton rb in FindVisualChildren<RadioButton>(grid))
             {
                 result.Add(rb);
             }
@@ -62,7 +63,7 @@ namespace Phrike.GroundControl.Views
         /// <returns>
         /// The <see cref="List"/>.
         /// </returns>
-        public List<SurveyResult> GetInterviewResult()
+        private List<SurveyResult> GetInterviewResult()
         {
             List<SurveyResult> result = new List<SurveyResult>();
             List<RadioButton> radioButtons = new List<RadioButton>(this.GetRadioButtons());
@@ -78,11 +79,10 @@ namespace Phrike.GroundControl.Views
                     {
                         resultValue = 5;
                     }
-
                     switch (resultValue)
                     {
                         case 1:
-                            s.Answer = SurveyAnswer.Perfect; 
+                            s.Answer = SurveyAnswer.Perfect;
                             break;
                         case 2:
                             s.Answer = SurveyAnswer.Good;
@@ -111,43 +111,9 @@ namespace Phrike.GroundControl.Views
         /// </summary>
         private void SaveData()
         {
-            using (UnitOfWork unitOfWork = new UnitOfWork())
-            {
-                int i = 0; // !!!!
-                List<SurveyResult> resultList = new List<SurveyResult>(this.GetInterviewResult());
-
-                SurveyQuestion[] questionList = unitOfWork.SurveyQuestionRepository.Get().ToArray();
-                List<SurveyQuestion> questionList2 = (List<SurveyQuestion>)unitOfWork.SurveyQuestionRepository.Get();
-                Test test = unitOfWork.TestRepository.GetByID(2);
-
-                foreach (var q in questionList2)
-                {
-                    Console.WriteLine(q.Question);
-                }
-
-                for (int j = 0; j < questionList.Length; j++)
-                {
-                    Console.WriteLine(questionList[j]);
-                }
-
-                foreach (SurveyResult result in resultList)
-                {
-                    result.Test = test;
-                    result.SurveyQuestion = questionList[i];
-                    unitOfWork.SurveyResultRepository.Insert(result);
-                    //  unitOfWork.Save();
-
-                    Console.WriteLine(
-                        "inserted result {0}, {1}, {2}",
-                        result.SurveyQuestion,
-                        result.Answer,
-                        result.Test);
-                    i++;
-                    //}
-
-
-                }
-            }
+            List<SurveyResult> resultList = new List<SurveyResult>(this.GetInterviewResult());
+            var viewModel = (InterviewTestViewModel)DataContext;
+            viewModel.SaveData(resultList);
         }
 
         /// <summary>
@@ -164,7 +130,7 @@ namespace Phrike.GroundControl.Views
         private static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
         {
             if (depObj != null)
-            {               
+            {
                 for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
                 {
                     DependencyObject child = VisualTreeHelper.GetChild(depObj, i);

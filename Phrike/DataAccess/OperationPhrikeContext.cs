@@ -38,31 +38,73 @@ namespace DataAccess
     {
         protected override void Seed(OperationPhrikeContext context)
         {
-            context.Scenarios.Add(new Scenario()
-            {
-                Name = "Balance",
-                ExecutionPath = "UnrealData/Balance/Balance.exe",
-                Description = "Walk over a slackline between two canyon ledges",
-
-                MinimapPath = "Balance/minimap.png",
-                Version = "1.0",
-
-                ZeroX = 1921,
-                ZeroY = 257,
-                Scale = 1354.0/24000.0
-            });
+            var scenario = new Scenario()
+                           {
+                               Name = "Balance",
+                               ExecutionPath = "UnrealData/Balance/Balance.exe",
+                               Description = "Walk over a slackline between two canyon ledges",
+                               MinimapPath = "Balance/minimap.png",
+                               Version = "1.0",
+                               ZeroX = 1921,
+                               ZeroY = 257,
+                               Scale = 1354.0 / 24000.0
+                           };
+            context.Scenarios.Add(scenario);
+            var survey = new Survey
+                         {
+                             Name = "Interview",
+                             Description = "Reflect how the user experianced the simulation scenario."
+                         };
+            context.Surveys.Add(survey);
+            context.SurveyQuestions.Add(
+                new SurveyQuestion
+                {
+                    Survey = survey,
+                    Question = "Wie war Ihr Eindruck bezüglich der Simulation?"
+                });
+            context.SurveyQuestions.Add(
+                new SurveyQuestion
+                {
+                    Survey = survey,
+                    Question = "Verspühren Sie ein Übelkeitsgefühl während der Simulation?"
+                });
+            context.SurveyQuestions.Add(
+                new SurveyQuestion
+                {
+                    Survey = survey,
+                    Question = "Wie realistisch empfanden Sie die Simulation?"
+                });
+            context.SurveyQuestions.Add(
+                new SurveyQuestion
+                {
+                    Survey = survey,
+                    Question = "Konnten Sie einen Bezug zur Aufgabenstellung herstellen?"
+                });
+            context.SurveyQuestions.Add(
+                new SurveyQuestion
+                {
+                    Survey = survey,
+                    Question = "Haben Sie ein Stressgefühl empfunden?"
+                });
+            context.SurveyQuestions.Add(
+                new SurveyQuestion
+                {
+                    Survey = survey,
+                    Question = "Wie intuitiv empfanden Sie die Steuerung der Simulation?"
+                });
 
 #if DEBUG
-            context.Subjects.Add(new Subject()
-            {
-                FirstName = "Marius",
-                LastName = "Dinu",
-                DateOfBirth = new DateTime(1988, 7, 3),
-                CountryCode = "AT",
-                Gender = Gender.Male,
-                City = "Hagenberg",
-                Function = "Developer"
-            });
+            var user = new Subject()
+                       {
+                           FirstName = "Marius",
+                           LastName = "Dinu",
+                           DateOfBirth = new DateTime(1988, 7, 3),
+                           CountryCode = "AT",
+                           Gender = Gender.Male,
+                           City = "Hagenberg",
+                           Function = "Developer"
+                       };
+            context.Subjects.Add(user);
             context.Subjects.Add(new Subject()
             {
                 FirstName = "Sandra",
@@ -155,6 +197,17 @@ namespace DataAccess
                 Function = "Developer",
                 ServiceRank = "Master of Desaster",
             });
+
+            context.Tests.Add(
+                new Test
+                {
+                    Location = "Wien",
+                    Title = "Demo Test 1",
+                    Scenario = scenario,
+                    Subject = user,
+                    Time = DateTime.Now,
+                    Notes = "Very good test -.- !"
+                });
 
             context.SaveChanges();
 #endif

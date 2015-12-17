@@ -15,8 +15,90 @@ using Phrike.GroundControl.Helper;
 
 namespace Phrike.GroundControl.ViewModels
 {
-    class SurveyCollectionVM : INotifyPropertyChanged
-    {      
+    //public class SurveyCollectionVM : INotifyPropertyChanged
+    //{
+    //    private SurveyVM currentSurvey;
+    //    public ObservableCollection<SurveyVM> Surveys { get; set; }
+    //    public event PropertyChangedEventHandler PropertyChanged;
+
+    //    public SurveyCollectionVM()
+    //    {
+    //        Surveys = new ObservableCollection<SurveyVM>();
+    //        currentSurvey = new SurveyVM();
+    //        if (DataLoadHelper.IsLoadDataActive())
+    //            LoadSurveys();
+    //    }
+
+    //    public SurveyVM CurrentSurvey
+    //    {
+    //        get { return this.currentSurvey; }
+    //        set
+    //        {
+    //            if (currentSurvey != value)
+    //            {
+    //                this.currentSurvey = value;
+    //                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentSurvey)));
+    //            }
+    //        }
+    //    }
+
+    //    private async void LoadSurveys()
+    //    {
+    //        Surveys.Clear();
+
+    //        using (var x = new UnitOfWork())
+    //        {
+    //            IEnumerator<Survey> enu = x.SurveyRepository.Get().GetEnumerator();
+    //            while (await Task.Factory.StartNew(() => enu.MoveNext()))
+    //            {
+    //                Surveys.Add(new SurveyVM(enu.Current));
+    //            }
+    //        }
+    //    }
+
+    //}
+
+    //public class SurveyAnswerVM : INotifyPropertyChanged
+    //{
+    //    private SurveyAnswer answer;
+
+    //    public event PropertyChangedEventHandler PropertyChanged;
+
+    //    public SurveyAnswerVM(SurveyAnswer answer)
+    //    {
+    //        this.answer = answer;
+    //    }
+
+    //    public string Name
+    //    {
+    //        get { return this.answer.ToString(); }
+    //        set
+    //        {
+    //            switch (value)
+    //            {
+    //                case nameof(SurveyAnswer.Perfect):
+    //                    answer = SurveyAnswer.Perfect;
+    //                    break;
+    //                case nameof(SurveyAnswer.Good):
+    //                    this.answer = SurveyAnswer.Good;
+    //                    break;
+    //                case nameof(SurveyAnswer.Gratifying):
+    //                    this.answer = SurveyAnswer.Gratifying;
+    //                    break;
+    //                case nameof(SurveyAnswer.Bad):
+    //                    this.answer = SurveyAnswer.Bad;
+    //                    break;
+    //                case nameof(SurveyAnswer.Worst):
+    //                    this.answer = SurveyAnswer.Worst;
+    //                    break;
+    //            }
+    //            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
+    //        }
+    //    }
+    //}
+
+    public class SurveyCollectionVM : INotifyPropertyChanged
+    {
         private SurveyVM currentSurvey;
         public ObservableCollection<SurveyVM> Surveys { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
@@ -58,7 +140,7 @@ namespace Phrike.GroundControl.ViewModels
 
     }
 
-    internal class SurveyVM : INotifyPropertyChanged
+    public class SurveyVM : INotifyPropertyChanged
     {
         private Survey survey;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -73,7 +155,20 @@ namespace Phrike.GroundControl.ViewModels
             survey = new Survey();
         }
 
-        public String Name
+        public int Id
+        {
+            get { return survey.Id; }
+            set
+            {
+                if (survey.Id != value)
+                {
+                    survey.Id = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Id)));
+                }
+            }
+        }
+
+        public string Name
         {
             get { return survey.Name; }
             set
@@ -86,7 +181,7 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
-        public String Description
+        public string Description
         {
             get { return survey.Description; }
             set
@@ -100,7 +195,7 @@ namespace Phrike.GroundControl.ViewModels
         }
     }
 
-    class SurveyQuestionCollectionVM : INotifyPropertyChanged
+    public class SurveyQuestionCollectionVM : INotifyPropertyChanged
     {
         private SurveyQuestionVM currentSurveyQuestion;
         public ObservableCollection<SurveyQuestionVM> SurveyQuestions { get; set; }
@@ -127,23 +222,25 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
-        private async void LoadSurveyQuestions()
+        public async void LoadSurveyQuestions(int id = 0)
         {
             SurveyQuestions.Clear();
-
+            IEnumerator<SurveyQuestion> enu;
             using (var x = new UnitOfWork())
             {
-                IEnumerator<SurveyQuestion> enu = x.SurveyQuestionRepository.Get().GetEnumerator();
+                enu = id > 0
+                    ? x.SurveyQuestionRepository.Get(question => question.Id == id).GetEnumerator()
+                    : x.SurveyQuestionRepository.Get().GetEnumerator();
+
                 while (await Task.Factory.StartNew(() => enu.MoveNext()))
                 {
                     SurveyQuestions.Add(new SurveyQuestionVM(enu.Current));
                 }
             }
         }
-
     }
 
-    class SurveyQuestionVM : INotifyPropertyChanged
+    public class SurveyQuestionVM : INotifyPropertyChanged
     {
         private SurveyQuestion surveyQuestion;
 
@@ -159,7 +256,7 @@ namespace Phrike.GroundControl.ViewModels
             surveyQuestion = new SurveyQuestion();
         }
 
-        public String Question
+        public string Question
         {
             get { return surveyQuestion.Question; }
             set
@@ -185,6 +282,10 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
+        public override string ToString()
+        {
+            return Question;
+        }
     }
 
     class SurveyResultCollectionVM : INotifyPropertyChanged
@@ -319,7 +420,7 @@ namespace Phrike.GroundControl.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private Test test;
-        
+
         public Test Test
         {
             get { return test; }
@@ -341,7 +442,7 @@ namespace Phrike.GroundControl.ViewModels
         }
 
         public string FullTitle => $"{test.Title} {test.Subject?.LastName} {test.Scenario?.Name}";
-        
+
         public string Title
         {
             get { return test.Title; }
@@ -524,9 +625,9 @@ namespace Phrike.GroundControl.ViewModels
             AvatarPath = "";
         }
 
-        public bool UseDefaultIcon { get { return String.IsNullOrEmpty(AvatarPath); } }
+        public bool UseDefaultIcon { get { return string.IsNullOrEmpty(AvatarPath); } }
 
-        public String ImagePath
+        public string ImagePath
         {
             get
             {
@@ -541,7 +642,7 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
-        public String FullName
+        public string FullName
         {
             get { return $"{subject.ServiceRank} {subject.FirstName} {subject.LastName}"; }
         }
@@ -562,13 +663,13 @@ namespace Phrike.GroundControl.ViewModels
         private bool AvatarPathChanged { get; set; }
 
         public IEnumerable<Gender> AvailableGenders => (Gender[])Enum.GetValues(typeof(Gender));
-        public IEnumerable<String> AvailableCountries => (new List<string>() { "AT", "DE", "CH" });
+        public IEnumerable<string> AvailableCountries => (new List<string>() { "AT", "DE", "CH" });
         public IEnumerable<RhFactor> AvailableRhFactors => (RhFactor[])Enum.GetValues(typeof(RhFactor));
         public IEnumerable<BloodType> AvailableBloodTypes => (BloodType[])Enum.GetValues(typeof(BloodType));
-        public IEnumerable<String> AvailableServiceRanks => (new List<string>() { "Rekrut", "Gefreiter", "Korporal", "Zugsführer", "Wachtmeister", "Oberwachtmeister", "Stabswachtmeister", "Oberstabswachtmeister", "Offiziersstellvertreter", "Vizeleutnant", "Fähnrich", "Leutnant", "Oberleutnant", "Hauptmann", "Major", "Oberstleutnant", "Oberst", "Brigardier", "Generalmajor", "Generalleutnant", "General" });
+        public IEnumerable<string> AvailableServiceRanks => (new List<string>() { "Rekrut", "Gefreiter", "Korporal", "Zugsführer", "Wachtmeister", "Oberwachtmeister", "Stabswachtmeister", "Oberstabswachtmeister", "Offiziersstellvertreter", "Vizeleutnant", "Fähnrich", "Leutnant", "Oberleutnant", "Hauptmann", "Major", "Oberstleutnant", "Oberst", "Brigardier", "Generalmajor", "Generalleutnant", "General" });
         #region Property Propagation
 
-        public String LastName
+        public string LastName
         {
             get { return subject.LastName; }
             set
@@ -580,7 +681,7 @@ namespace Phrike.GroundControl.ViewModels
                 }
             }
         }
-        public String FirstName
+        public string FirstName
         {
             get { return subject.FirstName; }
             set
@@ -729,11 +830,11 @@ namespace Phrike.GroundControl.ViewModels
                 }
             }
         }
-        public String AvatarPath
+        public string AvatarPath
         {
             get
             {
-                //return String.IsNullOrEmpty(subject.AvatarPath) ? "" : System.IO.Path.Combine(PathHelper.PhrikePicture, subject.AvatarPath);
+                //return string.IsNullOrEmpty(subject.AvatarPath) ? "" : System.IO.Path.Combine(PathHelper.PhrikePicture, subject.AvatarPath);
                 return subject.AvatarPath;
             }
             set
@@ -802,11 +903,11 @@ namespace Phrike.GroundControl.ViewModels
             this.scenario = scenario;
         }
 
-        public String Icon
+        public string Icon
         {
             get
             {
-                if (scenario.ThumbnailPath == null || scenario.ThumbnailPath == String.Empty)
+                if (scenario.ThumbnailPath == null || scenario.ThumbnailPath == string.Empty)
                 {
                     return DefaultDataProvider.PrepareDefaultScenarioIcon();
                 }
@@ -817,9 +918,9 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
-        public String Name { get { return scenario.Name; } }
+        public string Name { get { return scenario.Name; } }
 
-        public String Description { get { return scenario.Description; } }
+        public string Description { get { return scenario.Description; } }
     }
 
     /*
