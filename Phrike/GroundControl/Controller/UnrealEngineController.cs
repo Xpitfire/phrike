@@ -77,6 +77,7 @@ namespace Phrike.GroundControl.Controller
         public event EventHandler Restarting;
         public event EventHandler Ending;
         public event EventHandler<PositionData> PositionReceived;
+        public event EventHandler<Exception> ErrorOccoured;
 
         /// <summary>
         /// Is alive flag for the socket communication thread.
@@ -90,7 +91,7 @@ namespace Phrike.GroundControl.Controller
         {
             this.errorMessageCallback = errorMessageCallback;
             this.disableUnrealEngineCallback = disableUnrealEngineCallback;
-            
+
             if (UnrealEnginePath == null)
             {
                 //throw new NotSupportedException("Could not find scenario data!");
@@ -98,9 +99,9 @@ namespace Phrike.GroundControl.Controller
 
             this.sockets = new List<UnrealSocket>();
 
-                IsAlive = true;
+            IsAlive = true;
             socketListener = new TcpListener(IPAddress.Any, UnrealEngineSocketPort);
-                socketListener.Start();
+            socketListener.Start();
 
             socketListenerThread = new Thread(ListenForEngineConnect);
             socketListenerThread.Start();
@@ -121,11 +122,11 @@ namespace Phrike.GroundControl.Controller
                     UnrealSocket unrealSocket = new UnrealSocket(socket);
                     sockets.Add(unrealSocket);
 
-                // run command listener thread
+                    // run command listener thread
                     Thread trackingThread = new Thread(() => Run(unrealSocket));
-                trackingThread.Start();
-                Logger.Info("Listener socket thread initialized.");
-            }
+                    trackingThread.Start();
+                    Logger.Info("Listener socket thread initialized.");
+                }
             }
             catch (Exception e)
             {
@@ -151,7 +152,7 @@ namespace Phrike.GroundControl.Controller
                 {
                     socket.UnrealSocketWriter.WriteString("end");
                     socket.UnrealSocketWriter.Send();
-            }
+                }
             }
             catch (Exception e)
             {
@@ -167,17 +168,17 @@ namespace Phrike.GroundControl.Controller
                     Parallel.ForEach(sockets, socket =>
                     {
                         socket.UnrealSocketReader.Receive(1000);
-                    string readString;
+                        string readString;
                         if ((readString = socket.UnrealSocketReader.ReadString()) == "end")
-                    {
+                        {
                             socket.Close();
-                        Logger.Info("Successfully closed socket connection!");
-                    }
-                    else
-                    {
+                            Logger.Info("Successfully closed socket connection!");
+                        }
+                        else
+                        {
                             Logger.Error($"Expected 'end' from Unreal Engine received '{readString}'. Killing connection!");
                             socket.Close();
-                    }
+                        }
                     });
                 }
                 catch (Exception e)
@@ -223,49 +224,49 @@ namespace Phrike.GroundControl.Controller
             {
                 // TODO: This is for test purpose only !!!!
                 #region Test purpose only
-                Subject subject = unitOfWork.SubjectRepository.Get().FirstOrDefault();
-                if (subject == null)
-                {
-                    subject = new Subject()
-                    {
-                        FirstName = "Max",
-                        LastName = "Musterman",
-                        DateOfBirth = new DateTime(1981, 10, 24),
-                        Gender = Gender.Male,
-                        CountryCode = "AT",
-                        Function = "-debug-",
-                        City = "Hagenberg",
-                        ServiceRank = "Kloputzer"
-                    };
-                    unitOfWork.SubjectRepository.Insert(subject);
-                    unitOfWork.Save();
-                }
-                Scenario scenario = unitOfWork.ScenarioRepository.Get().FirstOrDefault();
-                if (scenario == null)
-                {
-                    scenario = new Scenario
-                    {
-                        Name = "Balance",
-                        ExecutionPath = "ich bin eine Biene",
-                        MinimapPath = "Balance/minimap.png",
-                        Version = "1.0",
+                //Subject subject = unitOfWork.SubjectRepository.Get().FirstOrDefault();
+                //if (subject == null)
+                //{
+                //    subject = new Subject()
+                //    {
+                //        FirstName = "Max",
+                //        LastName = "Musterman",
+                //        DateOfBirth = new DateTime(1981, 10, 24),
+                //        Gender = Gender.Male,
+                //        CountryCode = "AT",
+                //        Function = "-debug-",
+                //        City = "Hagenberg",
+                //        ServiceRank = "Kloputzer"
+                //    };
+                //    unitOfWork.SubjectRepository.Insert(subject);
+                //    unitOfWork.Save();
+                //}
+                //Scenario scenario = unitOfWork.ScenarioRepository.Get().FirstOrDefault();
+                //if (scenario == null)
+                //{
+                //    scenario = new Scenario
+                //    {
+                //        Name = "Balance",
+                //        ExecutionPath = "ich bin eine Biene",
+                //        MinimapPath = "Balance/minimap.png",
+                //        Version = "1.0",
 
-                        ZeroX = 1921,
-                        ZeroY = 257,
-                        Scale = 1354.0 / 24000.0
-                    };
-                    unitOfWork.ScenarioRepository.Insert(scenario);
-                    unitOfWork.Save();
-                }
-                Test test = new Test()
-                {
-                    Subject = subject,
-                    Scenario = scenario,
-                    Time = DateTime.Now,
-                    Title = "Testrun DEBUG - " + DateTime.Now,
-                    Location = "PLS 5"
-                };
-                unitOfWork.TestRepository.Insert(test);
+                //        ZeroX = 1921,
+                //        ZeroY = 257,
+                //        Scale = 1354.0 / 24000.0
+                //    };
+                //    unitOfWork.ScenarioRepository.Insert(scenario);
+                //    unitOfWork.Save();
+                //}
+                //Test test = new Test()
+                //{
+                //    Subject = subject,
+                //    Scenario = scenario,
+                //    Time = DateTime.Now,
+                //    Title = "Testrun DEBUG - " + DateTime.Now,
+                //    Location = "PLS 5"
+                //};
+                //unitOfWork.TestRepository.Insert(test);
 
                 #endregion
 
@@ -309,11 +310,11 @@ namespace Phrike.GroundControl.Controller
                                     Roll = roll,
                                     Pitch = pitch,
                                     Yaw = yaw,
-                                    Time = DateTime.Now,
-                                    Test = test
+                                    Time = DateTime.Now // ,
+                                    // Test = test
                                 };
                                 OnPositionReceived(pd);
-                                
+
                                 //test.PositionData.Add(pd);
                                 //unitOfWork.PositionDataRepository.Insert(pd);
                                 break;
@@ -338,7 +339,7 @@ namespace Phrike.GroundControl.Controller
                 //Logger.Debug(x?.Scenario.Name + "; " + x?.Subject.FirstName);
 
                 if (!IsAlive)
-                disableUnrealEngineCallback();
+                    disableUnrealEngineCallback();
                 try
                 {
                     socket?.Close();
@@ -357,13 +358,13 @@ namespace Phrike.GroundControl.Controller
                     this.sockets.Remove(unrealSocket);
                 }
             }
-                }
+        }
 
         protected virtual void OnRestarting()
         {
             Logger.Info("Restarting Test");
             Restarting?.Invoke(this, EventArgs.Empty);
-            }
+        }
 
         protected virtual void OnEnding()
         {
@@ -374,6 +375,11 @@ namespace Phrike.GroundControl.Controller
         protected virtual void OnPositionReceived(PositionData e)
         {
             PositionReceived?.Invoke(this, e);
+        }
+
+        protected virtual void OnErrorOccurred(Exception e)
+        {
+            ErrorOccoured?.Invoke(this, e);
         }
     }
 }
