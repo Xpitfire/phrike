@@ -23,7 +23,7 @@ namespace Phrike.GroundControl.ViewModels
         private static readonly Color[] colors =
         {
             Colors.BlueViolet,
-            Colors.Gold,
+            Colors.DarkGoldenrod,
             Colors.Brown,
             Colors.DarkOliveGreen,
             Colors.Coral,
