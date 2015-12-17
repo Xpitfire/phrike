@@ -74,7 +74,7 @@ namespace Phrike.GroundControl.ViewModels
               
                 Survey testsur = unitOfWork.SurveyRepository.GetByID(1);
 
-                if (testsur.Questions == null)
+                if (testsur?.Questions == null)
                 {
                     Console.WriteLine("No questions");
                 }
