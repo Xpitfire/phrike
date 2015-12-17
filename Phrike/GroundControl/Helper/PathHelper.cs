@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Phrike.GroundControl.Helper
 {
-    static class PathHelper
+    static public class PathHelper
     {
         /*
          * %localappdata%
