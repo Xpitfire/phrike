@@ -12,18 +12,15 @@ namespace Phrike.GroundControl.Helper
         /*
          * %localappdata%
          *  -> OperationPhrike
-         *      -> Data
-         *      -> Video
-         *      -> Picture
-         *      -> Import
+         *      -> Data (database)
+         *      -> Picture (subject avatars)
+         *      -> Import (also constains videos)
          */
         private static string LocalAppData => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
         public static string PhrikeDirectory => Path.Combine(LocalAppData, "OperationPhrike");
 
         public static string PhrikeData => Path.Combine(PhrikeDirectory, "Data");
-
-        public static string PhrikeVideo => Path.Combine(PhrikeDirectory, "Video");
 
         public static string PhrikePicture => Path.Combine(PhrikeDirectory, "Picture");
 
@@ -42,7 +39,6 @@ namespace Phrike.GroundControl.Helper
         {
             CreateIfNotExisting(PhrikeDirectory);
             CreateIfNotExisting(PhrikeData);
-            CreateIfNotExisting(PhrikeVideo);
             CreateIfNotExisting(PhrikePicture);
             CreateIfNotExisting(PhrikeImport);
             CreateIfNotExisting(PhrikeLog);
@@ -58,8 +54,6 @@ namespace Phrike.GroundControl.Helper
         }
 
         public static string GetPicturePath(string name) => Path.Combine(PhrikePicture, name);
-
-        public static string GetVideoPath(string name) => Path.Combine(PhrikeVideo, name);
 
         public static string GetImportPath(string name) => Path.Combine(PhrikeImport, name);
     }
