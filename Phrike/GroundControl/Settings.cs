@@ -48,20 +48,31 @@ namespace Phrike.GroundControl
                 XElement XMLRecordingEnabled = doc.Descendants(RecordingEnabledElement).FirstOrDefault();
                 XElement XMLRecordingGameConfig = doc.Descendants(RecordingGameConfigElement).FirstOrDefault();
                 XElement XMLRecordingCameraConfig = doc.Descendants(RecordingCameraConfigElement).FirstOrDefault();
+
                 SelectedSensorType = (SensorType)Enum.Parse(typeof(SensorType), XMLSensorType.Value);
                 SensorComPort = XMLComPort.Value.Equals("") ? DefaultCOMPort : XMLComPort.Value;
                 RecordingEnabled = bool.Parse(XMLRecordingEnabled.Value);
                 RecordingGameConfig = XMLRecordingGameConfig.Value.Equals("") ? DefaultRecordingGameConfig : XMLRecordingGameConfig.Value;
                 RecordingCameraConfig = XMLRecordingCameraConfig.Value.Equals("") ? DefaultRecordingCameraConfig : XMLRecordingCameraConfig.Value;
-            }
+            }         
             catch (FileNotFoundException)
             {
-                SelectedSensorType = DefaultSensorType;
-                SensorComPort = DefaultCOMPort;
-                RecordingEnabled = DefaultRecordingEnabled;
-                RecordingGameConfig = DefaultRecordingGameConfig;
-                RecordingCameraConfig = DefaultRecordingCameraConfig;
-            } 
+                SetDefaultValues();
+            }
+            catch (Exception)
+            {
+                SetDefaultValues();
+                SaveSettings();
+            }
+        }
+
+        private static void SetDefaultValues()
+        {
+            SelectedSensorType = DefaultSensorType;
+            SensorComPort = DefaultCOMPort;
+            RecordingEnabled = DefaultRecordingEnabled;
+            RecordingGameConfig = DefaultRecordingGameConfig;
+            RecordingCameraConfig = DefaultRecordingCameraConfig;
         }
 
         public static void SaveSettings()
