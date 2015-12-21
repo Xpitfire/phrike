@@ -39,7 +39,7 @@ namespace Phrike.GroundControl.Controller
             {
                 StopStressTest();
                 unitOfWork.Save();
-            }
+            };
             unrealEngineController.Ending += (sender, args) => DisableUnrealEngineAndScreenCapturingColor();
             unrealEngineController.Restarting += (s, e) =>
             {
