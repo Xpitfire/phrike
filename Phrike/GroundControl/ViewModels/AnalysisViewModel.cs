@@ -47,11 +47,11 @@ namespace Phrike.GroundControl.ViewModels
         /// <summary>
         ///     Create a new analysis viemodel instance and add the default plot template.
         /// </summary>
-        public AnalysisViewModel()
+        public AnalysisViewModel(int testId)
         {
             if (!DataLoadHelper.IsLoadDataActive())
                 return;
-            LoadData(1); // TODO get real id
+            LoadData(testId);
         }
 
         public DataBundleViewModel DataModel
