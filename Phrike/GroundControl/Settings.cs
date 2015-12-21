@@ -15,7 +15,8 @@ namespace Phrike.GroundControl
         private const string SensorSettingsElement = "SensorSettings";
         private const string SensorTypeElement = "SensorType";
         private const string ComPortElement = "ComPort";
-        private const string RecordingEnabledElement = "RecordingEnabled";
+        private const string ScreenRecordingEnabledElement = "ScreenRecordingEnabled";
+        private const string WebcamRecordingEnabledElement = "WebcamRecordingEnabled";
         private const string RecordingSettingsElement = "RecordingSettings";
         private const string RecordingGameConfigElement = "RecordingGameConfig";
         private const string RecordingCameraConfigElement = "RecordingCameraConfig";
@@ -24,11 +25,13 @@ namespace Phrike.GroundControl
         private const string DefaultRecordingCameraConfig = "-f dshow -i video=\"Integrated Camera\" -vcodec libx264 -r 20 -qp 0 -preset ultrafast";
         private const int DefaultSensorType = 0;
         private static readonly string DefaultCOMPort = GetDefaultComPort();
-        private const bool DefaultRecordingEnabled = true;
+        private const bool DefaultScreenRecordingEnabled = true;
+        private const bool DefaultWebcamRecordingEnabled = false;
 
         public static SensorType SelectedSensorType { get; set; }
         public static string SensorComPort { get; set; }
-        public static bool RecordingEnabled { get; set; }
+        public static bool ScreenRecordingEnabled { get; set; }
+        public static bool WebcamRecordingEnabled { get; set; }
         public static string RecordingGameConfig { get; set; }
         public static string RecordingCameraConfig { get; set; }
 
@@ -45,13 +48,15 @@ namespace Phrike.GroundControl
 
                 XElement xmlSensorType = doc.Descendants(SensorTypeElement).FirstOrDefault();
                 XElement xmlComPort = doc.Descendants(ComPortElement).FirstOrDefault();
-                XElement xmlRecordingEnabled = doc.Descendants(RecordingEnabledElement).FirstOrDefault();
+                XElement xmlScreenRecordingEnabled = doc.Descendants(ScreenRecordingEnabledElement).FirstOrDefault();
+                XElement xmlWebcamRecordingEnabled = doc.Descendants(WebcamRecordingEnabledElement).FirstOrDefault();
                 XElement xmlRecordingGameConfig = doc.Descendants(RecordingGameConfigElement).FirstOrDefault();
                 XElement xmlRecordingCameraConfig = doc.Descendants(RecordingCameraConfigElement).FirstOrDefault();
 
                 SelectedSensorType = (SensorType)Enum.Parse(typeof(SensorType), xmlSensorType.Value);
                 SensorComPort = xmlComPort.Value.Equals("") ? DefaultCOMPort : xmlComPort.Value;
-                RecordingEnabled = bool.Parse(xmlRecordingEnabled.Value);
+                ScreenRecordingEnabled = bool.Parse(xmlScreenRecordingEnabled.Value);
+                WebcamRecordingEnabled = bool.Parse(xmlWebcamRecordingEnabled.Value);
                 RecordingGameConfig = xmlRecordingGameConfig.Value.Equals("") ? DefaultRecordingGameConfig : xmlRecordingGameConfig.Value;
                 RecordingCameraConfig = xmlRecordingCameraConfig.Value.Equals("") ? DefaultRecordingCameraConfig : xmlRecordingCameraConfig.Value;
             }         
@@ -70,7 +75,8 @@ namespace Phrike.GroundControl
         {
             SelectedSensorType = DefaultSensorType;
             SensorComPort = DefaultCOMPort;
-            RecordingEnabled = DefaultRecordingEnabled;
+            ScreenRecordingEnabled = DefaultScreenRecordingEnabled;
+            WebcamRecordingEnabled = DefaultWebcamRecordingEnabled;
             RecordingGameConfig = DefaultRecordingGameConfig;
             RecordingCameraConfig = DefaultRecordingCameraConfig;
         }
@@ -83,7 +89,8 @@ namespace Phrike.GroundControl
                         new XElement(SensorTypeElement, (int)SelectedSensorType),
                         new XElement(ComPortElement, SelectedSensorType == SensorType.GMobiLab ? SensorComPort : "")
                     ),
-                    new XElement(RecordingEnabledElement, RecordingEnabled),
+                    new XElement(ScreenRecordingEnabledElement, ScreenRecordingEnabled),
+                    new XElement(WebcamRecordingEnabledElement, WebcamRecordingEnabled),
                     new XElement(RecordingSettingsElement, 
                         new XElement(RecordingGameConfigElement, RecordingGameConfig),
                         new XElement(RecordingCameraConfigElement, RecordingCameraConfig)

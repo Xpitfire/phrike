@@ -12,6 +12,9 @@ namespace Phrike.GroundControl.Controller
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        private SubjectVM tempSubject;
+        private ScenarioVM tempScenario;
+
         // View to display the status
         private StressTestViewModel stressTestViewModel;
 
@@ -21,11 +24,26 @@ namespace Phrike.GroundControl.Controller
         public StressTestController()
         {
             stressTestViewModel = StressTestViewModel.Instance;
-            //unrealEngineModel.complete +=
+            unrealEngineController.Ending += (s, e) => StopStressTest();
+            unrealEngineController.Restarting += (s, e) =>
+            {
+                StopStressTest();
+                StartStressTest(tempSubject, tempScenario);
+            };
+            unrealEngineController.ErrorOccoured += (s, e) =>
+            {
+                StopStressTest();
+                DialogHelper.ShowErrorDialog("Fehler in der Simulation aufgetreten.");
+                Logger.Error(e);
+            };
+
         }
 
         public void StartStressTest(SubjectVM subject, ScenarioVM scenario)
         {
+            tempSubject = subject;
+            tempScenario = scenario;
+
             if (subject == null || scenario == null)
             {
                 return;
@@ -47,9 +65,13 @@ namespace Phrike.GroundControl.Controller
                 {
                     StartSensorsTask();
                 }
-                if (Settings.RecordingEnabled)
+                if (Settings.ScreenRecordingEnabled)
                 {
                     StartScreenCaptureTask(test.Id);
+                }
+                if (Settings.WebcamRecordingEnabled)
+                {
+                    StartWebcamCaptureTask(test.Id);
                 }
             }
         }
@@ -62,9 +84,13 @@ namespace Phrike.GroundControl.Controller
             {
                 StopSensorsTask();
             }
-            if (Settings.RecordingEnabled)
+            if (Settings.ScreenRecordingEnabled)
             {
                 StopScreenCaptureTask();
+            }
+            if (Settings.WebcamRecordingEnabled)
+            {
+                StopWebcamCaptureTask();
             }
         }
 
@@ -152,8 +178,8 @@ namespace Phrike.GroundControl.Controller
             return Task.Run(() =>
             {
                 ScreenCaptureHelper screenCapture = ScreenCaptureHelper.GetInstance();
-                screenCapture.StartRecording(testId);
-                if(!screenCapture.IsRunningCamera || !screenCapture.IsRunningGame)
+                screenCapture.StartGameRecording(testId);
+                if (!screenCapture.IsRunningGame)
                 {
                     const string message = "Could not start screen recording!";
                     Logger.Warn(message);
@@ -169,8 +195,8 @@ namespace Phrike.GroundControl.Controller
             return Task.Run(() =>
             {
                 ScreenCaptureHelper screenCapture = ScreenCaptureHelper.GetInstance();
-                screenCapture.StopRecording();
-                if (screenCapture.IsRunningCamera || screenCapture.IsRunningGame)
+                screenCapture.StopGameRecording();
+                if (screenCapture.IsRunningGame)
                 {
                     const string message = "Could not stop screen recording!";
                     Logger.Warn(message);
@@ -181,11 +207,44 @@ namespace Phrike.GroundControl.Controller
             });
         }
 
+        public Task StartWebcamCaptureTask(int testId)
+        {
+            return Task.Run(() =>
+            {
+                ScreenCaptureHelper screenCapture = ScreenCaptureHelper.GetInstance();
+                screenCapture.StartCameraRecording(testId);
+                if (!screenCapture.IsRunningCamera)
+                {
+                    const string message = "Could not start screen recording!";
+                    Logger.Warn(message);
+                    return;
+                }
+                Logger.Info("Screen Capture successfully started!");
+                stressTestViewModel.WebcamCapturingStatusColor = GCColors.Active;
+            });
+        }
+
+        public Task StopWebcamCaptureTask()
+        {
+            return Task.Run(() =>
+            {
+                ScreenCaptureHelper screenCapture = ScreenCaptureHelper.GetInstance();
+                screenCapture.StopCameraRecording();
+                if (screenCapture.IsRunningCamera)
+                {
+                    const string message = "Could not stop screen recording!";
+                    Logger.Warn(message);
+                    return;
+                }
+                Logger.Info("Screen Capture successfully stopped!");
+                stressTestViewModel.WebcamCapturingStatusColor = GCColors.Disabled;
+            });
+        }
+
+
         public void ApplicationCloseTask()
         {
-            StopSensorsTask();
-            StopScreenCaptureTask();
-            StopUnrealEngineTask();
+            StopStressTest();
         }
 
         #region Callbacks
@@ -194,6 +253,7 @@ namespace Phrike.GroundControl.Controller
         {
             stressTestViewModel.UnrealStatusColor = GCColors.Disabled;
             stressTestViewModel.ScreenCapturingStatusColor = GCColors.Disabled;
+            stressTestViewModel.WebcamCapturingStatusColor = GCColors.Disabled;
         }
 
         #endregion

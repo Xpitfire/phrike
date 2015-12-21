@@ -11,11 +11,14 @@ namespace Phrike.GroundControl.Helper
 {
     public class ScreenCaptureHelper
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private static ScreenCaptureHelper screenRercorder;
         private Process gameProcess;
         private Process cameraProcess;
 
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private const string DefaultGameRecordingFileName = "gameRecording.mkv";
+        private const string DefaultWebcamRecordingFileName = "cameraRecording.mkv";
 
         public Boolean IsRunningGame { get; set; }
         public Boolean IsRunningCamera { get; set; }
@@ -48,11 +51,11 @@ namespace Phrike.GroundControl.Helper
 
         public void StartRecording(int testId)
         {
-            StartGameRecording("gameRecording.mkv", testId);
-            StartCameraRecording("cameraRecording.mkv", testId);
+            StartGameRecording(testId);
+            StartCameraRecording(testId);
         }
 
-        public void StartCameraRecording(String cameraFilename, int testId)
+        public void StartCameraRecording(int testId, String cameraFilename = DefaultGameRecordingFileName)
         {
             if (IsRunningCamera)
             {
@@ -70,7 +73,7 @@ namespace Phrike.GroundControl.Helper
             }
         }
 
-        public void StartGameRecording(String gameFilename, int testId)
+        public void StartGameRecording(int testId, String gameFilename = DefaultWebcamRecordingFileName)
         {
             if (IsRunningGame)
             {
