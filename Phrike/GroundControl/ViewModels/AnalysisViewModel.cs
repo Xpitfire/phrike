@@ -13,28 +13,55 @@
 // -----------------------------------------------------------------------
 
 using System;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+
+using DataAccess;
+
+using DataModel;
 
 using NLog;
 
+using Phrike.GroundControl.Annotations;
 using Phrike.GroundControl.Controller;
+using Phrike.GroundControl.Helper;
 using Phrike.Sensors;
 
 namespace Phrike.GroundControl.ViewModels
 {
-    public class AnalysisViewModel
+    public class AnalysisViewModel : INotifyPropertyChanged
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        private AuxiliaryDataListViewModel fileList;
+
+        private DataBundleViewModel dataModel;
 
         /// <summary>
         ///     Create a new analysis viemodel instance and add the default plot template.
         /// </summary>
         public AnalysisViewModel()
         {
-            DataBundle dataBundle = LoadData(1);
-            DataModel = new DataBundleViewModel(dataBundle);
+            if (!DataLoadHelper.IsLoadDataActive())
+                return;
+            LoadData(1); // TODO get real id
         }
 
-        public DataBundleViewModel DataModel { get; set; }
+        public DataBundleViewModel DataModel
+        {
+            get { return dataModel; }
+            set
+            {
+                if (Equals(value, dataModel))
+                {
+                    return;
+                }
+                dataModel = value;
+                OnPropertyChanged();
+            }
+        }
 
         public double TotalDistance { get; set; }
 
@@ -44,38 +71,69 @@ namespace Phrike.GroundControl.ViewModels
 
         public TimeSpan TotalIdleTime { get; set; }
 
-        private DataBundle LoadData(int testId)
+        public AuxiliaryDataListViewModel FileList
         {
+            get { return fileList; }
+            set
+            {
+                if (Equals(value, fileList))
+                {
+                    return;
+                }
+                fileList = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private void LoadData(int testId)
+        {
+            using (var db = new UnitOfWork())
+            {
+                FileList = new AuxiliaryDataListViewModel(
+                    db.TestRepository.Get(includeProperties: nameof(AuxilaryData))
+                    .FirstOrDefault(t => t.Id == testId));
+            }
+            FileList.AuxiliaryData.CollectionChanged += (s, e) => UpdateDataModel();
+
             var pdc = new PositionDataController();
 
-            /*pdc.LoadData(1);
-      TotalDistance = pdc.TotalDistance;
-      Altitude = pdc.Altitude;
-      TotalTime = pdc.TotalTime;
-      TotalIdleTime = pdc.TotalIdleTime;*/
+            // TODO Store pdc data only in extra list to survive file list changes.
+                /*pdc.LoadData(1);
+                  TotalDistance = pdc.TotalDistance;
+                  Altitude = pdc.Altitude;
+                  TotalTime = pdc.TotalTime;
+                  TotalIdleTime = pdc.TotalIdleTime;*/
+                  UpdateDataModel();
+        }
 
-            var dataBundle = new DataBundle
+        private DataBundle DataBundleFromAuxList()
+        {
+            var dataBundle = new DataBundle();
+            foreach (AuxilaryData auxData in FileList.GetSensorFiles())
             {
-                DataSeries =
+                DataBundle sensorData = SensorAuxDataHelper.AuxDataToSensorData(auxData);
+                foreach (DataSeries dataSeries in sensorData.DataSeries)
                 {
-                    /*pdc.PositionSpeedSeries,
-                    pdc.PositionAccelSeries,
-                    pdc.PositionIdleMovementSeries*/
-                    new DataSeries(
-                        new[] { 1.0, 2.0, 4.0, 0.0 },
-                        2,
-                        "src",
-                        "ser",
-                        Unit.Unknown),
-                    new DataSeries(
-                        new[] { 0.3, 0.0, 0.2, 0.4 },
-                        2,
-                        "src",
-                        "ser2",
-                        Unit.Unknown)
+                    dataBundle.DataSeries.Add(dataSeries);
                 }
-            };
+            }
             return dataBundle;
+        }
+
+        private void UpdateDataModel()
+        {
+            DataBundle bundle = DataBundleFromAuxList();
+            // TODO Add pdc data to bundle.
+            DataModel = new DataBundleViewModel(bundle);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged(
+            [CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
