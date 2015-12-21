@@ -44,11 +44,11 @@ namespace Phrike.GroundControl.Helper
             {
                 if (aux.MimeType == AuxiliaryDataMimeTypes.GMobilabPlusBin)
                 {
-                    hub = new GMobiLab.SensorDataFileStreamer(aux.FilePath);
+                    hub = new GMobiLab.SensorDataFileStreamer(PathHelper.GetImportPath(aux.FilePath));
                 }
                 else if (aux.MimeType == AuxiliaryDataMimeTypes.Biofeedback2000Csv)
                 {
-                    hub = new BiofeedbackCsvFileStreamer(aux.FilePath);
+                    hub = new BiofeedbackCsvFileStreamer(PathHelper.GetImportPath(aux.FilePath));
                 }
                 else
                 {
