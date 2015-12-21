@@ -46,8 +46,8 @@ namespace Phrike.GroundControl.Controller
                 newStressTestViewModel.IsStopEnabled = false;
                 newStressTestViewModel.IsStartVisible = true;
                 unitOfWork.Save();
+                DisableUnrealEngineAndScreenCapturingColor();
             };
-            unrealEngineController.Ending += (sender, args) => DisableUnrealEngineAndScreenCapturingColor();
             unrealEngineController.Restarting += (s, e) =>
             {
                 RestartStressTest(tempSubject, tempScenario);
