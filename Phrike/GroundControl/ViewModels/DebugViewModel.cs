@@ -195,7 +195,7 @@ namespace Phrike.GroundControl.ViewModels
                 ProcessController.StartProcess(UnrealEngineController.UnrealEnginePath, true, new string[] { "-fullscreen" });
                 Logger.Info("Unreal Engine process started!");
                 // create the Unreal Engine communication object
-                unrealEngineModel = new UnrealEngineController(test);
+                unrealEngineModel = new UnrealEngineController();
 
                 Logger.Info("Unreal Engine is ready to use!");
                 UnrealStatusColor = Activate;
