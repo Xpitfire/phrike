@@ -17,6 +17,7 @@ namespace Phrike.GroundControl.Controller
 
         // View to display the status
         private StressTestViewModel stressTestViewModel;
+        private NewStressTestViewModel newStressTestViewModel;
 
         private UnrealEngineController unrealEngineController;
         private SensorsController sensorsController;
@@ -41,6 +42,8 @@ namespace Phrike.GroundControl.Controller
             unrealEngineController.Ending += (s, e) =>
             {
                 StopStressTest();
+                newStressTestViewModel.IsStopEnabled = false;
+                newStressTestViewModel.IsStartVisible = true;
                 unitOfWork.Save();
             };
             unrealEngineController.Ending += (sender, args) => DisableUnrealEngineAndScreenCapturingColor();
