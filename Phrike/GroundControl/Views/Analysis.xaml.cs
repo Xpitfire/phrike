@@ -8,10 +8,9 @@ namespace Phrike.GroundControl.Views {
     /// </summary>
     public partial class Analysis : UserControl
     {
-        public Analysis(int testId)
+        public Analysis()
         {
             InitializeComponent();
-            DataContext = new AnalysisViewModel(testId);
         }
     }
 }

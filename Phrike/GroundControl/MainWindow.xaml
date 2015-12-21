@@ -23,6 +23,9 @@
         <DataTemplate DataType="{x:Type ViewModels:AppOverviewViewModel}">
             <Views:CustomTabControl />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:AnalysisViewModel}">
+            <Views:Analysis />
+        </DataTemplate>
     </Controls:MetroWindow.Resources>
 
     <ContentControl Content="{Binding CurrentViewModel}" />
