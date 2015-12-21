@@ -49,6 +49,38 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
+        /// <summary>
+        /// Change the current tab view to the "Settings" view.
+        /// </summary>
+        public void SelectTabSettings()
+        {
+            SelectedTab = 3;
+        }
+
+        /// <summary>
+        /// Change the current tab view to the "Debug" view.
+        /// </summary>
+        public void SelectTabDebug()
+        {
+            SelectedTab = 4;
+        }
+
+        /// <summary>
+        /// Change the current tab view to the "NewStresstest" view.
+        /// </summary>
+        public void SelectTabNewStresstest()
+        {
+            SelectedTab = 1;
+        }
+
+        /// <summary>
+        /// Change the current tab view to the "Analysis" view.
+        /// </summary>
+        public void SelectTabAnalysis()
+        {
+            SelectedTab = 2;
+        }
+
         public void SelectTabUser()
         {
             //SelectedTab = 4;
