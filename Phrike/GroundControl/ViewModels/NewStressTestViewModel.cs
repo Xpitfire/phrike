@@ -94,6 +94,7 @@ namespace Phrike.GroundControl.ViewModels
                 if (isStopEnabled != value)
                 {
                     isStopEnabled = value;
+                    MainViewModel.Instance.IsEnabled = !isStopEnabled;
                     IsStartVisible = !isStopEnabled;
                     OnPropertyChanged();
                 }

@@ -106,7 +106,7 @@ namespace Phrike.GroundControl.Controller
         {
             if (UnrealEnginePath == null)
             {
-                //throw new NotSupportedException("Could not find scenario data!");
+                throw new NotSupportedException("Could not find scenario data!");
             }
 
             this.sockets = new List<UnrealSocket>();

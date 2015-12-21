@@ -24,5 +24,6 @@ namespace Phrike.GroundControl.Views
         {
             InitializeComponent();
         }
+
     }
 }

@@ -23,11 +23,12 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto" MinWidth="0250"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         
-        <StackPanel Grid.Row="0" Orientation="Vertical" Grid.ColumnSpan="2" Margin="35 10 50 10">
+        <StackPanel Grid.Row="0" Orientation="Vertical" Grid.ColumnSpan="3" Margin="35 10 50 10">
             <Label Content="Filter" />
             <StackPanel Orientation="Horizontal" Margin="15 0 0 0" >
                 <RadioButton Style="{StaticResource MetroRadioButton}" GroupName="Filter" Content="Alle" Margin="5" IsChecked="{Binding Path=FilterType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static viewmodels:FilterType.All}}" />
@@ -37,16 +38,16 @@
             </StackPanel>
         </StackPanel>
 
-        <Label Style="{StaticResource MetroLabel}" Grid.Row="1" Grid.ColumnSpan="2" Content="Auswahl" Margin="35 10 50 0"/>
-        <Label Style="{StaticResource MetroLabel}" Grid.Row="2" Grid.ColumnSpan="2" Content="Alle Tests:" FontWeight="ExtraBold" Margin="50 10 50 10"/>
+        <Label Style="{StaticResource MetroLabel}" Grid.Row="1" Grid.ColumnSpan="3" Content="Auswahl" Margin="35 10 50 0"/>
+        <Label Style="{StaticResource MetroLabel}" Grid.Row="2" Grid.ColumnSpan="3" Content="Alle Tests:" FontWeight="ExtraBold" Margin="50 10 50 10"/>
         <ComboBox Style="{StaticResource MetroComboBox}" Grid.Row="2" Grid.ColumnSpan="2" SelectedIndex="0" DisplayMemberPath="FullName" ItemsSource="{Binding Path=SubjectList, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedSubject}" Visibility="{Binding Path=SubjVisibility, UpdateSourceTrigger=PropertyChanged}" Margin="50 10 50 10"/>
         <ComboBox Style="{StaticResource MetroComboBox}" Grid.Row="2" Grid.ColumnSpan="2" SelectedIndex="0" DisplayMemberPath="Name" ItemsSource="{Binding Path=ScenarioList, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedScenario}" Visibility="{Binding Path=ScenVisibility, UpdateSourceTrigger=PropertyChanged}" Margin="50 10 50 10"/>
         <DatePicker Style="{StaticResource MetroDatePicker}" Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Path=FilterDateTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=DateVisibility, UpdateSourceTrigger=PropertyChanged}" Margin="50 10 50 10" />
 
-        <TextBox Style="{StaticResource MetroTextBox}" Grid.Row="3" Grid.Column="1" Text="{Binding Path=FilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" controls:TextBoxHelper.Watermark="Suche" controls:TextBoxHelper.ClearTextButton="True" Margin="50 10 50 10"/>
+        <TextBox Style="{StaticResource MetroTextBox}" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Stretch" Text="{Binding Path=FilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" controls:TextBoxHelper.Watermark="Suche" controls:TextBoxHelper.ClearTextButton="True" Margin="50 10 50 10"/>
 
-        <Label Style="{StaticResource MetroLabel}" Grid.Row="4" Grid.ColumnSpan="2" Content="Testergebnis auswählen" Margin="35 10 50 0"/>
-        <ListView Grid.Row="5" Grid.ColumnSpan="2" ItemsSource="{Binding Tests}" DisplayMemberPath="FullTitle" x:Name="lstTest" Style="{StaticResource MetroListView}" Margin="50 10 50 10"/>
+        <Label Style="{StaticResource MetroLabel}" Grid.Row="4" Grid.ColumnSpan="3" Content="Testergebnis auswählen" Margin="35 10 50 0"/>
+        <ListView Grid.Row="5" Grid.ColumnSpan="3" ItemsSource="{Binding Tests}" DisplayMemberPath="FullTitle" x:Name="lstTest" Style="{StaticResource MetroListView}" Margin="50 10 50 10"/>
 
         <Button Style="{StaticResource MetroButton}" Grid.Row="6" Content="Anzeigen" HorizontalAlignment="Right" Margin="50 10 50 10"/>
     </Grid>

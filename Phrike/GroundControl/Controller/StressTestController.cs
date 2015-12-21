@@ -17,6 +17,7 @@ namespace Phrike.GroundControl.Controller
 
         // View to display the status
         private StressTestViewModel stressTestViewModel;
+        private NewStressTestViewModel newStressTestViewModel;
 
         private UnrealEngineController unrealEngineController;
         private SensorsController sensorsController;
@@ -28,6 +29,7 @@ namespace Phrike.GroundControl.Controller
         public StressTestController()
         {
             stressTestViewModel = StressTestViewModel.Instance;
+            newStressTestViewModel = NewStressTestViewModel.Instance;
         }
 
         private void SetNewUnrealController()
@@ -41,17 +43,21 @@ namespace Phrike.GroundControl.Controller
             unrealEngineController.Ending += (s, e) =>
             {
                 StopStressTest();
+                newStressTestViewModel.IsStopEnabled = false;
+                newStressTestViewModel.IsStartVisible = true;
                 unitOfWork.Save();
+                DisableUnrealEngineAndScreenCapturingColor();
             };
-            unrealEngineController.Ending += (sender, args) => DisableUnrealEngineAndScreenCapturingColor();
             unrealEngineController.Restarting += (s, e) =>
             {
+                RestartStressTest(tempSubject, tempScenario);
                 StopStressTest();
-                StartStressTest(tempSubject, tempScenario);
             };
             unrealEngineController.ErrorOccoured += (s, e) =>
             {
                 StopStressTest();
+                newStressTestViewModel.IsStopEnabled = false;
+                newStressTestViewModel.IsStartVisible = true;
                 DialogHelper.ShowErrorDialog("Fehler in der Simulation aufgetreten.");
                 Logger.Error(e);
             };
@@ -66,38 +72,53 @@ namespace Phrike.GroundControl.Controller
             {
                 return;
             }
-            using (unitOfWork = new UnitOfWork())
+
+            CreateUnitOfWorkAndTest(subject, scenario);
+            StartUnrealEngineTask();
+            StartSensorsAndCapturing();
+        }
+
+        private void StartSensorsAndCapturing()
+        {
+            if (Settings.SelectedSensorType == Models.SensorType.GMobiLab)
             {
-                test = new Test()
-                {
-                    Subject = unitOfWork.SubjectRepository.GetByID(subject.Id),
-                    Scenario = unitOfWork.ScenarioRepository.GetByID(scenario.Id),
-                    Time = DateTime.Now,
-                    Title = "Testrun - " + subject.FullName + " " + DateTime.Now,
-                    Location = "Test"
-                };
-                unitOfWork.TestRepository.Insert(test);
-                unitOfWork.Save();
-                StartUnrealEngineTask();
-                if (Settings.SelectedSensorType == Models.SensorType.GMobiLab)
-                {
-                    StartSensorsTask();
-                }
-                if (Settings.ScreenRecordingEnabled)
-                {
-                    StartScreenCaptureTask(test.Id);
-                }
-                if (Settings.WebcamRecordingEnabled)
-                {
-                    StartWebcamCaptureTask(test.Id);
-                }
+                StartSensorsTask();
+            }
+            if (Settings.ScreenRecordingEnabled)
+            {
+                StartScreenCaptureTask(test.Id);
+            }
+            if (Settings.WebcamRecordingEnabled)
+            {
+                StartWebcamCaptureTask(test.Id);
             }
         }
 
-
-        public void StopStressTest()
+        private void RestartStressTest(SubjectVM subject, ScenarioVM scenario)
         {
-            StopUnrealEngineTask();
+            StopSensorsAndCapturing();
+            CreateUnitOfWorkAndTest(subject, scenario);
+            StartSensorsAndCapturing();
+
+        }
+
+        private void CreateUnitOfWorkAndTest(SubjectVM subject, ScenarioVM scenario)
+        {
+            unitOfWork = new UnitOfWork();
+            test = new Test()
+            {
+                Subject = unitOfWork.SubjectRepository.GetByID(subject.Id),
+                Scenario = unitOfWork.ScenarioRepository.GetByID(scenario.Id),
+                Time = DateTime.Now,
+                Title = "Testrun - " + subject.FullName + " " + DateTime.Now,
+                Location = "Test"
+            };
+            unitOfWork.TestRepository.Insert(test);
+            unitOfWork.Save();
+        }
+
+        private void StopSensorsAndCapturing()
+        {
             if (Settings.SelectedSensorType == Models.SensorType.GMobiLab)
             {
                 StopSensorsTask();
@@ -110,6 +131,12 @@ namespace Phrike.GroundControl.Controller
             {
                 StopWebcamCaptureTask();
             }
+        }
+
+        public void StopStressTest()
+        {
+            StopUnrealEngineTask();
+            StopSensorsAndCapturing();
         }
 
         private Task StartUnrealEngineTask()

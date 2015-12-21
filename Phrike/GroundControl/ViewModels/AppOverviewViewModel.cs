@@ -14,7 +14,23 @@ namespace Phrike.GroundControl.ViewModels
         public AppOverviewViewModel()
         {
             Instance = this;
-        }               
+            IsEnabled = true;
+        }
+
+        public bool IsEnabled
+        {
+            get { return isEnabled; }
+            set
+            {
+                if (isEnabled != value)
+                {
+                    isEnabled = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private bool isEnabled;
 
         #region Tab Control
 
