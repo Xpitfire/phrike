@@ -1,23 +1,42 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using Phrike.GroundControl.ViewModels;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace Phrike.GroundControl.Helper
 {
-    public class DialogHelper
+    public static class DialogHelper
     {
-        public async void ShowDialogAsync(string title, string message, MessageDialogStyle dialogStyle = MessageDialogStyle.Affirmative)
+        public static void ShowErrorDialog(string message)
         {
-            await ShowDialog(title, message, dialogStyle);
+            ShowErrorDialogAsync(message);
         }
 
-        private async Task<MessageDialogResult> ShowDialog(string title, string message, MessageDialogStyle dialogStyle)
+        public static void ShowDialogAsync(string title, string message, MessageDialogStyle dialogStyle = MessageDialogStyle.Affirmative)
         {
-            var metroWindow = (Application.Current.MainWindow as MetroWindow);
-            metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
+            ShowDialog(title, message, dialogStyle);
+        }
 
-            return await metroWindow.ShowMessageAsync(title, message, dialogStyle, metroWindow.MetroDialogOptions);
+
+
+        public static void ShowErrorDialogAsync(string message)
+        {
+            ShowDialog("Fehler", message, MessageDialogStyle.Affirmative);
+        }
+
+        private static Task<MessageDialogResult> ShowDialog(string title, string message, MessageDialogStyle dialogStyle)
+        {
+            //if (Application.Current.)
+
+            Task<MessageDialogResult> messageDialogResult = null;
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var metroWindow = (Application.Current.MainWindow as MetroWindow);
+                metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
+                messageDialogResult = metroWindow.ShowMessageAsync(title, message, dialogStyle, metroWindow.MetroDialogOptions);
+            });
+            return messageDialogResult;
         }
     }
 }

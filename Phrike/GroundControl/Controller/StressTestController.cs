@@ -4,10 +4,6 @@ using NLog;
 using Phrike.GroundControl.Helper;
 using Phrike.GroundControl.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Phrike.GroundControl.Controller
@@ -81,7 +77,7 @@ namespace Phrike.GroundControl.Controller
                 Logger.Info("Unreal Engine process started!");
                 // create the Unreal Engine communication object
                 unrealEngineController = new UnrealEngineController(test);
-                unrealEngineController.ErrorOccoured += (sender, args) => ShowStressTestError(args.Message);
+                unrealEngineController.ErrorOccoured += (sender, args) => DialogHelper.ShowErrorDialog(args.Message);
                 unrealEngineController.Ending += (sender, args) => DisableUnrealEngineAndScreenCapturingColor();
 
                 Logger.Info("Unreal Engine is ready to use!");
@@ -97,7 +93,6 @@ namespace Phrike.GroundControl.Controller
                 {
                     const string message = "Could not stop the Unreal Engine! No Unreal Engine instance active.";
                     Logger.Warn(message);
-                    ShowStressTestError(message);
                     return;
                 }
 
@@ -117,11 +112,10 @@ namespace Phrike.GroundControl.Controller
                 {
                     const string message = "Could not start sensors recording! Recording task is already running.";
                     Logger.Warn(message);
-                    ShowStressTestError(message);
                     return;
                 }
 
-                sensorsController = new SensorsController(ShowStressTestError);
+                sensorsController = new SensorsController();
                 Logger.Info("Sensors instance created!");
 
                 var active = sensorsController.StartRecording();
@@ -144,7 +138,6 @@ namespace Phrike.GroundControl.Controller
                 {
                     const string message = "Could not stop sensors recording! No sensors recording instance enabled.";
                     Logger.Warn(message);
-                    ShowStressTestError(message);
                     return;
                 }
                 sensorsController.Close();
@@ -164,7 +157,6 @@ namespace Phrike.GroundControl.Controller
                 {
                     const string message = "Could not start screen recording!";
                     Logger.Warn(message);
-                    ShowStressTestError(message);
                     return;
                 }
                 Logger.Info("Screen Capture successfully started!");
@@ -182,7 +174,6 @@ namespace Phrike.GroundControl.Controller
                 {
                     const string message = "Could not stop screen recording!";
                     Logger.Warn(message);
-                    ShowStressTestError(message);
                     return;
                 }
                 Logger.Info("Screen Capture successfully stopped!");
@@ -203,11 +194,6 @@ namespace Phrike.GroundControl.Controller
         {
             stressTestViewModel.UnrealStatusColor = GCColors.Disabled;
             stressTestViewModel.ScreenCapturingStatusColor = GCColors.Disabled;
-        }
-
-        private void ShowStressTestError(string message)
-        {
-            MainViewModel.Instance.ShowDialogMessage("Stress Test Error", message);
         }
 
         #endregion

@@ -183,7 +183,7 @@ namespace Phrike.GroundControl.ViewModels
 
         public string Description
         {
-            get { return survey != null ? survey.Description: ""; }
+            get { return survey != null ? survey.Description : ""; }
             set
             {
                 if (survey.Description != value)
@@ -452,6 +452,19 @@ namespace Phrike.GroundControl.ViewModels
                 {
                     test.Title = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Title)));
+                }
+            }
+        }
+
+        public DateTime Date
+        {
+            get { return test.Time; }
+            set
+            {
+                if (test.Time != value)
+                {
+                    test.Time = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Date)));
                 }
             }
         }

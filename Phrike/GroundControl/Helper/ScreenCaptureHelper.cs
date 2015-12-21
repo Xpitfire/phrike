@@ -1,4 +1,5 @@
 ﻿using DataModel;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,6 +14,8 @@ namespace Phrike.GroundControl.Helper
         private static ScreenCaptureHelper screenRercorder;
         private Process gameProcess;
         private Process cameraProcess;
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public Boolean IsRunningGame { get; set; }
         public Boolean IsRunningCamera { get; set; }
@@ -61,6 +64,10 @@ namespace Phrike.GroundControl.Helper
                 IsRunningCamera = true;
                 Console.WriteLine(cameraProcess.Id);
             }
+            else
+            {
+                DialogHelper.ShowErrorDialog("Bewegtbildaufzeichnungsgerätaufnahme konnte nicht gestartet werden. Externes Aufnahmeprogramm wurde nicht gefunden.");
+            }
         }
 
         public void StartGameRecording(String gameFilename, int testId)
@@ -75,20 +82,32 @@ namespace Phrike.GroundControl.Helper
                 IsRunningGame = true;
                 Console.WriteLine(gameProcess.Id);
             }
+            else
+            {
+                DialogHelper.ShowErrorDialog("Simulationsaufnahme konnte nicht gestartet werden. Externes Aufnahmeprogramm wurde nicht gefunden.");
+            }
 
         }
 
         private bool StartProcessTask(ref Process process, String config, String filename, int testId)
         {
-            var aux = FileStorageHelper.ReserveFile(filename, AuxiliaryDataMimeTypes.AnyVideo, testId, DateTime.Now);
-            String command = config + " \"" + PathHelper.PhrikeImport + "\\" +  aux.FilePath + "\"";
-            process = new Process();
-            process.StartInfo.FileName = "ffmpeg.exe";
-            process.StartInfo.Arguments = command;
-            process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            bool started = process.Start();
-            Thread.Sleep(100);
-            return started;
+            try
+            {
+                var aux = FileStorageHelper.ReserveFile(filename, AuxiliaryDataMimeTypes.AnyVideo, testId, DateTime.Now);
+                String command = config + " \"" + PathHelper.PhrikeImport + "\\" + aux.FilePath + "\"";
+                process = new Process();
+                process.StartInfo.FileName = "ffmpeg.exe";
+                process.StartInfo.Arguments = command;
+                process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                bool started = process.Start();
+                Thread.Sleep(100);
+                return started;
+            }
+            catch (System.ComponentModel.Win32Exception e)
+            {                
+                Logger.Error(e, $"Recording could not be started (config: {config}/ filename: {filename}).");
+                return false;
+            }
         }
 
         public void StopRecording()

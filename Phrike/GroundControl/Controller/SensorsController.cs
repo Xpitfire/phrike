@@ -5,6 +5,7 @@ using OxyPlot;
 using OxyPlot.Series;
 using Phrike.GMobiLab;
 using Phrike.GroundControl.ViewModels;
+using Phrike.GroundControl.Helper;
 
 namespace Phrike.GroundControl.Controller
 {
@@ -16,8 +17,6 @@ namespace Phrike.GroundControl.Controller
         public const double SampleRate = 256;
 
         private SensorDevice sensors;
-
-        private ControlDelegates.ErrorMessageCallbackMethod errorMessageCallback;
 
         /// <summary>
         /// Transform simple data points (double value) to a Oxyplot chart LineSeries object.
@@ -51,10 +50,8 @@ namespace Phrike.GroundControl.Controller
         /// <summary>
         /// Create a new SensorModel instance and automatically connect to the hardware device.
         /// </summary>
-        public SensorsController(ControlDelegates.ErrorMessageCallbackMethod errorMessageCallback)
+        public SensorsController()
         {
-            this.errorMessageCallback = errorMessageCallback;
-
             if (sensors != null)
             {
                 Logger.Info("Sensors already started!");
@@ -75,6 +72,7 @@ namespace Phrike.GroundControl.Controller
             catch (Exception e)
             {
                 const string message = "Could not connect to sensor device!";
+                DialogHelper.ShowErrorDialog("Verbindung zu den Sensoren konnte nicht hergestellt werden.");
                 Logger.Error(e, message);
             }
         }
@@ -102,7 +100,6 @@ namespace Phrike.GroundControl.Controller
                     const string message = "Sensors recording failed!";
                     //Logger.Error(message, e);
                     Logger.Error(e, message);
-                    errorMessageCallback(message);
                     return false;
                 }
                 return true;
@@ -111,7 +108,6 @@ namespace Phrike.GroundControl.Controller
             {
                 const string message = "Sensors recording could not be started!";
                 Logger.Warn(message);
-                errorMessageCallback(message);
                 return false;
             }
         }
@@ -132,7 +128,6 @@ namespace Phrike.GroundControl.Controller
             {
                 const string message = "Sensors recording is not running!";
                 Logger.Warn(message);
-                errorMessageCallback(message);
             }
         }
 
