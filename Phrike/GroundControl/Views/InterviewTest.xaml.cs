@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using DataAccess;
 using DataModel;
@@ -73,34 +74,9 @@ namespace Phrike.GroundControl.Views
             {
                 if (rb.IsChecked == true)
                 {
-                    SurveyResult s = new SurveyResult();
-                    int resultValue = i % 5;
-                    if (resultValue == 0)
-                    {
-                        resultValue = 5;
-                    }
-                    switch (resultValue)
-                    {
-                        case 1:
-                            s.Answer = SurveyAnswer.Perfect;
-                            break;
-                        case 2:
-                            s.Answer = SurveyAnswer.Good;
-                            break;
-                        case 3:
-                            s.Answer = SurveyAnswer.Gratifying;
-                            break;
-                        case 4:
-                            s.Answer = SurveyAnswer.Bad;
-                            break;
-                        case 5:
-                            s.Answer = SurveyAnswer.Worst;
-                            break;
-                    }
-
+                    SurveyResult s = new SurveyResult { Answer = SurveyAnswerHelper.ToEnum(i % 5) };
                     result.Add(s);
                 }
-
                 i++;
             }
             return result;
@@ -146,5 +122,7 @@ namespace Phrike.GroundControl.Views
                 }
             }
         }
+
+       
     }
 }

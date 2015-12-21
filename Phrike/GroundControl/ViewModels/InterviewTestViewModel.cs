@@ -9,7 +9,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 
@@ -66,11 +65,11 @@ namespace Phrike.GroundControl.ViewModels
 
             SurveyAnsList = new List<string>
                             {
-                                SurveyAnswer.Perfect.ToString(),
-                                SurveyAnswer.Good.ToString(),
-                                SurveyAnswer.Gratifying.ToString(),
-                                SurveyAnswer.Bad.ToString(),
-                                SurveyAnswer.Worst.ToString()
+                                SurveyAnswerHelper.ToString(SurveyAnswer.Perfect),
+                                SurveyAnswerHelper.ToString(SurveyAnswer.Good),
+                                SurveyAnswerHelper.ToString(SurveyAnswer.Gratified),
+                                SurveyAnswerHelper.ToString(SurveyAnswer.Bad),
+                                SurveyAnswerHelper.ToString(SurveyAnswer.Worst),
                             };
 
             foreach (var q in this.QuestionCollectionVM.SurveyQuestions)
@@ -91,7 +90,8 @@ namespace Phrike.GroundControl.ViewModels
                 
                 if (test != null)
                 {
-                    foreach (SurveyResult result in resultList)
+
+                    foreach (SurveyResult result in resultList)              
                     {
                         result.Test = test;
                         result.SurveyQuestion = questionList[i];

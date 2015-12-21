@@ -13,6 +13,7 @@
 // -----------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -28,12 +29,16 @@ using Phrike.GroundControl.Annotations;
 using Phrike.GroundControl.Controller;
 using Phrike.GroundControl.Helper;
 using Phrike.Sensors;
+using Phrike.Sensors.Filters;
 
 namespace Phrike.GroundControl.ViewModels
 {
     public class AnalysisViewModel : INotifyPropertyChanged
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        private const string PulseChannelName = "Channel 05";
+        private const string SkinConductanceChannelName = "Channel 02"; // TODO Correct channel?
 
         private AuxiliaryDataListViewModel fileList;
 
@@ -61,7 +66,7 @@ namespace Phrike.GroundControl.ViewModels
                 dataModel = value;
                 OnPropertyChanged();
             }
-        }
+        }
 
         public double TotalDistance { get; set; }
 
@@ -106,23 +111,44 @@ namespace Phrike.GroundControl.ViewModels
                   UpdateDataModel();
         }
 
-        private DataBundle DataBundleFromAuxList()
+
+        // Key: Series -> value: should show by default.
+        private List<KeyValuePair<DataSeries, bool>>  DataBundleFromAuxList()
         {
-            var dataBundle = new DataBundle();
+            var result = new List<KeyValuePair<DataSeries, bool>>();
             foreach (AuxilaryData auxData in FileList.GetSensorFiles())
             {
                 DataBundle sensorData = SensorAuxDataHelper.AuxDataToSensorData(auxData);
                 foreach (DataSeries dataSeries in sensorData.DataSeries)
                 {
-                    dataBundle.DataSeries.Add(dataSeries);
+                    if (auxData.MimeType == AuxiliaryDataMimeTypes.GMobilabPlusBin
+                        && dataSeries.Name == PulseChannelName)
+                    {
+                        IReadOnlyList<double> filtered = PulseCalculator.MakePulseFilterChain().Filter(dataSeries.Data);
+                        var pulseSeries = new DataSeries(
+                            filtered as double[] ?? filtered.ToArray(),
+                            dataSeries.SampleRate,
+                            dataSeries.SourceName,
+                            "Pulsrate",
+                            Unit.Bpm);
+                        result.Add(new KeyValuePair<DataSeries, bool>(pulseSeries, true));
+                    }
+                    result.Add(new KeyValuePair<DataSeries, bool>(dataSeries, IsInteresting(dataSeries, auxData)));
                 }
             }
-            return dataBundle;
+            return result;
+        }
+
+        private bool IsInteresting(DataSeries series, AuxilaryData data)
+        {
+            return data.MimeType == AuxiliaryDataMimeTypes.Biofeedback2000Csv
+                   || data.MimeType == AuxiliaryDataMimeTypes.GMobilabPlusBin
+                   && series.Name == SkinConductanceChannelName;
         }
 
         private void UpdateDataModel()
         {
-            DataBundle bundle = DataBundleFromAuxList();
+            List<KeyValuePair<DataSeries, bool>> bundle = DataBundleFromAuxList();
             // TODO Add pdc data to bundle.
             DataModel = new DataBundleViewModel(bundle);
         }
