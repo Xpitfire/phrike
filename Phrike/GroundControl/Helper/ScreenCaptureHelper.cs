@@ -39,7 +39,6 @@ namespace Phrike.GroundControl.Helper
 
         public void LoadConfig()
         {
-            Settings.LoadSettings();
             GameConfig = Settings.RecordingGameConfig;
             CameraConfig = Settings.RecordingCameraConfig;
         }

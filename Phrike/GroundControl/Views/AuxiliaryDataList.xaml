@@ -23,6 +23,10 @@
                                     Header="Löschen"
                                     CommandParameter="{Binding}"
                                     Command="{Binding PlacementTarget.Tag.DeleteFile, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
+                                <MenuItem
+                                    Header="Extern öffnen"
+                                    CommandParameter="{Binding}"
+                                    Command="{Binding PlacementTarget.Tag.OpenFile, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
                             </ContextMenu>
                         </TextBlock.ContextMenu>
                         <Run Text="{Binding CategoryName, Mode=OneWay}" />

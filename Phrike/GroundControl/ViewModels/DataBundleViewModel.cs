@@ -70,9 +70,9 @@ namespace Phrike.GroundControl.ViewModels
                 series.IsActive = true;
             }
 
-            xAxis.AbsoluteMaximum = DataSeries.Select(s => s.Interval).Max();
             if (DataSeries.Count > 0)
             {
+                xAxis.AbsoluteMaximum = DataSeries.Select(s => s.Interval).Max();
                 LeftAxis = DataSeries.First();
                 if (DataSeries.Count > 1)
                 {
@@ -206,7 +206,7 @@ namespace Phrike.GroundControl.ViewModels
         /// <see cref="DataSeries"/> in seconds.
         /// </summary>
         public double TotalInterval => DataSeries
-            .Select(s => s.Interval).Max();
+            .Select(s => s.Interval).DefaultIfEmpty().Max();
 
         /// <summary>
         /// Gets the maximal minimum value of the X axis. Determined by
