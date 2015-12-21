@@ -133,17 +133,25 @@ namespace Phrike.GroundControl.ViewModels
                             Unit.Bpm);
                         result.Add(new KeyValuePair<DataSeries, bool>(pulseSeries, true));
                     }
-                    result.Add(new KeyValuePair<DataSeries, bool>(dataSeries, IsInteresting(dataSeries, auxData)));
+                    if (auxData.MimeType == AuxiliaryDataMimeTypes.Biofeedback2000Csv)
+                    {
+                        result.Add(new KeyValuePair<DataSeries, bool>(dataSeries, true));
+                    }
+                    else if (auxData.MimeType == AuxiliaryDataMimeTypes.GMobilabPlusBin
+                             && dataSeries.Name == SkinConductanceChannelName)
+                    {
+                        result.Add(new KeyValuePair<DataSeries, bool>(
+                            new DataSeries(
+                                dataSeries.Data,
+                                dataSeries.SampleRate,
+                                dataSeries.SourceName,
+                                "Hautleitwiderstand",
+                                dataSeries.Unit),
+                            true));
+                    }
                 }
             }
             return result;
-        }
-
-        private bool IsInteresting(DataSeries series, AuxilaryData data)
-        {
-            return data.MimeType == AuxiliaryDataMimeTypes.Biofeedback2000Csv
-                   || data.MimeType == AuxiliaryDataMimeTypes.GMobilabPlusBin
-                   && series.Name == SkinConductanceChannelName;
         }
 
         private void UpdateDataModel()
