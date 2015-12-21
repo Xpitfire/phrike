@@ -12,11 +12,14 @@ namespace Phrike.GroundControl.ViewModels
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        private bool isEnabled;
+
         public static MainViewModel Instance { get; private set; }
 
         public MainViewModel()
         {
             Instance = this;
+            IsEnabled = true;
         }               
 
         #region Tab Control
@@ -33,6 +36,19 @@ namespace Phrike.GroundControl.ViewModels
             {
                 selectedTab = value;
                 OnPropertyChanged();
+            }
+        }
+
+        public bool IsEnabled
+        {
+            get { return isEnabled; }
+            set
+            {
+                if (isEnabled != value)
+                {
+                    isEnabled = value;
+                    OnPropertyChanged();
+                }                
             }
         }
 
