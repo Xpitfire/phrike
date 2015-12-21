@@ -195,7 +195,7 @@ namespace Phrike.GroundControl.ViewModels
                 ProcessController.StartProcess(UnrealEngineController.UnrealEnginePath, true, new string[] { "-fullscreen" });
                 Logger.Info("Unreal Engine process started!");
                 // create the Unreal Engine communication object
-                unrealEngineModel = new UnrealEngineController(test);
+                //unrealEngineModel = new UnrealEngineController();
 
                 Logger.Info("Unreal Engine is ready to use!");
                 UnrealStatusColor = Activate;
@@ -213,7 +213,6 @@ namespace Phrike.GroundControl.ViewModels
                 {
                     const string message = "Could not stop the Unreal Engine! No Unreal Engine instance active.";
                     Logger.Warn(message);
-                    ShowStressTestError(message);
                     return;
                 }
 
@@ -238,11 +237,10 @@ namespace Phrike.GroundControl.ViewModels
                 {
                     const string message = "Could not start sensors recording! Recording task is already running.";
                     Logger.Warn(message);
-                    ShowStressTestError(message);
                     return;
                 }
 
-                sensorsModel = new SensorsController(ShowStressTestError);
+                sensorsModel = new SensorsController();
                 Logger.Info("Sensors instance created!");
 
                 var active = sensorsModel.StartRecording();
@@ -267,8 +265,7 @@ namespace Phrike.GroundControl.ViewModels
                 if (sensorsModel == null)
                 {
                     const string message = "Could not stop sensors recording! No sensors recording instance enabled.";
-                    Logger.Warn(message);
-                    ShowStressTestError(message);
+                    Logger.Warn(message);                    
                     return;
                 }
                 sensorsModel.Close();
@@ -290,7 +287,6 @@ namespace Phrike.GroundControl.ViewModels
                 {
                     const string message = "Could not start screen recording! Recording task is already running.";
                     Logger.Warn(message);
-                    ShowStressTestError(message);
                     return;
                 }
 
@@ -312,7 +308,7 @@ namespace Phrike.GroundControl.ViewModels
                 {
                     const string message = "Could not stop screen recording! No recording running.";
                     Logger.Warn(message);
-                    ShowStressTestError(message);
+                    DialogHelper.ShowErrorDialog("Videoaufnahme konnte nicht beendet werden.");
                     return;
                 }
 
@@ -335,16 +331,6 @@ namespace Phrike.GroundControl.ViewModels
         }
 
         #endregion
-
-        /// <summary>
-        /// Show error message to user.
-        /// </summary>
-        /// <param name="message"></param>
-        private void ShowStressTestError(string message)
-        {
-            MainViewModel.Instance.ShowDialogMessage("Stress Test Error", message);
-        }
-
 
         #region PropertyChanged Handling
 

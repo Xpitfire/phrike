@@ -182,9 +182,19 @@ namespace Phrike.GroundControl.ViewModels
         private void UpdateDataModel()
         {
             List<KeyValuePair<DataSeries, bool>> bundle = DataBundleFromAuxList();
-            bundle.Add(new KeyValuePair<DataSeries, bool>(positionDataMovement, true));
-            bundle.Add(new KeyValuePair<DataSeries, bool>(positionDataAccel, true));
-            bundle.Add(new KeyValuePair<DataSeries, bool>(positionDataIdle, true));
+            if(positionDataMovement != null)
+            {
+                bundle.Add(new KeyValuePair<DataSeries, bool>(positionDataMovement, true));
+            }
+            if(positionDataAccel != null)
+            {
+                bundle.Add(new KeyValuePair<DataSeries, bool>(positionDataAccel, true));
+            }
+            if(positionDataIdle != null)
+            {
+                bundle.Add(new KeyValuePair<DataSeries, bool>(positionDataIdle, true));
+            }
+           
             DataModel = new DataBundleViewModel(bundle);
         }
 

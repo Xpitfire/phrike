@@ -56,16 +56,33 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
-        public bool RecordingEnabled {
+        public bool ScreenRecordingEnabled
+        {
             get
             {
-                return Settings.RecordingEnabled;
+                return Settings.ScreenRecordingEnabled;
             }
             set
             {
-                if (Settings.RecordingEnabled != value)
+                if (Settings.ScreenRecordingEnabled != value)
                 {
-                    Settings.RecordingEnabled = value;
+                    Settings.ScreenRecordingEnabled = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool WebcamRecordingEnabled
+        {
+            get
+            {
+                return Settings.WebcamRecordingEnabled;
+            }
+            set
+            {
+                if (Settings.WebcamRecordingEnabled != value)
+                {
+                    Settings.WebcamRecordingEnabled = value;
                     OnPropertyChanged();
                 }
             }

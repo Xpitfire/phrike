@@ -4,10 +4,6 @@ using NLog;
 using Phrike.GroundControl.Helper;
 using Phrike.GroundControl.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Phrike.GroundControl.Controller
@@ -16,27 +12,63 @@ namespace Phrike.GroundControl.Controller
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        private SubjectVM tempSubject;
+        private ScenarioVM tempScenario;
+
         // View to display the status
         private StressTestViewModel stressTestViewModel;
 
         private UnrealEngineController unrealEngineController;
         private SensorsController sensorsController;
 
+        private UnitOfWork unitOfWork;
+
+        private Test test;
+
         public StressTestController()
         {
             stressTestViewModel = StressTestViewModel.Instance;
-            //unrealEngineModel.complete +=
+        }
+
+        private void SetNewUnrealController()
+        {
+            // create the Unreal Engine communication object
+            unrealEngineController = new UnrealEngineController();
+            unrealEngineController.PositionReceived += (s, e) =>
+            {
+                test.PositionData.Add(e);
+            };
+            unrealEngineController.Ending += (s, e) =>
+            {
+                StopStressTest();
+                unitOfWork.Save();
+            };
+            unrealEngineController.Ending += (sender, args) => DisableUnrealEngineAndScreenCapturingColor();
+            unrealEngineController.Restarting += (s, e) =>
+            {
+                StopStressTest();
+                StartStressTest(tempSubject, tempScenario);
+            };
+            unrealEngineController.ErrorOccoured += (s, e) =>
+            {
+                StopStressTest();
+                DialogHelper.ShowErrorDialog("Fehler in der Simulation aufgetreten.");
+                Logger.Error(e);
+            };
         }
 
         public void StartStressTest(SubjectVM subject, ScenarioVM scenario)
         {
+            tempSubject = subject;
+            tempScenario = scenario;
+
             if (subject == null || scenario == null)
             {
                 return;
             }
-            using (UnitOfWork unitOfWork = new UnitOfWork())
+            using (unitOfWork = new UnitOfWork())
             {
-                Test test = new Test()
+                test = new Test()
                 {
                     Subject = unitOfWork.SubjectRepository.GetByID(subject.Id),
                     Scenario = unitOfWork.ScenarioRepository.GetByID(scenario.Id),
@@ -46,14 +78,18 @@ namespace Phrike.GroundControl.Controller
                 };
                 unitOfWork.TestRepository.Insert(test);
                 unitOfWork.Save();
-                StartUnrealEngineTask(test);
+                StartUnrealEngineTask();
                 if (Settings.SelectedSensorType == Models.SensorType.GMobiLab)
                 {
                     StartSensorsTask();
                 }
-                if (Settings.RecordingEnabled)
+                if (Settings.ScreenRecordingEnabled)
                 {
                     StartScreenCaptureTask(test.Id);
+                }
+                if (Settings.WebcamRecordingEnabled)
+                {
+                    StartWebcamCaptureTask(test.Id);
                 }
             }
         }
@@ -66,25 +102,25 @@ namespace Phrike.GroundControl.Controller
             {
                 StopSensorsTask();
             }
-            if (Settings.RecordingEnabled)
+            if (Settings.ScreenRecordingEnabled)
             {
                 StopScreenCaptureTask();
             }
+            if (Settings.WebcamRecordingEnabled)
+            {
+                StopWebcamCaptureTask();
+            }
         }
 
-        private Task StartUnrealEngineTask(Test test)
+        private Task StartUnrealEngineTask()
         {
             return Task.Run(() =>
             {
+                SetNewUnrealController();
                 // start the external application sub-process
                 ProcessController.StartProcess(UnrealEngineController.UnrealEnginePath, true, new string[] { "-fullscreen" });
                 Logger.Info("Unreal Engine process started!");
-                // create the Unreal Engine communication object
-                unrealEngineController = new UnrealEngineController(test);
-                unrealEngineController.ErrorOccoured += (sender, args) => ShowStressTestError(args.Message);
-                unrealEngineController.Ending += (sender, args) => DisableUnrealEngineAndScreenCapturingColor();
 
-                Logger.Info("Unreal Engine is ready to use!");
                 stressTestViewModel.UnrealStatusColor = GCColors.Active;
             });
         }
@@ -97,7 +133,6 @@ namespace Phrike.GroundControl.Controller
                 {
                     const string message = "Could not stop the Unreal Engine! No Unreal Engine instance active.";
                     Logger.Warn(message);
-                    ShowStressTestError(message);
                     return;
                 }
 
@@ -117,11 +152,10 @@ namespace Phrike.GroundControl.Controller
                 {
                     const string message = "Could not start sensors recording! Recording task is already running.";
                     Logger.Warn(message);
-                    ShowStressTestError(message);
                     return;
                 }
 
-                sensorsController = new SensorsController(ShowStressTestError);
+                sensorsController = new SensorsController();
                 Logger.Info("Sensors instance created!");
 
                 var active = sensorsController.StartRecording();
@@ -144,7 +178,6 @@ namespace Phrike.GroundControl.Controller
                 {
                     const string message = "Could not stop sensors recording! No sensors recording instance enabled.";
                     Logger.Warn(message);
-                    ShowStressTestError(message);
                     return;
                 }
                 sensorsController.Close();
@@ -159,12 +192,11 @@ namespace Phrike.GroundControl.Controller
             return Task.Run(() =>
             {
                 ScreenCaptureHelper screenCapture = ScreenCaptureHelper.GetInstance();
-                screenCapture.StartRecording(testId);
-                if(!screenCapture.IsRunningCamera || !screenCapture.IsRunningGame)
+                screenCapture.StartGameRecording(testId);
+                if (!screenCapture.IsRunningGame)
                 {
                     const string message = "Could not start screen recording!";
                     Logger.Warn(message);
-                    ShowStressTestError(message);
                     return;
                 }
                 Logger.Info("Screen Capture successfully started!");
@@ -177,12 +209,11 @@ namespace Phrike.GroundControl.Controller
             return Task.Run(() =>
             {
                 ScreenCaptureHelper screenCapture = ScreenCaptureHelper.GetInstance();
-                screenCapture.StopRecording();
-                if (screenCapture.IsRunningCamera || screenCapture.IsRunningGame)
+                screenCapture.StopGameRecording();
+                if (screenCapture.IsRunningGame)
                 {
                     const string message = "Could not stop screen recording!";
                     Logger.Warn(message);
-                    ShowStressTestError(message);
                     return;
                 }
                 Logger.Info("Screen Capture successfully stopped!");
@@ -190,11 +221,44 @@ namespace Phrike.GroundControl.Controller
             });
         }
 
+        public Task StartWebcamCaptureTask(int testId)
+        {
+            return Task.Run(() =>
+            {
+                ScreenCaptureHelper screenCapture = ScreenCaptureHelper.GetInstance();
+                screenCapture.StartCameraRecording(testId);
+                if (!screenCapture.IsRunningCamera)
+                {
+                    const string message = "Could not start screen recording!";
+                    Logger.Warn(message);
+                    return;
+                }
+                Logger.Info("Screen Capture successfully started!");
+                stressTestViewModel.WebcamCapturingStatusColor = GCColors.Active;
+            });
+        }
+
+        public Task StopWebcamCaptureTask()
+        {
+            return Task.Run(() =>
+            {
+                ScreenCaptureHelper screenCapture = ScreenCaptureHelper.GetInstance();
+                screenCapture.StopCameraRecording();
+                if (screenCapture.IsRunningCamera)
+                {
+                    const string message = "Could not stop screen recording!";
+                    Logger.Warn(message);
+                    return;
+                }
+                Logger.Info("Screen Capture successfully stopped!");
+                stressTestViewModel.WebcamCapturingStatusColor = GCColors.Disabled;
+            });
+        }
+
+
         public void ApplicationCloseTask()
         {
-            StopSensorsTask();
-            StopScreenCaptureTask();
-            StopUnrealEngineTask();
+            StopStressTest();
         }
 
         #region Callbacks
@@ -203,11 +267,7 @@ namespace Phrike.GroundControl.Controller
         {
             stressTestViewModel.UnrealStatusColor = GCColors.Disabled;
             stressTestViewModel.ScreenCapturingStatusColor = GCColors.Disabled;
-        }
-
-        private void ShowStressTestError(string message)
-        {
-            MainViewModel.Instance.ShowDialogMessage("Stress Test Error", message);
+            stressTestViewModel.WebcamCapturingStatusColor = GCColors.Disabled;
         }
 
         #endregion

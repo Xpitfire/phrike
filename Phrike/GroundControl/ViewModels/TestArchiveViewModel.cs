@@ -42,7 +42,7 @@ namespace Phrike.GroundControl.ViewModels
     {
         //Initialize FilterDateTime with a default value
         private DateTime _filterDateTime = DateTime.Now;
-        private FilterType filterType = FilterType.Date;
+        private FilterType filterType = FilterType.All;
         private ObservableCollection<TestVM> tests;
         private SubjectVM selectedSubject;
         private ScenarioVM selectedScenario;

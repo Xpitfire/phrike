@@ -34,21 +34,21 @@
                 <Views:Start DataContext="{Binding}" />
             </TabItem>
             <TabItem Padding="30" Header="Neuer Stresstest" Name="TabItemUser">
-                <Views:NewStressTest DataContext="{Binding}" x:Name="StressTestView" />
+                <Views:NewStressTest x:Name="StressTestView" />
             </TabItem>
             <TabItem Padding="30" Header="Analyse" Name="TabItemAnalysis" />
             <TabItem Padding="30" Header="Einstellungen" Name="TabItemSettings">
                 <Views:Settings DataContext="{Binding}" />
             </TabItem>
-            <TabItem Padding="30" Header="Debug" Name="TabItemDebug">
+            <!--<TabItem Padding="30" Header="Debug" Name="TabItemDebug">
                 <Views:Debug DataContext="{Binding}" />
-            </TabItem>
+            </TabItem>-->
             <TabItem Padding="30" Header="Interview" Name="TabItemInterviewTest">
                 <Views:InterviewTest />
             </TabItem>
-            <TabItem Padding="30" Header="Debug: FileList" Name="TabItemFileList">
+            <!--<TabItem Padding="30" Header="Debug: FileList" Name="TabItemFileList">
                 <GroundControl:FileListDebugView DataContext="{Binding}" />
-            </TabItem>
+            </TabItem>-->
             
             <TabItem Padding="30" Header="Debug: TestARchive" Name="TabItemArchive">
                 <Views:TestArchive DataContext="{Binding}" />

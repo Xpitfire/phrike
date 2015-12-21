@@ -1,12 +1,7 @@
 ﻿using Phrike.GroundControl.Annotations;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Phrike.GroundControl.ViewModels
 {
@@ -44,6 +39,7 @@ namespace Phrike.GroundControl.ViewModels
         private Brush unrealStatusColor;
         private Brush sensorStatusColor;
         private Brush screenCapturingStatusColor;
+        private Brush webcamCapturingStatusColor;
 
         public StressTestViewModel()
         {
@@ -99,11 +95,28 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
+        public Brush WebcamCapturingStatusColor
+        {
+            get
+            {
+                return webcamCapturingStatusColor;
+            }
+            set
+            {
+                if (webcamCapturingStatusColor != value)
+                {
+                    webcamCapturingStatusColor = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public void SetAllStatusToActive()
         {
             UnrealStatusColor = GCColors.Active;
             SensorStatusColor = GCColors.Active;
             ScreenCapturingStatusColor = GCColors.Active;
+            WebcamCapturingStatusColor = GCColors.Active;
         }
 
         public void SetAllStatusToDisabled()
@@ -111,6 +124,7 @@ namespace Phrike.GroundControl.ViewModels
             UnrealStatusColor = GCColors.Disabled;
             SensorStatusColor = GCColors.Disabled;
             ScreenCapturingStatusColor = GCColors.Disabled;
+            WebcamCapturingStatusColor = GCColors.Disabled;
         }
 
         #region PropertyChanged Handler
