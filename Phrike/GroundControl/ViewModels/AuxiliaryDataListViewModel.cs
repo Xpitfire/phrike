@@ -12,6 +12,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // -----------------------------------------------------------------------
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -38,6 +39,8 @@ namespace Phrike.GroundControl.ViewModels
 
         public AuxiliaryDataListViewModel(Test parentTest)
         {
+            if (!DataLoadHelper.IsLoadDataActive())
+                return;
             this.parentTest = parentTest;
             AuxiliaryData = new ObservableCollection<AuxiliaryDataViewModel>(
                 parentTest.AuxilaryData.Select(d => new AuxiliaryDataViewModel(d)));
@@ -89,6 +92,11 @@ namespace Phrike.GroundControl.ViewModels
                 parentTest.Id);
 
             AuxiliaryData.Add(new AuxiliaryDataViewModel(data));
+        }
+
+        public IEnumerable<AuxilaryData> GetSensorFiles()
+        {
+            return AuxiliaryData.Where(a => a.IsSensorData).Select(a => a.Model);
         }
     }
 }

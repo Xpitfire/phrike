@@ -28,6 +28,7 @@
                 <RowDefinition Height="40" />
                 <RowDefinition Height="40" />
                 <RowDefinition Height="40" />
+                <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
@@ -46,6 +47,8 @@
                    ContentStringFormat="{}{0:hh\:mm\:ss\.ff}" />
             <Label Grid.Column="1" Grid.Row="3" Content="{Binding Path=TotalIdleTime, Mode=OneWay}"
                    ContentStringFormat="{}{0:hh\:mm\:ss\.ff}" />
+
+            <views:AuxiliaryDataList Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" DataContext="{Binding FileList}" />
         </Grid>
     </Grid>
 </UserControl>
