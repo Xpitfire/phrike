@@ -21,10 +21,26 @@ namespace Phrike.GroundControl.Controller
         private UnrealEngineController unrealEngineController;
         private SensorsController sensorsController;
 
+        private UnitOfWork unitOfWork;
+
+        private Test test;
+
         public StressTestController()
         {
             stressTestViewModel = StressTestViewModel.Instance;
-            unrealEngineController.Ending += (s, e) => StopStressTest();
+
+            // create the Unreal Engine communication object
+            unrealEngineController = new UnrealEngineController();
+            unrealEngineController.PositionReceived += (s, e) => 
+            {
+                test.PositionData.Add(e);
+            };
+            unrealEngineController.Ending += (s, e) =>
+            {
+                StopStressTest();
+                unitOfWork.Save();
+            }
+            unrealEngineController.Ending += (sender, args) => DisableUnrealEngineAndScreenCapturingColor();
             unrealEngineController.Restarting += (s, e) =>
             {
                 StopStressTest();
@@ -48,9 +64,9 @@ namespace Phrike.GroundControl.Controller
             {
                 return;
             }
-            using (UnitOfWork unitOfWork = new UnitOfWork())
+            using (unitOfWork = new UnitOfWork())
             {
-                Test test = new Test()
+                test = new Test()
                 {
                     Subject = unitOfWork.SubjectRepository.GetByID(subject.Id),
                     Scenario = unitOfWork.ScenarioRepository.GetByID(scenario.Id),
@@ -60,7 +76,7 @@ namespace Phrike.GroundControl.Controller
                 };
                 unitOfWork.TestRepository.Insert(test);
                 unitOfWork.Save();
-                StartUnrealEngineTask(test);
+                StartUnrealEngineTask();
                 if (Settings.SelectedSensorType == Models.SensorType.GMobiLab)
                 {
                     StartSensorsTask();
@@ -94,19 +110,14 @@ namespace Phrike.GroundControl.Controller
             }
         }
 
-        private Task StartUnrealEngineTask(Test test)
+        private Task StartUnrealEngineTask()
         {
             return Task.Run(() =>
             {
                 // start the external application sub-process
                 ProcessController.StartProcess(UnrealEngineController.UnrealEnginePath, true, new string[] { "-fullscreen" });
                 Logger.Info("Unreal Engine process started!");
-                // create the Unreal Engine communication object
-                unrealEngineController = new UnrealEngineController(test);
-                unrealEngineController.ErrorOccoured += (sender, args) => DialogHelper.ShowErrorDialog(args.Message);
-                unrealEngineController.Ending += (sender, args) => DisableUnrealEngineAndScreenCapturingColor();
 
-                Logger.Info("Unreal Engine is ready to use!");
                 stressTestViewModel.UnrealStatusColor = GCColors.Active;
             });
         }

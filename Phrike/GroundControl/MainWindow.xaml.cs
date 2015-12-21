@@ -5,6 +5,8 @@ using NLog;
 using Phrike.GroundControl.ViewModels;
 using System;
 
+using Phrike.GroundControl.Views;
+
 namespace Phrike.GroundControl
 {
     /// <summary>
@@ -22,6 +24,7 @@ namespace Phrike.GroundControl
             Instance = this;
 
             Logger.Info("Application successfully started!");
+            TabItemAnalysis.Content = new Analysis(1); // TODO Remove this whole tab.
         }
 
         /// <summary>

@@ -70,7 +70,7 @@ namespace Phrike.GroundControl.Helper
             else
             {
                 DialogHelper.ShowErrorDialog("Bewegtbildaufzeichnungsgerätaufnahme konnte nicht gestartet werden. Externes Aufnahmeprogramm wurde nicht gefunden.");
-            }
+        }
         }
 
         public void StartGameRecording(int testId, String gameFilename = DefaultWebcamRecordingFileName)
@@ -103,7 +103,7 @@ namespace Phrike.GroundControl.Helper
                 process.StartInfo.Arguments = command;
                 process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
                 bool started = process.Start();
-                Thread.Sleep(100);
+                process.WaitForExit(100);
                 return started;
             }
             catch (System.ComponentModel.Win32Exception e)
@@ -151,7 +151,7 @@ namespace Phrike.GroundControl.Helper
             while (!process.HasExited)
             {
                 stopped = stopProcess.Start();
-                Thread.Sleep(1000);
+                stopProcess.WaitForExit(100);
             }
             return stopped;
         }
