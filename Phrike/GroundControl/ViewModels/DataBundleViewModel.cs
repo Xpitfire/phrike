@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -48,12 +49,13 @@ namespace Phrike.GroundControl.ViewModels
         public DataBundleViewModel(DataBundle model)
         {
             DataSeries = new ObservableCollection<DataSeriesViewModel>(
-                model.DataSeries.Select((ds, i) => new DataSeriesViewModel(ds, i)));
+                model.DataSeries.Select((ds, i) => new DataSeriesViewModel(ds, i) {IsActive = true}));
 
-            foreach (DataSeriesViewModel ds in DataSeries)
-            {
-                ds.PropertyChanged += DataSeriesPropertyChanged;
-            }
+            Initialize();
+        }
+
+        private void Initialize()
+        {
 
             PlotModel = new PlotModel();
             PlotModel.Axes.Add(xAxis);
@@ -65,20 +67,33 @@ namespace Phrike.GroundControl.ViewModels
                     OnPropertyChanged(nameof(StartPosition));
                 };
 
-            foreach (DataSeriesViewModel series in DataSeries)
-            {
-                series.IsActive = true;
-            }
-
             if (DataSeries.Count > 0)
             {
-                xAxis.AbsoluteMaximum = DataSeries.Select(s => s.Interval).Max();
-                LeftAxis = DataSeries.First();
-                if (DataSeries.Count > 1)
+                foreach (DataSeriesViewModel ds in DataSeries)
                 {
-                    RightAxis = DataSeries[1];
+                    ds.PropertyChanged += DataSeriesPropertyChanged;
+                    if (ds.IsActive)
+                        AddActiveSeries(ds);
                 }
+                xAxis.AbsoluteMaximum = DataSeries.Select(s => s.Interval).Max();
+                LeftAxis = DataSeries.FirstOrDefault(ds => ds.IsActive);
+                RightAxis = DataSeries.Where(ds => ds.IsActive).Skip(1).FirstOrDefault();
             }
+        }
+
+        /// <summary>
+        ///  The bools indicate whether to show by default.
+        /// </summary>
+        public DataBundleViewModel(IEnumerable<KeyValuePair<DataSeries, bool>> bundle)
+        {
+            DataSeries = new ObservableCollection<DataSeriesViewModel>();
+            var idx = 0;
+            foreach (KeyValuePair<DataSeries, bool> ds in bundle)
+            {
+                DataSeries.Add(new DataSeriesViewModel(ds.Key, idx) { IsActive = ds.Value });
+                ++idx;
+            }
+            Initialize();
         }
 
         /// <summary>
@@ -91,9 +106,7 @@ namespace Phrike.GroundControl.ViewModels
             {
                 if (ds.IsActive)
                 {
-                    PlotModel.Axes.Add(ds.YAxis);
-                    PlotModel.Series.Add(ds.PlottableData);
-                    ActiveSeries.Add(ds);
+                    AddActiveSeries(ds);
                 }
                 else
                 {
@@ -117,11 +130,18 @@ namespace Phrike.GroundControl.ViewModels
             PlotModel.InvalidatePlot(false);
         }
 
+        private void AddActiveSeries(DataSeriesViewModel ds)
+        {
+            PlotModel.Axes.Add(ds.YAxis);
+            PlotModel.Series.Add(ds.PlottableData);
+            ActiveSeries.Add(ds);
+        }
+
         /// <summary>
         /// Gets the OxyPlot <see cref="PlotModel"/> in which all active series and their trends
         /// (if active) are displayed.
         /// </summary>
-        public PlotModel PlotModel { get; }
+        public PlotModel PlotModel { get; private set; }
 
         /// <summary>
         /// Gets the list of all contained data series. Do not modify!
