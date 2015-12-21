@@ -9,7 +9,7 @@
              d:DataContext="{d:DesignInstance ViewModels:InterviewTestViewModel}">
     <UserControl.Resources>
         <DataTemplate x:Key="RadioButtonsTemplate">
-            <RadioButton IsEnabled="False" x:Name="rb" Margin="0,10,10,0"                        
+            <RadioButton x:Name="rb" Margin="0,10,10,0"                        
                          IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem}}"
                          Content="{Binding}"
                           />

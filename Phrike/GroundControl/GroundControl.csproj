@@ -125,6 +125,7 @@
     <Compile Include="Helper\DialogHelper.cs" />
     <Compile Include="PathToImageConverter.cs" />
     <Compile Include="ViewModels\AuxiliaryDataViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\FileListDebugView.xaml.cs">
       <DependentUpon>FileListDebugView.xaml</DependentUpon>
     </Compile>
@@ -148,7 +149,7 @@
     <Compile Include="ViewModels\DataBundleViewModel.cs" />
     <Compile Include="ViewModels\DataSeriesViewModel.cs" />
     <Compile Include="ViewModels\InterviewTestViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\AppOverviewViewModel.cs" />
     <Compile Include="ViewModels\NewStressTestViewModel.cs" />
     <Compile Include="ViewModels\RealViewModels.cs" />
     <Compile Include="ViewModels\ScenarioSelectViewModel.cs" />
@@ -186,6 +187,9 @@
     </Compile>
     <Compile Include="Views\Debug.xaml.cs">
       <DependentUpon>Debug.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CustomTabControl.xaml.cs">
+      <DependentUpon>CustomTabControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TestArchive.xaml.cs">
       <DependentUpon>TestArchive.xaml</DependentUpon>
@@ -250,6 +254,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Debug.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CustomTabControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,146 +1,48 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
-using MahApps.Metro.Controls.Dialogs;
-using NLog;
+using System.Text;
+using System.Threading.Tasks;
+
 using Phrike.GroundControl.Annotations;
 
 namespace Phrike.GroundControl.ViewModels
 {
-
     public class MainViewModel : INotifyPropertyChanged
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private object currentViewModel = AppOverviewViewModel.Instance;
 
-        public static MainViewModel Instance { get; private set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private static MainViewModel instance;
+
+        public static MainViewModel Instance => instance ?? (instance = new MainViewModel());
+
+        public object CurrentViewModel 
+        {
+            get { return this.currentViewModel; }
+            set
+            {
+                if (Equals(value, this.currentViewModel))
+                {
+                    return;
+                }
+                this.currentViewModel = value;
+                this.OnPropertyChanged();
+            }
+        }
 
         public MainViewModel()
         {
-            Instance = this;
-        }               
-
-        #region Tab Control
-
-        private int selectedTab;
-
-        /// <summary>
-        /// Handle index of the current tab selection.
-        /// </summary>
-        public int SelectedTab
-        {
-            get { return selectedTab; }
-            set
-            {
-                selectedTab = value;
-                OnPropertyChanged();
-            }
+            CurrentViewModel = new AppOverviewViewModel();
         }
 
-        /// <summary>
-        /// Change the current tab view to the "Settings" view.
-        /// </summary>
-        public void SelectTabSettings()
-        {
-            SelectedTab = 3;
-        }
-
-        /// <summary>
-        /// Change the current tab view to the "Debug" view.
-        /// </summary>
-        public void SelectTabDebug()
-        {
-            SelectedTab = 4;
-        }
-
-        /// <summary>
-        /// Change the current tab view to the "NewStresstest" view.
-        /// </summary>
-        public void SelectTabNewStresstest()
-        {
-            SelectedTab = 1;
-        }
-
-        /// <summary>
-        /// Change the current tab view to the "Analysis" view.
-        /// </summary>
-        public void SelectTabAnalysis()
-        {
-            SelectedTab = 2;
-        }
-
-        public void SelectTabUser()
-        {
-            //SelectedTab = 4;
-        }
-        #endregion
-
-        #region PropertyChanged Handling
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Handle the Property change Binding updates.
-        /// </summary>
-        /// <param name="propertyName"></param>
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var handler = PropertyChanged;
-            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        #endregion
-
-        #region UI Interaction methods
-
-        /// <summary>
-        /// Show UI dialog messages.
-        /// </summary>
-        /// <param name="title">The dialog title info.</param>
-        /// <param name="message">The info message to be displayed.</param>
-        public void ShowDialogMessage(string title, string message)
-        {
-            try
-            {
-                MainWindow.Instance.Dispatcher.Invoke(() => MainWindow.Instance.ShowMessageAsync(title, message));
-            }
-            catch (Exception e)
-            {
-                //Logger.Warn("Task on execution interrupted!", e);
-                Logger.Warn(e, "Task on execution interrupted!");
-            }
-        }
-
-        // Process controller of the process overlay screen
-        private ProgressDialogController progressDialogController;
-
-        /// <summary>
-        /// Show UI progress dialog messages.
-        /// </summary>
-        /// <param name="title">The dialog title info.</param>
-        /// <param name="message">The info message to be displayed.</param>
-        public void ShowProgressMessage(string title, string message)
-        {
-            MainWindow.Instance.Dispatcher.Invoke(async () =>
-            {
-                progressDialogController = await MainWindow.Instance.ShowProgressAsync(title, message);
-            });
-        }
-
-        /// <summary>
-        /// Close UI progress dialog messages.
-        /// </summary>
-        public void CloseProgressMessage()
-        {
-            if (progressDialogController != null)
-            {
-                MainWindow.Instance.Dispatcher.Invoke(async () =>
-                {
-                    await progressDialogController.CloseAsync();
-                });
-                progressDialogController = null;
-            }
-        }
-
-        #endregion
-
     }
 }

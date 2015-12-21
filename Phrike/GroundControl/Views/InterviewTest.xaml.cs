@@ -26,25 +26,12 @@ namespace Phrike.GroundControl.Views
     public partial class InterviewTest : UserControl
     {
 
-        public bool IsEditable { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="InterviewTest"/> class.
         /// </summary>
         public InterviewTest()
         {
             this.InitializeComponent();
-            //Loaded += (sender, args) =>
-            //{
-            //    DataContextChanged += (s, a) =>
-            //    {
-            //        var viewModel = (InterviewTestViewModel)DataContext;
-            //        if (!viewModel.IsEditable)
-            //        {
-            //            IsEditable = viewModel.IsEditable;
-            //        }
-            //    };
-            //};
         }
 
         /// <summary>
@@ -67,7 +54,6 @@ namespace Phrike.GroundControl.Views
             List<RadioButton> result = new List<RadioButton>();
             foreach (RadioButton rb in FindVisualChildren<RadioButton>(grid))
             {
-                rb.IsEnabled = this.IsEditable;
                 result.Add(rb);
             }
             return result;

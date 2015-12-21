@@ -18,42 +18,12 @@
                       ShowIconOnTitleBar="True"
                       Icon="/Resources/img/op_icon.ico"
                       Closing="ApplicationClose">
-    
+
     <Controls:MetroWindow.Resources>
-        <ViewModels:MainViewModel x:Key="MainViewModel" />
+        <DataTemplate DataType="{x:Type ViewModels:AppOverviewViewModel}">
+            <Views:CustomTabControl />
+        </DataTemplate>
     </Controls:MetroWindow.Resources>
-    
-    <Grid DataContext="{StaticResource MainViewModel}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
 
-        <TabControl SelectedIndex="{Binding SelectedTab}" Grid.Row="1" x:Name="MainTabControl"> <!---->
-            <TabItem Padding="30" Header="Start" Name="TabItemStart">
-                <Views:Start DataContext="{Binding}" />
-            </TabItem>
-            <TabItem Padding="30" Header="Neuer Stresstest" Name="TabItemUser">
-                <Views:NewStressTest x:Name="StressTestView" />
-            </TabItem>
-            <TabItem Padding="30" Header="Analyse" Name="TabItemAnalysis" />
-            <TabItem Padding="30" Header="Einstellungen" Name="TabItemSettings">
-                <Views:Settings DataContext="{Binding}" />
-            </TabItem>
-            <!--<TabItem Padding="30" Header="Debug" Name="TabItemDebug">
-                <Views:Debug DataContext="{Binding}" />
-            </TabItem>-->
-            <TabItem Padding="30" Header="Interview" Name="TabItemInterviewTest">
-                <Views:InterviewTest />
-            </TabItem>
-            <!--<TabItem Padding="30" Header="Debug: FileList" Name="TabItemFileList">
-                <GroundControl:FileListDebugView DataContext="{Binding}" />
-            </TabItem>-->
-            
-            <TabItem Padding="30" Header="Debug: TestARchive" Name="TabItemArchive">
-                <Views:TestArchive DataContext="{Binding}" />
-            </TabItem>
-     </TabControl>
-
-    </Grid>
+    <ContentControl Content="{Binding CurrentViewModel}" />
 </Controls:MetroWindow>
