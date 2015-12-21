@@ -6,17 +6,13 @@
              xmlns:ViewModels="clr-namespace:Phrike.GroundControl.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1200">
-
     <UserControl.Resources>
         <ViewModels:InterviewTestViewModel x:Key="InterviewTestViewModel" />
-
         <DataTemplate x:Key="RadioButtonsTemplate" >
-            <RadioButton x:Name="rb" Margin="0,0,10,0"
-                        
+            <RadioButton x:Name="rb" Margin="0,0,10,0"                        
                          IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem}}"
                          Content="{Binding}" />
         </DataTemplate>
-        
         <ControlTemplate x:Key="ListViewTemplate" TargetType="ListView">
             <ListView DataContext="{StaticResource InterviewTestViewModel}"
                       ItemsSource="{Binding SurveyAnsList}"
@@ -33,14 +29,15 @@
                 </ListView.ItemsPanel>
             </ListView>
         </ControlTemplate>
-        
     </UserControl.Resources>
-
+    <UserControl.DataContext>
+        <ViewModels:InterviewTestViewModel/>
+    </UserControl.DataContext>
     <Grid x:Name="InterviewGrid"  Margin="0" DataContext="{StaticResource InterviewTestViewModel}">
         <StackPanel>
-            <TextBlock Text="{Binding Path=SurveyName}"/>
+            <TextBlock Text="{Binding Path=CurrentSurvey.Name}"/>
             <StackPanel>
-                <ListBox Height="Auto" ItemsSource="{Binding QuestionList}">
+                <ListBox Height="Auto" ItemsSource="{Binding QuestionCollectionVM.SurveyQuestions}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel  Orientation="Vertical" Margin="10">
@@ -52,8 +49,6 @@
                 </ListBox>
                 <StackPanel></StackPanel>
             </StackPanel>
-           
-
             <Button Click="ButtonClick">Speichern</Button>
         </StackPanel>
     </Grid>

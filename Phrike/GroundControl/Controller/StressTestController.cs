@@ -1,4 +1,7 @@
-﻿using NLog;
+﻿using DataAccess;
+using DataModel;
+using NLog;
+using Phrike.GroundControl.Helper;
 using Phrike.GroundControl.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -27,16 +30,34 @@ namespace Phrike.GroundControl.Controller
 
         public void StartStressTest(SubjectVM subject, ScenarioVM scenario)
         {
-            StartUnrealEngineTask();
-            if (Settings.SelectedSensorType == Models.SensorType.GMobiLab)
+            if (subject == null || scenario == null)
             {
-                StartSensorsTask();
+                return;
             }
-            if (Settings.RecordingEnabled)
+            using (UnitOfWork unitOfWork = new UnitOfWork())
             {
-                StartScreenCaptureTask();
+                Test test = new Test()
+                {
+                    Subject = unitOfWork.SubjectRepository.GetByID(subject.Id),
+                    Scenario = unitOfWork.ScenarioRepository.GetByID(scenario.Id),
+                    Time = DateTime.Now,
+                    Title = "Testrun - " + subject.FullName + " " + DateTime.Now,
+                    Location = "Test"
+                };
+                unitOfWork.TestRepository.Insert(test);
+                unitOfWork.Save();
+                StartUnrealEngineTask(test);
+                if (Settings.SelectedSensorType == Models.SensorType.GMobiLab)
+                {
+                    StartSensorsTask();
+                }
+                if (Settings.RecordingEnabled)
+                {
+                    StartScreenCaptureTask(test.Id);
+                }
             }
         }
+
 
         public void StopStressTest()
         {
@@ -51,7 +72,7 @@ namespace Phrike.GroundControl.Controller
             }
         }
 
-        private Task StartUnrealEngineTask()
+        private Task StartUnrealEngineTask(Test test)
         {
             return Task.Run(() =>
             {
@@ -59,7 +80,7 @@ namespace Phrike.GroundControl.Controller
                 ProcessController.StartProcess(UnrealEngineController.UnrealEnginePath, true, new string[] { "-fullscreen" });
                 Logger.Info("Unreal Engine process started!");
                 // create the Unreal Engine communication object
-                unrealEngineController = new UnrealEngineController();
+                unrealEngineController = new UnrealEngineController(test);
                 unrealEngineController.ErrorOccoured += (sender, args) => ShowStressTestError(args.Message);
                 unrealEngineController.Ending += (sender, args) => DisableUnrealEngineAndScreenCapturingColor();
 
@@ -133,18 +154,19 @@ namespace Phrike.GroundControl.Controller
             });
         }
 
-        public Task StartScreenCaptureTask()
+        public Task StartScreenCaptureTask(int testId)
         {
             return Task.Run(() =>
             {
-                if (unrealEngineController == null)
+                ScreenCaptureHelper screenCapture = ScreenCaptureHelper.GetInstance();
+                screenCapture.StartRecording(testId);
+                if(!screenCapture.IsRunningCamera || !screenCapture.IsRunningGame)
                 {
-                    const string message = "Could not start screen recording! Recording task is already running.";
+                    const string message = "Could not start screen recording!";
                     Logger.Warn(message);
                     ShowStressTestError(message);
                     return;
                 }
-
                 Logger.Info("Screen Capture successfully started!");
                 stressTestViewModel.ScreenCapturingStatusColor = GCColors.Active;
             });
@@ -154,14 +176,15 @@ namespace Phrike.GroundControl.Controller
         {
             return Task.Run(() =>
             {
-                if (unrealEngineController == null)
+                ScreenCaptureHelper screenCapture = ScreenCaptureHelper.GetInstance();
+                screenCapture.StopRecording();
+                if (screenCapture.IsRunningCamera || screenCapture.IsRunningGame)
                 {
-                    const string message = "Could not stop screen recording! No recording running.";
+                    const string message = "Could not stop screen recording!";
                     Logger.Warn(message);
                     ShowStressTestError(message);
                     return;
                 }
-
                 Logger.Info("Screen Capture successfully stopped!");
                 stressTestViewModel.ScreenCapturingStatusColor = GCColors.Disabled;
             });

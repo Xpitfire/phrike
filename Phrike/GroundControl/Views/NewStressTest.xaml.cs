@@ -104,5 +104,10 @@ namespace Phrike.GroundControl.Views
             GoBack();
             //MessageBox.Show(curr.Name + " selected");
         }
+
+        public void ApplicationClose()
+        {
+            overviewNewViewModel?.ApplicationClose();
+        }
     }
 }

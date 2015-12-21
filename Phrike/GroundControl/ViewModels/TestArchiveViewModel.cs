@@ -9,129 +9,129 @@ using System.Windows;
 using DataAccess;
 using DataModel;
 using Phrike.GroundControl.Helper;
+using System.Windows.Data;
+using System.Globalization;
 
 namespace Phrike.GroundControl.ViewModels
 {
+
+    public class EnumBooleanConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value.Equals(parameter);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return ((bool)value) ? parameter : Binding.DoNothing;
+        }
+    }
+
+    public enum FilterType
+    {
+        Subject,
+        Scenario,
+        Date,
+        All
+    };
+
+    public delegate void FilterChangedEvent();
+
     class TestArchiveViewModel : INotifyPropertyChanged
     {
         //Initialize FilterDateTime with a default value
         private DateTime _filterDateTime = DateTime.Now;
+        private FilterType filterType = FilterType.Date;
+        private ObservableCollection<TestVM> tests;
+        private SubjectVM selectedSubject;
+        private ScenarioVM selectedScenario;
 
-        private bool filterAll = true;
-        private bool filterSubject;
-        private bool filterDate;
-        private bool filterScenario;
-        private DateTime dateFilter;
+        public FilterChangedEvent FilterChanged;
 
-        ///TODO: http://stackoverflow.com/questions/9212873/binding-radiobuttons-group-to-a-property-in-wpf
-
+        #region FilterVisibilities
         private void UpdateVisibilities()
         {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FilterType)));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SubjVisibility)));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ScenVisibility)));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DateVisibility)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Tests)));
+            FilterChanged.Invoke();
         }
-
-        public bool FilterAll
+        public FilterType FilterType
         {
-            get
-            {
-                return filterAll;
-            }
+            get { return filterType; }
             set
             {
-                if (filterAll != value)
+                if (filterType != value)
                 {
-                    filterAll = value;
-                    if (value)
-                    {
-                        FilterDate = false;
-                        FilterSubject = false;
-                        FilterScenario = false;
-                    }
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FilterAll)));
+                    filterType = value;
                     UpdateVisibilities();
                 }
             }
         }
-        public bool FilterSubject
-        {
-            get
-            {
-                return filterSubject;
-            }
-            set
-            {
-                if (filterSubject != value)
-                {
-                    filterSubject = value;
-                    if (value)
-                    {
-                        FilterDate = false;
-                        FilterAll = false;
-                        FilterScenario = false;
-                    }
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FilterSubject)));
-                    UpdateVisibilities();
-                }
-            }
-        }
-        public bool FilterDate
-        {
-            get
-            {
-                return filterDate;
-            }
-            set
-            {
-                if (filterDate != value)
-                {
-                    filterDate = value;
-                    if (value)
-                    {
-                        FilterAll = false;
-                        FilterSubject = false;
-                        FilterScenario = false;
-                    }
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FilterDate)));
-                    UpdateVisibilities();
-                }
-            }
-        }
-        public bool FilterScenario
-        {
-            get
-            {
-                return filterScenario;
-            }
-            set
-            {
-                if (filterAll != value)
-                {
-                    filterScenario = value;
-                    if (value)
-                    {
-                        FilterDate = false;
-                        FilterSubject = false;
-                        FilterAll = false;
-                    }
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FilterScenario)));
-                    UpdateVisibilities();
-                }
-            }
-        }
-
-        public Visibility SubjVisibility { get { return FilterSubject ? Visibility.Visible : Visibility.Hidden;} }
-        public Visibility ScenVisibility { get { return FilterScenario ? Visibility.Visible : Visibility.Hidden; } }
-        public Visibility DateVisibility { get { return  FilterScenario ? Visibility.Visible : Visibility.Hidden; } }
-
+        public Visibility SubjVisibility { get { return FilterType == FilterType.Subject ? Visibility.Visible : Visibility.Hidden; } }
+        public Visibility ScenVisibility { get { return FilterType == FilterType.Scenario ? Visibility.Visible : Visibility.Hidden; } }
+        public Visibility DateVisibility { get { return FilterType == FilterType.Date ? Visibility.Visible : Visibility.Hidden; } }
+        #endregion
 
         public TestArchiveViewModel()
         {
+            tests = new ObservableCollection<TestVM>();
+            ScenarioList = new ObservableCollection<ScenarioVM>();
+            SubjectList = new ObservableCollection<SubjectVM>();
             if (DataLoadHelper.IsLoadDataActive())
             {
-                TestVM = new TestCollectionVM();
-                TestList = TestVM.Tests;
+                LoadTests();
+                LoadSubjects();
+                LoadScenarios();
+            }
+        }
+
+        private async void LoadScenarios()
+        {
+            ScenarioList.Clear();
+
+            using (var x = new UnitOfWork())
+            {
+                IEnumerator<Scenario> enu = x.ScenarioRepository.Get(includeProperties: "Tests").Where(sc => sc.Tests.Count>0).GetEnumerator();
+                while (await Task.Factory.StartNew(() => enu.MoveNext()))
+                {
+                    ScenarioList.Add(new ScenarioVM(enu.Current));
+                }
+            }
+
+            SelectedScenario = ScenarioList.FirstOrDefault();
+        }
+
+        private async void LoadSubjects()
+        {
+            SubjectList.Clear();
+
+            using (var x = new UnitOfWork())
+            {
+                IEnumerator<Subject> enu = x.SubjectRepository.Get(includeProperties: "Tests").Where(su => su.Tests.Count > 0).GetEnumerator();
+                while (await Task.Factory.StartNew(() => enu.MoveNext()))
+                {
+                    SubjectList.Add(new SubjectVM(enu.Current));
+                }
+            }
+
+            SelectedSubject = SubjectList.FirstOrDefault();
+        }
+
+        private async void LoadTests()
+        {
+            Tests.Clear();
+
+            using (var x = new UnitOfWork())
+            {
+                IEnumerator<Test> enu = x.TestRepository.Get(includeProperties: "Subject,Scenario").GetEnumerator();
+                while (await Task.Factory.StartNew(() => enu.MoveNext()))
+                {
+                    Tests.Add(new TestVM(enu.Current));
+                }
             }
         }
 
@@ -142,14 +142,65 @@ namespace Phrike.GroundControl.ViewModels
             {
                 _filterDateTime = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FilterDateTime)));
+                FilterChanged?.Invoke();
+            }
+        }
+        public SubjectVM SelectedSubject
+        {
+            get { return selectedSubject; }
+            set
+            {
+                if (selectedSubject != value)
+                {
+                    selectedSubject = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSubject)));
+                    FilterChanged?.Invoke();
+                }
+            }
+        }
+        public ScenarioVM SelectedScenario
+        {
+            get
+            {
+                return selectedScenario;
+            }
+            set
+            {
+                if (selectedScenario != value)
+                {
+                    selectedScenario = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedScenario)));
+                    FilterChanged?.Invoke();
+                }
             }
         }
 
-        public TestCollectionVM TestVM { get; }
 
-        public ObservableCollection<TestVM> TestList { get; }
+        public ObservableCollection<TestVM> Tests
+        {
+            get
+            {
+                return tests;
+            }
+            private set
+            {
+                if (tests != value)
+                {
+                    tests = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Tests)));
+                }
+            }
+        }
+        public ObservableCollection<ScenarioVM> ScenarioList { get; private set; }
+        public ObservableCollection<SubjectVM> SubjectList { get; private set; }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private bool DateEquals(DateTime dt1, DateTime dt2)
+        {
+            return dt1.Day == dt2.Day && dt1.Month == dt2.Month && dt1.Year == dt2.Year;
+        }
 
         public bool Filter(object o)
         {
@@ -158,25 +209,18 @@ namespace Phrike.GroundControl.ViewModels
                 return false;
             }
 
-            if (FilterAll)
+            switch (FilterType)
             {
-                return true;
-            }
-            else if (FilterDate)
-            {
-                return true;
-            }
-            else if (FilterScenario)
-            {
-                return true;
-            }
-            else if (FilterSubject)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
+                case FilterType.All:
+                    return true;
+                case FilterType.Date:
+                    return DateEquals((o as TestVM).Date, FilterDateTime);
+                case FilterType.Scenario:
+                    return SelectedScenario.Id == (o as TestVM).Scenario.Id;
+                case FilterType.Subject:
+                    return SelectedSubject.Id == (o as TestVM).Subject.Id;
+                default:
+                    return false;
             }
         }
     }

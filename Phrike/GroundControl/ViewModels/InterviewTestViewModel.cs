@@ -9,13 +9,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows.Documents;
 
 using DataAccess;
 using DataModel;
-using NLog;
+
+using Phrike.GroundControl.Helper;
 
 namespace Phrike.GroundControl.ViewModels
 {
@@ -24,42 +25,45 @@ namespace Phrike.GroundControl.ViewModels
     /// </summary>
     public class InterviewTestViewModel : INotifyPropertyChanged
     {
-
         /// <summary>
         /// The property changed.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>
-        /// Gets or sets the question list.
-        /// </summary>
-        public List<string> QuestionList { get; set;  }
+        public SurveyVM CurrentSurvey { get; set; }
 
-        /// <summary>
-        /// Gets or sets the survey ans list.
-        /// </summary>
-        public List<string> SurveyAnsList { get; set; } 
+        public SurveyQuestionCollectionVM QuestionCollectionVM => new SurveyQuestionCollectionVM();
 
-        /// <summary>
-        /// Gets or sets the survey name.
-        /// </summary>
-        public string SurveyName { get; set; }
+        public List<string> SurveyAnsList { get; set; }
 
-        /// <summary>
-        /// Gets or sets the instance.
-        /// </summary>
-        private static InterviewTestViewModel Instance { get; set; }
 
-        /// <summary>
-        /// Gets or sets the survey.
-        /// </summary>
-        private static Survey Survey { get; set; }
+        ///// <summary>
+        ///// Gets or sets the survey name.
+        ///// </summary>
+        //public string SurveyName { get; set; }
+
+        ///// <summary>
+        ///// Gets or sets the survey.
+        ///// </summary>
+        //private static Survey Survey { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InterviewTestViewModel"/> class.
         /// </summary>
         public InterviewTestViewModel()
         {
+            if (DataLoadHelper.IsLoadDataActive())
+            {
+                using (var unitOfWork = new UnitOfWork())
+                {
+                    CurrentSurvey = new SurveyVM(unitOfWork.SurveyRepository.Get().FirstOrDefault());
+                }
+                this.QuestionCollectionVM.LoadSurveyQuestions();
+                
+                if (CurrentSurvey != null)
+                    this.QuestionCollectionVM.LoadSurveyQuestions(CurrentSurvey.Id);
+            }
+
             SurveyAnsList = new List<string>
                             {
                                 SurveyAnswer.Perfect.ToString(),
@@ -69,27 +73,33 @@ namespace Phrike.GroundControl.ViewModels
                                 SurveyAnswer.Worst.ToString()
                             };
 
+            foreach (var q in this.QuestionCollectionVM.SurveyQuestions)
+            {
+                Console.WriteLine(q);
+            }
+        }
+
+        public void SaveData(List<SurveyResult> resultList)
+        {
             using (UnitOfWork unitOfWork = new UnitOfWork())
             {
-              
-                Survey testsur = unitOfWork.SurveyRepository.GetByID(1);
-
-                if (testsur?.Questions == null)
+                int i = 0; // !!!!
+                SurveyQuestion[] questionList = unitOfWork.SurveyQuestionRepository.Get().ToArray();
+                List<SurveyQuestion> questionList2 = (List<SurveyQuestion>)unitOfWork.SurveyQuestionRepository.Get();
+                // TODO: Get correct test!!!!
+                Test test = unitOfWork.TestRepository.Get().FirstOrDefault();
+                
+                if (test != null)
                 {
-                    Console.WriteLine("No questions");
-                    return;
-                }
-
-                List<SurveyQuestion> sq = new List<SurveyQuestion>(testsur.Questions);
-
-                QuestionList = new List<string>();
-                foreach (SurveyQuestion q in sq)
-                {
-                    QuestionList.Add(q.Question);
+                    foreach (SurveyResult result in resultList)
+                    {
+                        result.Test = test;
+                        result.SurveyQuestion = questionList[i];
+                        unitOfWork.SurveyResultRepository.Insert(result);
+                        unitOfWork.Save();
+                    }
                 }
             }
-
-            Instance = this;
         }
     }
 }
