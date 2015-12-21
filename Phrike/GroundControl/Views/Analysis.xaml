@@ -52,6 +52,6 @@
             <views:AuxiliaryDataList Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" DataContext="{Binding FileList}" />
         </Grid>
         <views:InterviewTest Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
-                             DataContext="{Binding}"/>
+                             DataContext="{Binding Interview}" />
     </Grid>
 </UserControl>

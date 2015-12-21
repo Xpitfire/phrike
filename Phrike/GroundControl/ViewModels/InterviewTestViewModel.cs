@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 
 using DataAccess;
 using DataModel;
@@ -35,11 +36,17 @@ namespace Phrike.GroundControl.ViewModels
 
         public List<string> SurveyAnsList { get; set; }
 
+        public int CurrentTestId { get; set; }
+
+        public bool IsEditable { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InterviewTestViewModel"/> class.
         /// </summary>
-        public InterviewTestViewModel()
+        public InterviewTestViewModel(int testId, bool isEditable = true)
         {
+            CurrentTestId = testId;
+            IsEditable = isEditable;
             if (DataLoadHelper.IsLoadDataActive())
             {
                 using (var unitOfWork = new UnitOfWork())
@@ -71,8 +78,7 @@ namespace Phrike.GroundControl.ViewModels
         {
             using (var unitOfWork = new UnitOfWork())
             {
-                // TODO: Get correct test!!!
-                Test test = unitOfWork.TestRepository.Get().FirstOrDefault();
+                Test test = unitOfWork.TestRepository.GetByID(CurrentTestId);
                 return test?.SurveyResult.FirstOrDefault();
             }
         }
@@ -84,9 +90,8 @@ namespace Phrike.GroundControl.ViewModels
                 int i = 0; // !!!!
                 SurveyQuestion[] questionList = unitOfWork.SurveyQuestionRepository.Get().ToArray();
                 List<SurveyQuestion> questionList2 = (List<SurveyQuestion>)unitOfWork.SurveyQuestionRepository.Get();
-                // TODO: Get correct test!!!!
-                Test test = unitOfWork.TestRepository.Get().FirstOrDefault();
-                
+                Test test = unitOfWork.TestRepository.GetByID(CurrentTestId);
+
                 if (test != null)
                 {
                     foreach (SurveyResult result in resultList)              

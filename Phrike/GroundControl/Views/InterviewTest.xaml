@@ -5,17 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ViewModels="clr-namespace:Phrike.GroundControl.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="1200">
+             d:DesignHeight="600" d:DesignWidth="1200"
+             d:DataContext="{d:DesignInstance ViewModels:InterviewTestViewModel}">
     <UserControl.Resources>
-        <ViewModels:InterviewTestViewModel x:Key="InterviewTestViewModel" />
         <DataTemplate x:Key="RadioButtonsTemplate">
-            <RadioButton x:Name="rb" Margin="0,10,10,0"                        
+            <RadioButton IsEnabled="False" x:Name="rb" Margin="0,10,10,0"                        
                          IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem}}"
-                         Content="{Binding}" />
+                         Content="{Binding}"
+                          />
         </DataTemplate>
         <ControlTemplate x:Key="ListViewTemplate" TargetType="ListView">
-            <ListView DataContext="{StaticResource InterviewTestViewModel}"
-                      ItemsSource="{Binding SurveyAnsList}"
+            <ListView ItemsSource="{Binding SurveyAnsList}"
                       ItemTemplate="{StaticResource RadioButtonsTemplate}"
                       SelectionMode="Single"
                       BorderThickness="0"                     
@@ -37,10 +37,7 @@
             </ListView>
         </ControlTemplate>
     </UserControl.Resources>
-    <UserControl.DataContext>
-        <ViewModels:InterviewTestViewModel/>
-    </UserControl.DataContext>
-    <Grid x:Name="InterviewGrid" Margin="20" DataContext="{StaticResource InterviewTestViewModel}">
+    <Grid x:Name="InterviewGrid" Margin="20">
         <StackPanel>
             <TextBlock FontSize="20" Margin="10,0,0,0" Text="{Binding Path=CurrentSurvey.Name}"/>
             <StackPanel>
