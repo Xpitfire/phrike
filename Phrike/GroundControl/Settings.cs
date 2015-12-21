@@ -43,17 +43,17 @@ namespace Phrike.GroundControl
             {
                 XDocument doc = XDocument.Load(PathHelper.PhrikeDirectory + DefaultFileName);
 
-                XElement XMLSensorType = doc.Descendants(SensorTypeElement).FirstOrDefault();
-                XElement XMLComPort = doc.Descendants(ComPortElement).FirstOrDefault();
-                XElement XMLRecordingEnabled = doc.Descendants(RecordingEnabledElement).FirstOrDefault();
-                XElement XMLRecordingGameConfig = doc.Descendants(RecordingGameConfigElement).FirstOrDefault();
-                XElement XMLRecordingCameraConfig = doc.Descendants(RecordingCameraConfigElement).FirstOrDefault();
+                XElement xmlSensorType = doc.Descendants(SensorTypeElement).FirstOrDefault();
+                XElement xmlComPort = doc.Descendants(ComPortElement).FirstOrDefault();
+                XElement xmlRecordingEnabled = doc.Descendants(RecordingEnabledElement).FirstOrDefault();
+                XElement xmlRecordingGameConfig = doc.Descendants(RecordingGameConfigElement).FirstOrDefault();
+                XElement xmlRecordingCameraConfig = doc.Descendants(RecordingCameraConfigElement).FirstOrDefault();
 
-                SelectedSensorType = (SensorType)Enum.Parse(typeof(SensorType), XMLSensorType.Value);
-                SensorComPort = XMLComPort.Value.Equals("") ? DefaultCOMPort : XMLComPort.Value;
-                RecordingEnabled = bool.Parse(XMLRecordingEnabled.Value);
-                RecordingGameConfig = XMLRecordingGameConfig.Value.Equals("") ? DefaultRecordingGameConfig : XMLRecordingGameConfig.Value;
-                RecordingCameraConfig = XMLRecordingCameraConfig.Value.Equals("") ? DefaultRecordingCameraConfig : XMLRecordingCameraConfig.Value;
+                SelectedSensorType = (SensorType)Enum.Parse(typeof(SensorType), xmlSensorType.Value);
+                SensorComPort = xmlComPort.Value.Equals("") ? DefaultCOMPort : xmlComPort.Value;
+                RecordingEnabled = bool.Parse(xmlRecordingEnabled.Value);
+                RecordingGameConfig = xmlRecordingGameConfig.Value.Equals("") ? DefaultRecordingGameConfig : xmlRecordingGameConfig.Value;
+                RecordingCameraConfig = xmlRecordingCameraConfig.Value.Equals("") ? DefaultRecordingCameraConfig : xmlRecordingCameraConfig.Value;
             }         
             catch (FileNotFoundException)
             {
