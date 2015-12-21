@@ -32,6 +32,7 @@ namespace Phrike.PhrikeSocket
 
         private bool readAble;
         private bool receiveAble;
+        private bool connected = true;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SocketReader"/> class.
@@ -75,7 +76,9 @@ namespace Phrike.PhrikeSocket
         {
             get
             {
-                return CanReceive ? this.length-this.bytesRead : -1;
+                if (CanReceive && connected)
+                    return this.length - this.bytesRead;
+                return -1;
             }
         }
 
@@ -88,6 +91,10 @@ namespace Phrike.PhrikeSocket
         {
             try
             {
+                if (!connected)
+                {
+                    throw new Exception("Socket is not connected");
+                }
                 if (!this.CanRead)
                 {
                     throw new Exception("Reader not ready to read!");
@@ -105,7 +112,8 @@ namespace Phrike.PhrikeSocket
             catch (Exception e)
             {
                 Logger.Warn(e, "Could not read command!");
-                return "end";
+                //return "end";
+                throw;
             }
         }
 
@@ -137,6 +145,10 @@ namespace Phrike.PhrikeSocket
         {
             try
             {
+                if (!connected)
+                {
+                    throw new Exception("Socket is not connected");
+                }
                 if (!this.CanReceive)
                 {
                     throw new Exception("Reader not ready to receive!");
@@ -152,6 +164,7 @@ namespace Phrike.PhrikeSocket
             catch (SocketException sex)
             {
                 Logger.Warn("Lost client connection!", sex);
+                this.connected = false;
             }
         }
 
