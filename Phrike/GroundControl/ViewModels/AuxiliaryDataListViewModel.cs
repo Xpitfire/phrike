@@ -14,6 +14,7 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 
@@ -33,6 +34,8 @@ namespace Phrike.GroundControl.ViewModels
 
         private ICommand deleteFileCmd;
 
+        private ICommand openFileCmd;
+
         public AuxiliaryDataListViewModel(Test parentTest)
         {
             this.parentTest = parentTest;
@@ -46,8 +49,18 @@ namespace Phrike.GroundControl.ViewModels
 
         public ICommand DeleteFile 
             => deleteFileCmd ?? (deleteFileCmd = new RelayCommand(DoDeleteFile));
+
         public ICommand AddFile
             => addFileCmd ?? (addFileCmd = new RelayCommand(DoAddFile));
+
+        public ICommand OpenFile
+            => openFileCmd ?? (openFileCmd = new RelayCommand(DoOpenFile));
+
+        private void DoOpenFile(object rawAuxVm)
+        {
+            var auxVm = (AuxiliaryDataViewModel)rawAuxVm;
+            Process.Start(PathHelper.GetImportPath(auxVm.Model.FilePath));
+        }
 
         private void DoDeleteFile(object rawAuxVm)
         {
