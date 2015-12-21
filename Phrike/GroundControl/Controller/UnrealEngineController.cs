@@ -367,7 +367,7 @@ namespace Phrike.GroundControl.Controller
                         Logger.Debug("Received command: {0}", cmd);
                     } catch (Exception e)
                     {
-
+                        // Try to reread message. If this fails the loop breaks automatically
                     }
                 }
             }
