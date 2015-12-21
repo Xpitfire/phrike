@@ -441,7 +441,7 @@ namespace Phrike.GroundControl.ViewModels
             test = new Test();
         }
 
-        public string FullTitle => $"{test.Title} {test.Subject?.LastName} {test.Scenario?.Name}";
+        public string FullTitle => $"{test.Time:f} | {test.Title} ({test.Scenario.Name}) | {test.Subject?.FirstName} {test.Subject?.LastName}";
 
         public string Title
         {
