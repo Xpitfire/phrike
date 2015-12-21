@@ -72,31 +72,30 @@ namespace Phrike.GroundControl.Controller
             {
                 return;
             }
-            using (unitOfWork = new UnitOfWork())
+
+            unitOfWork = new UnitOfWork();
+            test = new Test()
             {
-                test = new Test()
-                {
-                    Subject = unitOfWork.SubjectRepository.GetByID(subject.Id),
-                    Scenario = unitOfWork.ScenarioRepository.GetByID(scenario.Id),
-                    Time = DateTime.Now,
-                    Title = "Testrun - " + subject.FullName + " " + DateTime.Now,
-                    Location = "Test"
-                };
-                unitOfWork.TestRepository.Insert(test);
-                unitOfWork.Save();
-                StartUnrealEngineTask();
-                if (Settings.SelectedSensorType == Models.SensorType.GMobiLab)
-                {
-                    StartSensorsTask();
-                }
-                if (Settings.ScreenRecordingEnabled)
-                {
-                    StartScreenCaptureTask(test.Id);
-                }
-                if (Settings.WebcamRecordingEnabled)
-                {
-                    StartWebcamCaptureTask(test.Id);
-                }
+                Subject = unitOfWork.SubjectRepository.GetByID(subject.Id),
+                Scenario = unitOfWork.ScenarioRepository.GetByID(scenario.Id),
+                Time = DateTime.Now,
+                Title = "Testrun - " + subject.FullName + " " + DateTime.Now,
+                Location = "Test"
+            };
+            unitOfWork.TestRepository.Insert(test);
+            unitOfWork.Save();
+            StartUnrealEngineTask();
+            if (Settings.SelectedSensorType == Models.SensorType.GMobiLab)
+            {
+                StartSensorsTask();
+            }
+            if (Settings.ScreenRecordingEnabled)
+            {
+                StartScreenCaptureTask(test.Id);
+            }
+            if (Settings.WebcamRecordingEnabled)
+            {
+                StartWebcamCaptureTask(test.Id);
             }
         }
 
