@@ -88,7 +88,7 @@ namespace Phrike.GroundControl.Helper
             process.StartInfo.Arguments = command;
             process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
             bool started = process.Start();
-            Thread.Sleep(100);
+            process.WaitForExit(100);
             return started;
         }
 
@@ -130,7 +130,7 @@ namespace Phrike.GroundControl.Helper
             while (!process.HasExited)
             {
                 stopped = stopProcess.Start();
-                Thread.Sleep(1000);
+                stopProcess.WaitForExit(100);
             }
             return stopped;
         }

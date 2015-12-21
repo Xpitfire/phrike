@@ -35,27 +35,26 @@ namespace Phrike.GroundControl.ViewModels
       DataModel = new DataBundleViewModel(dataBundle);
     }
 
-    private DataBundle LoadData(int testId)
+    public DataBundle LoadData(int testId)
     {
       PositionDataController pdc = new PositionDataController();
 
-      /*pdc.LoadData(1);
+      bool retVal = pdc.LoadData(testId);
       TotalDistance = pdc.TotalDistance;
       Altitude = pdc.Altitude;
       TotalTime = pdc.TotalTime;
-      TotalIdleTime = pdc.TotalIdleTime;*/
+      TotalIdleTime = pdc.TotalIdleTime;
 
-      DataBundle dataBundle = new DataBundle
+      DataBundle dataBundle = new DataBundle();
+
+      if(retVal)
       {
-        DataSeries =
-                {
-                    /*pdc.PositionSpeedSeries,
-                    pdc.PositionAccelSeries,
-                    pdc.PositionIdleMovementSeries*/
-                    new DataSeries(new []{1.0, 2.0, 4.0, 0.0}, 2, "src", "ser", Unit.Unknown),
-                    new DataSeries(new []{0.3, 0.0, 0.2, 0.4}, 2, "src", "ser2", Unit.Unknown)
-                }
-      };
+        dataBundle.DataSeries.Add(pdc.PositionSpeedSeries);
+        dataBundle.DataSeries.Add(pdc.PositionAccelSeries);
+        dataBundle.DataSeries.Add(pdc.PositionIdleMovementSeries);
+      }
+      dataBundle.DataSeries.Add(new DataSeries(new[] { 0.3, 0.0, 0.2, 0.4 }, 2, "src", "ser2", Unit.Unknown));
+
       return dataBundle;
     }
   }
