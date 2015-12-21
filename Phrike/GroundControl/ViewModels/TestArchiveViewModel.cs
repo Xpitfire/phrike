@@ -46,6 +46,7 @@ namespace Phrike.GroundControl.ViewModels
         private ObservableCollection<TestVM> tests;
         private SubjectVM selectedSubject;
         private ScenarioVM selectedScenario;
+        private string filterString = "";
 
         public FilterChangedEvent FilterChanged;
 
@@ -95,7 +96,7 @@ namespace Phrike.GroundControl.ViewModels
 
             using (var x = new UnitOfWork())
             {
-                IEnumerator<Scenario> enu = x.ScenarioRepository.Get(includeProperties: "Tests").Where(sc => sc.Tests.Count>0).GetEnumerator();
+                IEnumerator<Scenario> enu = x.ScenarioRepository.Get(includeProperties: "Tests").Where(sc => sc.Tests.Count > 0).GetEnumerator();
                 while (await Task.Factory.StartNew(() => enu.MoveNext()))
                 {
                     ScenarioList.Add(new ScenarioVM(enu.Current));
@@ -174,7 +175,19 @@ namespace Phrike.GroundControl.ViewModels
                 }
             }
         }
-
+        public string FilterString
+        {
+            get { return filterString; }
+            set
+            {
+                if (filterString != value)
+                {
+                    filterString = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FilterString)));
+                    FilterChanged?.Invoke();
+                }
+            }
+        }
 
         public ObservableCollection<TestVM> Tests
         {
@@ -205,6 +218,11 @@ namespace Phrike.GroundControl.ViewModels
         public bool Filter(object o)
         {
             if (!(o is TestVM))
+            {
+                return false;
+            }
+
+            if (!((o as TestVM).Title.ToLower().Contains(FilterString.ToLower())))
             {
                 return false;
             }

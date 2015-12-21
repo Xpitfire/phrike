@@ -86,9 +86,9 @@ namespace Phrike.GroundControl.Controller
         i++;
       }
 
-      PositionSpeedSeries = new DataSeries(speedData, 2, "PositionData", "Movement Speed", Unit.Unknown);
-      PositionAccelSeries = new DataSeries(accelData, 2, "PositionData", "Accelaration", Unit.Unknown);
-      PositionIdleMovementSeries = new DataSeries(idleMovementData, 2, "PositionData", "IdleMovement", Unit.Unknown);
+      PositionSpeedSeries = new DataSeries(speedData, 2, "PositionData", "Geschwindigkeit", Unit.Unknown);
+      PositionAccelSeries = new DataSeries(accelData, 2, "PositionData", "Beschleunigung", Unit.Unknown);
+      PositionIdleMovementSeries = new DataSeries(idleMovementData, 2, "PositionData", "Stillstand", Unit.Unknown);
 
       AverageSpeed = speedData.Average();
       AverageAccel = accelData.Average();
@@ -98,18 +98,28 @@ namespace Phrike.GroundControl.Controller
       Altitude = totalDistanceZ / CM_TO_KM;
     }
 
-    public void LoadData(int id)
+    public bool LoadData(int id)
     {
       using (var unitOfWork = new UnitOfWork())
       {
         var allPositionData = unitOfWork.PositionDataRepository.Get(
             data => data.Test.Id == id);
+        if(allPositionData.Count() == 0)
+        {
+          return false;
+        }
         CalculatePlotData(allPositionData);
       }
+      return true;
     }
-    public void LoadData(IEnumerable<PositionData> allPositionData)
+    public bool LoadData(IEnumerable<PositionData> allPositionData)
     {
+      if(allPositionData.Count() == 0)
+      {
+        return false;
+      }
       CalculatePlotData(allPositionData);
+      return true;
     }
   }
 }

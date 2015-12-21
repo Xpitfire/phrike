@@ -44,8 +44,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GdfPlotDemo", "GdfPlotDemo\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroundControl.Test", "GroundControl.Test\GroundControl.Test.csproj", "{36CC6A02-6E86-4838-ABD1-150C6F6DAE8F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ScreenCapture", "ScreenCapture", "{5DDAF1EC-975F-4651-A375-3117EB4770BA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

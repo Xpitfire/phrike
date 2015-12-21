@@ -44,6 +44,12 @@ namespace Phrike.GroundControl.ViewModels
 
         private DataBundleViewModel dataModel;
 
+    private DataSeries positionDataMovement;
+
+    private DataSeries positionDataAccel;
+
+    private DataSeries positionDataIdle;
+
         /// <summary>
         ///     Create a new analysis viemodel instance and add the default plot template.
         /// </summary>
@@ -102,12 +108,18 @@ namespace Phrike.GroundControl.ViewModels
 
             var pdc = new PositionDataController();
 
-            // TODO Store pdc data only in extra list to survive file list changes.
-                /*pdc.LoadData(1);
+      bool retVal = pdc.LoadData(testId);
                   TotalDistance = pdc.TotalDistance;
                   Altitude = pdc.Altitude;
                   TotalTime = pdc.TotalTime;
-                  TotalIdleTime = pdc.TotalIdleTime;*/
+      TotalIdleTime = pdc.TotalIdleTime;
+
+      if (retVal)
+      {
+        positionDataMovement = pdc.PositionSpeedSeries;
+        positionDataAccel = pdc.PositionAccelSeries;
+        positionDataIdle = pdc.PositionIdleMovementSeries;
+      }
                   UpdateDataModel();
         }
 
@@ -157,7 +169,9 @@ namespace Phrike.GroundControl.ViewModels
         private void UpdateDataModel()
         {
             List<KeyValuePair<DataSeries, bool>> bundle = DataBundleFromAuxList();
-            // TODO Add pdc data to bundle.
+      bundle.Add(new KeyValuePair<DataSeries, bool>(positionDataMovement, true));
+      bundle.Add(new KeyValuePair<DataSeries, bool>(positionDataAccel, true));
+      bundle.Add(new KeyValuePair<DataSeries, bool>(positionDataIdle, true));
             DataModel = new DataBundleViewModel(bundle);
         }
 

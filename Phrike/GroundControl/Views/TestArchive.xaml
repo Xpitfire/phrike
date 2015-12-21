@@ -16,11 +16,16 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
-        <StackPanel Grid.Row="0" Orientation="Vertical">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto" MinWidth="0300"/>
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel Grid.Row="0" Orientation="Vertical" Grid.ColumnSpan="2">
             <Label Content="Filter" />
             <StackPanel Orientation="Horizontal" >
                 <RadioButton GroupName="Filter" Content="Alle" Margin="5" IsChecked="{Binding Path=FilterType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static viewmodels:FilterType.All}}" />
@@ -30,15 +35,16 @@
             </StackPanel>
         </StackPanel>
 
-        <!--<Label Grid.Row="1" Content="Auswahl"/>-->
-        <ComboBox Grid.Row="1" SelectedIndex="0" DisplayMemberPath="FullName" ItemsSource="{Binding Path=SubjectList, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedSubject}" Visibility="{Binding Path=SubjVisibility, UpdateSourceTrigger=PropertyChanged}"/>
-        <ComboBox Grid.Row="1" SelectedIndex="0" DisplayMemberPath="Name" ItemsSource="{Binding Path=ScenarioList, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedScenario}" Visibility="{Binding Path=ScenVisibility, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
-        <DatePicker Grid.Row="1" Text="{Binding Path=FilterDateTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=DateVisibility, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
-
-        <ListView BorderBrush="Transparent" Grid.Row="2" ItemsSource="{Binding Tests}" DisplayMemberPath="FullTitle" x:Name="lstTest">
+        <Label Grid.Row="1" Grid.ColumnSpan="2" Content="Alle Tests:" FontWeight="ExtraBold"/>
+        <ComboBox Grid.Row="1" Grid.ColumnSpan="2" SelectedIndex="0" DisplayMemberPath="FullName" ItemsSource="{Binding Path=SubjectList, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedSubject}" Visibility="{Binding Path=SubjVisibility, UpdateSourceTrigger=PropertyChanged}"/>
+        <ComboBox Grid.Row="1" Grid.ColumnSpan="2" SelectedIndex="0" DisplayMemberPath="Name" ItemsSource="{Binding Path=ScenarioList, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedScenario}" Visibility="{Binding Path=ScenVisibility, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+        <DatePicker Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Path=FilterDateTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=DateVisibility, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
+        
+        <TextBox Margin="5" Grid.Row="2" Grid.Column="1" Text="{Binding Path=FilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <ListView Margin="5" BorderBrush="Transparent" Grid.Row="3" Grid.ColumnSpan="2" ItemsSource="{Binding Tests}" DisplayMemberPath="FullTitle" x:Name="lstTest">
             
         </ListView>
 
-        <Button Grid.Row="3" Content="Anzeigen"/>
+        <Button Grid.Row="4" Content="Anzeigen"/>
     </Grid>
 </UserControl>
