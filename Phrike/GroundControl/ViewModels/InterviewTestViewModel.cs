@@ -35,17 +35,6 @@ namespace Phrike.GroundControl.ViewModels
 
         public List<string> SurveyAnsList { get; set; }
 
-
-        ///// <summary>
-        ///// Gets or sets the survey name.
-        ///// </summary>
-        //public string SurveyName { get; set; }
-
-        ///// <summary>
-        ///// Gets or sets the survey.
-        ///// </summary>
-        //private static Survey Survey { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="InterviewTestViewModel"/> class.
         /// </summary>
@@ -78,6 +67,16 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
+        public SurveyResult GetCurrentAnswer()
+        {
+            using (var unitOfWork = new UnitOfWork())
+            {
+                // TODO: Get correct test!!!
+                Test test = unitOfWork.TestRepository.Get().FirstOrDefault();
+                return test?.SurveyResult.FirstOrDefault();
+            }
+        }
+
         public void SaveData(List<SurveyResult> resultList)
         {
             using (UnitOfWork unitOfWork = new UnitOfWork())
@@ -90,7 +89,6 @@ namespace Phrike.GroundControl.ViewModels
                 
                 if (test != null)
                 {
-
                     foreach (SurveyResult result in resultList)              
                     {
                         result.Test = test;
