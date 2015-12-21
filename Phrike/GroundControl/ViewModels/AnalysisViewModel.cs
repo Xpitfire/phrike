@@ -14,7 +14,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -35,20 +34,22 @@ namespace Phrike.GroundControl.ViewModels
 {
     public class AnalysisViewModel : INotifyPropertyChanged
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
         private const string PulseChannelName = "Channel 05";
-        private const string SkinConductanceChannelName = "Channel 02"; // TODO Correct channel?
 
-        private AuxiliaryDataListViewModel fileList;
+        private const string SkinConductanceChannelName = "Channel 02";
+                             // TODO Correct channel?
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private DataBundleViewModel dataModel;
 
-    private DataSeries positionDataMovement;
+        private AuxiliaryDataListViewModel fileList;
 
-    private DataSeries positionDataAccel;
+        private DataSeries positionDataAccel;
 
-    private DataSeries positionDataIdle;
+        private DataSeries positionDataIdle;
+
+        private DataSeries positionDataMovement;
 
         /// <summary>
         ///     Create a new analysis viemodel instance and add the default plot template.
@@ -56,7 +57,9 @@ namespace Phrike.GroundControl.ViewModels
         public AnalysisViewModel(int testId)
         {
             if (!DataLoadHelper.IsLoadDataActive())
+            {
                 return;
+            }
             LoadData(testId);
         }
 
@@ -72,7 +75,7 @@ namespace Phrike.GroundControl.ViewModels
                 dataModel = value;
                 OnPropertyChanged();
             }
-        }
+        }
 
         public double TotalDistance { get; set; }
 
@@ -96,36 +99,37 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private void LoadData(int testId)
         {
             using (var db = new UnitOfWork())
             {
                 FileList = new AuxiliaryDataListViewModel(
                     db.TestRepository.Get(includeProperties: nameof(AuxilaryData))
-                    .FirstOrDefault(t => t.Id == testId));
+                        .FirstOrDefault(t => t.Id == testId));
             }
             FileList.AuxiliaryData.CollectionChanged += (s, e) => UpdateDataModel();
 
             var pdc = new PositionDataController();
 
-      bool retVal = pdc.LoadData(testId);
-                  TotalDistance = pdc.TotalDistance;
-                  Altitude = pdc.Altitude;
-                  TotalTime = pdc.TotalTime;
-      TotalIdleTime = pdc.TotalIdleTime;
+            bool retVal = pdc.LoadData(testId);
+            TotalDistance = pdc.TotalDistance;
+            Altitude = pdc.Altitude;
+            TotalTime = pdc.TotalTime;
+            TotalIdleTime = pdc.TotalIdleTime;
 
-      if (retVal)
-      {
-        positionDataMovement = pdc.PositionSpeedSeries;
-        positionDataAccel = pdc.PositionAccelSeries;
-        positionDataIdle = pdc.PositionIdleMovementSeries;
-      }
-                  UpdateDataModel();
+            if (retVal)
+            {
+                positionDataMovement = pdc.PositionSpeedSeries;
+                positionDataAccel = pdc.PositionAccelSeries;
+                positionDataIdle = pdc.PositionIdleMovementSeries;
+            }
+            UpdateDataModel();
         }
 
-
         // Key: Series -> value: should show by default.
-        private List<KeyValuePair<DataSeries, bool>>  DataBundleFromAuxList()
+        private List<KeyValuePair<DataSeries, bool>> DataBundleFromAuxList()
         {
             var result = new List<KeyValuePair<DataSeries, bool>>();
             foreach (AuxilaryData auxData in FileList.GetSensorFiles())
@@ -136,7 +140,8 @@ namespace Phrike.GroundControl.ViewModels
                     if (auxData.MimeType == AuxiliaryDataMimeTypes.GMobilabPlusBin
                         && dataSeries.Name == PulseChannelName)
                     {
-                        IReadOnlyList<double> filtered = PulseCalculator.MakePulseFilterChain().Filter(dataSeries.Data);
+                        IReadOnlyList<double> filtered =
+                            PulseCalculator.MakePulseFilterChain().Filter(dataSeries.Data);
                         var pulseSeries = new DataSeries(
                             filtered as double[] ?? filtered.ToArray(),
                             dataSeries.SampleRate,
@@ -152,14 +157,15 @@ namespace Phrike.GroundControl.ViewModels
                     else if (auxData.MimeType == AuxiliaryDataMimeTypes.GMobilabPlusBin
                              && dataSeries.Name == SkinConductanceChannelName)
                     {
-                        result.Add(new KeyValuePair<DataSeries, bool>(
-                            new DataSeries(
-                                dataSeries.Data,
-                                dataSeries.SampleRate,
-                                dataSeries.SourceName,
-                                "Hautleitwiderstand",
-                                dataSeries.Unit),
-                            true));
+                        result.Add(
+                            new KeyValuePair<DataSeries, bool>(
+                                new DataSeries(
+                                    dataSeries.Data,
+                                    dataSeries.SampleRate,
+                                    dataSeries.SourceName,
+                                    "Hautleitwiderstand",
+                                    dataSeries.Unit),
+                                true));
                     }
                 }
             }
@@ -169,13 +175,11 @@ namespace Phrike.GroundControl.ViewModels
         private void UpdateDataModel()
         {
             List<KeyValuePair<DataSeries, bool>> bundle = DataBundleFromAuxList();
-      bundle.Add(new KeyValuePair<DataSeries, bool>(positionDataMovement, true));
-      bundle.Add(new KeyValuePair<DataSeries, bool>(positionDataAccel, true));
-      bundle.Add(new KeyValuePair<DataSeries, bool>(positionDataIdle, true));
+            bundle.Add(new KeyValuePair<DataSeries, bool>(positionDataMovement, true));
+            bundle.Add(new KeyValuePair<DataSeries, bool>(positionDataAccel, true));
+            bundle.Add(new KeyValuePair<DataSeries, bool>(positionDataIdle, true));
             DataModel = new DataBundleViewModel(bundle);
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged(
