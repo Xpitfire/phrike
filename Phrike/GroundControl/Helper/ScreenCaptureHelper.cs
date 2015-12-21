@@ -55,7 +55,7 @@ namespace Phrike.GroundControl.Helper
             StartCameraRecording(testId);
         }
 
-        public void StartCameraRecording(int testId, String cameraFilename = DefaultGameRecordingFileName)
+        public void StartCameraRecording(int testId, String cameraFilename = DefaultWebcamRecordingFileName)
         {
             if (IsRunningCamera)
             {
@@ -73,7 +73,7 @@ namespace Phrike.GroundControl.Helper
         }
         }
 
-        public void StartGameRecording(int testId, String gameFilename = DefaultWebcamRecordingFileName)
+        public void StartGameRecording(int testId, String gameFilename = DefaultGameRecordingFileName)
         {
             if (IsRunningGame)
             {
