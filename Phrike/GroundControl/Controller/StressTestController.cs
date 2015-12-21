@@ -22,10 +22,31 @@ namespace Phrike.GroundControl.Controller
         private UnrealEngineController unrealEngineController;
         private SensorsController sensorsController;
 
+        private UnitOfWork unitOfWork;
+
+        private Test test;
+
         public StressTestController()
         {
             stressTestViewModel = StressTestViewModel.Instance;
-            //unrealEngineModel.complete +=
+            unrealEngineController.Ending += UnrealEngineController_Ending;
+            unrealEngineController.Restarting += UnrealEngineController_Restarting;
+            unrealEngineController.PositionReceived += UnrealEngineController_PositionReceived;
+        }
+
+        private void UnrealEngineController_PositionReceived(object sender, PositionData e)
+        {
+            test.PositionData.Add(e);
+        }
+
+        private void UnrealEngineController_Restarting(object sender, EventArgs e)
+        {
+            // TODO: Restart test
+        }
+
+        private void UnrealEngineController_Ending(object sender, EventArgs e)
+        {
+            unitOfWork.Save();   
         }
 
         public void StartStressTest(SubjectVM subject, ScenarioVM scenario)
@@ -34,9 +55,9 @@ namespace Phrike.GroundControl.Controller
             {
                 return;
             }
-            using (UnitOfWork unitOfWork = new UnitOfWork())
+            using (unitOfWork = new UnitOfWork())
             {
-                Test test = new Test()
+                test = new Test()
                 {
                     Subject = unitOfWork.SubjectRepository.GetByID(subject.Id),
                     Scenario = unitOfWork.ScenarioRepository.GetByID(scenario.Id),
@@ -46,7 +67,7 @@ namespace Phrike.GroundControl.Controller
                 };
                 unitOfWork.TestRepository.Insert(test);
                 unitOfWork.Save();
-                StartUnrealEngineTask(test);
+                StartUnrealEngineTask();
                 if (Settings.SelectedSensorType == Models.SensorType.GMobiLab)
                 {
                     StartSensorsTask();
@@ -72,7 +93,7 @@ namespace Phrike.GroundControl.Controller
             }
         }
 
-        private Task StartUnrealEngineTask(Test test)
+        private Task StartUnrealEngineTask()
         {
             return Task.Run(() =>
             {
@@ -80,7 +101,7 @@ namespace Phrike.GroundControl.Controller
                 ProcessController.StartProcess(UnrealEngineController.UnrealEnginePath, true, new string[] { "-fullscreen" });
                 Logger.Info("Unreal Engine process started!");
                 // create the Unreal Engine communication object
-                unrealEngineController = new UnrealEngineController(test);
+                unrealEngineController = new UnrealEngineController();
                 unrealEngineController.ErrorOccoured += (sender, args) => ShowStressTestError(args.Message);
                 unrealEngineController.Ending += (sender, args) => DisableUnrealEngineAndScreenCapturingColor();
 

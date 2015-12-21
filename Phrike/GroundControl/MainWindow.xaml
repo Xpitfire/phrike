@@ -36,9 +36,7 @@
             <TabItem Padding="30" Header="Neuer Stresstest" Name="TabItemUser">
                 <Views:NewStressTest DataContext="{Binding}" x:Name="StressTestView" />
             </TabItem>
-            <TabItem Padding="30" Header="Analyse" Name="TabItemAnalysis">
-                <Views:Analysis DataContext="{Binding}" />
-            </TabItem>
+            <TabItem Padding="30" Header="Analyse" Name="TabItemAnalysis" />
             <TabItem Padding="30" Header="Einstellungen" Name="TabItemSettings">
                 <Views:Settings DataContext="{Binding}" />
             </TabItem>

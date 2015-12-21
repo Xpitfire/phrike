@@ -12,11 +12,7 @@
     mc:Ignorable="d"
     d:DesignHeight="600" d:DesignWidth="1200">
 
-    <UserControl.Resources>
-        <viewModels:AnalysisViewModel x:Key="AnalysisViewModel" />
-    </UserControl.Resources>
-
-    <Grid Margin="5" DataContext="{StaticResource AnalysisViewModel}">
+    <Grid Margin="5" d:DataContext="{d:DesignInstance viewModels:AnalysisViewModel}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="1*" />
