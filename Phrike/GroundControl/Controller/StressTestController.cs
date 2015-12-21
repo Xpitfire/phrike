@@ -28,10 +28,13 @@ namespace Phrike.GroundControl.Controller
         public StressTestController()
         {
             stressTestViewModel = StressTestViewModel.Instance;
+        }
 
+        private void SetNewUnrealController()
+        {
             // create the Unreal Engine communication object
             unrealEngineController = new UnrealEngineController();
-            unrealEngineController.PositionReceived += (s, e) => 
+            unrealEngineController.PositionReceived += (s, e) =>
             {
                 test.PositionData.Add(e);
             };
@@ -39,7 +42,7 @@ namespace Phrike.GroundControl.Controller
             {
                 StopStressTest();
                 unitOfWork.Save();
-            }
+            };
             unrealEngineController.Ending += (sender, args) => DisableUnrealEngineAndScreenCapturingColor();
             unrealEngineController.Restarting += (s, e) =>
             {
@@ -52,7 +55,6 @@ namespace Phrike.GroundControl.Controller
                 DialogHelper.ShowErrorDialog("Fehler in der Simulation aufgetreten.");
                 Logger.Error(e);
             };
-
         }
 
         public void StartStressTest(SubjectVM subject, ScenarioVM scenario)
@@ -114,6 +116,7 @@ namespace Phrike.GroundControl.Controller
         {
             return Task.Run(() =>
             {
+                SetNewUnrealController();
                 // start the external application sub-process
                 ProcessController.StartProcess(UnrealEngineController.UnrealEnginePath, true, new string[] { "-fullscreen" });
                 Logger.Info("Unreal Engine process started!");
