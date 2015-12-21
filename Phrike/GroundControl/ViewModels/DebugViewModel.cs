@@ -121,7 +121,7 @@ namespace Phrike.GroundControl.ViewModels
 
         public async void StartUnrealEngine()
         {
-            await StartUnrealEngineTask();
+            await StartUnrealEngineTask(new Test());
         }
         public async void StopUnrealEngine()
         {
@@ -187,7 +187,7 @@ namespace Phrike.GroundControl.ViewModels
         /// Create an instance of the Unreal Engine.
         /// </summary>
         /// <returns></returns>
-        public async Task StartUnrealEngineTask()
+        public async Task StartUnrealEngineTask(Test test)
         {
             await Task.Run(() =>
             {
@@ -195,7 +195,8 @@ namespace Phrike.GroundControl.ViewModels
                 ProcessController.StartProcess(UnrealEngineController.UnrealEnginePath, true, new string[] { "-fullscreen" });
                 Logger.Info("Unreal Engine process started!");
                 // create the Unreal Engine communication object
-                unrealEngineModel = new UnrealEngineController();
+                unrealEngineModel = new UnrealEngineController(test);
+
                 Logger.Info("Unreal Engine is ready to use!");
                 UnrealStatusColor = Activate;
             });

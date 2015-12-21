@@ -21,7 +21,7 @@ namespace GroundControl.Test
         public void TestUnrealEngineController()
         {
             var stressTestVM = new DebugViewModel();
-            stressTestVM.StartUnrealEngineTask();
+            //stressTestVM.StartUnrealEngineTask(new Test());
         }
     }
 }

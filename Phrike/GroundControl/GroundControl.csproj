@@ -121,6 +121,7 @@
     <Compile Include="Controller\SettingsController.cs" />
     <Compile Include="Controller\UnrealEngineController.cs" />
     <Compile Include="Controller\ControlDelegates.cs" />
+    <Compile Include="Helper\ScreenCaptureHelper.cs" />
     <Compile Include="PathToImageConverter.cs" />
     <Compile Include="ViewModels\AuxiliaryDataViewModel.cs" />
     <Compile Include="Views\FileListDebugView.xaml.cs">

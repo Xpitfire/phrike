@@ -1,5 +1,7 @@
 ﻿using DataModel;
 
+using Phrike.GroundControl.Helper;
+
 namespace Phrike.GroundControl.ViewModels
 {
     public class AuxiliaryDataViewModel
@@ -25,5 +27,9 @@ namespace Phrike.GroundControl.ViewModels
                     : "Sensoraufzeichnung";
 
         public AuxilaryData Model { get; }
+
+        public bool IsSensorData =>
+            AuxiliaryDataMimeTypes.GetCategory(Model.MimeType)
+            == AuxiliaryDataMimeTypes.Category.SensorData;
     }
 }

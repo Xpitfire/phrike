@@ -157,7 +157,7 @@ namespace Phrike.GroundControl.ViewModels
 
         public int Id
         {
-            get { return survey.Id; }
+            get { return survey != null ? survey.Id : 0; }
             set
             {
                 if (survey.Id != value)
@@ -170,7 +170,7 @@ namespace Phrike.GroundControl.ViewModels
 
         public string Name
         {
-            get { return survey.Name; }
+            get { return survey != null ? survey.Name : ""; }
             set
             {
                 if (survey.Name != value)
@@ -183,7 +183,7 @@ namespace Phrike.GroundControl.ViewModels
 
         public string Description
         {
-            get { return survey.Description; }
+            get { return survey != null ? survey.Description : ""; }
             set
             {
                 if (survey.Description != value)
@@ -456,6 +456,19 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
+        public DateTime Date
+        {
+            get { return test.Time; }
+            set
+            {
+                if (test.Time != value)
+                {
+                    test.Time = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Date)));
+                }
+            }
+        }
+
         public Scenario Scenario
         {
             get { return test.Scenario; }
@@ -669,7 +682,12 @@ namespace Phrike.GroundControl.ViewModels
         public IEnumerable<string> AvailableServiceRanks => (new List<string>() { "Rekrut", "Gefreiter", "Korporal", "Zugsführer", "Wachtmeister", "Oberwachtmeister", "Stabswachtmeister", "Oberstabswachtmeister", "Offiziersstellvertreter", "Vizeleutnant", "Fähnrich", "Leutnant", "Oberleutnant", "Hauptmann", "Major", "Oberstleutnant", "Oberst", "Brigardier", "Generalmajor", "Generalleutnant", "General" });
         #region Property Propagation
 
-        public string LastName
+        public int Id
+        {
+            get { return subject.Id; }
+        }
+
+        public String LastName
         {
             get { return subject.LastName; }
             set
@@ -918,7 +936,9 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
-        public string Name { get { return scenario.Name; } }
+        public int Id { get { return scenario.Id; } }
+
+        public String Name { get { return scenario.Name; } }
 
         public string Description { get { return scenario.Description; } }
     }
