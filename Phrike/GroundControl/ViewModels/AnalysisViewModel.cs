@@ -9,6 +9,7 @@ using NLog;
 using OxyPlot;
 using Phrike.Sensors;
 using Phrike.GroundControl.Controller;
+using DataAccess;
 
 namespace Phrike.GroundControl.ViewModels
 {
@@ -17,20 +18,33 @@ namespace Phrike.GroundControl.ViewModels
     private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
     public DataBundleViewModel DataModel { get; set; }
 
+    public double TotalDistance { get; set; }
+
+    public double Altitude { get; set; }
+
+    public TimeSpan TotalTime { get; set; }
+
+    public TimeSpan TotalIdleTime { get; set; }
+
     /// <summary>
     /// Create a new analysis viemodel instance and add the default plot template.
     /// </summary>
     public AnalysisViewModel()
     {
-      DataBundle dataBundle = LoadData();
+      DataBundle dataBundle = LoadData(1);
       DataModel = new DataBundleViewModel(dataBundle);
     }
 
-    private DataBundle LoadData()
+    private DataBundle LoadData(int testId)
     {
       PositionDataController pdc = new PositionDataController();
 
-      //pdc.LoadData(1);
+      /*pdc.LoadData(1);
+      TotalDistance = pdc.TotalDistance;
+      Altitude = pdc.Altitude;
+      TotalTime = pdc.TotalTime;
+      TotalIdleTime = pdc.TotalIdleTime;*/
+
       DataBundle dataBundle = new DataBundle
       {
         DataSeries =
