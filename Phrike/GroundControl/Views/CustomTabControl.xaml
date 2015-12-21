@@ -8,27 +8,27 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <TabControl SelectedIndex="{Binding SelectedTab}" Grid.Row="1" x:Name="MainTabControl">
         <!---->
-            <TabItem Padding="30" Header="Start" Name="TabItemStart">
+            <TabItem Padding="30" Header="Start" Name="TabItemStart" IsEnabled="{Binding IsEnabled}">
                 <local:Start DataContext="{Binding}" />
             </TabItem>
             <TabItem Padding="30" Header="Neuer Stresstest" Name="TabItemUser">
                 <local:NewStressTest x:Name="StressTestView" />
             </TabItem>
-            <TabItem Padding="30" Header="Analyse" Name="TabItemAnalysis" />
-            <TabItem Padding="30" Header="Einstellungen" Name="TabItemSettings">
+            <TabItem Padding="30" Header="Analyse" Name="TabItemAnalysis" IsEnabled="{Binding IsEnabled}" />
+            <TabItem Padding="30" Header="Einstellungen" Name="TabItemSettings" IsEnabled="{Binding IsEnabled}">
                 <local:Settings DataContext="{Binding}" />
             </TabItem>
             <!--<TabItem Padding="30" Header="Debug" Name="TabItemDebug">
                 <Views:Debug DataContext="{Binding}" />
             </TabItem>-->
-        <TabItem Padding="30" Header="Interview" Name="TabItemInterviewTest">
+        <TabItem Padding="30" Header="Interview" Name="TabItemInterviewTest" IsEnabled="{Binding IsEnabled}">
             <local:InterviewTest />
         </TabItem>
         <!--<TabItem Padding="30" Header="Debug: FileList" Name="TabItemFileList">
                 <GroundControl:FileListDebugView DataContext="{Binding}" />
             </TabItem>-->
 
-        <TabItem Padding="30" Header="Debug: TestARchive" Name="TabItemArchive">
+        <TabItem Padding="30" Header="Debug: TestARchive" Name="TabItemArchive" IsEnabled="{Binding IsEnabled}">
             <local:TestArchive DataContext="{Binding}" />
         </TabItem>
     </TabControl>
