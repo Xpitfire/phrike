@@ -22,6 +22,28 @@
         <Button x:Name="btnBack" Content="Zurück" Grid.Row="0" Click="BtnBack_OnClick" IsEnabled="False"/>
         <Button x:Name="btnStart" Content="Start" Grid.Row="1" Visibility="{Binding IsStartVisible, Converter={StaticResource BoolToVis}}" IsEnabled="{Binding IsStartEnabled}" Command="{Binding StartStressTestCommand}"/>
         <Button x:Name="btnStop" Content="Stopp" Grid.Row="2" Visibility="{Binding IsStopEnabled, Converter={StaticResource BoolToVis}}" IsEnabled="{Binding IsStopEnabled}" Command="{Binding StopStressTestCommand}"/>
+        <!--<Grid Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Label Content="Titel: " Grid.Column="0"/>
+                <TextBox Text="{Binding TestName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100" Grid.Column="1"/>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Label Content="Ort: " Grid.Column="0"/>
+                <TextBox Text="{Binding TestLocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100" Grid.Column="1"/>
+            </Grid>
+        </Grid>-->
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="wpButtons" Grid.Row="3" DataContext="{Binding}">
             <Button x:Name="btnSubject" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0" Click="SwitchToSubjectSelectionView">
                 <Grid Height="190" Width="190" DataContext="{Binding Path=CurrentSubject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
