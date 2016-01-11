@@ -49,7 +49,7 @@ namespace Phrike.GroundControl.ViewModels
         private ScenarioVM selectedScenario;
         private string filterString = "";
         private RelayCommand detailCmd;
-
+        private RelayCommand deleteCmd;
 
         public FilterChangedEvent FilterChanged;
 
@@ -256,6 +256,28 @@ namespace Phrike.GroundControl.ViewModels
                 }
                 return detailCmd;
             }
+        }
+
+        public ICommand DeleteCommand
+        {
+            get
+            {
+                if (deleteCmd == null)
+                {
+                    deleteCmd = new RelayCommand((a) => Delete(a));
+                }
+                return deleteCmd;
+            }
+        }
+
+        public void Delete(object param)
+        {
+            if (!SelectedTest.Delete())
+            {
+                DialogHelper.ShowErrorDialog("Löschen Fehlgeschlagen!");
+            }
+
+            LoadTests();
         }
 
         public void ShowDetails()

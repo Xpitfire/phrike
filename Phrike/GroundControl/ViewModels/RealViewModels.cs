@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using DataAccess;
 using Phrike.GroundControl.Annotations;
 using Phrike.GroundControl.Helper;
+using System.Windows.Input;
 
 namespace Phrike.GroundControl.ViewModels
 {
@@ -420,6 +421,7 @@ namespace Phrike.GroundControl.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private Test test;
+        private RelayCommand deleteCmd;
 
         public Test Test
         {
@@ -440,6 +442,16 @@ namespace Phrike.GroundControl.ViewModels
         public TestVM()
         {
             test = new Test();
+        }
+
+        public ICommand DeleteCommand
+        {
+            get
+            {
+                if (deleteCmd == null)
+                { deleteCmd = new RelayCommand((a) => Delete()); }
+                return deleteCmd;
+            }
         }
 
         public string FullTitle => $"{test.Time:f} | {test.Title} ({test.Scenario.Name}) | {test.Subject?.FirstName} {test.Subject?.LastName}";
@@ -494,6 +506,49 @@ namespace Phrike.GroundControl.ViewModels
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Subject)));
                 }
             }
+        }
+
+        public bool Delete()
+        {
+            try
+            {
+                using (var x = new UnitOfWork())
+                {
+                    test = x.TestRepository.GetByID(test.Id);
+                    foreach (var positionData in x.PositionDataRepository.Get(includeProperties: "Test"))
+                    {
+                        if (positionData?.Test?.Id == test.Id)
+                        {
+                            x.PositionDataRepository.Delete(positionData);
+                        }
+                    }
+
+                    foreach (var auxData in x.AuxiliaryDataRepository.Get(includeProperties: "Test"))
+                    {
+                        if (auxData?.Test?.Id == test.Id)
+                        {
+                            x.AuxiliaryDataRepository.Delete(auxData);
+                        }
+                    }
+
+                    foreach (var resData in x.SurveyResultRepository.Get(includeProperties: "Test"))
+                    {
+                        if (resData?.Test?.Id == test.Id)
+                        {
+                            x.SurveyResultRepository.Delete(resData);
+                        }
+                    }
+                    x.Save();
+                    x.TestRepository.Delete(test);
+
+                    x.Save();
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            return true;
         }
 
     }

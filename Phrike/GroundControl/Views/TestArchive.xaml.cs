@@ -46,5 +46,12 @@ namespace Phrike.GroundControl.Views
         {
             (this.DataContext as TestArchiveViewModel).ShowDetails();
         }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            (this.DataContext as TestArchiveViewModel).Tests.Remove((sender as Button).DataContext as TestVM);
+            ((sender as Button).DataContext as TestVM).Delete();
+            CollectionViewSource.GetDefaultView(lstTest.ItemsSource).Refresh();
+        }
     }
 }
