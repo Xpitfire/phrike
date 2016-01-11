@@ -47,8 +47,14 @@
         <TextBox Style="{StaticResource MetroTextBox}" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Stretch" Text="{Binding Path=FilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" controls:TextBoxHelper.Watermark="Suche" controls:TextBoxHelper.ClearTextButton="True" Margin="50 10 50 10"/>
 
         <Label Style="{StaticResource MetroLabel}" Grid.Row="4" Grid.ColumnSpan="3" Content="Testergebnis auswählen" Margin="35 10 50 0"/>
-        <ListView Grid.Row="5" Grid.ColumnSpan="3" ItemsSource="{Binding Tests}" DisplayMemberPath="FullTitle" x:Name="lstTest" Style="{StaticResource MetroListView}" Margin="50 10 50 10"/>
+        <ListView Grid.Row="5" Grid.ColumnSpan="3" ItemsSource="{Binding Tests}" SelectedItem="{Binding Path=SelectedTest, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="FullTitle" x:Name="lstTest" Style="{StaticResource MetroListView}" Margin="50 10 50 10">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                    <EventSetter Event="MouseDoubleClick" Handler="OnDoubleClick"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
 
-        <Button Style="{StaticResource MetroButton}" Grid.Row="6" Content="Anzeigen" HorizontalAlignment="Right" Margin="50 10 50 10"/>
+        <Button Style="{StaticResource MetroButton}" Grid.Row="6" Content="Anzeigen" HorizontalAlignment="Right" Margin="50 10 50 10" Command="{Binding Path=DetailCommand}"/>
     </Grid>
 </UserControl>

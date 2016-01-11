@@ -153,5 +153,12 @@ namespace Phrike.GroundControl.ViewModels
         {
             stressTestController?.ApplicationCloseTask();
         }
+
+        public void ResetButtons()
+        {
+            NewStressTestViewModel.Instance.IsStartEnabled = true;
+            NewStressTestViewModel.Instance.IsStartVisible = true;
+            NewStressTestViewModel.Instance.IsStopEnabled = false;
+        }
     }
 }
