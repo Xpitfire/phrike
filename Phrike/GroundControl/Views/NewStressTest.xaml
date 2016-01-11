@@ -19,9 +19,9 @@
             <RowDefinition Height="1*"></RowDefinition>
             <RowDefinition Height="10*"></RowDefinition>
         </Grid.RowDefinitions>
-        <Button x:Name="btnBack" Content="Back" Grid.Row="0" Click="BtnBack_OnClick" IsEnabled="False"/>
+        <Button x:Name="btnBack" Content="Zurück" Grid.Row="0" Click="BtnBack_OnClick" IsEnabled="False"/>
         <Button x:Name="btnStart" Content="Start" Grid.Row="1" Visibility="{Binding IsStartVisible, Converter={StaticResource BoolToVis}}" IsEnabled="{Binding IsStartEnabled}" Command="{Binding StartStressTestCommand}"/>
-        <Button x:Name="btnStop" Content="Stop" Grid.Row="2" Visibility="{Binding IsStopEnabled, Converter={StaticResource BoolToVis}}" IsEnabled="{Binding IsStopEnabled}" Command="{Binding StopStressTestCommand}"/>
+        <Button x:Name="btnStop" Content="Stopp" Grid.Row="2" Visibility="{Binding IsStopEnabled, Converter={StaticResource BoolToVis}}" IsEnabled="{Binding IsStopEnabled}" Command="{Binding StopStressTestCommand}"/>
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="wpButtons" Grid.Row="3" DataContext="{Binding}">
             <Button x:Name="btnSubject" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top" Width="200" Height="200" BorderThickness="0" Click="SwitchToSubjectSelectionView">
                 <Grid Height="190" Width="190" DataContext="{Binding Path=CurrentSubject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
