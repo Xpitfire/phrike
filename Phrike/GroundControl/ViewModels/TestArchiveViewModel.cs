@@ -264,6 +264,10 @@ namespace Phrike.GroundControl.ViewModels
             {
                 MainViewModel.Instance.CurrentViewModel = new AnalysisViewModel(SelectedTest.Id);
             }
+            else
+            {
+                DialogHelper.ShowErrorDialog("Bitte eine wählen Sie aus!");
+            }
         }
     }
 }

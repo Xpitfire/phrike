@@ -31,12 +31,16 @@ namespace Phrike.GroundControl.Controller
         private string testName;
         private string testLocation;
 
+        #region Constructor
+
         public StressTestController()
         {
             Instance = this;
             stressTestViewModel = StressTestViewModel.Instance;
             newStressTestViewModel = NewStressTestViewModel.Instance;
         }
+
+        #endregion
 
         private void SetNewUnrealController()
         {
@@ -79,8 +83,12 @@ namespace Phrike.GroundControl.Controller
             }
 
             CreateUnitOfWorkAndTest(subject, scenario);
-            StartUnrealEngineTask();
-            StartSensorsAndCapturing();
+            try
+            {
+                StartSensorsAndCapturing();
+                StartUnrealEngineTask();
+            }
+            catch (Exception) { }
         }
 
         public void SetTestName(string name)
@@ -97,7 +105,7 @@ namespace Phrike.GroundControl.Controller
         {
             if (Settings.SelectedSensorType == Models.SensorType.GMobiLab)
             {
-                StartSensorsTask();
+                StartSensorsTask().RunSynchronously();
             }
             if (Settings.ScreenRecordingEnabled)
             {
@@ -134,6 +142,7 @@ namespace Phrike.GroundControl.Controller
 
         private void StopSensorsAndCapturing()
         {
+
             if (Settings.SelectedSensorType == Models.SensorType.GMobiLab)
             {
                 StopSensorsTask();
@@ -153,6 +162,8 @@ namespace Phrike.GroundControl.Controller
             StopUnrealEngineTask();
             StopSensorsAndCapturing();
         }
+
+        #region Unreal Engine
 
         private Task StartUnrealEngineTask()
         {
@@ -185,6 +196,10 @@ namespace Phrike.GroundControl.Controller
                 DisableUnrealEngineAndScreenCapturingColor();
             });
         }
+
+        #endregion
+
+        #region Sensors
 
         public Task StartSensorsTask()
         {
@@ -229,6 +244,10 @@ namespace Phrike.GroundControl.Controller
             });
         }
 
+        #endregion
+
+        #region Screen Capturing
+
         public Task StartScreenCaptureTask(int testId)
         {
             return Task.Run(() =>
@@ -263,6 +282,10 @@ namespace Phrike.GroundControl.Controller
             });
         }
 
+        #endregion
+
+        #region Webcam
+
         public Task StartWebcamCaptureTask(int testId)
         {
             return Task.Run(() =>
@@ -296,6 +319,8 @@ namespace Phrike.GroundControl.Controller
                 stressTestViewModel.WebcamCapturingStatusColor = GCColors.Disabled;
             });
         }
+
+        #endregion
 
 
         public void ApplicationCloseTask()

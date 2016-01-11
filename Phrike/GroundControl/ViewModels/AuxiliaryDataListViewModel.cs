@@ -12,6 +12,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // -----------------------------------------------------------------------
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,12 +24,15 @@ using DataModel;
 
 using Microsoft.Win32;
 
+using NLog;
+
 using Phrike.GroundControl.Helper;
 
 namespace Phrike.GroundControl.ViewModels
 {
     public class AuxiliaryDataListViewModel
     {
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Test parentTest;
 
         private ICommand addFileCmd;
@@ -62,14 +66,30 @@ namespace Phrike.GroundControl.ViewModels
         private void DoOpenFile(object rawAuxVm)
         {
             var auxVm = (AuxiliaryDataViewModel)rawAuxVm;
-            Process.Start(PathHelper.GetImportPath(auxVm.Model.FilePath));
+            try
+            {
+                Process.Start(PathHelper.GetImportPath(auxVm.Model.FilePath));
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "Failed opening file from list.");
+                DialogHelper.ShowErrorDialog("Die Datei konnte aufgrund eines Fehlers nicht geöffnet werden.");
+            }
         }
 
         private void DoDeleteFile(object rawAuxVm)
         {
             var auxVm = (AuxiliaryDataViewModel)rawAuxVm;
-            FileStorageHelper.DeleteFile(auxVm.Model.Id);
-            AuxiliaryData.Remove(auxVm);
+            try
+            {
+                FileStorageHelper.DeleteFile(auxVm.Model.Id);
+                AuxiliaryData.Remove(auxVm);
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "Failed deleting file from list.");
+                DialogHelper.ShowErrorDialog("Die Datei konnte aufgrund eines Fehlers nicht gelöscht werden.");
+            }
         }
 
         private void DoAddFile(object obj)
@@ -86,12 +106,20 @@ namespace Phrike.GroundControl.ViewModels
                 return;
             }
 
-            AuxilaryData data = FileStorageHelper.ImportFile(
-                dlg.FileName,
-                AuxiliaryDataMimeTypes.GetMimeTypeForPath(dlg.FileName),
-                parentTest.Id);
+            try
+            {
+                AuxilaryData data = FileStorageHelper.ImportFile(
+                    dlg.FileName,
+                    AuxiliaryDataMimeTypes.GetMimeTypeForPath(dlg.FileName),
+                    parentTest.Id);
 
-            AuxiliaryData.Add(new AuxiliaryDataViewModel(data));
+                AuxiliaryData.Add(new AuxiliaryDataViewModel(data));
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, "Failed adding file to list.");
+                DialogHelper.ShowErrorDialog("Die Datei konnte aufgrund eines Fehlers nicht hinzugefügt werden.");
+            }
         }
 
         public IEnumerable<AuxilaryData> GetSensorFiles()

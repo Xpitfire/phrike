@@ -74,6 +74,7 @@ namespace Phrike.GroundControl.Controller
                 const string message = "Could not connect to sensor device!";
                 DialogHelper.ShowErrorDialog("Verbindung zu den Sensoren konnte nicht hergestellt werden.");
                 Logger.Error(e, message);
+                throw;
             }
         }
 
