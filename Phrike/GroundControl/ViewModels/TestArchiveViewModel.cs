@@ -49,7 +49,7 @@ namespace Phrike.GroundControl.ViewModels
         private ScenarioVM selectedScenario;
         private string filterString = "";
         private RelayCommand detailCmd;
-        
+
 
         public FilterChangedEvent FilterChanged;
 
@@ -252,11 +252,17 @@ namespace Phrike.GroundControl.ViewModels
             {
                 if (detailCmd == null)
                 {
-                    detailCmd = new RelayCommand(
-                        (a) =>
-                        { MainViewModel.Instance.CurrentViewModel = new AnalysisViewModel(SelectedTest.Id); });
+                    detailCmd = new RelayCommand((a) => ShowDetails());
                 }
                 return detailCmd;
+            }
+        }
+
+        public void ShowDetails()
+        {
+            if (SelectedTest != null)
+            {
+                MainViewModel.Instance.CurrentViewModel = new AnalysisViewModel(SelectedTest.Id);
             }
         }
     }

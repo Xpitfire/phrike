@@ -41,7 +41,10 @@ namespace Phrike.GroundControl.Views
             var x = this.DataContext as TestArchiveViewModel;
             return x.Filter(o);
         }
-        
 
+        private void OnDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            (this.DataContext as TestArchiveViewModel).ShowDetails();
+        }
     }
 }
