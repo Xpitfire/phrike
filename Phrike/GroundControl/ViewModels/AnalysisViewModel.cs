@@ -110,7 +110,7 @@ namespace Phrike.GroundControl.ViewModels
         {
             get
             {
-                return new RelayCommand((a) => { MainViewModel.Instance.CurrentViewModel = new AppOverviewViewModel(); });
+                return new RelayCommand((a) => { MainViewModel.Instance.PopCurrentViewModel(); });
             }
         }
 

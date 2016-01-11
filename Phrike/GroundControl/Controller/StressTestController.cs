@@ -56,7 +56,7 @@ namespace Phrike.GroundControl.Controller
                 newStressTestViewModel.ResetButtons();
                 unitOfWork.Save();
                 DisableUnrealEngineAndScreenCapturingColor();
-                MainViewModel.Instance.CurrentViewModel = new AnalysisViewModel(test.Id);
+                MainViewModel.Instance.PushViewModel(new AnalysisViewModel(test.Id));
             };
             unrealEngineController.Restarting += (s, e) =>
             {
