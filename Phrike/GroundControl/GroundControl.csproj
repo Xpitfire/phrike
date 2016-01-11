@@ -126,9 +126,6 @@
     <Compile Include="PathToImageConverter.cs" />
     <Compile Include="ViewModels\AuxiliaryDataViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="Views\FileListDebugView.xaml.cs">
-      <DependentUpon>FileListDebugView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Helper\DataLoadHelper.cs" />
     <Compile Include="Models\Sensor.cs" />
     <Compile Include="Helper\DefaultDataProvider.cs" />
@@ -154,7 +151,6 @@
     <Compile Include="ViewModels\RealViewModels.cs" />
     <Compile Include="ViewModels\ScenarioSelectViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
-    <Compile Include="ViewModels\DebugViewModel.cs" />
     <Compile Include="ViewModels\StressTestViewModel.cs" />
     <Compile Include="ViewModels\TestArchiveViewModel.cs" />
     <Compile Include="ViewModels\UserSelectViewModel.cs" />
@@ -185,9 +181,6 @@
     <Compile Include="Views\Start.xaml.cs">
       <DependentUpon>Start.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Debug.xaml.cs">
-      <DependentUpon>Debug.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\CustomTabControl.xaml.cs">
       <DependentUpon>CustomTabControl.xaml</DependentUpon>
     </Compile>
@@ -197,10 +190,6 @@
     <Compile Include="Views\UserSelect.xaml.cs">
       <DependentUpon>UserSelect.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\FileListDebugView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -250,10 +239,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Start.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Debug.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

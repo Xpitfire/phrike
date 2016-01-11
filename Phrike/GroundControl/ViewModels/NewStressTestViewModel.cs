@@ -23,12 +23,17 @@ namespace Phrike.GroundControl.ViewModels
         private bool isStartVisible;
         private StressTestController stressTestController;
 
+        public string TestName { get; set; }
+        public string TestLocation { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public NewStressTestViewModel()
         {
             Instance = this;
             stressTestController = new StressTestController();
+            stressTestController.SetTestName("Test");
+            stressTestController.SetTestLocation("NA");
             StartStressTestCommand = new RelayCommand(StartStressTest);
             StopStressTestCommand = new RelayCommand(StopStressTest);
             IsStartEnabled = false;

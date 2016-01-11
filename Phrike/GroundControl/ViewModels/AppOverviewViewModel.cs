@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using MahApps.Metro.Controls.Dialogs;
-using NLog;
 using Phrike.GroundControl.Annotations;
 
 namespace Phrike.GroundControl.ViewModels
@@ -9,11 +8,11 @@ namespace Phrike.GroundControl.ViewModels
 
     public class AppOverviewViewModel : INotifyPropertyChanged
     {
-        public static AppOverviewViewModel Instance { get; private set; }
+        public static AppOverviewViewModel Instance
+            => instance ?? (instance = new AppOverviewViewModel());
 
-        public AppOverviewViewModel()
+        private AppOverviewViewModel()
         {
-            Instance = this;
             IsEnabled = true;
         }
 
@@ -106,6 +105,8 @@ namespace Phrike.GroundControl.ViewModels
 
         // Process controller of the process overlay screen
         private ProgressDialogController progressDialogController;
+
+        private static AppOverviewViewModel instance;
 
         /// <summary>
         /// Show UI progress dialog messages.

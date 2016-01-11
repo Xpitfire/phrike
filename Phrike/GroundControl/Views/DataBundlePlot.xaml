@@ -31,8 +31,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <oxy:PlotView Model="{Binding PlotModel}" />
-        <Slider Grid.Column="0" Grid.Row="1"  Maximum="{Binding MaximumStartPosition}" Value="{Binding StartPosition}"/>
+        <oxy:PlotView Model="{Binding PlotModel}" Grid.RowSpan="2" />
         <DockPanel Grid.Column="1" Grid.Row="0" Margin="5">
             <Grid DockPanel.Dock="Bottom">
                 <Grid.ColumnDefinitions>

@@ -110,7 +110,7 @@ namespace Phrike.GroundControl.ViewModels
         {
             get
             {
-                return new RelayCommand((a) => { MainViewModel.Instance.CurrentViewModel = new AppOverviewViewModel(); });
+                return new RelayCommand((a) => { MainViewModel.Instance.PopCurrentViewModel(); });
             }
         }
 
@@ -122,10 +122,8 @@ namespace Phrike.GroundControl.ViewModels
                     db.TestRepository.Get(includeProperties: nameof(AuxilaryData))
                         .FirstOrDefault(t => t.Id == testId));
 
-                Interview = new InterviewTestViewModel(testId, false);
+                //Interview = new InterviewTestViewModel(testId, false);
             }
-            FileList.AuxiliaryData.CollectionChanged += (s, e) => UpdateDataModel();
-
             var pdc = new PositionDataController();
 
             bool retVal = pdc.LoadData(testId);
@@ -140,6 +138,8 @@ namespace Phrike.GroundControl.ViewModels
                 positionDataAccel = pdc.PositionAccelSeries;
                 positionDataIdle = pdc.PositionIdleMovementSeries;
             }
+
+            //FileList.AuxiliaryData.CollectionChanged += (s, e) => UpdateDataModel();
             UpdateDataModel();
         }
 

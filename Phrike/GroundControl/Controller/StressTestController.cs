@@ -4,6 +4,7 @@ using NLog;
 using Phrike.GroundControl.Helper;
 using Phrike.GroundControl.ViewModels;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Phrike.GroundControl.Controller
@@ -26,6 +27,9 @@ namespace Phrike.GroundControl.Controller
         private UnitOfWork unitOfWork;
 
         private Test test;
+
+        private string testName;
+        private string testLocation;
 
         #region Constructor
 
@@ -52,7 +56,7 @@ namespace Phrike.GroundControl.Controller
                 newStressTestViewModel.ResetButtons();
                 unitOfWork.Save();
                 DisableUnrealEngineAndScreenCapturingColor();
-                MainViewModel.Instance.CurrentViewModel = new AnalysisViewModel(test.Id);
+                MainViewModel.Instance.PushViewModel(new AnalysisViewModel(test.Id));
             };
             unrealEngineController.Restarting += (s, e) =>
             {
@@ -86,7 +90,17 @@ namespace Phrike.GroundControl.Controller
             }
             catch (Exception) { }
         }
-        
+
+        public void SetTestName(string name)
+        {
+            testName = name;
+        }
+
+        public void SetTestLocation(string location)
+        {
+            testLocation = location;
+        }
+
         private void StartSensorsAndCapturing()
         {
             if (Settings.SelectedSensorType == Models.SensorType.GMobiLab)
@@ -119,8 +133,8 @@ namespace Phrike.GroundControl.Controller
                 Subject = unitOfWork.SubjectRepository.GetByID(subject.Id),
                 Scenario = unitOfWork.ScenarioRepository.GetByID(scenario.Id),
                 Time = DateTime.Now,
-                Title = "Testrun - " + subject.FullName + " " + DateTime.Now,
-                Location = "Test"
+                Title = testName,
+                Location = testLocation
             };
             unitOfWork.TestRepository.Insert(test);
             unitOfWork.Save();

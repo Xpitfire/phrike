@@ -19,8 +19,8 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Button Command="{Binding Path=BackCmd}" Grid.Row="0" Grid.ColumnSpan="2" Content="Home"/>
         <views:DataBundlePlot Grid.Column="1" Grid.Row="1" DataContext="{Binding DataModel}" />
@@ -53,8 +53,9 @@
 
             <views:AuxiliaryDataList Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" DataContext="{Binding FileList}" />
         </Grid>
-        <views:InterviewTest Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
-                             DataContext="{Binding Interview}" />
+        <!-- INTERVIEW NOT USED RIGHT NOW !!! -->
+        <!-- <views:InterviewTest Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
+                             DataContext="{Binding Interview}" /> -->
         
     </Grid>
    

@@ -284,7 +284,7 @@ namespace Phrike.GroundControl.ViewModels
         {
             if (SelectedTest != null)
             {
-                MainViewModel.Instance.CurrentViewModel = new AnalysisViewModel(SelectedTest.Id);
+                MainViewModel.Instance.PushViewModel(new AnalysisViewModel(SelectedTest.Id));
             }
             else
             {
