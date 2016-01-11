@@ -18,42 +18,15 @@
                       ShowIconOnTitleBar="True"
                       Icon="/Resources/img/op_icon.ico"
                       Closing="ApplicationClose">
-    
+
     <Controls:MetroWindow.Resources>
-        <ViewModels:MainViewModel x:Key="MainViewModel" />
+        <DataTemplate DataType="{x:Type ViewModels:AppOverviewViewModel}">
+            <Views:CustomTabControl />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:AnalysisViewModel}">
+            <Views:Analysis />
+        </DataTemplate>
     </Controls:MetroWindow.Resources>
-    
-    <Grid DataContext="{StaticResource MainViewModel}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
 
-        <TabControl SelectedIndex="{Binding SelectedTab}" Grid.Row="1" x:Name="MainTabControl"> <!---->
-            <TabItem Padding="30" Header="Start" Name="TabItemStart" IsEnabled="{Binding IsEnabled}">
-                <Views:Start DataContext="{Binding}" />
-            </TabItem>
-            <TabItem Padding="30" Header="Neuer Stresstest" Name="TabItemUser">
-                <Views:NewStressTest x:Name="StressTestView" />
-            </TabItem>
-            <TabItem Padding="30" Header="Analyse" Name="TabItemAnalysis" IsEnabled="{Binding IsEnabled}" />
-            <TabItem Padding="30" Header="Einstellungen" Name="TabItemSettings" IsEnabled="{Binding IsEnabled}">
-                <Views:Settings DataContext="{Binding}" />
-            </TabItem>
-            <!--<TabItem Padding="30" Header="Debug" Name="TabItemDebug">
-                <Views:Debug DataContext="{Binding}" />
-            </TabItem>-->
-            <TabItem Padding="30" Header="Interview" Name="TabItemInterviewTest" IsEnabled="{Binding IsEnabled}">
-                <Views:InterviewTest />
-            </TabItem>
-            <!--<TabItem Padding="30" Header="Debug: FileList" Name="TabItemFileList">
-                <GroundControl:FileListDebugView DataContext="{Binding}" />
-            </TabItem>-->
-
-            <TabItem Padding="30" Header="Debug: TestARchive" Name="TabItemArchive" IsEnabled="{Binding IsEnabled}">
-                <Views:TestArchive DataContext="{Binding}" />
-            </TabItem>
-     </TabControl>
-
-    </Grid>
+    <ContentControl Content="{Binding CurrentViewModel}" />
 </Controls:MetroWindow>

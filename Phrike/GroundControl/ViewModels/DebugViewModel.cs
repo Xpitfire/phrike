@@ -119,31 +119,6 @@ namespace Phrike.GroundControl.ViewModels
         // Methods for UI button click bindings.
         #region Binding Methods
 
-        public async void StartUnrealEngine()
-        {
-            await StartUnrealEngineTask(new Test());
-        }
-        public async void StopUnrealEngine()
-        {
-            await StopUnrealEngineTask();
-        }
-        public async void StartSensors()
-        {
-            await StartSensorsTask();
-        }
-        public async void StopSensors()
-        {
-            await StopSensorsTask();
-        }
-        public async void StartScreenCapture()
-        {
-            await StartScreenCaptureTask();
-        }
-        public async void StopScreenCapture()
-        {
-            await StopScreenCaptureTask();
-        }
-
         /// <summary>
         /// Save close of running Tasks.
         /// </summary>
@@ -152,55 +127,11 @@ namespace Phrike.GroundControl.ViewModels
             await ApplicationCloseTask();
         }
 
-        /// <summary>
-        /// Start a new stress test sequence.
-        /// </summary>
-        public async void AutoStressTest()
-        {
-            MainViewModel.Instance.SelectTabUser();
-
-            //// show progress animation in UI
-            //MainViewModel.Instance.ShowProgressMessage("Preparing a new stress test", "All engines are initializing and staring up! Please wait...");
-            //// start sequencial tasks in a new Thread
-            //var stressTestThread = new Thread(async () =>
-            //{
-            //    await StartUnrealEngineTask();
-            //    await StartScreenCaptureTask();
-            //    await StartSensorsTask();
-            //});
-            //// start the Thread and stop the animation with a delay
-            //await Task.Run(() =>
-            //{
-            //    stressTestThread.Start();
-            //    Thread.Sleep(5000);
-            //});
-            //// stop progress animation
-            //MainViewModel.Instance.CloseProgressMessage();
-        }
-
         #endregion
 
         // Async Task methods for user interaction.
         #region Async Tasks
-
-        /// <summary>
-        /// Create an instance of the Unreal Engine.
-        /// </summary>
-        /// <returns></returns>
-        public async Task StartUnrealEngineTask(Test test)
-        {
-            await Task.Run(() =>
-            {
-                // start the external application sub-process
-                ProcessController.StartProcess(UnrealEngineController.UnrealEnginePath, true, new string[] { "-fullscreen" });
-                Logger.Info("Unreal Engine process started!");
-                // create the Unreal Engine communication object
-                //unrealEngineModel = new UnrealEngineController();
-
-                Logger.Info("Unreal Engine is ready to use!");
-                UnrealStatusColor = Activate;
-            });
-        }
+ 
         /// <summary>
         /// Close the Unreal Engine instance.
         /// </summary>
@@ -226,35 +157,6 @@ namespace Phrike.GroundControl.ViewModels
         }
 
         /// <summary>
-        /// Starting sensors recording instance.
-        /// </summary>
-        /// <returns></returns>
-        public async Task StartSensorsTask()
-        {
-            await Task.Run(() =>
-            {
-                if (sensorsModel != null)
-                {
-                    const string message = "Could not start sensors recording! Recording task is already running.";
-                    Logger.Warn(message);
-                    return;
-                }
-
-                sensorsModel = new SensorsController();
-                Logger.Info("Sensors instance created!");
-
-                var active = sensorsModel.StartRecording();
-                if (!active)
-                {
-                    sensorsModel = null;
-                }
-                else
-                {
-                    SensorStatusColor = Activate;
-                }
-            });
-        }
-        /// <summary>
         /// Stopping sensors recording instance.
         /// </summary>
         /// <returns></returns>
@@ -275,27 +177,6 @@ namespace Phrike.GroundControl.ViewModels
             });
         }
 
-        /// <summary>
-        /// Starting full screen capturing instance.
-        /// </summary>
-        /// <returns></returns>
-        public async Task StartScreenCaptureTask()
-        {
-            await Task.Run(() =>
-            {
-                if (unrealEngineModel == null)
-                {
-                    const string message = "Could not start screen recording! Recording task is already running.";
-                    Logger.Warn(message);
-                    return;
-                }
-
-                // TODO: Screencapturing nicht mehr in Unreal Engine
-                //unrealEngineModel.StartCapture();
-                Logger.Info("Screen Capture successfully started!");
-                ScreenCapturingStatusColor = Activate;
-            });
-        }
         /// <summary>
         /// Stopping full screen capturing instance.
         /// </summary>
@@ -346,16 +227,6 @@ namespace Phrike.GroundControl.ViewModels
             var handler = PropertyChanged;
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
-
-        #region Callbacks
-        
-        internal void DisableUnrealEngineColor()
-        {
-            UnrealStatusColor = Disable;
-            ScreenCapturingStatusColor = Disable;
         }
 
         #endregion

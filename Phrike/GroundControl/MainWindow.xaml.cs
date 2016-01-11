@@ -22,19 +22,9 @@ namespace Phrike.GroundControl
         {
             InitializeComponent();
             Instance = this;
+            DataContext = MainViewModel.Instance;
 
             Logger.Info("Application successfully started!");
-            TabItemAnalysis.Content = new Analysis(1); // TODO Remove this whole tab.
-        }
-
-        /// <summary>
-        /// Switch viewed tab to the Settings category.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ButtonClick_Settings(object sender, RoutedEventArgs e)
-        {
-            MainTabControl.SelectedItem = TabItemSettings;
         }
 
         /// <summary>
@@ -47,7 +37,7 @@ namespace Phrike.GroundControl
         {
             Logger.Info("Application close triggered! Preventive stop send to all tasks.");
             DebugViewModel.Instance?.ApplicationClose();
-            StressTestView?.ApplicationClose();
+            //StressTestView?.ApplicationClose(); //TODO Notify through viemodels for app close
             Logger.Info("Successfully closed application!");
         }
 

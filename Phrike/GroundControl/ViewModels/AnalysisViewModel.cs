@@ -51,6 +51,8 @@ namespace Phrike.GroundControl.ViewModels
 
         private DataSeries positionDataMovement;
 
+        public int CurrentTestId { get; set; }
+
         /// <summary>
         ///     Create a new analysis viemodel instance and add the default plot template.
         /// </summary>
@@ -60,6 +62,7 @@ namespace Phrike.GroundControl.ViewModels
             {
                 return;
             }
+            this.CurrentTestId = testId;
             LoadData(testId);
         }
 
@@ -99,6 +102,8 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
+        public InterviewTestViewModel Interview { get; private set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void LoadData(int testId)
@@ -108,6 +113,8 @@ namespace Phrike.GroundControl.ViewModels
                 FileList = new AuxiliaryDataListViewModel(
                     db.TestRepository.Get(includeProperties: nameof(AuxilaryData))
                         .FirstOrDefault(t => t.Id == testId));
+
+                Interview = new InterviewTestViewModel(testId, false);
             }
             FileList.AuxiliaryData.CollectionChanged += (s, e) => UpdateDataModel();
 

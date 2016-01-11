@@ -25,12 +25,13 @@ namespace Phrike.GroundControl.Views
     /// </summary>
     public partial class InterviewTest : UserControl
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InterviewTest"/> class.
         /// </summary>
         public InterviewTest()
         {
-           this.InitializeComponent();          
+            this.InitializeComponent();
         }
 
         /// <summary>
@@ -122,7 +123,5 @@ namespace Phrike.GroundControl.Views
                 }
             }
         }
-
-       
     }
 }
