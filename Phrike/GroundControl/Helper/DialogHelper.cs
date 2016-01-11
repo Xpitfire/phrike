@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using Phrike.GroundControl.Controller;
 using Phrike.GroundControl.ViewModels;
 using System.Threading.Tasks;
 using System.Windows;
@@ -8,6 +9,8 @@ namespace Phrike.GroundControl.Helper
 {
     public static class DialogHelper
     {
+        private static bool isActivated = false;
+
         public static void ShowErrorDialog(string message)
         {
             ShowErrorDialogAsync(message);
@@ -18,8 +21,6 @@ namespace Phrike.GroundControl.Helper
             ShowDialog(title, message, dialogStyle);
         }
 
-
-
         public static void ShowErrorDialogAsync(string message)
         {
             ShowDialog("Fehler", message, MessageDialogStyle.Affirmative);
@@ -27,15 +28,20 @@ namespace Phrike.GroundControl.Helper
 
         private static Task<MessageDialogResult> ShowDialog(string title, string message, MessageDialogStyle dialogStyle)
         {
-            //if (Application.Current.)
-
             Task<MessageDialogResult> messageDialogResult = null;
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                var metroWindow = (Application.Current.MainWindow as MetroWindow);
-                metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
-                messageDialogResult = metroWindow.ShowMessageAsync(title, message, dialogStyle, metroWindow.MetroDialogOptions);
-            });
+            //if (!isActivated)
+            //{                
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    isActivated = true;
+                    StressTestController.Instance.StopStressTest();
+                    NewStressTestViewModel.Instance.ResetButtons();
+                    var metroWindow = (Application.Current.MainWindow as MetroWindow);
+                    metroWindow.MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
+                    messageDialogResult = metroWindow.ShowMessageAsync(title, message, dialogStyle, metroWindow.MetroDialogOptions);
+                    isActivated = !messageDialogResult.IsCompleted;
+                });                
+            //}
             return messageDialogResult;
         }
     }
