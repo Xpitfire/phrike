@@ -431,6 +431,7 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
+        public int Id { get { return test.Id; } }
         public TestVM(Test test)
         {
             this.test = test;

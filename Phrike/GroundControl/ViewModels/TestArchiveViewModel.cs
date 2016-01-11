@@ -11,6 +11,7 @@ using DataModel;
 using Phrike.GroundControl.Helper;
 using System.Windows.Data;
 using System.Globalization;
+using System.Windows.Input;
 
 namespace Phrike.GroundControl.ViewModels
 {
@@ -47,8 +48,11 @@ namespace Phrike.GroundControl.ViewModels
         private SubjectVM selectedSubject;
         private ScenarioVM selectedScenario;
         private string filterString = "";
+        private RelayCommand detailCmd;
+        
 
         public FilterChangedEvent FilterChanged;
+
 
         #region FilterVisibilities
         private void UpdateVisibilities()
@@ -188,7 +192,7 @@ namespace Phrike.GroundControl.ViewModels
                 }
             }
         }
-
+        public TestVM SelectedTest { get; set; }
         public ObservableCollection<TestVM> Tests
         {
             get
@@ -239,6 +243,20 @@ namespace Phrike.GroundControl.ViewModels
                     return SelectedSubject.Id == (o as TestVM).Subject.Id;
                 default:
                     return false;
+            }
+        }
+
+        public ICommand DetailCommand
+        {
+            get
+            {
+                if (detailCmd == null)
+                {
+                    detailCmd = new RelayCommand(
+                        (a) =>
+                        { MainViewModel.Instance.CurrentViewModel = new AnalysisViewModel(SelectedTest.Id); });
+                }
+                return detailCmd;
             }
         }
     }
