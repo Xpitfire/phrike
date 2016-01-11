@@ -11,6 +11,7 @@ namespace Phrike.GroundControl.Controller
     public class StressTestController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        public static StressTestController Instance;
 
         private SubjectVM tempSubject;
         private ScenarioVM tempScenario;
@@ -28,6 +29,7 @@ namespace Phrike.GroundControl.Controller
 
         public StressTestController()
         {
+            Instance = this;
             stressTestViewModel = StressTestViewModel.Instance;
             newStressTestViewModel = NewStressTestViewModel.Instance;
         }
@@ -43,8 +45,7 @@ namespace Phrike.GroundControl.Controller
             unrealEngineController.Ending += (s, e) =>
             {
                 StopStressTest();
-                newStressTestViewModel.IsStopEnabled = false;
-                newStressTestViewModel.IsStartVisible = true;
+                newStressTestViewModel.ResetButtons();
                 unitOfWork.Save();
                 DisableUnrealEngineAndScreenCapturingColor();
                 MainViewModel.Instance.CurrentViewModel = new AnalysisViewModel(test.Id);
@@ -57,8 +58,7 @@ namespace Phrike.GroundControl.Controller
             unrealEngineController.ErrorOccoured += (s, e) =>
             {
                 StopStressTest();
-                newStressTestViewModel.IsStopEnabled = false;
-                newStressTestViewModel.IsStartVisible = true;
+                newStressTestViewModel.ResetButtons();
                 DialogHelper.ShowErrorDialog("Fehler in der Simulation aufgetreten.");
                 Logger.Error(e);
             };
