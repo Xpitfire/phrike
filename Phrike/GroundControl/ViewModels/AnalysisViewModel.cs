@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-
+using System.Windows.Input;
 using DataAccess;
 
 using DataModel;
@@ -105,6 +105,14 @@ namespace Phrike.GroundControl.ViewModels
         public InterviewTestViewModel Interview { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public ICommand BackCmd
+        {
+            get
+            {
+                return new RelayCommand((a) => { MainViewModel.Instance.CurrentViewModel = new AppOverviewViewModel(); });
+            }
+        }
 
         private void LoadData(int testId)
         {
