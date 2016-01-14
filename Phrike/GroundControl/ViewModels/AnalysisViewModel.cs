@@ -19,6 +19,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using DataAccess;
+using System.Windows.Controls;
 
 using DataModel;
 
@@ -53,6 +54,8 @@ namespace Phrike.GroundControl.ViewModels
 
         public int CurrentTestId { get; set; }
 
+        public Test CurrentTest { get; set; }
+
         /// <summary>
         ///     Create a new analysis viemodel instance and add the default plot template.
         /// </summary>
@@ -63,7 +66,12 @@ namespace Phrike.GroundControl.ViewModels
                 return;
             }
             this.CurrentTestId = testId;
-            LoadData(testId);
+            using (var unitOfWork = new UnitOfWork())
+            {
+                this.CurrentTest = unitOfWork.TestRepository.Get(includeProperties: "Scenario").Where(data => data.Id == CurrentTestId).FirstOrDefault();
+            }
+
+            LoadData();
         }
 
         public DataBundleViewModel DataModel
@@ -114,19 +122,19 @@ namespace Phrike.GroundControl.ViewModels
             }
         }
 
-        private void LoadData(int testId)
+        private void LoadData()
         {
             using (var db = new UnitOfWork())
             {
                 FileList = new AuxiliaryDataListViewModel(
                     db.TestRepository.Get(includeProperties: nameof(AuxilaryData))
-                        .FirstOrDefault(t => t.Id == testId));
+                        .FirstOrDefault(t => t.Id == CurrentTestId));
 
                 //Interview = new InterviewTestViewModel(testId, false);
             }
             var pdc = new PositionDataController();
 
-            bool retVal = pdc.LoadData(testId);
+            bool retVal = pdc.LoadData(CurrentTestId);
             TotalDistance = pdc.TotalDistance;
             Altitude = pdc.Altitude;
             TotalTime = pdc.TotalTime;
@@ -139,8 +147,8 @@ namespace Phrike.GroundControl.ViewModels
                 positionDataIdle = pdc.PositionIdleMovementSeries;
             }
 
-            //FileList.AuxiliaryData.CollectionChanged += (s, e) => UpdateDataModel();
             UpdateDataModel();
+            FileList.AuxiliaryData.CollectionChanged += (s, e) => UpdateDataModel();
         }
 
         // Key: Series -> value: should show by default.

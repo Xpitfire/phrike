@@ -148,7 +148,7 @@ namespace Phrike.GroundControl.Helper
         /// </summary>
         public static void SetSubjectAvatar(string fromPath, [NotNull] Subject subject, UnitOfWork db = null)
         {
-            if (fromPath != null)
+            if (!string.IsNullOrWhiteSpace(fromPath))
             {
                 Logger.Trace($"Importing picture {fromPath}.");
                 if (IsFileInDir(fromPath, PathHelper.PhrikePicture))
@@ -181,7 +181,7 @@ namespace Phrike.GroundControl.Helper
                         }
                         catch (Exception e2)
                         {
-                            Logger.Warn(e, $"Also failed just deleting old picture from {oldPath}.");
+                            Logger.Warn(e2, $"Also failed just deleting old picture from {oldPath}.");
                         }
                     }
                 }
