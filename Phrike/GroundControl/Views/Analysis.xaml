@@ -22,7 +22,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Button Command="{Binding Path=BackCmd}" Grid.Row="0" Grid.ColumnSpan="2" Content="Home"/>
+        <Button Command="{Binding Path=BackCmd}" Grid.Row="0" Grid.ColumnSpan="2" Content="Back"/>
         <views:DataBundlePlot Grid.Column="1" Grid.Row="1" DataContext="{Binding DataModel}" />
         <Grid Grid.Column="0" Grid.Row="1" Margin="0,20,0,0">
             <Grid.RowDefinitions>
