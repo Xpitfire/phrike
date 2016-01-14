@@ -39,16 +39,17 @@ namespace DataAccess
         protected override void Seed(OperationPhrikeContext context)
         {
             var scenario = new Scenario()
-                           {
-                               Name = "Balance",
-                               ExecutionPath = "UnrealData/Balance/Balance.exe",
-                               Description = "Walk over a slackline between two canyon ledges",
-                               MinimapPath = "Balance/minimap.png",
-                               Version = "1.0",
-                               ZeroX = 1921,
-                               ZeroY = 257,
-                               Scale = 1354.0 / 24000.0
-                           };
+            {
+                Name = "Balance",
+                ExecutionPath = "Balance/Balance.exe",
+                Description = "Walk over a slackline between two canyon ledges",
+                MinimapPath = "minimap.png",
+                ThumbnailPath = "thumbnail.png",
+                Version = "1.0",
+                ZeroX = 1921,
+                ZeroY = 257,
+                Scale = 1354.0 / 24000.0
+            };
             context.Scenarios.Add(scenario);
             var survey = new Survey
                          {

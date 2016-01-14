@@ -987,7 +987,7 @@ namespace Phrike.GroundControl.ViewModels
                 }
                 else
                 {
-                    return System.IO.Path.Combine(PathHelper.PhrikePicture, scenario.ThumbnailPath);
+                    return System.IO.Path.Combine(PathHelper.PhrikeScenario, System.IO.Path.GetDirectoryName(scenario.ExecutionPath), scenario.ThumbnailPath);
                 }
             }
         }

@@ -10,6 +10,7 @@ using DataAccess;
 using DataModel;
 using NLog;
 using Phrike.PhrikeSocket;
+using Phrike.GroundControl.Helper;
 
 namespace Phrike.GroundControl.Controller
 {
@@ -70,9 +71,9 @@ namespace Phrike.GroundControl.Controller
                     using (var unitOfWork = new UnitOfWork())
                     {
                         // TODO: Szenario is fixed name!!!
-                        // TODO: Correct Path (PathHelper)
-                        unrealEnginePath = unitOfWork.ScenarioRepository.Get(
-                            data => data.Name == "Balance").FirstOrDefault()?.ExecutionPath;
+                        var scenario = unitOfWork.ScenarioRepository.Get(
+                            data => data.Name == "Balance").FirstOrDefault();
+                        unrealEnginePath = System.IO.Path.Combine(PathHelper.PhrikeScenario, scenario.ExecutionPath);
                     }
                 }
                 return unrealEnginePath;
