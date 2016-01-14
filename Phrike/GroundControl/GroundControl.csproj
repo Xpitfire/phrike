@@ -266,7 +266,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
     </Compile>
     <Content Include="minimap.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
