@@ -10,7 +10,8 @@
     xmlns:views="clr-namespace:Phrike.GroundControl.Views"
     x:Class="Phrike.GroundControl.Views.Analysis"
     mc:Ignorable="d"
-    d:DesignHeight="600" d:DesignWidth="1200">
+    d:DesignHeight="600" d:DesignWidth="1200"
+    Loaded="Analysis_OnLoaded">
 
     <Grid Margin="5" d:DataContext="{d:DesignInstance viewModels:AnalysisViewModel}">
         <Grid.ColumnDefinitions>
@@ -20,6 +21,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Button Command="{Binding Path=BackCmd}" Grid.Row="0" Grid.ColumnSpan="2" Content="Home"/>
@@ -53,8 +55,15 @@
 
             <views:AuxiliaryDataList Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" DataContext="{Binding FileList}" />
         </Grid>
+        <Viewbox Grid.Row="2"  Grid.ColumnSpan="2" Width="800" Height="500">
+            <Canvas x:Name="Canvas" DataContext="{Binding CurrentTest}" HorizontalAlignment="Left">
+                <Canvas.Background>
+                    <ImageBrush x:Name="CanvasBackground" ImageSource="{Binding Scenario.MinimapPath}" Stretch="None"/>
+                </Canvas.Background>
+            </Canvas>
+        </Viewbox>
         <!-- INTERVIEW NOT USED RIGHT NOW !!! -->
-        <!-- <views:InterviewTest Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
+        <!-- <views:InterviewTest Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" 
                              DataContext="{Binding Interview}" /> -->
         
     </Grid>
