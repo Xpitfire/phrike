@@ -265,6 +265,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <Generator>SettingsSingleFileGenerator</Generator>
     </Compile>
+    <Content Include="Balance\minimap.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
