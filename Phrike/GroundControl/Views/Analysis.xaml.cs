@@ -39,6 +39,11 @@ namespace Phrike.GroundControl.Views {
                 positions = unitOfWork.PositionDataRepository.Get(p => p.Test.Id == vm.CurrentTestId).OrderBy(p => p.Time).ToList();
             }
 
+            if(positions.Count() == 0)
+            {
+                return;
+            }
+
             double scale = Scenario.Scale;
             Point zero = new Point(Scenario.ZeroX, Scenario.ZeroY);
             bool first = true;
