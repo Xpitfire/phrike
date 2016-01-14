@@ -27,7 +27,7 @@
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        
+
         <StackPanel Grid.Row="0" Orientation="Vertical" Grid.ColumnSpan="3" Margin="35 10 50 10">
             <Label Content="Filter" />
             <StackPanel Orientation="Horizontal" Margin="15 0 0 0" >
@@ -57,18 +57,38 @@
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="11*"/>
-                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="14*"/>
+                            <ColumnDefinition Width="1*" MaxWidth="35"/>
                         </Grid.ColumnDefinitions>
                         <Label Content="{Binding Path=FullTitle}" Grid.Column="0"/>
-                        <Button BorderBrush="Transparent" Background="IndianRed" Foreground="White" DataContext="{Binding}" controls:ButtonHelper.CornerRadius="0" Grid.Column="1" Click="ButtonBase_OnClick">X</Button>
+                        <Button BorderBrush="Transparent" Foreground="White" DataContext="{Binding}" controls:ButtonHelper.CornerRadius="0" Grid.Column="1" Click="ButtonBase_OnClick" Content="X">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Background" Value="IndianRed"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="OrangeRed"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
         <StackPanel Orientation="Horizontal" Grid.Row="6">
-            <Button Style="{StaticResource MetroButton}" Content="Anzeigen" HorizontalAlignment="Right" Margin="50 10 50 10" Command="{Binding Path=DetailCommand}"/>
-            <Button Style="{StaticResource MetroButton}" Content="Löschen" HorizontalAlignment="Right" Margin="50 10 50 10" Command="{Binding Path=DeleteCommand}"/>
+            <!--<Button Style="{StaticResource MetroButton}" Content="Anzeigen" HorizontalAlignment="Right" Margin="50 10 50 10" Command="{Binding Path=DetailCommand}"/>-->
+            <!--<Button Style="{StaticResource MetroButton}" Content="Löschen" HorizontalAlignment="Right" Margin="50 10 50 10" Command="{Binding Path=DeleteCommand}"/>-->
         </StackPanel>
     </Grid>
 </UserControl>
