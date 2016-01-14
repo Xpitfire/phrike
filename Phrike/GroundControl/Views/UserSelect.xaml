@@ -12,16 +12,10 @@
     <Grid>
         <Grid x:Name="grdSelect" Visibility="{Binding Path=SelectVisibility, UpdateSourceTrigger=PropertyChanged}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="12*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
             <Grid Margin="10" Grid.Row="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" MinWidth="200"></ColumnDefinition>
                     <ColumnDefinition Width="1*"></ColumnDefinition>
