@@ -10,6 +10,8 @@ namespace Phrike.GroundControl.Controller
 
         public static IEnumerable<string> COMPorts { get; private set; }
 
+        public static string UEPath = @"C:\Program Files\Epic Games\4.9\Engine\Binaries\Win64\UE4Editor.exe";
+
         static SettingsController()
         {
             LoadSensors();
