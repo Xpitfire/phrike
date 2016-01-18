@@ -31,16 +31,26 @@ namespace Phrike.GroundControl.Controller
 
             try
             {
-                var process = new Process
-                {
-                    StartInfo =
-                    {
-                        WindowStyle = ProcessWindowStyle.Hidden,
-                        FileName = (useRelativePath) ? Path.Combine(Environment.CurrentDirectory, cmdPath) : cmdPath,
-                        Arguments = (cmdParams != null) ? String.Join(" ", cmdParams) : ""
-                    }
-                };
-                // TODO: Verify if process not started
+                //var process = new Process
+                //{
+                //    StartInfo =
+                //    {
+                        
+                //        WindowStyle = ProcessWindowStyle.Hidden,
+                //        FileName = (useRelativePath) ? Path.Combine(Environment.CurrentDirectory, cmdPath) : cmdPath,
+                //        Arguments = (cmdParams != null) ? String.Join(" ", cmdParams) : ""
+                //    }
+                //};
+                Process process = new Process()
+                             {
+                                 StartInfo =
+                                 {
+                                     FileName = SettingsController.UEPath,
+                                     Arguments = $"{cmdPath} -game {String.Join(" ", cmdParams)}",
+                                     UseShellExecute = false
+                                 }
+                             };
+                //// TODO: Verify if process not started
                 process.Start();
                 ProcesseDictionary[cmdPath] = process;
                 Logger.Info("New process started: {0}", cmdPath);
