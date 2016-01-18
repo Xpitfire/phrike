@@ -613,6 +613,7 @@ namespace Phrike.GroundControl.ViewModels
         public SubjectVM()
         {
             subject = new Subject();
+            subject.DateOfBirth = DateTime.Now.AddYears(-20);
         }
 
         internal bool Submit(out string message)
