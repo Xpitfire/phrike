@@ -88,7 +88,7 @@ namespace Phrike.GroundControl.Views
 
             grdSelect.Visibility = Visibility.Hidden;
             grdAdd.Visibility = Visibility.Visible;
-            context.CurrentSubject.Flush();
+            context.CurrentSubject = new SubjectVM();
             //spUser.SelectedItem = new SubjectVM();
         }
 
