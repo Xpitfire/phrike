@@ -4,9 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Phrike.GroundControl.Views"
-      xmlns:gc="clr-namespace:Phrike.GroundControl"
-      xmlns:viewModels="clr-namespace:Phrike.GroundControl.ViewModels"
-      xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -15,15 +13,10 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Margin="10" Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*" MinWidth="200"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="6*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <TextBox x:Name="tbxSearch" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TbxSearch_OnKeyDown" Grid.Row="0" Grid.Column="0"/>
-                <Button x:Name="btnAdd" Content="Benutzer hinzufügen…" Click="BtnAdd_OnClick" Grid.Row="0" Grid.Column="1"/>
-            </Grid>
+            <StackPanel Margin="10" Grid.Row="0">
+                <Button x:Name="btnAdd" Content="Benutzer hinzufügen…" Click="BtnAdd_OnClick" Margin="5" />
+                <TextBox x:Name="tbxSearch" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TbxSearch_OnKeyDown" controls:TextBoxHelper.Watermark="Suche…" Margin="5" />
+            </StackPanel>
             <ListView x:Name="spUser" ItemsSource="{Binding Path=Subjects}" MouseLeftButtonUp="SpUser_LeftClick" SelectedItem="{Binding Path=CurrentSubject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="Transparent" Grid.Row="1">
                 <ListView.GroupStyle>
                     <GroupStyle>

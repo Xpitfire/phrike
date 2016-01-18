@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:Phrike.GroundControl.Views"
              xmlns:sys="clr-namespace:System;assembly=mscorlib" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="600"
+             xmlns:vm="clr-namespace:Phrike.GroundControl.ViewModels"
+             d:DataContext="{d:DesignInstance {x:Type vm:SubjectVM}}">
 
 
     <WrapPanel>
@@ -39,7 +41,7 @@
                 <ComboBox Grid.Row="3" Grid.Column="1" SelectedItem="{Binding Path=Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AvailableGenders}" Margin="5"/>
 
                 <Label Grid.Row="4" Grid.Column="0" Content="Country: " Margin="5"/>
-                <ComboBox Grid.Row="4" Grid.Column="1" SelectedItem="{Binding Path=CountryCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AvailableCountries}" SelectedIndex="0" Margin="5"/>
+                <ComboBox Grid.Row="4" Grid.Column="1" SelectedItem="{Binding Path=CountryCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AvailableCountries}" Margin="5"/>
 
                 <Label Grid.Row="5" Grid.Column="0" Content="City: " Margin="5"/>
                 <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=City, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
