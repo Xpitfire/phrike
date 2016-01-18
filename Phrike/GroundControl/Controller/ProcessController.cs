@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using NLog;
 using System.IO;
+using Phrike.GroundControl.Helper;
 
 namespace Phrike.GroundControl.Controller
 {
@@ -14,7 +15,7 @@ namespace Phrike.GroundControl.Controller
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        private static readonly Dictionary<string, Process> ProcesseDictionary = new Dictionary<string, Process>(); 
+        private static readonly Dictionary<string, Process> ProcesseDictionary = new Dictionary<string, Process>();
 
         public static void StartProcess(string cmdPath, bool useRelativePath = true, string[] cmdParams = null)
         {
@@ -35,25 +36,33 @@ namespace Phrike.GroundControl.Controller
                 //{
                 //    StartInfo =
                 //    {
-                        
+
                 //        WindowStyle = ProcessWindowStyle.Hidden,
                 //        FileName = (useRelativePath) ? Path.Combine(Environment.CurrentDirectory, cmdPath) : cmdPath,
                 //        Arguments = (cmdParams != null) ? String.Join(" ", cmdParams) : ""
                 //    }
                 //};
                 Process process = new Process()
-                             {
-                                 StartInfo =
+                {
+                    StartInfo =
                                  {
                                      FileName = SettingsController.UEPath,
                                      Arguments = $"\"{cmdPath}\" -game {String.Join(" ", cmdParams)}",
                                      UseShellExecute = false
                                  }
-                             };
-                //// TODO: Verify if process not started
+                };
+
                 process.Start();
-                ProcesseDictionary[cmdPath] = process;
-                Logger.Info("New process started: {0}", cmdPath);
+                if (Process.GetProcessesByName(process.ProcessName).Length == 0)
+                {
+                    Logger.Error("Process could not be started");
+                    DialogHelper.ShowErrorDialog("Simulation konnte nicht gestartet werden!");
+                }
+                else
+                {
+                    ProcesseDictionary[cmdPath] = process;
+                    Logger.Info("New process started: {0}", cmdPath);
+                }
             }
             catch (Win32Exception e)
             {
