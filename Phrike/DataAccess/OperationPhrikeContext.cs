@@ -41,7 +41,7 @@ namespace DataAccess
             var scenario = new Scenario()
             {
                 Name = "Balance",
-                ExecutionPath = "Balance/Balance.exe",
+                ExecutionPath = "Balance\\Balance.uproject",
                 Description = "Walk over a slackline between two canyon ledges",
                 MinimapPath = "BalanceMinimap.png",
                 ThumbnailPath = "BalanceThumbnail.png",
