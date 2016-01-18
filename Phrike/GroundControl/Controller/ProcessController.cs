@@ -46,7 +46,7 @@ namespace Phrike.GroundControl.Controller
                                  StartInfo =
                                  {
                                      FileName = SettingsController.UEPath,
-                                     Arguments = $"{cmdPath} -game {String.Join(" ", cmdParams)}",
+                                     Arguments = $"\"{cmdPath}\" -game {String.Join(" ", cmdParams)}",
                                      UseShellExecute = false
                                  }
                              };
