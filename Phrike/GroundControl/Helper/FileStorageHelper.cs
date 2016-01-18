@@ -206,7 +206,7 @@ namespace Phrike.GroundControl.Helper
                 }
                 Logger.Info($"Sucessfully imported picture {fromPath} as {targetPath}.");
             }
-            else if (subject.AvatarPath != null)
+            else if (!string.IsNullOrWhiteSpace(subject.AvatarPath))
             {
                 Logger.Trace($"Removing picture for Subject {subject.Id}.");
                 string path = subject.AvatarPath;
