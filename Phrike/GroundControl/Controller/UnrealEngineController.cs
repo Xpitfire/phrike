@@ -58,11 +58,11 @@ namespace Phrike.GroundControl.Controller
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        private static string unrealEnginePath;
+        private string unrealEnginePath;
         /// <summary>
         /// Execution path of the Unreal Engine.
         /// </summary>
-        public static string UnrealEnginePath
+        public string UnrealEnginePath
         {
             get
             {
@@ -70,10 +70,7 @@ namespace Phrike.GroundControl.Controller
                 {
                     using (var unitOfWork = new UnitOfWork())
                     {
-                        // TODO: Szenario is fixed name!!!
-                        var scenario = unitOfWork.ScenarioRepository.Get(
-                            data => data.Name == "Balance").FirstOrDefault();
-                        unrealEnginePath = System.IO.Path.Combine(PathHelper.PhrikeScenario, scenario.ExecutionPath);
+                        unrealEnginePath = System.IO.Path.Combine(PathHelper.PhrikeScenario, test.Scenario.ExecutionPath);
                     }
                 }
                 return unrealEnginePath;
@@ -89,6 +86,7 @@ namespace Phrike.GroundControl.Controller
 
         private Thread socketListenerThread;
         private readonly TcpListener socketListener;
+        private Test test;
 
         public event EventHandler Restarting;
         public event EventHandler Ending;
@@ -103,8 +101,9 @@ namespace Phrike.GroundControl.Controller
         /// <summary>
         /// Create a new Unreal Engine instance and connect to the socket.
         /// </summary>
-        public UnrealEngineController()
+        public UnrealEngineController(Test test)
         {
+            this.test = test;
             if (UnrealEnginePath == null)
             {
                 throw new NotSupportedException("Could not find scenario data!");

@@ -42,7 +42,7 @@ namespace DataAccess
             {
                 Name = "Balance",
                 ExecutionPath = "Balance\\Balance.uproject",
-                Description = "Walk over a slackline between two canyon ledges",
+                Description = "Auf einem Balken über einem Abgrund balancieren.",
                 MinimapPath = "BalanceMinimap.png",
                 ThumbnailPath = "BalanceThumbnail.png",
                 Version = "1.0",
@@ -51,6 +51,21 @@ namespace DataAccess
                 Scale = 1354.0 / 24000.0
             };
             context.Scenarios.Add(scenario);
+
+            scenario = new Scenario()
+            {
+                Name = "War Zone",
+                ExecutionPath = "TerainTest\\TerainTest.uproject",
+                Description = "Absturz in einem Kriegsgebiet.",
+                MinimapPath = "TerainTestMinimap.png",
+                ThumbnailPath = "TerainTestThumbnail.png",
+                Version = "1.0",
+                ZeroX = 1923,
+                ZeroY = 1203,
+                Scale = 1067.0 / 10000.0
+            };
+            context.Scenarios.Add(scenario);
+
             var survey = new Survey
                          {
                              Name = "Interview",
