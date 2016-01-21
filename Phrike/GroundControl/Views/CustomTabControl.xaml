@@ -20,5 +20,8 @@
         <TabItem Padding="30" Header="Einstellungen" Name="TabItemSettings" IsEnabled="{Binding IsEnabled}">
             <local:Settings DataContext="{Binding}" />
         </TabItem>
+        <TabItem Padding="30" Header="Info" Name="TabItemInfo" IsEnabled="{Binding IsEnabled}">
+            <local:Info DataContext="{Binding}" />
+        </TabItem>
     </TabControl>
 </UserControl>

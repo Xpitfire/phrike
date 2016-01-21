@@ -168,6 +168,9 @@
     <Compile Include="Views\DataBundlePlot.xaml.cs">
       <DependentUpon>DataBundlePlot.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Info.xaml.cs">
+      <DependentUpon>Info.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NewStressTest.xaml.cs">
       <DependentUpon>NewStressTest.xaml</DependentUpon>
     </Compile>
@@ -217,6 +220,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AuxiliaryDataList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Info.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
