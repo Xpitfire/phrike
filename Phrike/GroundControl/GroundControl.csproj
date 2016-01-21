@@ -267,6 +267,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <Generator>SettingsSingleFileGenerator</Generator>
     </Compile>
+    <Content Include="TeraintestMinimap.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TeraintestThumbnail.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="BalanceMinimap.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
