@@ -45,7 +45,7 @@ namespace Phrike.GroundControl.Controller
         private void SetNewUnrealController()
         {
             // create the Unreal Engine communication object
-            unrealEngineController = new UnrealEngineController();
+            unrealEngineController = new UnrealEngineController(test);
             unrealEngineController.PositionReceived += (s, e) =>
             {
                 test.PositionData.Add(e);
@@ -171,7 +171,7 @@ namespace Phrike.GroundControl.Controller
             {
                 SetNewUnrealController();
                 // start the external application sub-process
-                ProcessController.StartProcess(UnrealEngineController.UnrealEnginePath, true, new string[] { "-fullscreen" });
+                ProcessController.StartProcess(unrealEngineController.UnrealEnginePath, true, new string[] { "-fullscreen" });
                 Logger.Info("Unreal Engine process started!");
 
                 stressTestViewModel.UnrealStatusColor = GCColors.Active;
@@ -191,7 +191,7 @@ namespace Phrike.GroundControl.Controller
 
                 unrealEngineController.Close();
                 unrealEngineController = null;
-                ProcessController.StopProcess(UnrealEngineController.UnrealEnginePath);
+                ProcessController.StopProcess(unrealEngineController.UnrealEnginePath);
                 Logger.Info("Unreal Engine process stoped!");
                 DisableUnrealEngineAndScreenCapturingColor();
             });
