@@ -56,8 +56,10 @@ namespace Phrike.GroundControl.Helper
                     Logger.Error(Message);
                     throw new ArgumentException(Message, nameof(aux));
                 }
-                Logger.Trace("File opened.");
-                return DataBundle.FromHub(hub);
+                Logger.Trace("File opened, loading...");
+                DataBundle bundle = DataBundle.FromHub(hub);
+                Logger.Trace("File sucessfully loaded.");
+                return bundle;
             }
             finally
             {

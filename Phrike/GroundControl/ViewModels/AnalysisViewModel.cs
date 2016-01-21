@@ -155,42 +155,65 @@ namespace Phrike.GroundControl.ViewModels
         private List<KeyValuePair<DataSeries, bool>> DataBundleFromAuxList()
         {
             var result = new List<KeyValuePair<DataSeries, bool>>();
+            var failedFiles = new List<AuxilaryData>();
             foreach (AuxilaryData auxData in FileList.GetSensorFiles())
             {
-                DataBundle sensorData = SensorAuxDataHelper.AuxDataToSensorData(auxData);
-                foreach (DataSeries dataSeries in sensorData.DataSeries)
+                try
                 {
-                    if (auxData.MimeType == AuxiliaryDataMimeTypes.GMobilabPlusBin
-                        && dataSeries.Name == PulseChannelName)
+                    DataBundle sensorData =
+                        SensorAuxDataHelper.AuxDataToSensorData(auxData);
+                    foreach (DataSeries dataSeries in sensorData.DataSeries)
                     {
-                        IReadOnlyList<double> filtered =
-                            PulseCalculator.MakePulseFilterChain().Filter(dataSeries.Data);
-                        var pulseSeries = new DataSeries(
-                            filtered as double[] ?? filtered.ToArray(),
-                            dataSeries.SampleRate,
-                            dataSeries.SourceName,
-                            "Pulsrate",
-                            Unit.Bpm);
-                        result.Add(new KeyValuePair<DataSeries, bool>(pulseSeries, true));
-                    }
-                    if (auxData.MimeType == AuxiliaryDataMimeTypes.Biofeedback2000Csv)
-                    {
-                        result.Add(new KeyValuePair<DataSeries, bool>(dataSeries, true));
-                    }
-                    else if (auxData.MimeType == AuxiliaryDataMimeTypes.GMobilabPlusBin
-                             && dataSeries.Name == SkinConductanceChannelName)
-                    {
-                        result.Add(
-                            new KeyValuePair<DataSeries, bool>(
-                                new DataSeries(
-                                    dataSeries.Data,
-                                    dataSeries.SampleRate,
-                                    dataSeries.SourceName,
-                                    "Hautleitwiderstand",
-                                    dataSeries.Unit),
-                                true));
+                        if (auxData.MimeType == AuxiliaryDataMimeTypes.GMobilabPlusBin
+                            && dataSeries.Name == PulseChannelName)
+                        {
+                            IReadOnlyList<double> filtered =
+                                PulseCalculator.MakePulseFilterChain()
+                                    .Filter(dataSeries.Data);
+                            var pulseSeries = new DataSeries(
+                                filtered as double[] ?? filtered.ToArray(),
+                                dataSeries.SampleRate,
+                                dataSeries.SourceName,
+                                "Pulsrate",
+                                Unit.Bpm);
+                            result.Add(
+                                new KeyValuePair<DataSeries, bool>(pulseSeries, true));
+                        }
+                        if (auxData.MimeType == AuxiliaryDataMimeTypes.Biofeedback2000Csv)
+                        {
+                            result.Add(
+                                new KeyValuePair<DataSeries, bool>(dataSeries, true));
+                        }
+                        else if (auxData.MimeType == AuxiliaryDataMimeTypes.GMobilabPlusBin
+                                 && dataSeries.Name == SkinConductanceChannelName)
+                        {
+                            result.Add(
+                                new KeyValuePair<DataSeries, bool>(
+                                    new DataSeries(
+                                        dataSeries.Data,
+                                        dataSeries.SampleRate,
+                                        dataSeries.SourceName,
+                                        "Hautleitwiderstand",
+                                        dataSeries.Unit),
+                                    true));
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    Logger.Error(
+                        e,
+                        "Failed opening sensor file {0} as {1}",
+                        auxData.FilePath,
+                        auxData.MimeType);
+                    failedFiles.Add(auxData);
+                }
+            }
+            if (failedFiles.Any())
+            {
+                DialogHelper.ShowErrorDialog(
+                    "Eine oder mehrere Dateien konnten nicht geöffnet werden: "
+                    + string.Join(", ", failedFiles.Select(f => f.FilePath)));
             }
             return result;
         }

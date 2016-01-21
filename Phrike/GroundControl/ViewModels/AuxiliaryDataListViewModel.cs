@@ -79,6 +79,8 @@ namespace Phrike.GroundControl.ViewModels
         private void DoDeleteFile(object rawAuxVm)
         {
             var auxVm = (AuxiliaryDataViewModel)rawAuxVm;
+            if (auxVm == null)
+                return;
             try
             {
                 FileStorageHelper.DeleteFile(auxVm.Model.Id);
@@ -86,7 +88,7 @@ namespace Phrike.GroundControl.ViewModels
             }
             catch (Exception e)
             {
-                logger.Error(e, "Failed deleting file from list.");
+                logger.Error(e, "Failed deleting file {0} from list.", auxVm.FullInfo);
                 DialogHelper.ShowErrorDialog("Die Datei konnte aufgrund eines Fehlers nicht gelöscht werden.");
             }
         }
