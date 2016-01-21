@@ -121,6 +121,8 @@
     <Compile Include="Controller\SettingsController.cs" />
     <Compile Include="Controller\UnrealEngineController.cs" />
     <Compile Include="Controller\ControlDelegates.cs" />
+    <Compile Include="Converter\GenderConverter.cs" />
+    <Compile Include="Converter\RhConverter.cs" />
     <Compile Include="Helper\ScreenCaptureHelper.cs" />
     <Compile Include="Helper\DialogHelper.cs" />
     <Compile Include="PathToImageConverter.cs" />

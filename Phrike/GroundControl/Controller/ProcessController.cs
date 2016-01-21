@@ -29,19 +29,15 @@ namespace Phrike.GroundControl.Controller
                 Logger.Warn("Could not start process! Process already exists.");
                 return;
             }
+            if (!File.Exists(SettingsController.UEPath))
+            {
+                Logger.Error("Invalid UE-Path!");
+                DialogHelper.ShowErrorDialog("Ungültiger Pfad zur UnrealEngine - Bitte in Einstellungen korrigieren!");
+                return;
+            }
 
             try
             {
-                //var process = new Process
-                //{
-                //    StartInfo =
-                //    {
-
-                //        WindowStyle = ProcessWindowStyle.Hidden,
-                //        FileName = (useRelativePath) ? Path.Combine(Environment.CurrentDirectory, cmdPath) : cmdPath,
-                //        Arguments = (cmdParams != null) ? String.Join(" ", cmdParams) : ""
-                //    }
-                //};
                 Process process = new Process()
                 {
                     StartInfo =
@@ -55,7 +51,7 @@ namespace Phrike.GroundControl.Controller
                 process.Start();
                 if (Process.GetProcessesByName(process.ProcessName).Length == 0)
                 {
-                    Logger.Error("Process could not be started");
+                    Logger.Error("UE-Process could not be started");
                     DialogHelper.ShowErrorDialog("Simulation konnte nicht gestartet werden!");
                 }
                 else

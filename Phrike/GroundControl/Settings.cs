@@ -5,6 +5,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Xml.Linq;
+using Phrike.GroundControl.Controller;
 
 namespace Phrike.GroundControl
 {
@@ -15,6 +16,7 @@ namespace Phrike.GroundControl
         private const string SensorSettingsElement = "SensorSettings";
         private const string SensorTypeElement = "SensorType";
         private const string ComPortElement = "ComPort";
+        private const string UEPathElement = "UEPath";
         private const string ScreenRecordingEnabledElement = "ScreenRecordingEnabled";
         private const string WebcamRecordingEnabledElement = "WebcamRecordingEnabled";
         private const string RecordingSettingsElement = "RecordingSettings";
@@ -27,6 +29,7 @@ namespace Phrike.GroundControl
         private static readonly string DefaultCOMPort = GetDefaultComPort();
         private const bool DefaultScreenRecordingEnabled = true;
         private const bool DefaultWebcamRecordingEnabled = false;
+        private static string DefaultUEPathConfig = Path.Combine(Environment.CurrentDirectory, @"UnrealEngine\4.9\Engine\Binaries\Win64\UE4Editor.exe");
 
         public static SensorType SelectedSensorType { get; set; }
         public static string SensorComPort { get; set; }
@@ -34,6 +37,7 @@ namespace Phrike.GroundControl
         public static bool WebcamRecordingEnabled { get; set; }
         public static string RecordingGameConfig { get; set; }
         public static string RecordingCameraConfig { get; set; }
+        public static string UEPathConfig { get { return SettingsController.UEPath; } set { SettingsController.UEPath = value; } }
 
         private static string GetDefaultComPort()
         {
@@ -52,6 +56,7 @@ namespace Phrike.GroundControl
                 XElement xmlWebcamRecordingEnabled = doc.Descendants(WebcamRecordingEnabledElement).FirstOrDefault();
                 XElement xmlRecordingGameConfig = doc.Descendants(RecordingGameConfigElement).FirstOrDefault();
                 XElement xmlRecordingCameraConfig = doc.Descendants(RecordingCameraConfigElement).FirstOrDefault();
+                XElement xmlUEPathConfig = doc.Descendants(UEPathElement).FirstOrDefault();
 
                 SelectedSensorType = (SensorType)Enum.Parse(typeof(SensorType), xmlSensorType.Value);
                 SensorComPort = xmlComPort.Value.Equals("") ? DefaultCOMPort : xmlComPort.Value;
@@ -59,6 +64,7 @@ namespace Phrike.GroundControl
                 WebcamRecordingEnabled = bool.Parse(xmlWebcamRecordingEnabled.Value);
                 RecordingGameConfig = xmlRecordingGameConfig.Value.Equals("") ? DefaultRecordingGameConfig : xmlRecordingGameConfig.Value;
                 RecordingCameraConfig = xmlRecordingCameraConfig.Value.Equals("") ? DefaultRecordingCameraConfig : xmlRecordingCameraConfig.Value;
+                UEPathConfig = xmlUEPathConfig.Value.Equals("") ? DefaultUEPathConfig : xmlUEPathConfig.Value;
             }         
             catch (FileNotFoundException)
             {
@@ -79,12 +85,14 @@ namespace Phrike.GroundControl
             WebcamRecordingEnabled = DefaultWebcamRecordingEnabled;
             RecordingGameConfig = DefaultRecordingGameConfig;
             RecordingCameraConfig = DefaultRecordingCameraConfig;
+            UEPathConfig = DefaultUEPathConfig;
         }
 
         public static void SaveSettings()
         {
             new XDocument(
                 new XElement(RootElementName,
+                    new XElement(UEPathElement, UEPathConfig),
                     new XElement(SensorSettingsElement,
                         new XElement(SensorTypeElement, (int)SelectedSensorType),
                         new XElement(ComPortElement, SelectedSensorType == SensorType.GMobiLab ? SensorComPort : "")
