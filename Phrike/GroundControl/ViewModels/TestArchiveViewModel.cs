@@ -286,10 +286,6 @@ namespace Phrike.GroundControl.ViewModels
             {
                 MainViewModel.Instance.PushViewModel(new AnalysisViewModel(SelectedTest.Id));
             }
-            else
-            {
-                DialogHelper.ShowErrorDialog("Bitte eine wählen Sie aus!");
-            }
         }
     }
 }

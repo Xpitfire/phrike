@@ -14,5 +14,13 @@ namespace Phrike.GroundControl.Views
         {
             InitializeComponent();
         }
+
+        private void BtnFile_OnClick(object sender, RoutedEventArgs e)
+        {
+            var ofd = new Microsoft.Win32.OpenFileDialog() { Filter = "Executable Files (*.exe)|*.exe| All Files |*.*" };
+            var result = ofd.ShowDialog();
+            if (result == false) return;
+            ((SettingsViewModel)this.FindResource("SettingsViewModel")).UEPath = ofd.FileName;
+        }
     }
 }

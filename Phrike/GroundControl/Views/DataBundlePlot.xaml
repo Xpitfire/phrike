@@ -91,6 +91,6 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </DockPanel>
-        <Button Grid.Row="1" Grid.Column="1" Content="Reset View" Command="{Binding ResetView}" Margin="5,0,5,5"/>
+        <Button Grid.Row="1" Grid.Column="1" Content="Ansicht zurücksetzen" Command="{Binding ResetView}" Margin="5,0,5,5"/>
     </Grid>
 </UserControl>

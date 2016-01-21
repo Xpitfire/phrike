@@ -34,7 +34,7 @@
                 <RadioButton Style="{StaticResource MetroRadioButton}" GroupName="Filter" Content="Alle" Margin="5" IsChecked="{Binding Path=FilterType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static viewmodels:FilterType.All}}" />
                 <RadioButton Style="{StaticResource MetroRadioButton}" GroupName="Filter" Content="Benutzer" Margin="5" IsChecked="{Binding Path=FilterType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static viewmodels:FilterType.Subject}}" />
                 <RadioButton Style="{StaticResource MetroRadioButton}" GroupName="Filter" Content="Datum" Margin="5" IsChecked="{Binding Path=FilterType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static viewmodels:FilterType.Date}}" />
-                <RadioButton Style="{StaticResource MetroRadioButton}" GroupName="Filter" Content="Scenario" Margin="5" IsChecked="{Binding Path=FilterType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static viewmodels:FilterType.Scenario}}" />
+                <RadioButton Style="{StaticResource MetroRadioButton}" GroupName="Filter" Content="Szenario" Margin="5" IsChecked="{Binding Path=FilterType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumBooleanConverter}, ConverterParameter={x:Static viewmodels:FilterType.Scenario}}" />
             </StackPanel>
         </StackPanel>
 

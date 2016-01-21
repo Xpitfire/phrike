@@ -5,14 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Phrike.GroundControl.Views"
              xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+             xmlns:converter="clr-namespace:Phrike.GroundControl.Converter"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600"
              xmlns:vm="clr-namespace:Phrike.GroundControl.ViewModels"
              d:DataContext="{d:DesignInstance {x:Type vm:SubjectVM}}">
-
+    <UserControl.Resources>
+        <converter:GenderConverter x:Key="gdConv"></converter:GenderConverter>
+        <converter:RhConverter x:Key="rhConv"></converter:RhConverter>
+    </UserControl.Resources>
 
     <WrapPanel>
-        <GroupBox  Header="Basic Information" x:Name="grpBase">
+        <GroupBox  Header="Pflichtinformationen" x:Name="grpBase">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -28,33 +32,33 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Content="First Name: " Margin="5"/>
+                <Label Grid.Row="0" Grid.Column="0" Content="Vorname: " Margin="5"/>
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
-                <Label Grid.Row="1" Grid.Column="0" Content="Last Name: " Margin="5"/>
+                <Label Grid.Row="1" Grid.Column="0" Content="Nachname: " Margin="5"/>
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
-                <Label Grid.Row="2" Grid.Column="0" Content="Date of Birth: " Margin="5"/>
+                <Label Grid.Row="2" Grid.Column="0" Content="Geburtsdatum: " Margin="5"/>
                 <DatePicker Grid.Column="1" Grid.Row="2" Text="{Binding Path=DateOfBirth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{x:Static sys:DateTime.Now}"  Margin="5"/>
 
-                <Label Grid.Row="3" Grid.Column="0" Content="Gender: " Margin="5"/>
-                <ComboBox Grid.Row="3" Grid.Column="1" SelectedItem="{Binding Path=Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AvailableGenders}" Margin="5"/>
+                <Label Grid.Row="3" Grid.Column="0" Content="Gehschlecht: " Margin="5"/>
+                <ComboBox Grid.Row="3" Grid.Column="1" SelectedItem="{Binding Path=Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource gdConv}}" ItemsSource="{Binding AvailableGenders, Converter={StaticResource gdConv}}" Margin="5"/>
 
-                <Label Grid.Row="4" Grid.Column="0" Content="Country: " Margin="5"/>
+                <Label Grid.Row="4" Grid.Column="0" Content="Nationalität: " Margin="5"/>
                 <ComboBox Grid.Row="4" Grid.Column="1" SelectedItem="{Binding Path=CountryCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AvailableCountries}" Margin="5"/>
 
-                <Label Grid.Row="5" Grid.Column="0" Content="City: " Margin="5"/>
+                <Label Grid.Row="5" Grid.Column="0" Content="Stadt: " Margin="5"/>
                 <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Path=City, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
-                <Label Grid.Row="6" Grid.Column="0" Content="Blood-type: " Margin="5"/>
+                <Label Grid.Row="6" Grid.Column="0" Content="Blutgruppe: " Margin="5"/>
                 <ComboBox Grid.Row="6" Grid.Column="1" SelectedItem="{Binding Path=BloodType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AvailableBloodTypes}" Margin="5"/>
 
-                <Label Grid.Row="7" Grid.Column="0" Content="Rh-factor: " Margin="5"/>
-                <ComboBox Grid.Row="7" Grid.Column="1" SelectedItem="{Binding Path=RhFactor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AvailableRhFactors}" Margin="5"/>
+                <Label Grid.Row="7" Grid.Column="0" Content="Rh-faktor: " Margin="5"/>
+                <ComboBox Grid.Row="7" Grid.Column="1" SelectedItem="{Binding Path=RhFactor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource rhConv}}" ItemsSource="{Binding AvailableRhFactors, Converter={StaticResource rhConv}}" Margin="5"/>
 
             </Grid>
         </GroupBox>
-        <GroupBox Header="Optional Information" >
+        <GroupBox Header="Optionale Informationen" >
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -70,22 +74,22 @@
                     <ColumnDefinition Width="*" MinWidth="175"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Content="Postal Code: " Margin="5"/>
+                <Label Grid.Row="0" Grid.Column="0" Content="PLZ: " Margin="5"/>
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=PostalCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
-                <Label Grid.Row="2" Grid.Column="0" Content="Street: " Margin="5"/>
+                <Label Grid.Row="2" Grid.Column="0" Content="Straße: " Margin="5"/>
                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Street, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
-                <Label Grid.Row="3" Grid.Column="0" Content="Service-rank: " Margin="5"/>
+                <Label Grid.Row="3" Grid.Column="0" Content="Dienstgrad: " Margin="5"/>
                 <ComboBox Grid.Row="3" Grid.Column="1" SelectedItem="{Binding Path=ServiceRank, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AvailableServiceRanks}" SelectedIndex="7" Margin="5"/>
 
-                <Label Grid.Row="4" Grid.Column="0" Content="Function: " Margin="5"/>
+                <Label Grid.Row="4" Grid.Column="0" Content="Funktion: " Margin="5"/>
                 <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=Function, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
-                <Label Grid.Row="5" Grid.Column="0" Content="Conditions: " Margin="5"/>
+                <Label Grid.Row="5" Grid.Column="0" Content="Medizinische Bemerkungen: " Margin="5"/>
                 <TextBox TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="5" Grid.Column="1" Text="{Binding Path=Conditions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
 
-                <Label Grid.Row="6" Grid.Column="0" Content="Icon: " Margin="5"/>
+                <Label Grid.Row="6" Grid.Column="0" Content="Bild: " Margin="5"/>
                 <TextBox IsReadOnly="True" Grid.Row="6" Grid.Column="1" Text="{Binding Path=AvatarPath, Mode=OneWay}" Margin="5"/>
                 <Button Name="btnFile" Content="..." Grid.Row="6" Grid.Column="2" Click="BtnFile_OnClick"/>
             </Grid>

@@ -24,6 +24,19 @@ namespace Phrike.GroundControl.ViewModels
             Settings.LoadSettings();
         }
 
+        public string UEPath
+        {
+            get { return Settings.UEPathConfig; }
+            set
+            {
+                if (Settings.UEPathConfig != value)
+                {
+                    Settings.UEPathConfig = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public string SensorComPort
         {
             get
