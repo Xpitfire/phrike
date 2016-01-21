@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:Phrike.GroundControl.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <ScrollViewer>
-        <Grid>
+    <ScrollViewer HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="3*"/>
@@ -16,6 +16,10 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
 
             <Label Grid.Row="0" Content="Betreuer" FontWeight="Bold" FontSize="30"/>
@@ -24,31 +28,31 @@
                     <ItemContainerTemplate>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{Binding Avatar}" MaxHeight="100" Margin="5"></Image>
-                            <TextBlock Text="{Binding Name}" FontSize="30"  FontStretch="Expanded" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                        </StackPanel>
-                    </ItemContainerTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-
+                            <TextBlock Text="{Binding Name}" FontSize="30" Margin="5"  FontStretch="Expanded" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        </StackPanel>                                      
+                    </ItemContainerTemplate>                               
+                </ListView.ItemTemplate>                                   
+            </ListView>                                                    
+                                                                           
             <Label Grid.Row="2" Content="Entwickler (SE)" FontWeight="Bold" FontSize="30"/>
             <ListView Grid.Row="3" x:Name="lvDev" ItemsSource="{Binding devs}" BorderBrush="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListView.ItemTemplate>
-                    <ItemContainerTemplate>
-                        <StackPanel Orientation="Horizontal">
+                <ListView.ItemTemplate>                                    
+                    <ItemContainerTemplate>                                
+                        <StackPanel Orientation="Horizontal">              
                             <Image Source="{Binding Avatar}" MaxHeight="100" Margin="5"></Image>
-                            <TextBlock Text="{Binding Name}" FontSize="30"  FontStretch="Expanded" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                        </StackPanel>
-                    </ItemContainerTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-
+                            <TextBlock Text="{Binding Name}" FontSize="30"  Margin="5" FontStretch="Expanded" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        </StackPanel>                                      
+                    </ItemContainerTemplate>                               
+                </ListView.ItemTemplate>                                   
+            </ListView>                                                    
+                                                                           
             <Label Grid.Row="4"  Content="Designer (MTD)" FontWeight="Bold" FontSize="30"/>
             <ListView Grid.Row="5" ItemsSource="{Binding des}" BorderBrush="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
-                <ListView.ItemTemplate>
-                    <ItemContainerTemplate>
-                        <StackPanel Orientation="Horizontal">
+                <ListView.ItemTemplate>                                    
+                    <ItemContainerTemplate>                                
+                        <StackPanel Orientation="Horizontal">              
                             <Image Source="{Binding Avatar}" MaxHeight="100" Margin="5"></Image>
-                            <TextBlock Text="{Binding Name}" FontSize="30"  FontStretch="Expanded" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                            <TextBlock Text="{Binding Name}" FontSize="30" Margin="5"  FontStretch="Expanded" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                         </StackPanel>
                     </ItemContainerTemplate>
                 </ListView.ItemTemplate>
