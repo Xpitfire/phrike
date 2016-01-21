@@ -17,7 +17,7 @@ namespace Phrike.GroundControl.Views
 
         private void BtnFile_OnClick(object sender, RoutedEventArgs e)
         {
-            var ofd = new Microsoft.Win32.OpenFileDialog() { Filter = "Executable Files (*.exe)|*.exe| All Files |*.*" };
+            var ofd = new Microsoft.Win32.OpenFileDialog() { Filter = "Unreal Engine (UE4Editor.exe)|UE4Editor.exe" };
             var result = ofd.ShowDialog();
             if (result == false) return;
             ((SettingsViewModel)this.FindResource("SettingsViewModel")).UEPath = ofd.FileName;
