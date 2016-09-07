@@ -1,7 +1,5 @@
 # Operation Phrike
 
-![image alt text](https://youtu.be/gETEAHwE2d4)
-
 ## Documentation
 
 ### General
@@ -38,6 +36,7 @@
 
 * [Google Drive Folder](https://drive.google.com/folderview?id=0B1CScxoU8zF7SlAwaUJMQUNsME0)
 * [Facebook Group](https://www.facebook.com/groups/807544589330159/)
+* [YouTube Promotion Video](https://youtu.be/gETEAHwE2d4)
 
 ### Introduction
 
