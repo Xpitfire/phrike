@@ -1,5 +1,8 @@
 # Operation Phrike
 
+## Download
+[Operation Phrike Release V1.0](https://mega.nz/#!C1UDzYJA!4BSaMAGm3bqtjooKIth_J5Ncif8au60MKgPK6_mdSa0)
+
 ## Documentation
 
 ### General
