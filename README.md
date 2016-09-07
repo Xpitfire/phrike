@@ -32,7 +32,7 @@
 
 [How to Import MovementControl into any UE4 Scene](doc/How_to_Setup_MovementControl.md)
 
-## Important Places outside GitHub
+## Important Places outside of GitHub
 
 * [Google Drive Folder](https://drive.google.com/folderview?id=0B1CScxoU8zF7SlAwaUJMQUNsME0)
 * [Facebook Group](https://www.facebook.com/groups/807544589330159/)
