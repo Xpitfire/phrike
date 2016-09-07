@@ -1,6 +1,6 @@
 # Operation Phrike
 
-![image alt text](https://www.youtube.com/watch?v=gETEAHwE2d4)
+![image alt text](https://youtu.be/gETEAHwE2d4)
 
 ## Documentation
 
