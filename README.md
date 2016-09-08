@@ -38,6 +38,7 @@
 ## Important Places outside of GitHub
 
 * [Vimeo Promotion Video](https://vimeo.com/181798381)
+* [VeApps Facebook Page](https://www.facebook.com/veapps/)
 
 ### Introduction
 
