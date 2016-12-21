@@ -1,5 +1,7 @@
 # Operation Phrike
 
+[![Join the chat at https://gitter.im/operation-phrike/Lobby](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/operation-phrike/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
+
 ## Download
 [Operation Phrike Release V1.0](https://mega.nz/#!C1UDzYJA!4BSaMAGm3bqtjooKIth_J5Ncif8au60MKgPK6_mdSa0)
 
